@@ -1,31 +1,63 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../core/theme/app_text_styles.dart';
+import '../../core/widgets/async_states.dart';
 import '../../core/widgets/simple_header_scaffold.dart';
 import '../../core/widgets/weekly_schedule_list.dart';
 import '../../providers/data_providers.dart';
 import '../../providers/session_provider.dart';
 
+/// Weekly grid of the student's current course. `HorarioOut` carries only
+/// ids, so the subject names come from the cached catalogs.
 class StudentScheduleScreen extends ConsumerWidget {
   const StudentScheduleScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final user = ref.watch(sessionProvider).value;
-    if (user == null) return const SizedBox.shrink();
-    final scheduleAsync = ref.watch(studentWeeklyScheduleProvider(user.id));
+    final session = ref.watch(currentSessionProvider);
+    final courseId = session?.courseId;
+
+    if (courseId == null) {
+      return const SimpleHeaderScaffold(
+        title: 'Mi horario',
+        showBack: false,
+        body: EmptyState(
+          icon: Icons.calendar_month_rounded,
+          title: 'Sin curso asignado',
+          message: 'Tu cuenta aún no está matriculada en un curso.',
+        ),
+      );
+    }
+
+    final scheduleAsync = ref.watch(studentWeeklyScheduleProvider(courseId));
 
     return SimpleHeaderScaffold(
       title: 'Mi horario',
       showBack: false,
-      body: scheduleAsync.when(
-        data: (sessions) => ListView(
-          padding: const EdgeInsets.only(bottom: 32),
-          children: [WeeklyScheduleList(sessions: sessions)],
+      body: RefreshIndicator(
+        onRefresh: () async => ref.invalidate(studentWeeklyScheduleProvider(courseId)),
+        child: scheduleAsync.when(
+          loading: () => const LoadingView(),
+          error: (error, _) => ListView(children: [
+            ErrorView(
+              error: error,
+              onRetry: () => ref.invalidate(studentWeeklyScheduleProvider(courseId)),
+            ),
+          ]),
+          data: (sessions) => ListView(
+            padding: const EdgeInsets.only(bottom: 32),
+            children: [
+              if (sessions.isEmpty)
+                const EmptyState(
+                  icon: Icons.event_busy_rounded,
+                  title: 'Sin horario publicado',
+                  message: 'Tu curso todavía no tiene bloques programados.',
+                )
+              else
+                WeeklyScheduleList(sessions: sessions),
+            ],
+          ),
         ),
-        loading: () => const Center(child: CircularProgressIndicator()),
-        error: (_, _) => Center(child: Text('No se pudo cargar el horario.', style: AppTextStyles.bodyMuted)),
       ),
     );
   }

@@ -39,16 +39,18 @@ class QuickActionTile extends StatelessWidget {
                 child: Icon(icon, color: iconColor, size: 22),
               ),
               const SizedBox(height: 8),
-              Text(
-                label,
-                style: AppTextStyles.caption.copyWith(
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.textPrimary,
-                  height: 1.15,
+              Flexible(
+                child: Text(
+                  label,
+                  style: AppTextStyles.caption.copyWith(
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.textPrimary,
+                    height: 1.15,
+                  ),
+                  textAlign: TextAlign.center,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
                 ),
-                textAlign: TextAlign.center,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
               ),
             ],
           ),

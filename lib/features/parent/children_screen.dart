@@ -4,111 +4,167 @@ import 'package:go_router/go_router.dart';
 
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_text_styles.dart';
+import '../../core/widgets/async_states.dart';
 import '../../core/widgets/avatar_circle.dart';
+import '../../core/widgets/novedad_card.dart';
 import '../../core/widgets/section_header.dart';
 import '../../core/widgets/simple_header_scaffold.dart';
-import '../../models/user.dart';
+import '../../core/widgets/weekly_schedule_list.dart';
 import '../../providers/data_providers.dart';
 import '../../providers/session_provider.dart';
 
+/// Everything about the linked child in one place: their card, their weekly
+/// schedule and their news.
+///
+/// With one child per guardian account there is nothing to pick, so this tab
+/// is the child's detail rather than a list.
 class ChildrenScreen extends ConsumerWidget {
   const ChildrenScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final user = ref.watch(sessionProvider).value;
-    if (user == null) return const SizedBox.shrink();
-    final childrenAsync = ref.watch(childrenOfProvider(user));
+    final session = ref.watch(currentSessionProvider);
+    final childId = session?.childId;
+
+    if (childId == null) {
+      return SimpleHeaderScaffold(
+        title: 'Mi estudiante',
+        showBack: false,
+        body: EmptyState(
+          icon: Icons.family_restroom_rounded,
+          title: 'Sin estudiante vinculado',
+          message: session?.bootstrapWarning ??
+              'Tu cuenta de acudiente aún no está vinculada a un estudiante.',
+        ),
+      );
+    }
+
+    final profileAsync = ref.watch(studentProfileProvider(childId));
+    final novedadesAsync = ref.watch(novedadesForStudentProvider(childId));
+    final courseId = session?.courseId;
+    final scheduleAsync =
+        courseId == null ? null : ref.watch(studentWeeklyScheduleProvider(courseId));
 
     return SimpleHeaderScaffold(
-      title: 'Mis hijos',
+      title: 'Mi estudiante',
       showBack: false,
-      body: childrenAsync.when(
-        data: (children) => ListView(
-          padding: const EdgeInsets.fromLTRB(20, 20, 20, 32),
-          children: children
-              .map((child) => Padding(
-                    padding: const EdgeInsets.only(bottom: 14),
-                    child: InkWell(
-                      borderRadius: BorderRadius.circular(20),
-                      onTap: () => context.push('/students/${child.id}'),
-                      child: SectionCard(child: _ChildCardContent(child: child)),
+      body: RefreshIndicator(
+        onRefresh: () async {
+          ref.invalidate(studentProfileProvider(childId));
+          ref.invalidate(novedadesForStudentProvider(childId));
+          if (courseId != null) ref.invalidate(studentWeeklyScheduleProvider(courseId));
+        },
+        child: ListView(
+          padding: const EdgeInsets.only(bottom: 32),
+          children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
+              child: profileAsync.when(
+                loading: () => const LoadingView(),
+                error: (error, _) => ErrorView(
+                  error: error,
+                  compact: true,
+                  onRetry: () => ref.invalidate(studentProfileProvider(childId)),
+                ),
+                data: (child) => InkWell(
+                  borderRadius: BorderRadius.circular(20),
+                  onTap: () => context.push('/students/$childId'),
+                  child: SectionCard(
+                    child: Row(
+                      children: [
+                        AvatarCircle(
+                          name: child?.name ?? session?.childName ?? 'Estudiante',
+                          radius: 26,
+                        ),
+                        const SizedBox(width: 14),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                child?.name ?? session?.childName ?? 'Estudiante',
+                                style: AppTextStyles.h3,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              Text(
+                                [child?.grade, child?.jornada, child?.code]
+                                    .whereType<String>()
+                                    .join(' · '),
+                                style: AppTextStyles.caption,
+                              ),
+                            ],
+                          ),
+                        ),
+                        const Icon(Icons.chevron_right_rounded,
+                            color: AppColors.textSecondary),
+                      ],
                     ),
-                  ))
-              .toList(),
-        ),
-        loading: () => const Center(child: CircularProgressIndicator()),
-        error: (_, _) => Center(child: Text('No se pudieron cargar tus hijos.', style: AppTextStyles.bodyMuted)),
-      ),
-    );
-  }
-}
-
-class _ChildCardContent extends StatelessWidget {
-  const _ChildCardContent({required this.child});
-  final AppUser child;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          children: [
-            AvatarCircle(name: child.name, radius: 24),
-            const SizedBox(width: 12),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(child.name, style: AppTextStyles.h3),
-                  Text('${child.grade} · ${child.jornada}', style: AppTextStyles.caption),
-                ],
+                  ),
+                ),
               ),
             ),
-            const Icon(Icons.chevron_right_rounded, color: AppColors.textSecondary),
-          ],
-        ),
-        const SizedBox(height: 14),
-        Row(
-          children: [
-            Expanded(
-              child: _MetricChip(label: 'Promedio', value: '${child.average}', color: AppColors.tealDark),
-            ),
-            const SizedBox(width: 12),
-            Expanded(
-              child: _MetricChip(
-                label: 'Asistencia',
-                value: '${child.attendancePercent?.round()}%',
-                color: AppColors.indigo,
+            Padding(
+              padding: const EdgeInsets.fromLTRB(20, 24, 20, 12),
+              child: SectionHeader(
+                title: 'Novedades',
+                trailingText: 'Notas',
+                onTrailingTap: () => context.go('/parent/notes'),
               ),
             ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: novedadesAsync.when(
+                loading: () => const LoadingView(),
+                error: (error, _) => ErrorView(
+                  error: error,
+                  compact: true,
+                  onRetry: () => ref.invalidate(novedadesForStudentProvider(childId)),
+                ),
+                data: (novedades) => novedades.isEmpty
+                    ? const EmptyState(
+                        icon: Icons.check_circle_outline_rounded,
+                        title: 'Todo en orden',
+                        message: 'No hay novedades registradas.',
+                      )
+                    : Column(
+                        children: novedades
+                            .map((n) => Padding(
+                                  padding: const EdgeInsets.only(bottom: 12),
+                                  child: NovedadCard(novedad: n, showStudent: false),
+                                ))
+                            .toList(),
+                      ),
+              ),
+            ),
+            if (scheduleAsync != null)
+              scheduleAsync.when(
+                loading: () => const LoadingView(),
+                error: (_, _) => const SizedBox.shrink(),
+                data: (sessions) => sessions.isEmpty
+                    ? const SizedBox.shrink()
+                    : Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Padding(
+                            padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
+                            child: SectionHeader(title: 'Horario semanal'),
+                          ),
+                          WeeklyScheduleList(sessions: sessions),
+                        ],
+                      ),
+              ),
+            if (session?.childDocument != null)
+              Padding(
+                padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
+                child: Text(
+                  'Documento del estudiante: ${session!.childDocument}'
+                  '${session.relationship == null ? '' : ' · Parentesco: ${session.relationship}'}',
+                  style: AppTextStyles.caption,
+                ),
+              ),
           ],
         ),
-      ],
-    );
-  }
-}
-
-class _MetricChip extends StatelessWidget {
-  const _MetricChip({required this.label, required this.value, required this.color});
-
-  final String label;
-  final String value;
-  final Color color;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
-      decoration: BoxDecoration(color: AppColors.background, borderRadius: BorderRadius.circular(14)),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(label, style: AppTextStyles.caption),
-          const SizedBox(height: 2),
-          Text(value, style: AppTextStyles.h3.copyWith(color: color)),
-        ],
       ),
     );
   }

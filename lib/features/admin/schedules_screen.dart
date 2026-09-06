@@ -3,10 +3,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_text_styles.dart';
+import '../../core/widgets/async_states.dart';
 import '../../core/widgets/simple_header_scaffold.dart';
 import '../../core/widgets/weekly_schedule_list.dart';
+import '../../domain/entities/catalog.dart';
 import '../../providers/data_providers.dart';
 
+/// Read-only weekly grid per course. Editing schedules is a web-panel job.
 class SchedulesScreen extends ConsumerStatefulWidget {
   const SchedulesScreen({super.key});
 
@@ -15,55 +18,117 @@ class SchedulesScreen extends ConsumerStatefulWidget {
 }
 
 class _SchedulesScreenState extends ConsumerState<SchedulesScreen> {
-  String _group = '8°A';
-  static const _groups = ['8°A', '9°B', '10°C'];
+  int? _courseId;
 
   @override
   Widget build(BuildContext context) {
-    final scheduleAsync = ref.watch(teacherWeeklyScheduleProvider);
+    final coursesAsync = ref.watch(coursesProvider);
 
     return SimpleHeaderScaffold(
       title: 'Horarios',
-      body: Column(
-        children: [
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            padding: const EdgeInsets.fromLTRB(20, 16, 20, 4),
-            child: Row(
-              children: _groups
-                  .map((g) => Padding(
-                        padding: const EdgeInsets.only(right: 10),
-                        child: ChoiceChip(
-                          label: Text('Grado $g'),
-                          selected: _group == g,
-                          onSelected: (_) => setState(() => _group = g),
-                          selectedColor: AppColors.indigo,
-                          labelStyle: AppTextStyles.body.copyWith(
-                            color: _group == g ? Colors.white : AppColors.textPrimary,
-                            fontWeight: FontWeight.w700,
-                          ),
-                          backgroundColor: AppColors.surface,
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-                          side: BorderSide.none,
-                        ),
-                      ))
-                  .toList(),
-            ),
+      body: coursesAsync.when(
+        loading: () => const LoadingView(),
+        error: (error, _) => ErrorView(
+          error: error,
+          onRetry: () => ref.invalidate(coursesProvider),
+        ),
+        data: (courses) {
+          if (courses.isEmpty) {
+            return const EmptyState(
+              icon: Icons.calendar_month_rounded,
+              title: 'Sin cursos activos',
+              message: 'No hay cursos publicados para este año.',
+            );
+          }
+          final selected = _courseId ?? courses.first.id;
+          return Column(
+            children: [
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                padding: const EdgeInsets.fromLTRB(20, 16, 20, 4),
+                child: Row(
+                  children: courses
+                      .map((course) => Padding(
+                            padding: const EdgeInsets.only(right: 10),
+                            child: _CourseChip(
+                              course: course,
+                              selected: selected == course.id,
+                              onTap: () => setState(() => _courseId = course.id),
+                            ),
+                          ))
+                      .toList(),
+                ),
+              ),
+              Expanded(child: _CourseSchedule(courseId: selected)),
+            ],
+          );
+        },
+      ),
+    );
+  }
+}
+
+class _CourseChip extends StatelessWidget {
+  const _CourseChip({
+    required this.course,
+    required this.selected,
+    required this.onTap,
+  });
+
+  final Course course;
+  final bool selected;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return ChoiceChip(
+      label: Text('${course.name} · ${course.shiftLabel}'),
+      selected: selected,
+      onSelected: (_) => onTap(),
+      selectedColor: AppColors.indigo,
+      labelStyle: AppTextStyles.body.copyWith(
+        color: selected ? Colors.white : AppColors.textPrimary,
+        fontWeight: FontWeight.w700,
+      ),
+      backgroundColor: AppColors.surface,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+      side: BorderSide.none,
+    );
+  }
+}
+
+class _CourseSchedule extends ConsumerWidget {
+  const _CourseSchedule({required this.courseId});
+
+  final int courseId;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final scheduleAsync = ref.watch(studentWeeklyScheduleProvider(courseId));
+
+    return RefreshIndicator(
+      onRefresh: () async => ref.invalidate(studentWeeklyScheduleProvider(courseId)),
+      child: scheduleAsync.when(
+        loading: () => const LoadingView(),
+        error: (error, _) => ListView(children: [
+          ErrorView(
+            error: error,
+            onRetry: () => ref.invalidate(studentWeeklyScheduleProvider(courseId)),
           ),
-          Expanded(
-            child: scheduleAsync.when(
-              data: (sessions) {
-                final filtered = sessions.where((s) => s.group.startsWith(_group)).toList();
-                return ListView(
-                  padding: const EdgeInsets.only(bottom: 32),
-                  children: [WeeklyScheduleList(sessions: filtered)],
-                );
-              },
-              loading: () => const Center(child: CircularProgressIndicator()),
-              error: (_, _) => Center(child: Text('No se pudo cargar el horario.', style: AppTextStyles.bodyMuted)),
-            ),
-          ),
-        ],
+        ]),
+        data: (sessions) => ListView(
+          padding: const EdgeInsets.only(bottom: 32),
+          children: [
+            if (sessions.isEmpty)
+              const EmptyState(
+                icon: Icons.event_busy_rounded,
+                title: 'Sin bloques programados',
+                message: 'Este curso todavía no tiene horario publicado.',
+              )
+            else
+              WeeklyScheduleList(sessions: sessions),
+          ],
+        ),
       ),
     );
   }

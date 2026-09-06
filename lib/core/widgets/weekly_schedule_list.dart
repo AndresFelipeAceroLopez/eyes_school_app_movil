@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../models/class_session.dart';
+import '../../domain/entities/class_session.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_text_styles.dart';
 import 'section_header.dart';

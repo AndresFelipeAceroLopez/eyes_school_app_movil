@@ -2,13 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../domain/failures/app_failure.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_text_styles.dart';
 import '../../core/utils/validators.dart';
 import '../../core/widgets/eye_logo.dart';
 import '../../core/widgets/primary_gradient_button.dart';
-import '../../data/mock/mock_seed.dart';
-import '../../models/role.dart';
 import '../../providers/session_provider.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
@@ -25,7 +24,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   bool _obscure = true;
   bool _submitting = false;
   String? _errorText;
-  bool _showDemoAccounts = false;
+
+  /// Field-level messages coming from a 422 `HTTPValidationError`.
+  Map<String, String> _fieldErrors = const {};
 
   @override
   void dispose() {
@@ -36,28 +37,34 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
   Future<void> _submit() async {
     if (!_formKey.currentState!.validate()) return;
+    FocusScope.of(context).unfocus();
     setState(() {
       _submitting = true;
       _errorText = null;
+      _fieldErrors = const {};
     });
     try {
       await ref.read(sessionProvider.notifier).login(
             email: _emailController.text,
             password: _passwordController.text,
           );
-      // Successful login flips the session to data(user); go_router's
-      // redirect picks it up and navigates to the role home automatically.
-    } catch (e) {
-      setState(() => _errorText = e.toString().replaceFirst('AuthException: ', ''));
+      // A successful login flips the session to data(session); go_router's
+      // redirect picks it up and lands on the role shell automatically.
+    } on ValidationFailure catch (e) {
+      if (mounted) {
+        setState(() {
+          _fieldErrors = e.fieldErrors;
+          _errorText = e.fieldErrors.isEmpty ? e.message : null;
+        });
+        _formKey.currentState!.validate();
+      }
+    } on UnauthorizedFailure {
+      if (mounted) setState(() => _errorText = 'Correo o contraseña incorrectos.');
+    } on AppFailure catch (e) {
+      if (mounted) setState(() => _errorText = e.message);
     } finally {
       if (mounted) setState(() => _submitting = false);
     }
-  }
-
-  void _fillDemo(String email, String password) {
-    _emailController.text = email;
-    _passwordController.text = password;
-    setState(() => _errorText = null);
   }
 
   @override
@@ -116,11 +123,13 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         controller: _emailController,
                         keyboardType: TextInputType.emailAddress,
                         textInputAction: TextInputAction.next,
+                        autofillHints: const [AutofillHints.email],
                         decoration: const InputDecoration(
                           hintText: 'tu@correo.com',
                           prefixIcon: Icon(Icons.mail_outline_rounded),
                         ),
-                        validator: Validators.email,
+                        validator: (value) =>
+                            _fieldErrors['correo'] ?? Validators.email(value),
                       ),
                       const SizedBox(height: 18),
                       Text('Contraseña', style: AppTextStyles.caption),
@@ -129,6 +138,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         controller: _passwordController,
                         obscureText: _obscure,
                         textInputAction: TextInputAction.done,
+                        autofillHints: const [AutofillHints.password],
                         onFieldSubmitted: (_) => _submit(),
                         decoration: InputDecoration(
                           hintText: '••••••••',
@@ -140,11 +150,25 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                             onPressed: () => setState(() => _obscure = !_obscure),
                           ),
                         ),
-                        validator: Validators.password,
+                        validator: (value) =>
+                            _fieldErrors['password'] ?? Validators.password(value),
                       ),
                       if (_errorText != null) ...[
                         const SizedBox(height: 12),
-                        Text(_errorText!, style: AppTextStyles.body.copyWith(color: AppColors.pink)),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Icon(Icons.error_outline_rounded,
+                                size: 18, color: AppColors.pink),
+                            const SizedBox(width: 8),
+                            Expanded(
+                              child: Text(
+                                _errorText!,
+                                style: AppTextStyles.body.copyWith(color: AppColors.pink),
+                              ),
+                            ),
+                          ],
+                        ),
                       ],
                       const SizedBox(height: 8),
                       Align(
@@ -173,90 +197,26 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         ],
                       ),
                       const SizedBox(height: 20),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                      // A Wrap, not a Row: the pair has to survive a narrow
+                      // screen and a large text scale.
+                      Wrap(
+                        alignment: WrapAlignment.center,
+                        crossAxisAlignment: WrapCrossAlignment.center,
                         children: [
                           Text('¿No tienes cuenta? ', style: AppTextStyles.body),
                           GestureDetector(
-                            onTap: () => ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(content: Text('Próximamente disponible.')),
-                            ),
+                            onTap: () => context.push('/registro'),
                             child: Text('Regístrate', style: AppTextStyles.link),
                           ),
                         ],
                       ),
-                      const SizedBox(height: 24),
-                      Center(
-                        child: TextButton.icon(
-                          onPressed: () => setState(() => _showDemoAccounts = !_showDemoAccounts),
-                          icon: const Icon(Icons.info_outline_rounded, size: 18),
-                          label: const Text('Cuentas de prueba'),
-                        ),
-                      ),
-                      if (_showDemoAccounts)
-                        Container(
-                          margin: const EdgeInsets.only(top: 4),
-                          padding: const EdgeInsets.all(12),
-                          decoration: BoxDecoration(
-                            color: AppColors.background,
-                            borderRadius: BorderRadius.circular(14),
-                          ),
-                          child: Column(
-                            children: MockSeed.demoAccounts
-                                .map((u) => _DemoAccountTile(
-                                      role: u.role.label,
-                                      email: u.email,
-                                      password: u.password,
-                                      onTap: () => _fillDemo(u.email, u.password),
-                                    ))
-                                .toList(),
-                          ),
-                        ),
+                      const SizedBox(height: 16),
                     ],
                   ),
                 ),
               ),
             ],
           ),
-        ),
-      ),
-    );
-  }
-}
-
-class _DemoAccountTile extends StatelessWidget {
-  const _DemoAccountTile({
-    required this.role,
-    required this.email,
-    required this.password,
-    required this.onTap,
-  });
-
-  final String role;
-  final String email;
-  final String password;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(10),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
-        child: Row(
-          children: [
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(role, style: AppTextStyles.body.copyWith(fontWeight: FontWeight.w700)),
-                  Text('$email · $password', style: AppTextStyles.caption),
-                ],
-              ),
-            ),
-            const Icon(Icons.chevron_right_rounded, color: AppColors.textSecondary),
-          ],
         ),
       ),
     );

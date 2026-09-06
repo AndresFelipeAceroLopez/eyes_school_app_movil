@@ -40,15 +40,28 @@ class PrimaryGradientButton extends StatelessWidget {
                       height: 22,
                       child: CircularProgressIndicator(strokeWidth: 2.4, color: Colors.white),
                     )
-                  : Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(label, style: AppTextStyles.button),
-                        if (icon != null) ...[
-                          const SizedBox(width: 8),
-                          Icon(icon, color: Colors.white, size: 20),
+                  // The label must survive a narrow button: this widget is
+                  // reused inside sheets and error cards, where the available
+                  // width is not the full screen.
+                  : Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 12),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Flexible(
+                            child: Text(
+                              label,
+                              style: AppTextStyles.button,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                          if (icon != null) ...[
+                            const SizedBox(width: 8),
+                            Icon(icon, color: Colors.white, size: 20),
+                          ],
                         ],
-                      ],
+                      ),
                     ),
             ),
           ),

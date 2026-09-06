@@ -1,17 +1,23 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_text_styles.dart';
+import '../../core/widgets/async_states.dart';
 import '../../core/widgets/avatar_circle.dart';
+import '../../core/widgets/section_header.dart';
 import '../../core/widgets/status_badge.dart';
-import '../../models/role.dart';
-import '../../models/user.dart';
+import '../../domain/entities/app_user.dart';
 import '../../providers/data_providers.dart';
 
-enum _RoleFilter { all, admin, teacher, student }
-
+/// The admin directory: quick lookup of students, teachers and guardians.
+///
+/// Read-only by design. Creating, editing and deactivating users stays in the
+/// web panel — this is the screen someone uses standing in a hallway to answer
+/// "who is this student and what course are they in".
 class UsersListScreen extends ConsumerStatefulWidget {
   const UsersListScreen({super.key});
 
@@ -20,186 +26,181 @@ class UsersListScreen extends ConsumerStatefulWidget {
 }
 
 class _UsersListScreenState extends ConsumerState<UsersListScreen> {
-  _RoleFilter _filter = _RoleFilter.all;
+  final _searchController = TextEditingController();
+  DirectoryTab _tab = DirectoryTab.students;
   String _query = '';
+  Timer? _debounce;
 
-  bool _matchesFilter(AppUser user) => switch (_filter) {
-        _RoleFilter.all => true,
-        _RoleFilter.admin => user.role == Role.admin,
-        _RoleFilter.teacher => user.role == Role.teacher,
-        _RoleFilter.student => user.role == Role.student,
-      };
+  @override
+  void dispose() {
+    _debounce?.cancel();
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  /// Typing hits the API on the teachers and guardians tabs, so the query is
+  /// debounced rather than fired on every keystroke.
+  void _onQueryChanged(String value) {
+    _debounce?.cancel();
+    _debounce = Timer(const Duration(milliseconds: 350), () {
+      if (mounted) setState(() => _query = value);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    final usersAsync = ref.watch(allUsersProvider);
+    final resultsAsync =
+        ref.watch(directorySearchProvider((query: _query, tab: _tab)));
 
     return Scaffold(
       backgroundColor: AppColors.background,
-      body: usersAsync.when(
-        data: (users) {
-          final filtered = users
-              .where(_matchesFilter)
-              .where((u) => u.name.toLowerCase().contains(_query.toLowerCase()))
-              .toList();
-          final activeCount = users.where((u) => u.status.isActive).length;
-          final inactiveCount = users.length - activeCount;
-
-          return Column(
-            children: [
-              Container(
-                width: double.infinity,
-                padding: EdgeInsets.fromLTRB(20, MediaQuery.of(context).padding.top + 12, 20, 20),
-                decoration: const BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    colors: AppColors.headerGradient,
-                  ),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+      body: Column(
+        children: [
+          Container(
+            width: double.infinity,
+            padding: EdgeInsets.fromLTRB(
+                20, MediaQuery.of(context).padding.top + 12, 20, 20),
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: AppColors.headerGradient,
+              ),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
                   children: [
-                    Row(
-                      children: [
-                        IconButton(
-                          icon: const Icon(Icons.arrow_back_rounded, color: Colors.white),
-                          onPressed: () => context.pop(),
-                        ),
-                        Text('Usuarios', style: AppTextStyles.h2.copyWith(color: Colors.white)),
-                        const Spacer(),
-                        Container(
-                          width: 40,
-                          height: 40,
-                          decoration: BoxDecoration(
-                            color: Colors.white.withValues(alpha: 0.08),
-                            shape: BoxShape.circle,
+                    IconButton(
+                      icon: const Icon(Icons.arrow_back_rounded, color: Colors.white),
+                      onPressed: () =>
+                          context.canPop() ? context.pop() : context.go('/admin'),
+                    ),
+                    Text('Directorio',
+                        style: AppTextStyles.h2.copyWith(color: Colors.white)),
+                  ],
+                ),
+                const SizedBox(height: 14),
+                TextField(
+                  controller: _searchController,
+                  onChanged: _onQueryChanged,
+                  style: AppTextStyles.body,
+                  decoration: InputDecoration(
+                    hintText: switch (_tab) {
+                      DirectoryTab.students => 'Buscar por nombre o código',
+                      DirectoryTab.teachers => 'Buscar docente',
+                      DirectoryTab.guardians => 'Buscar acudiente',
+                    },
+                    prefixIcon: const Icon(Icons.search_rounded),
+                    fillColor: Colors.white,
+                    suffixIcon: _searchController.text.isEmpty
+                        ? null
+                        : IconButton(
+                            icon: const Icon(Icons.close_rounded),
+                            onPressed: () {
+                              _searchController.clear();
+                              setState(() => _query = '');
+                            },
                           ),
-                          child: const Icon(Icons.tune_rounded, color: Colors.white, size: 20),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 14),
-                    TextField(
-                      onChanged: (v) => setState(() => _query = v),
-                      style: const TextStyle(color: Colors.white),
-                      decoration: InputDecoration(
-                        hintText: 'Buscar usuario...',
-                        hintStyle: TextStyle(color: Colors.white.withValues(alpha: 0.6)),
-                        prefixIcon: const Icon(Icons.search_rounded, color: Colors.white70),
-                        filled: true,
-                        fillColor: Colors.white.withValues(alpha: 0.08),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(16),
-                          borderSide: BorderSide.none,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(20, 16, 20, 8),
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children: [
-                      _FilterChip(
-                        label: 'Todos',
-                        selected: _filter == _RoleFilter.all,
-                        onTap: () => setState(() => _filter = _RoleFilter.all),
-                      ),
-                      const SizedBox(width: 10),
-                      _FilterChip(
-                        label: 'Admin',
-                        selected: _filter == _RoleFilter.admin,
-                        onTap: () => setState(() => _filter = _RoleFilter.admin),
-                      ),
-                      const SizedBox(width: 10),
-                      _FilterChip(
-                        label: 'Docentes',
-                        selected: _filter == _RoleFilter.teacher,
-                        onTap: () => setState(() => _filter = _RoleFilter.teacher),
-                      ),
-                      const SizedBox(width: 10),
-                      _FilterChip(
-                        label: 'Estudiantes',
-                        selected: _filter == _RoleFilter.student,
-                        onTap: () => setState(() => _filter = _RoleFilter.student),
-                      ),
-                    ],
                   ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-                child: Row(
+                const SizedBox(height: 14),
+                Row(
                   children: [
-                    Expanded(child: _StatChip(value: '$activeCount', label: 'Activos', color: AppColors.tealDark, bg: AppColors.statusActiveBg)),
-                    const SizedBox(width: 10),
-                    Expanded(child: _StatChip(value: '$inactiveCount', label: 'Inactivos', color: AppColors.pink, bg: const Color(0xFFFFE7EC))),
-                    const SizedBox(width: 10),
-                    Expanded(child: _StatChip(value: '${users.length}', label: 'Total', color: AppColors.indigo, bg: AppColors.roleStudentBg)),
+                    _tabChip('Estudiantes', DirectoryTab.students),
+                    const SizedBox(width: 8),
+                    _tabChip('Profesores', DirectoryTab.teachers),
+                    const SizedBox(width: 8),
+                    _tabChip('Acudientes', DirectoryTab.guardians),
                   ],
                 ),
-              ),
-              Expanded(
-                child: filtered.isEmpty
-                    ? Center(child: Text('Sin resultados', style: AppTextStyles.bodyMuted))
-                    : ListView.separated(
-                        padding: const EdgeInsets.fromLTRB(20, 8, 20, 100),
-                        itemCount: filtered.length,
-                        separatorBuilder: (_, _) => const Divider(color: AppColors.divider, height: 1),
-                        itemBuilder: (context, index) {
-                          final u = filtered[index];
-                          return _UserRow(
-                            user: u,
-                            onTap: u.role == Role.student
-                                ? () => context.push('/students/${u.id}')
-                                : null,
-                          );
-                        },
+              ],
+            ),
+          ),
+          Expanded(
+            child: RefreshIndicator(
+              onRefresh: () async => ref.invalidate(directorySearchProvider),
+              child: resultsAsync.when(
+                loading: () => const LoadingView(),
+                error: (error, _) => ListView(children: [
+                  ErrorView(
+                    error: error,
+                    onRetry: () => ref.invalidate(directorySearchProvider),
+                  ),
+                ]),
+                data: (users) {
+                  if (users.isEmpty) {
+                    return ListView(children: [
+                      EmptyState(
+                        icon: Icons.person_search_rounded,
+                        title: _query.isEmpty ? 'Sin registros' : 'Sin resultados',
+                        message: _query.isEmpty
+                            ? 'No hay personas para mostrar en esta solapa.'
+                            : 'No encontramos a nadie con «$_query».',
                       ),
+                    ]);
+                  }
+                  return ListView.separated(
+                    padding: const EdgeInsets.fromLTRB(20, 20, 20, 32),
+                    itemCount: users.length + 1,
+                    separatorBuilder: (_, _) => const SizedBox(height: 12),
+                    itemBuilder: (context, index) {
+                      if (index == 0) {
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 4),
+                          child: Text('${users.length} resultado(s)',
+                              style: AppTextStyles.caption),
+                        );
+                      }
+                      final user = users[index - 1];
+                      return _PersonCard(
+                        user: user,
+                        onTap: () => _open(user),
+                      );
+                    },
+                  );
+                },
               ),
-            ],
-          );
-        },
-        loading: () => const Center(child: CircularProgressIndicator()),
-        error: (_, _) => Center(child: Text('No se pudieron cargar los usuarios.', style: AppTextStyles.bodyMuted)),
-      ),
-      floatingActionButton: FloatingActionButton.extended(
-        backgroundColor: AppColors.indigo,
-        onPressed: () => ScaffoldMessenger.of(context)
-            .showSnackBar(const SnackBar(content: Text('Próximamente disponible.'))),
-        icon: const Icon(Icons.add_rounded),
-        label: const Text('Nuevo usuario'),
+            ),
+          ),
+        ],
       ),
     );
   }
-}
 
-class _FilterChip extends StatelessWidget {
-  const _FilterChip({required this.label, required this.selected, required this.onTap});
+  void _open(AppUser user) {
+    if (user.studentId != null && _tab != DirectoryTab.guardians) {
+      context.push('/students/${user.studentId}');
+      return;
+    }
+    if (user.teacherId != null) {
+      context.push('/teachers/${user.teacherId}');
+      return;
+    }
+    // A guardian's card is their child's card: that is what an admin is
+    // actually looking for when they open one.
+    if (user.studentId != null) context.push('/students/${user.studentId}');
+  }
 
-  final String label;
-  final bool selected;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-        decoration: BoxDecoration(
-          color: selected ? AppColors.indigo : AppColors.surface,
-          borderRadius: BorderRadius.circular(20),
-        ),
-        child: Text(
-          label,
-          style: AppTextStyles.body.copyWith(
-            color: selected ? Colors.white : AppColors.textSecondary,
-            fontWeight: FontWeight.w700,
+  Widget _tabChip(String label, DirectoryTab tab) {
+    final selected = _tab == tab;
+    return Expanded(
+      child: GestureDetector(
+        onTap: () => setState(() => _tab = tab),
+        child: Container(
+          alignment: Alignment.center,
+          padding: const EdgeInsets.symmetric(vertical: 10),
+          decoration: BoxDecoration(
+            color: selected ? AppColors.teal : Colors.white.withValues(alpha: 0.10),
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Text(
+            label,
+            style: AppTextStyles.caption.copyWith(
+              color: selected ? AppColors.headerGradient.first : Colors.white,
+              fontWeight: FontWeight.w700,
+            ),
           ),
         ),
       ),
@@ -207,60 +208,54 @@ class _FilterChip extends StatelessWidget {
   }
 }
 
-class _StatChip extends StatelessWidget {
-  const _StatChip({required this.value, required this.label, required this.color, required this.bg});
-
-  final String value;
-  final String label;
-  final Color color;
-  final Color bg;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: 14),
-      decoration: BoxDecoration(color: bg, borderRadius: BorderRadius.circular(16)),
-      child: Column(
-        children: [
-          Text(value, style: AppTextStyles.h2.copyWith(color: color)),
-          Text(label, style: AppTextStyles.caption),
-        ],
-      ),
-    );
-  }
-}
-
-class _UserRow extends StatelessWidget {
-  const _UserRow({required this.user, this.onTap});
+class _PersonCard extends StatelessWidget {
+  const _PersonCard({required this.user, required this.onTap});
 
   final AppUser user;
-  final VoidCallback? onTap;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
+      borderRadius: BorderRadius.circular(20),
       onTap: onTap,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 12),
+      child: SectionCard(
+        padding: const EdgeInsets.fromLTRB(16, 14, 16, 14),
         child: Row(
           children: [
             AvatarCircle(name: user.name, radius: 22),
-            const SizedBox(width: 12),
+            const SizedBox(width: 14),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(user.name, style: AppTextStyles.body.copyWith(fontWeight: FontWeight.w700)),
-                  const SizedBox(height: 4),
-                  RoleBadge(role: user.role),
+                  Text(user.name,
+                      style: AppTextStyles.body.copyWith(fontWeight: FontWeight.w700),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis),
+                  const SizedBox(height: 2),
+                  Text(
+                    [user.code, user.grade, user.subject, user.email]
+                        .whereType<String>()
+                        .where((s) => s.isNotEmpty)
+                        .take(2)
+                        .join(' · '),
+                    style: AppTextStyles.caption,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  const SizedBox(height: 8),
+                  Row(
+                    children: [
+                      RoleBadge(role: user.role),
+                      const SizedBox(width: 8),
+                      StatusBadge(active: user.isActive),
+                    ],
+                  ),
                 ],
               ),
             ),
-            StatusBadge(active: user.status.isActive),
-            if (onTap != null) ...[
-              const SizedBox(width: 4),
-              const Icon(Icons.chevron_right_rounded, color: AppColors.textSecondary),
-            ],
+            const Icon(Icons.chevron_right_rounded, color: AppColors.textSecondary),
           ],
         ),
       ),

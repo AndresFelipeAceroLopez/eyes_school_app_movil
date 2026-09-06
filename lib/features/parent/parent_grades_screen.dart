@@ -3,14 +3,18 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_text_styles.dart';
+import '../../core/utils/report_card_download.dart';
+import '../../core/widgets/async_states.dart';
+import '../../core/widgets/avatar_circle.dart';
+import '../../core/widgets/grade_row.dart';
 import '../../core/widgets/section_header.dart';
 import '../../core/widgets/simple_header_scaffold.dart';
-import '../../models/grade.dart';
-import '../../models/user.dart';
 import '../../providers/data_providers.dart';
 import '../../providers/session_provider.dart';
-import 'child_selector.dart';
+import '../../domain/value_objects/severity.dart';
 
+/// The linked child's grades by period, plus the PDF report card, which the
+/// guardian can open or forward from the share sheet.
 class ParentGradesScreen extends ConsumerStatefulWidget {
   const ParentGradesScreen({super.key});
 
@@ -19,112 +23,145 @@ class ParentGradesScreen extends ConsumerStatefulWidget {
 }
 
 class _ParentGradesScreenState extends ConsumerState<ParentGradesScreen> {
-  String? _selectedId;
+  int? _period;
 
   @override
   Widget build(BuildContext context) {
-    final user = ref.watch(sessionProvider).value;
-    if (user == null) return const SizedBox.shrink();
-    final childrenAsync = ref.watch(childrenOfProvider(user));
+    final session = ref.watch(currentSessionProvider);
+    final childId = session?.childId;
+    _period ??= ref.read(currentPeriodProvider);
+
+    if (childId == null) {
+      return SimpleHeaderScaffold(
+        title: 'Notas',
+        showBack: false,
+        body: EmptyState(
+          icon: Icons.family_restroom_rounded,
+          title: 'Sin estudiante vinculado',
+          message: session?.bootstrapWarning ??
+              'Tu cuenta de acudiente aún no está vinculada a un estudiante.',
+        ),
+      );
+    }
+
+    final name = session?.childName ?? 'Estudiante';
+    final args = (studentId: childId, period: _period);
+    final gradesAsync = ref.watch(gradesForStudentProvider(args));
 
     return SimpleHeaderScaffold(
       title: 'Notas',
       showBack: false,
-      body: childrenAsync.when(
-        data: (children) {
-          if (children.isEmpty) {
-            return Center(child: Text('No tienes hijos vinculados.', style: AppTextStyles.bodyMuted));
-          }
-          final selected = children.firstWhere(
-            (c) => c.id == _selectedId,
-            orElse: () => children.first,
-          );
-          return Column(
-            children: [
-              ChildSelector(
-                children: children,
-                selectedId: selected.id,
-                onSelected: (id) => setState(() => _selectedId = id),
-              ),
-              Expanded(child: _GradesBody(student: selected)),
-            ],
-          );
-        },
-        loading: () => const Center(child: CircularProgressIndicator()),
-        error: (_, _) => Center(child: Text('No se pudo cargar la información.', style: AppTextStyles.bodyMuted)),
-      ),
-    );
-  }
-}
-
-class _GradesBody extends ConsumerWidget {
-  const _GradesBody({required this.student});
-  final AppUser student;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final gradesAsync = ref.watch(gradesForStudentProvider(student.id));
-    return gradesAsync.when(
-      data: (grades) {
-        if (grades.isEmpty) {
-          return Center(child: Text('Aún no hay notas registradas.', style: AppTextStyles.bodyMuted));
-        }
-        return ListView(
-          padding: const EdgeInsets.fromLTRB(20, 20, 20, 32),
-          children: [
-            SectionCard(
-              child: Column(
-                children: [
-                  for (int i = 0; i < grades.length; i++) ...[
-                    _GradeRow(grade: grades[i]),
-                    if (i != grades.length - 1) const SizedBox(height: 18),
-                  ],
-                ],
-              ),
-            ),
-          ],
-        );
-      },
-      loading: () => const Center(child: CircularProgressIndicator()),
-      error: (_, _) => Center(child: Text('No se pudieron cargar las notas.', style: AppTextStyles.bodyMuted)),
-    );
-  }
-}
-
-class _GradeRow extends StatelessWidget {
-  const _GradeRow({required this.grade});
-  final Grade grade;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(grade.subject, style: AppTextStyles.body.copyWith(fontWeight: FontWeight.w700)),
-            Row(
-              children: [
-                Text(grade.qualitative, style: AppTextStyles.caption),
-                const SizedBox(width: 8),
-                Text(grade.score.toStringAsFixed(1),
-                    style: AppTextStyles.body.copyWith(color: grade.color, fontWeight: FontWeight.w800)),
-              ],
-            ),
-          ],
-        ),
-        const SizedBox(height: 8),
-        ClipRRect(
-          borderRadius: BorderRadius.circular(6),
-          child: LinearProgressIndicator(
-            value: (grade.score / 10).clamp(0, 1),
-            minHeight: 8,
-            backgroundColor: AppColors.divider,
-            valueColor: AlwaysStoppedAnimation(grade.color),
+      actions: [
+        IconButton(
+          tooltip: 'Compartir boletín',
+          icon: const Icon(Icons.ios_share_rounded, color: Colors.white),
+          onPressed: () => ReportCardDownloader.run(
+            context,
+            ref,
+            studentId: childId,
+            studentName: name,
+            share: true,
           ),
         ),
       ],
+      body: RefreshIndicator(
+        onRefresh: () async => ref.invalidate(gradesForStudentProvider(args)),
+        child: ListView(
+          padding: const EdgeInsets.fromLTRB(20, 20, 20, 32),
+          children: [
+            SectionCard(
+              padding: const EdgeInsets.fromLTRB(14, 14, 14, 14),
+              child: Row(
+                children: [
+                  AvatarCircle(name: name, radius: 20),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Text(
+                      name,
+                      style: AppTextStyles.body.copyWith(fontWeight: FontWeight.w700),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 16),
+            PeriodSelector(
+              periods: AcademicPeriods.all,
+              selected: _period!,
+              onChanged: (p) => setState(() => _period = p),
+            ),
+            const SizedBox(height: 20),
+            gradesAsync.when(
+              loading: () => const LoadingView(),
+              error: (error, _) => ErrorView(
+                error: error,
+                onRetry: () => ref.invalidate(gradesForStudentProvider(args)),
+              ),
+              data: (grades) {
+                if (grades.isEmpty) {
+                  return EmptyState(
+                    icon: Icons.bar_chart_rounded,
+                    title: 'Sin notas en el periodo ${_period!}',
+                    message: 'Cuando los docentes registren notas aparecerán aquí.',
+                  );
+                }
+                final average = GradesCard.overallAverage(grades);
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SectionCard(
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text('Promedio general', style: AppTextStyles.caption),
+                                Text(
+                                  average.toStringAsFixed(1),
+                                  style: AppTextStyles.h1.copyWith(
+                                    color: average >= 3.0
+                                        ? AppColors.tealDark
+                                        : AppColors.pink,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Text(AcademicPeriods.labelOf(_period!),
+                              style: AppTextStyles.bodyMuted),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    GradesCard(grades: grades),
+                    const SizedBox(height: 20),
+                    OutlinedButton.icon(
+                      style: OutlinedButton.styleFrom(
+                        foregroundColor: AppColors.indigo,
+                        side: const BorderSide(color: AppColors.indigo),
+                        padding: const EdgeInsets.symmetric(vertical: 14),
+                        shape:
+                            RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                      ),
+                      onPressed: () => ReportCardDownloader.run(
+                        context,
+                        ref,
+                        studentId: childId,
+                        studentName: name,
+                      ),
+                      icon: const Icon(Icons.download_rounded),
+                      label: const Text('Descargar boletín PDF'),
+                    ),
+                  ],
+                );
+              },
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

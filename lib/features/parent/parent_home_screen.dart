@@ -4,36 +4,48 @@ import 'package:go_router/go_router.dart';
 
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_text_styles.dart';
+import '../../core/utils/formatters.dart';
+import '../../core/widgets/async_states.dart';
 import '../../core/widgets/avatar_circle.dart';
+import '../../core/widgets/novedad_card.dart';
+import '../../core/widgets/quick_action_tile.dart';
 import '../../core/widgets/section_header.dart';
-import '../../models/user.dart';
 import '../../providers/data_providers.dart';
 import '../../providers/session_provider.dart';
 
+/// Guardian home: the linked child's card plus their most recent news.
+///
+/// `GET /padres/me` returns one child per guardian account, so there is no
+/// child picker. The session still models it as an "active child", which is
+/// what makes supporting several later a purely additive change.
 class ParentHomeScreen extends ConsumerWidget {
   const ParentHomeScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final user = ref.watch(sessionProvider).value;
-    if (user == null) return const SizedBox.shrink();
+    final session = ref.watch(currentSessionProvider);
+    if (session == null) return const SizedBox.shrink();
+    final user = session.user;
+    final childId = session.childId;
 
-    final childrenAsync = ref.watch(childrenOfProvider(user));
-    final activityAsync = ref.watch(parentRecentActivityProvider);
+    final dashboardAsync = ref.watch(parentDashboardProvider);
+    final novedadesAsync =
+        childId == null ? null : ref.watch(novedadesForStudentProvider(childId));
 
     return Scaffold(
       backgroundColor: AppColors.background,
       body: RefreshIndicator(
         onRefresh: () async {
-          ref.invalidate(childrenOfProvider(user));
-          ref.invalidate(parentRecentActivityProvider);
+          ref.invalidate(parentDashboardProvider);
+          if (childId != null) ref.invalidate(novedadesForStudentProvider(childId));
         },
         child: ListView(
           padding: EdgeInsets.zero,
           children: [
             Container(
               width: double.infinity,
-              padding: EdgeInsets.fromLTRB(20, MediaQuery.of(context).padding.top + 16, 20, 28),
+              padding: EdgeInsets.fromLTRB(
+                  20, MediaQuery.of(context).padding.top + 16, 20, 28),
               decoration: const BoxDecoration(
                 gradient: LinearGradient(
                   begin: Alignment.topLeft,
@@ -53,20 +65,35 @@ class ParentHomeScreen extends ConsumerWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('Padre / Acudiente', style: AppTextStyles.statLabel),
+                            Text(
+                              session.relationship == null
+                                  ? 'Padre / Acudiente'
+                                  : '${session.relationship} · Acudiente',
+                              style: AppTextStyles.statLabel,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
                             Text(
                               'Hola, ${user.firstName}',
-                              style: AppTextStyles.h1.copyWith(color: Colors.white, fontSize: 22),
+                              style: AppTextStyles.h1
+                                  .copyWith(color: Colors.white, fontSize: 22),
                             ),
                           ],
                         ),
                       ),
-                      Container(
-                        width: 44,
-                        height: 44,
-                        decoration:
-                            BoxDecoration(color: Colors.white.withValues(alpha: 0.08), shape: BoxShape.circle),
-                        child: const Icon(Icons.notifications_none_rounded, color: Colors.white),
+                      InkWell(
+                        onTap: () => context.go('/parent/children'),
+                        customBorder: const CircleBorder(),
+                        child: Container(
+                          width: 44,
+                          height: 44,
+                          decoration: BoxDecoration(
+                            color: Colors.white.withValues(alpha: 0.08),
+                            shape: BoxShape.circle,
+                          ),
+                          child: const Icon(Icons.notifications_none_rounded,
+                              color: Colors.white),
+                        ),
                       ),
                     ],
                   ),
@@ -76,91 +103,133 @@ class ParentHomeScreen extends ConsumerWidget {
                       Container(width: 3, height: 16, color: AppColors.teal),
                       const SizedBox(width: 8),
                       Text('EYESCHOOL',
-                          style: AppTextStyles.statLabel.copyWith(letterSpacing: 2, fontWeight: FontWeight.w700)),
+                          style: AppTextStyles.statLabel
+                              .copyWith(letterSpacing: 2, fontWeight: FontWeight.w700)),
                     ],
                   ),
                 ],
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(20, 24, 20, 12),
-              child: childrenAsync.when(
-                data: (children) => SectionHeader(title: 'Mis hijos', trailingText: '${children.length} vinculados'),
-                loading: () => const SectionHeader(title: 'Mis hijos'),
-                error: (_, _) => const SectionHeader(title: 'Mis hijos'),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: childrenAsync.when(
-                data: (children) => Column(
-                  children: children
-                      .map((child) => Padding(
-                            padding: const EdgeInsets.only(bottom: 14),
-                            child: _ChildCard(
-                              child: child,
-                              onTap: () => context.push('/students/${child.id}'),
-                            ),
-                          ))
-                      .toList(),
+            if (childId == null)
+              Padding(
+                padding: const EdgeInsets.fromLTRB(20, 24, 20, 0),
+                child: EmptyState(
+                  icon: Icons.family_restroom_rounded,
+                  title: 'Sin estudiante vinculado',
+                  message: session.bootstrapWarning ??
+                      'Tu cuenta de acudiente aún no está vinculada a un estudiante. '
+                          'Pide a un administrador que la vincule.',
                 ),
-                loading: () => const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 24),
-                  child: Center(child: CircularProgressIndicator()),
-                ),
-                error: (_, _) => Text('No se pudieron cargar tus hijos.', style: AppTextStyles.bodyMuted),
+              )
+            else ...[
+              const Padding(
+                padding: EdgeInsets.fromLTRB(20, 24, 20, 12),
+                child: SectionHeader(title: 'Mi estudiante'),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(20, 24, 20, 12),
-              child: SectionHeader(title: 'Novedades recientes', trailingText: 'Ver todo'),
-            ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(20, 0, 20, 24),
-              child: activityAsync.when(
-                data: (activity) => SectionCard(
-                  padding: EdgeInsets.zero,
-                  child: Column(
-                    children: [
-                      for (int i = 0; i < activity.length; i++)
-                        Column(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(16),
-                              child: Row(
-                                children: [
-                                  Container(
-                                    width: 40,
-                                    height: 40,
-                                    decoration: BoxDecoration(
-                                      color: activity[i].iconBg,
-                                      borderRadius: BorderRadius.circular(12),
-                                    ),
-                                    child: Icon(activity[i].icon, size: 20, color: activity[i].iconColor),
-                                  ),
-                                  const SizedBox(width: 14),
-                                  Expanded(
-                                    child: Text(activity[i].title,
-                                        style: AppTextStyles.body.copyWith(fontWeight: FontWeight.w600)),
-                                  ),
-                                  Text(activity[i].timeAgo, style: AppTextStyles.caption),
-                                ],
-                              ),
-                            ),
-                            if (i != activity.length - 1)
-                              const Divider(height: 1, color: AppColors.divider, indent: 16, endIndent: 16),
-                          ],
-                        ),
-                    ],
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: dashboardAsync.when(
+                  loading: () => const LoadingView(),
+                  error: (error, _) => ErrorView(
+                    error: error,
+                    compact: true,
+                    onRetry: () => ref.invalidate(parentDashboardProvider),
+                  ),
+                  data: (data) => _ChildCard(
+                    name: data.studentName ??
+                        session.childName ??
+                        'Estudiante $childId',
+                    document: session.childDocument,
+                    average: Formatters.grade(data.average),
+                    attendance: Formatters.percent(data.attendancePercent),
+                    pending: data.pendingNovedades,
+                    onTap: () => context.push('/students/$childId'),
                   ),
                 ),
-                loading: () => const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 24),
-                  child: Center(child: CircularProgressIndicator()),
-                ),
-                error: (_, _) => Text('No se pudieron cargar las novedades.', style: AppTextStyles.bodyMuted),
               ),
-            ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(20, 24, 20, 12),
+                child: Text('Acceso rápido', style: AppTextStyles.h2),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: GridView.count(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  crossAxisCount: 4,
+                  mainAxisSpacing: 12,
+                  crossAxisSpacing: 12,
+                  childAspectRatio: 0.78,
+                  children: [
+                    QuickActionTile(
+                      icon: Icons.bar_chart_rounded,
+                      label: 'Notas',
+                      iconBg: AppColors.roleTeacherBg,
+                      iconColor: AppColors.roleTeacher,
+                      onTap: () => context.go('/parent/notes'),
+                    ),
+                    QuickActionTile(
+                      icon: Icons.fact_check_rounded,
+                      label: 'Asistencia',
+                      iconBg: AppColors.statusActiveBg,
+                      iconColor: AppColors.tealDark,
+                      onTap: () => context.go('/parent/attendance'),
+                    ),
+                    QuickActionTile(
+                      icon: Icons.calendar_month_rounded,
+                      label: 'Horario',
+                      iconBg: AppColors.roleStudentBg,
+                      iconColor: AppColors.roleStudent,
+                      onTap: () => context.go('/parent/children'),
+                    ),
+                    QuickActionTile(
+                      icon: Icons.notifications_rounded,
+                      label: 'Novedades',
+                      iconBg: const Color(0xFFFCE4EE),
+                      iconColor: AppColors.pink,
+                      onTap: () => context.go('/parent/children'),
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(20, 24, 20, 12),
+                child: SectionHeader(
+                  title: 'Novedades recientes',
+                  trailingText: 'Ver todo',
+                  onTrailingTap: () => context.go('/parent/children'),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(20, 0, 20, 24),
+                child: novedadesAsync!.when(
+                  loading: () => const LoadingView(),
+                  error: (error, _) => ErrorView(
+                    error: error,
+                    compact: true,
+                    onRetry: () => ref.invalidate(novedadesForStudentProvider(childId)),
+                  ),
+                  data: (novedades) {
+                    if (novedades.isEmpty) {
+                      return const EmptyState(
+                        icon: Icons.check_circle_outline_rounded,
+                        title: 'Todo en orden',
+                        message: 'No hay novedades registradas.',
+                      );
+                    }
+                    return Column(
+                      children: novedades
+                          .take(3)
+                          .map((n) => Padding(
+                                padding: const EdgeInsets.only(bottom: 12),
+                                child: NovedadCard(novedad: n, showStudent: false),
+                              ))
+                          .toList(),
+                    );
+                  },
+                ),
+              ),
+            ],
           ],
         ),
       ),
@@ -169,9 +238,20 @@ class ParentHomeScreen extends ConsumerWidget {
 }
 
 class _ChildCard extends StatelessWidget {
-  const _ChildCard({required this.child, required this.onTap});
+  const _ChildCard({
+    required this.name,
+    required this.document,
+    required this.average,
+    required this.attendance,
+    required this.pending,
+    required this.onTap,
+  });
 
-  final AppUser child;
+  final String name;
+  final String? document;
+  final String average;
+  final String attendance;
+  final int pending;
   final VoidCallback onTap;
 
   @override
@@ -185,14 +265,18 @@ class _ChildCard extends StatelessWidget {
           children: [
             Row(
               children: [
-                AvatarCircle(name: child.name, radius: 24),
+                AvatarCircle(name: name, radius: 24),
                 const SizedBox(width: 12),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(child.name, style: AppTextStyles.h3),
-                      Text(child.grade ?? '', style: AppTextStyles.caption),
+                      Text(name,
+                          style: AppTextStyles.h3,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis),
+                      if (document != null)
+                        Text(document!, style: AppTextStyles.caption),
                     ],
                   ),
                 ),
@@ -203,14 +287,20 @@ class _ChildCard extends StatelessWidget {
             Row(
               children: [
                 Expanded(
-                  child: _MetricChip(label: 'Promedio', value: '${child.average}', color: AppColors.tealDark),
+                  child: _MetricChip(
+                      label: 'Promedio', value: average, color: AppColors.tealDark),
                 ),
-                const SizedBox(width: 12),
+                const SizedBox(width: 10),
                 Expanded(
                   child: _MetricChip(
-                    label: 'Asistencia',
-                    value: '${child.attendancePercent?.round()}%',
-                    color: AppColors.indigo,
+                      label: 'Asistencia', value: attendance, color: AppColors.indigo),
+                ),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: _MetricChip(
+                    label: 'Novedades',
+                    value: '$pending',
+                    color: pending > 0 ? AppColors.pink : AppColors.textSecondary,
                   ),
                 ),
               ],
@@ -232,14 +322,20 @@ class _MetricChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
-      decoration: BoxDecoration(color: AppColors.background, borderRadius: BorderRadius.circular(14)),
+      padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 10),
+      decoration: BoxDecoration(
+        color: AppColors.background,
+        borderRadius: BorderRadius.circular(14),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(label, style: AppTextStyles.caption),
+          Text(label, style: AppTextStyles.caption, maxLines: 1),
           const SizedBox(height: 2),
-          Text(value, style: AppTextStyles.h3.copyWith(color: color)),
+          Text(value,
+              style: AppTextStyles.h3.copyWith(color: color),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis),
         ],
       ),
     );

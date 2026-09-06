@@ -1,23 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../domain/failures/app_failure.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_text_styles.dart';
 import '../../core/utils/validators.dart';
 import '../../core/widgets/primary_gradient_button.dart';
+import '../../providers/repository_providers.dart';
 
-class ForgotPasswordScreen extends StatefulWidget {
+class ForgotPasswordScreen extends ConsumerStatefulWidget {
   const ForgotPasswordScreen({super.key});
 
   @override
-  State<ForgotPasswordScreen> createState() => _ForgotPasswordScreenState();
+  ConsumerState<ForgotPasswordScreen> createState() => _ForgotPasswordScreenState();
 }
 
-class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
+class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   bool _sending = false;
   bool _sent = false;
+  String? _errorText;
 
   @override
   void dispose() {
@@ -25,15 +29,28 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
     super.dispose();
   }
 
+  /// The API answers neutrally on purpose: it never reveals whether the
+  /// address exists. The UI keeps that promise and always reports success.
   Future<void> _send() async {
     if (!_formKey.currentState!.validate()) return;
-    setState(() => _sending = true);
-    await Future.delayed(const Duration(milliseconds: 700));
-    if (!mounted) return;
+    FocusScope.of(context).unfocus();
     setState(() {
-      _sending = false;
-      _sent = true;
+      _sending = true;
+      _errorText = null;
     });
+    try {
+      await ref.read(authRepositoryProvider).requestPasswordReset(_emailController.text);
+      if (!mounted) return;
+      setState(() => _sent = true);
+    } on AppFailure catch (e) {
+      // Only transport problems surface; a 404 would leak account existence.
+      if (mounted) {
+        setState(() => _errorText = e is NetworkFailure ? e.message : null);
+        if (_errorText == null) setState(() => _sent = true);
+      }
+    } finally {
+      if (mounted) setState(() => _sending = false);
+    }
   }
 
   @override
@@ -109,6 +126,14 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                           loading: _sending,
                           onPressed: _send,
                         ),
+                        if (_errorText != null) ...[
+                          const SizedBox(height: 16),
+                          Text(
+                            _errorText!,
+                            style: AppTextStyles.body.copyWith(color: AppColors.pink),
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
                         if (_sent) ...[
                           const SizedBox(height: 20),
                           Container(
@@ -132,7 +157,8 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                                               .copyWith(fontWeight: FontWeight.w700)),
                                       const SizedBox(height: 2),
                                       Text(
-                                        'Revisa tu bandeja de entrada y sigue las instrucciones.',
+                                        'Si existe una cuenta con ese correo, recibirás '
+                                        'las instrucciones para restablecer tu contraseña.',
                                         style: AppTextStyles.caption,
                                       ),
                                     ],

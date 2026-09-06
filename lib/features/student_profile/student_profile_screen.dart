@@ -1,132 +1,250 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_text_styles.dart';
+import '../../core/utils/report_card_download.dart';
+import '../../core/widgets/async_states.dart';
+import '../../core/widgets/attendance_donut.dart';
 import '../../core/widgets/avatar_circle.dart';
+import '../../core/widgets/grade_row.dart';
+import '../../core/widgets/novedad_card.dart';
 import '../../core/widgets/section_header.dart';
+import '../../core/widgets/simple_header_scaffold.dart';
 import '../../core/widgets/status_badge.dart';
-import '../../models/grade.dart';
-import '../../models/novedad.dart';
-import '../../models/user.dart';
+import '../../domain/entities/app_user.dart';
 import '../../providers/data_providers.dart';
+import '../../providers/session_provider.dart';
+import '../../domain/value_objects/severity.dart';
 
-class StudentProfileScreen extends ConsumerWidget {
+/// The 360° student card: identity, guardians, grades, attendance and news.
+///
+/// Reached from the admin directory, from a teacher's class list and from a
+/// guardian's home. No single endpoint carries all of it, so the repository
+/// assembles it and this screen only paints.
+class StudentProfileScreen extends ConsumerStatefulWidget {
   const StudentProfileScreen({super.key, required this.studentId});
 
-  final String studentId;
+  final int studentId;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final userAsync = ref.watch(userByIdProvider(studentId));
-
-    return Scaffold(
-      backgroundColor: AppColors.background,
-      body: userAsync.when(
-        data: (student) {
-          if (student == null) {
-            return const Center(child: Text('Estudiante no encontrado.'));
-          }
-          return _StudentProfileBody(student: student);
-        },
-        loading: () => const Center(child: CircularProgressIndicator()),
-        error: (_, _) => const Center(child: Text('No se pudo cargar el perfil.')),
-      ),
-    );
-  }
+  ConsumerState<StudentProfileScreen> createState() => _StudentProfileScreenState();
 }
 
-class _StudentProfileBody extends ConsumerWidget {
-  const _StudentProfileBody({required this.student});
-  final AppUser student;
+class _StudentProfileScreenState extends ConsumerState<StudentProfileScreen>
+    with SingleTickerProviderStateMixin {
+  late final TabController _tabController = TabController(length: 3, vsync: this);
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return DefaultTabController(
-      length: 4,
-      child: NestedScrollView(
-        headerSliverBuilder: (context, innerBoxIsScrolled) => [
-          SliverToBoxAdapter(
-            child: Container(
-              width: double.infinity,
-              padding: EdgeInsets.fromLTRB(20, MediaQuery.of(context).padding.top + 8, 20, 24),
-              decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: AppColors.headerGradient,
-                ),
-              ),
-              child: Column(
-                children: [
-                  Row(
-                    children: [
-                      IconButton(
-                        icon: const Icon(Icons.arrow_back_rounded, color: Colors.white),
-                        onPressed: () => context.pop(),
-                      ),
-                      Expanded(
-                        child: Text('Perfil del estudiante',
-                            style: AppTextStyles.h3.copyWith(color: Colors.white),
-                            textAlign: TextAlign.center),
-                      ),
-                      IconButton(
-                        icon: const Icon(Icons.more_vert_rounded, color: Colors.white),
-                        onPressed: () {},
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 8),
-                  AvatarCircle(name: student.name, radius: 44),
-                  const SizedBox(height: 14),
-                  Text(student.name, style: AppTextStyles.h1.copyWith(color: Colors.white, fontSize: 22)),
-                  const SizedBox(height: 4),
-                  Text('${student.grade} · ${student.jornada}', style: AppTextStyles.statLabel),
-                  const SizedBox(height: 10),
-                  StatusBadge(active: student.status.isActive),
-                  const SizedBox(height: 18),
-                  Row(
-                    children: [
-                      _HeaderStat(value: '${student.average}', label: 'Promedio'),
-                      _HeaderStat(
-                          value: '${student.attendancePercent?.round()}%',
-                          label: 'Asistencia',
-                          valueColor: AppColors.indigo),
-                      _HeaderStat(
-                          value: '${ref.watch(novedadesForStudentProvider(student.id)).value?.length ?? 0}',
-                          label: 'Novedades',
-                          valueColor: AppColors.orange),
-                    ],
-                  ),
-                ],
-              ),
-            ),
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final profileAsync = ref.watch(studentProfileProvider(widget.studentId));
+
+    return SimpleHeaderScaffold(
+      title: 'Estudiante',
+      actions: [
+        IconButton(
+          tooltip: 'Boletín PDF',
+          icon: const Icon(Icons.picture_as_pdf_rounded, color: Colors.white),
+          onPressed: () => ReportCardDownloader.run(
+            context,
+            ref,
+            studentId: widget.studentId,
+            studentName: profileAsync.valueOrNull?.name ?? 'estudiante',
           ),
-          SliverPersistentHeader(
-            pinned: true,
-            delegate: _TabBarDelegate(
-              const TabBar(
+        ),
+      ],
+      body: profileAsync.when(
+        loading: () => const LoadingView(),
+        error: (error, _) => ErrorView(
+          error: error,
+          onRetry: () => ref.invalidate(studentProfileProvider(widget.studentId)),
+        ),
+        data: (student) {
+          if (student == null) {
+            return const EmptyState(
+              icon: Icons.person_search_rounded,
+              title: 'Estudiante no encontrado',
+              message: 'Esta ficha ya no está disponible.',
+            );
+          }
+          return Column(
+            children: [
+              _Header(student: student, onShowQr: () => _showQr(student)),
+              TabBar(
+                controller: _tabController,
                 labelColor: AppColors.indigo,
                 unselectedLabelColor: AppColors.textSecondary,
                 indicatorColor: AppColors.indigo,
-                labelStyle: TextStyle(fontWeight: FontWeight.w700, fontSize: 13.5),
-                tabs: [
-                  Tab(text: 'Resumen'),
+                labelStyle: AppTextStyles.caption.copyWith(fontWeight: FontWeight.w700),
+                tabs: const [
                   Tab(text: 'Notas'),
                   Tab(text: 'Asistencia'),
                   Tab(text: 'Novedades'),
                 ],
               ),
-            ),
+              Expanded(
+                child: TabBarView(
+                  controller: _tabController,
+                  children: [
+                    _GradesTab(studentId: widget.studentId),
+                    _AttendanceTab(studentId: widget.studentId),
+                    _NovedadesTab(studentId: widget.studentId),
+                  ],
+                ),
+              ),
+            ],
+          );
+        },
+      ),
+    );
+  }
+
+  /// The same code the web panel encodes, full screen so a scanner can read it
+  /// off this device when the student forgot their card.
+  void _showQr(AppUser student) {
+    final code = student.code;
+    if (code == null || code.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Este estudiante no tiene código asignado.')),
+      );
+      return;
+    }
+    showDialog<void>(
+      context: context,
+      builder: (context) => Dialog(
+        backgroundColor: Colors.white,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(28)),
+        child: Padding(
+          padding: const EdgeInsets.all(28),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              QrImageView(
+                data: code,
+                size: 220,
+                backgroundColor: Colors.white,
+                eyeStyle: const QrEyeStyle(
+                  eyeShape: QrEyeShape.square,
+                  color: AppColors.textPrimary,
+                ),
+                dataModuleStyle: const QrDataModuleStyle(
+                  dataModuleShape: QrDataModuleShape.square,
+                  color: AppColors.textPrimary,
+                ),
+              ),
+              const SizedBox(height: 18),
+              Text(student.name, style: AppTextStyles.h3, textAlign: TextAlign.center),
+              const SizedBox(height: 4),
+              Text(code, style: AppTextStyles.bodyMuted),
+            ],
           ),
-        ],
-        body: TabBarView(
+        ),
+      ),
+    );
+  }
+}
+
+class _Header extends StatelessWidget {
+  const _Header({required this.student, required this.onShowQr});
+
+  final AppUser student;
+  final VoidCallback onShowQr;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(20, 20, 20, 12),
+      child: SectionCard(
+        child: Column(
           children: [
-            _ResumenTab(student: student),
-            _NotasTab(studentId: student.id),
-            _AsistenciaTab(studentId: student.id),
-            _NovedadesTab(studentId: student.id),
+            Row(
+              children: [
+                AvatarCircle(name: student.name, radius: 28),
+                const SizedBox(width: 14),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(student.name,
+                          style: AppTextStyles.h3,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis),
+                      const SizedBox(height: 2),
+                      Text(
+                        [student.code, student.grade, student.jornada]
+                            .whereType<String>()
+                            .join(' · '),
+                        style: AppTextStyles.caption,
+                      ),
+                      const SizedBox(height: 8),
+                      StatusBadge(active: student.isActive),
+                    ],
+                  ),
+                ),
+                IconButton(
+                  tooltip: 'Ver QR',
+                  onPressed: onShowQr,
+                  icon: const Icon(Icons.qr_code_2_rounded,
+                      color: AppColors.indigo, size: 28),
+                ),
+              ],
+            ),
+            if (student.phone != null || student.document != null) ...[
+              const Divider(height: 24, color: AppColors.divider),
+              Row(
+                children: [
+                  if (student.document != null)
+                    Expanded(
+                      child: _Fact(
+                          icon: Icons.badge_outlined,
+                          label: 'Documento',
+                          value: student.document!),
+                    ),
+                  if (student.phone != null)
+                    Expanded(
+                      child: _Fact(
+                          icon: Icons.phone_outlined,
+                          label: 'Teléfono',
+                          value: student.phone!),
+                    ),
+                ],
+              ),
+            ],
+            if (student.guardians.isNotEmpty) ...[
+              const Divider(height: 24, color: AppColors.divider),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text('Acudientes', style: AppTextStyles.caption),
+              ),
+              const SizedBox(height: 8),
+              for (final guardian in student.guardians)
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 6),
+                  child: Row(
+                    children: [
+                      const Icon(Icons.diversity_3_rounded,
+                          size: 16, color: AppColors.textSecondary),
+                      const SizedBox(width: 8),
+                      Expanded(
+                        child: Text(
+                          '${guardian.name} · ${guardian.relation}',
+                          style: AppTextStyles.body,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                      Text(guardian.phone, style: AppTextStyles.caption),
+                    ],
+                  ),
+                ),
+            ],
           ],
         ),
       ),
@@ -134,148 +252,9 @@ class _StudentProfileBody extends ConsumerWidget {
   }
 }
 
-class _HeaderStat extends StatelessWidget {
-  const _HeaderStat({required this.value, required this.label, this.valueColor = AppColors.teal});
-  final String value;
-  final String label;
-  final Color valueColor;
+class _Fact extends StatelessWidget {
+  const _Fact({required this.icon, required this.label, required this.value});
 
-  @override
-  Widget build(BuildContext context) {
-    return Expanded(
-      child: Column(
-        children: [
-          Text(value, style: AppTextStyles.h1.copyWith(color: valueColor, fontSize: 22)),
-          const SizedBox(height: 2),
-          Text(label, style: AppTextStyles.statLabel),
-        ],
-      ),
-    );
-  }
-}
-
-class _TabBarDelegate extends SliverPersistentHeaderDelegate {
-  _TabBarDelegate(this.tabBar);
-  final TabBar tabBar;
-
-  @override
-  double get minExtent => tabBar.preferredSize.height;
-  @override
-  double get maxExtent => tabBar.preferredSize.height;
-
-  @override
-  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
-    return ColoredBox(color: AppColors.surface, child: tabBar);
-  }
-
-  @override
-  bool shouldRebuild(covariant _TabBarDelegate oldDelegate) => false;
-}
-
-class _ResumenTab extends StatelessWidget {
-  const _ResumenTab({required this.student});
-  final AppUser student;
-
-  @override
-  Widget build(BuildContext context) {
-    return ListView(
-      padding: const EdgeInsets.fromLTRB(20, 20, 20, 32),
-      children: [
-        SectionCard(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text('Información personal', style: AppTextStyles.h3),
-              const SizedBox(height: 14),
-              _InfoRow(icon: Icons.tag_rounded, label: 'Código', value: student.code ?? '—'),
-              const Divider(height: 24, color: AppColors.divider),
-              _InfoRow(icon: Icons.badge_outlined, label: 'Documento', value: student.document ?? '—'),
-              const Divider(height: 24, color: AppColors.divider),
-              _InfoRow(icon: Icons.mail_outline_rounded, label: 'Correo', value: student.email),
-              const Divider(height: 24, color: AppColors.divider),
-              _InfoRow(icon: Icons.phone_outlined, label: 'Teléfono', value: student.phone ?? '—'),
-            ],
-          ),
-        ),
-        const SizedBox(height: 16),
-        SectionCard(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text('Acudientes', style: AppTextStyles.h3),
-              const SizedBox(height: 14),
-              for (final g in student.guardians)
-                Row(
-                  children: [
-                    AvatarCircle(name: g.name, radius: 22),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(g.name, style: AppTextStyles.body.copyWith(fontWeight: FontWeight.w700)),
-                          Text('${g.relation} · ${g.phone}', style: AppTextStyles.caption),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              if (student.guardians.isEmpty) Text('Sin acudientes registrados.', style: AppTextStyles.bodyMuted),
-            ],
-          ),
-        ),
-        const SizedBox(height: 16),
-        Consumer(
-          builder: (context, ref, _) {
-            final gradesAsync = ref.watch(gradesForStudentProvider(student.id));
-            return SectionCard(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SectionHeader(title: 'Notas recientes', trailingText: 'Ver todo'),
-                  const SizedBox(height: 12),
-                  gradesAsync.when(
-                    data: (grades) => Column(
-                      children: [
-                        for (final g in grades.take(3))
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 10),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(g.subject, style: AppTextStyles.body.copyWith(fontWeight: FontWeight.w600)),
-                                Row(
-                                  children: [
-                                    Text(g.qualitative, style: AppTextStyles.caption),
-                                    const SizedBox(width: 8),
-                                    Text(g.score.toStringAsFixed(1),
-                                        style: AppTextStyles.body
-                                            .copyWith(color: g.color, fontWeight: FontWeight.w800)),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                      ],
-                    ),
-                    loading: () => const Padding(
-                      padding: EdgeInsets.all(12),
-                      child: Center(child: CircularProgressIndicator()),
-                    ),
-                    error: (_, _) => const SizedBox.shrink(),
-                  ),
-                ],
-              ),
-            );
-          },
-        ),
-      ],
-    );
-  }
-}
-
-class _InfoRow extends StatelessWidget {
-  const _InfoRow({required this.icon, required this.label, required this.value});
   final IconData icon;
   final String label;
   final String value;
@@ -284,184 +263,234 @@ class _InfoRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Container(
-          width: 36,
-          height: 36,
-          decoration: BoxDecoration(color: AppColors.background, borderRadius: BorderRadius.circular(10)),
-          child: Icon(icon, size: 18, color: AppColors.textSecondary),
+        Icon(icon, size: 16, color: AppColors.textSecondary),
+        const SizedBox(width: 8),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(label, style: AppTextStyles.caption),
+              Text(value,
+                  style: AppTextStyles.caption.copyWith(
+                    color: AppColors.textPrimary,
+                    fontWeight: FontWeight.w700,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis),
+            ],
+          ),
         ),
-        const SizedBox(width: 12),
-        Expanded(child: Text(label, style: AppTextStyles.caption)),
-        Text(value, style: AppTextStyles.body.copyWith(fontWeight: FontWeight.w700)),
       ],
     );
   }
 }
 
-class _NotasTab extends ConsumerWidget {
-  const _NotasTab({required this.studentId});
-  final String studentId;
+class _GradesTab extends ConsumerStatefulWidget {
+  const _GradesTab({required this.studentId});
+
+  final int studentId;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final gradesAsync = ref.watch(gradesForStudentProvider(studentId));
-    return gradesAsync.when(
-      data: (grades) => ListView(
-        padding: const EdgeInsets.fromLTRB(20, 20, 20, 32),
-        children: [
-          SectionCard(
-            child: Column(
-              children: [
-                for (int i = 0; i < grades.length; i++) ...[
-                  _GradeBar(grade: grades[i]),
-                  if (i != grades.length - 1) const SizedBox(height: 16),
-                ],
-                if (grades.isEmpty) Text('Sin notas registradas.', style: AppTextStyles.bodyMuted),
-              ],
-            ),
-          ),
-        ],
-      ),
-      loading: () => const Center(child: CircularProgressIndicator()),
-      error: (_, _) => const Center(child: Text('No se pudieron cargar las notas.')),
-    );
-  }
+  ConsumerState<_GradesTab> createState() => _GradesTabState();
 }
 
-class _GradeBar extends StatelessWidget {
-  const _GradeBar({required this.grade});
-  final Grade grade;
+class _GradesTabState extends ConsumerState<_GradesTab> {
+  int? _period;
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(grade.subject, style: AppTextStyles.body.copyWith(fontWeight: FontWeight.w700)),
-            Text(grade.score.toStringAsFixed(1),
-                style: AppTextStyles.body.copyWith(color: grade.color, fontWeight: FontWeight.w800)),
-          ],
-        ),
-        const SizedBox(height: 8),
-        ClipRRect(
-          borderRadius: BorderRadius.circular(6),
-          child: LinearProgressIndicator(
-            value: (grade.score / 10).clamp(0, 1),
-            minHeight: 8,
-            backgroundColor: AppColors.divider,
-            valueColor: AlwaysStoppedAnimation(grade.color),
+    _period ??= ref.read(currentPeriodProvider);
+    final args = (studentId: widget.studentId, period: _period);
+    final gradesAsync = ref.watch(gradesForStudentProvider(args));
+
+    return RefreshIndicator(
+      onRefresh: () async => ref.invalidate(gradesForStudentProvider(args)),
+      child: ListView(
+        padding: const EdgeInsets.fromLTRB(20, 16, 20, 32),
+        children: [
+          PeriodSelector(
+            periods: AcademicPeriods.all,
+            selected: _period!,
+            onChanged: (p) => setState(() => _period = p),
           ),
-        ),
-      ],
+          const SizedBox(height: 18),
+          gradesAsync.when(
+            loading: () => const LoadingView(),
+            error: (error, _) => ErrorView(
+              error: error,
+              onRetry: () => ref.invalidate(gradesForStudentProvider(args)),
+            ),
+            data: (grades) {
+              if (grades.isEmpty) {
+                return EmptyState(
+                  icon: Icons.bar_chart_rounded,
+                  title: 'Sin notas',
+                  message: 'No hay notas registradas en el periodo ${_period!}.',
+                );
+              }
+              final average = GradesCard.overallAverage(grades);
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SectionCard(
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text('Promedio', style: AppTextStyles.caption),
+                              Text(
+                                average.toStringAsFixed(1),
+                                style: AppTextStyles.h1.copyWith(
+                                  color: average >= 3.0
+                                      ? AppColors.tealDark
+                                      : AppColors.pink,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Text(AcademicPeriods.labelOf(_period!),
+                            style: AppTextStyles.bodyMuted),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  GradesCard(grades: grades),
+                ],
+              );
+            },
+          ),
+        ],
+      ),
     );
   }
 }
 
-class _AsistenciaTab extends ConsumerWidget {
-  const _AsistenciaTab({required this.studentId});
-  final String studentId;
+class _AttendanceTab extends ConsumerWidget {
+  const _AttendanceTab({required this.studentId});
+
+  final int studentId;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final attendanceAsync = ref.watch(attendanceForStudentProvider(studentId));
-    return attendanceAsync.when(
-      data: (attendance) {
-        if (attendance == null) {
-          return Center(child: Text('Sin datos de asistencia.', style: AppTextStyles.bodyMuted));
-        }
-        return ListView(
-          padding: const EdgeInsets.fromLTRB(20, 20, 20, 32),
-          children: [
-            SectionCard(
-              child: Column(
-                children: [
-                  Text('${attendance.percent}%',
-                      style: AppTextStyles.h1.copyWith(color: AppColors.tealDark, fontSize: 34)),
-                  Text('Asistencia general', style: AppTextStyles.bodyMuted),
-                  const SizedBox(height: 20),
-                  Row(
-                    children: [
-                      Expanded(
-                          child: _AttendanceStat(
-                              label: 'Presentes', value: '${attendance.present}', color: AppColors.tealDark)),
-                      Expanded(
-                          child: _AttendanceStat(
-                              label: 'Ausentes', value: '${attendance.absent}', color: AppColors.pink)),
-                      Expanded(
-                          child: _AttendanceStat(
-                              label: 'Tardanzas', value: '${attendance.late}', color: AppColors.orange)),
-                    ],
-                  ),
-                ],
-              ),
+    final summaryAsync = ref.watch(attendanceSummaryProvider(studentId));
+
+    return RefreshIndicator(
+      onRefresh: () async => ref.invalidate(attendanceSummaryProvider(studentId)),
+      child: ListView(
+        padding: const EdgeInsets.fromLTRB(20, 16, 20, 32),
+        children: [
+          summaryAsync.when(
+            loading: () => const LoadingView(),
+            error: (error, _) => ErrorView(
+              error: error,
+              onRetry: () => ref.invalidate(attendanceSummaryProvider(studentId)),
             ),
-          ],
-        );
-      },
-      loading: () => const Center(child: CircularProgressIndicator()),
-      error: (_, _) => const Center(child: Text('No se pudo cargar la asistencia.')),
+            data: (summary) {
+              if (summary.total == 0) {
+                return const EmptyState(
+                  icon: Icons.fact_check_outlined,
+                  title: 'Sin registros',
+                  message: 'Todavía no hay asistencia registrada.',
+                );
+              }
+              return SectionCard(
+                child: Column(
+                  children: [
+                    AttendanceDonut(percent: summary.percent),
+                    const SizedBox(height: 18),
+                    Row(
+                      children: [
+                        _Metric(
+                            label: 'Presente',
+                            value: summary.present,
+                            color: AppColors.tealDark),
+                        _Metric(
+                            label: 'Tarde', value: summary.late, color: AppColors.orange),
+                        _Metric(
+                            label: 'Ausente',
+                            value: summary.absent,
+                            color: AppColors.pink),
+                        _Metric(
+                            label: 'Excusa',
+                            value: summary.excused,
+                            color: AppColors.blue),
+                      ],
+                    ),
+                    const SizedBox(height: 8),
+                    Text('Sobre los últimos ${summary.total} registros',
+                        style: AppTextStyles.caption),
+                  ],
+                ),
+              );
+            },
+          ),
+        ],
+      ),
     );
   }
 }
 
-class _AttendanceStat extends StatelessWidget {
-  const _AttendanceStat({required this.label, required this.value, required this.color});
+class _Metric extends StatelessWidget {
+  const _Metric({required this.label, required this.value, required this.color});
+
   final String label;
-  final String value;
+  final int value;
   final Color color;
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Text(value, style: AppTextStyles.h2.copyWith(color: color)),
-        Text(label, style: AppTextStyles.caption),
-      ],
+    return Expanded(
+      child: Column(
+        children: [
+          Text('$value', style: AppTextStyles.h3.copyWith(color: color)),
+          Text(label, style: AppTextStyles.caption),
+        ],
+      ),
     );
   }
 }
 
 class _NovedadesTab extends ConsumerWidget {
   const _NovedadesTab({required this.studentId});
-  final String studentId;
+
+  final int studentId;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final novedadesAsync = ref.watch(novedadesForStudentProvider(studentId));
-    return novedadesAsync.when(
-      data: (novedades) {
-        if (novedades.isEmpty) {
-          return Center(child: Text('Sin novedades registradas.', style: AppTextStyles.bodyMuted));
-        }
-        return ListView.separated(
-          padding: const EdgeInsets.fromLTRB(20, 20, 20, 32),
-          itemCount: novedades.length,
-          separatorBuilder: (_, _) => const SizedBox(height: 12),
-          itemBuilder: (context, index) {
-            final n = novedades[index];
-            final dotColor = switch (n.severity) {
-              NovedadSeverity.high => AppColors.pink,
-              NovedadSeverity.medium => AppColors.orange,
-              NovedadSeverity.low => AppColors.blue,
-            };
-            return SectionCard(
-              child: Row(
-                children: [
-                  Container(width: 8, height: 8, decoration: BoxDecoration(color: dotColor, shape: BoxShape.circle)),
-                  const SizedBox(width: 12),
-                  Expanded(child: Text(n.title, style: AppTextStyles.body.copyWith(fontWeight: FontWeight.w600))),
-                  Text(n.timeAgo, style: AppTextStyles.caption),
-                ],
+
+    return RefreshIndicator(
+      onRefresh: () async => ref.invalidate(novedadesForStudentProvider(studentId)),
+      child: novedadesAsync.when(
+        loading: () => const LoadingView(),
+        error: (error, _) => ListView(children: [
+          ErrorView(
+            error: error,
+            onRetry: () => ref.invalidate(novedadesForStudentProvider(studentId)),
+          ),
+        ]),
+        data: (novedades) {
+          if (novedades.isEmpty) {
+            return ListView(children: const [
+              EmptyState(
+                icon: Icons.check_circle_outline_rounded,
+                title: 'Sin novedades',
+                message: 'Este estudiante no tiene novedades registradas.',
               ),
-            );
-          },
-        );
-      },
-      loading: () => const Center(child: CircularProgressIndicator()),
-      error: (_, _) => const Center(child: Text('No se pudieron cargar las novedades.')),
+            ]);
+          }
+          return ListView.separated(
+            padding: const EdgeInsets.fromLTRB(20, 16, 20, 32),
+            itemCount: novedades.length,
+            separatorBuilder: (_, _) => const SizedBox(height: 12),
+            itemBuilder: (context, index) =>
+                NovedadCard(novedad: novedades[index], showStudent: false),
+          );
+        },
+      ),
     );
   }
 }

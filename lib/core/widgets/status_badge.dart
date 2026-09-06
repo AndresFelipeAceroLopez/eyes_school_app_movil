@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../models/role.dart';
-import '../../models/user.dart';
+import '../../domain/entities/role.dart';
+import '../../domain/entities/app_user.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_text_styles.dart';
 

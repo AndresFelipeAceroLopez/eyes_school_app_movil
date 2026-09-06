@@ -5,36 +5,42 @@ import 'package:go_router/go_router.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_text_styles.dart';
 import '../../core/utils/formatters.dart';
+import '../../core/widgets/async_states.dart';
 import '../../core/widgets/avatar_circle.dart';
 import '../../core/widgets/gradient_header.dart';
 import '../../core/widgets/quick_action_tile.dart';
 import '../../core/widgets/section_header.dart';
 import '../../core/widgets/stat_pill.dart';
-import '../../models/class_session.dart';
-import '../../models/novedad.dart';
+import '../../domain/entities/novedad.dart';
+import '../../domain/entities/class_session.dart';
 import '../../providers/data_providers.dart';
 import '../../providers/session_provider.dart';
-import 'class_roster_screen.dart';
 import 'novedad_form_screen.dart';
-import 'teacher_classes_screen.dart';
-import 'teacher_grades_screen.dart';
 import 'teacher_novedades_screen.dart';
+import '../../domain/value_objects/severity.dart';
+import '../../core/theme/domain_styles.dart';
 
 class TeacherHomeScreen extends ConsumerWidget {
   const TeacherHomeScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final user = ref.watch(sessionProvider).value;
-    final classesAsync = ref.watch(teacherClassesProvider);
-    final novedadesAsync = ref.watch(teacherPendingNovedadesProvider);
+    final session = ref.watch(currentSessionProvider);
+    final user = session?.user;
+    final dashboardAsync = ref.watch(teacherDashboardProvider);
+    final classesAsync = ref.watch(teacherTodayClassesProvider);
+    final novedadesAsync =
+        ref.watch(teacherNovedadesProvider(NovedadStatus.pending));
+    final classCatalog = ref.watch(teacherClassesProvider).valueOrNull ?? const [];
 
     return Scaffold(
       backgroundColor: AppColors.background,
       body: RefreshIndicator(
         onRefresh: () async {
+          ref.invalidate(teacherDashboardProvider);
+          ref.invalidate(teacherWeeklyScheduleProvider);
           ref.invalidate(teacherClassesProvider);
-          ref.invalidate(teacherPendingNovedadesProvider);
+          ref.invalidate(teacherNovedadesProvider);
         },
         child: ListView(
           padding: EdgeInsets.zero,
@@ -52,36 +58,66 @@ class TeacherHomeScreen extends ConsumerWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Docente · ${user?.subject ?? ''}',
+                              'Docente${user?.subject == null ? '' : ' · ${user!.subject}'}',
                               style: AppTextStyles.statLabel,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
                             ),
                             Text(
-                              'Hola, ${user?.name ?? ''}',
-                              style: AppTextStyles.h1.copyWith(color: Colors.white, fontSize: 22),
+                              'Hola, ${user?.firstName ?? ''}',
+                              style: AppTextStyles.h1
+                                  .copyWith(color: Colors.white, fontSize: 22),
                             ),
                           ],
                         ),
                       ),
-                      _NotificationBell(onTap: () => _showComingSoon(context)),
+                      _NotificationBell(onTap: () => _showNoNotifications(context)),
                     ],
                   ),
                   const SizedBox(height: 22),
-                  classesAsync.when(
-                    data: (classes) => Row(
+                  // The four KPIs come straight from `/dashboard/docente`;
+                  // only three fit in the header, so the fourth (grades
+                  // registered today) rides along with the quick actions.
+                  dashboardAsync.when(
+                    data: (data) => Row(
                       children: [
-                        StatPill(value: '${classes.length}', label: 'Clases hoy'),
+                        StatPill(
+                          value: '${classesAsync.valueOrNull?.length ?? 0}',
+                          label: 'Clases hoy',
+                        ),
                         const SizedBox(width: 10),
-                        const StatPill(value: '72', label: 'Estudiantes'),
+                        StatPill(
+                          value: '${data.totalStudents}',
+                          label: 'Estudiantes',
+                        ),
                         const SizedBox(width: 10),
-                        const StatPill(value: '96%', label: 'Asistencia', valueColor: AppColors.teal),
+                        StatPill(
+                          value: '${data.attendanceToday}',
+                          label: 'Asistencias hoy',
+                          valueColor: AppColors.teal,
+                        ),
                       ],
                     ),
                     loading: () => const _HeaderStatsSkeleton(),
-                    error: (_, _) => const SizedBox.shrink(),
+                    error: (_, _) => Row(
+                      children: [
+                        StatPill(
+                          value: '${classesAsync.valueOrNull?.length ?? 0}',
+                          label: 'Clases hoy',
+                        ),
+                        const SizedBox(width: 10),
+                        StatPill(value: '${classCatalog.length}', label: 'Asignaciones'),
+                      ],
+                    ),
                   ),
                 ],
               ),
             ),
+            if (session?.bootstrapWarning != null)
+              Padding(
+                padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
+                child: _Warning(message: session!.bootstrapWarning!),
+              ),
             Padding(
               padding: const EdgeInsets.fromLTRB(20, 24, 20, 12),
               child: Text('Acciones rápidas', style: AppTextStyles.h2),
@@ -101,31 +137,30 @@ class TeacherHomeScreen extends ConsumerWidget {
                     label: 'Escanear',
                     iconBg: AppColors.statusActiveBg,
                     iconColor: AppColors.tealDark,
-                    onTap: () => context.push('/teacher/qr'),
+                    onTap: () => context.go('/teacher/qr'),
                   ),
                   QuickActionTile(
                     icon: Icons.edit_note_rounded,
                     label: 'Nota',
                     iconBg: AppColors.roleTeacherBg,
                     iconColor: AppColors.roleTeacher,
-                    onTap: () => Navigator.of(context)
-                        .push(MaterialPageRoute(builder: (_) => const TeacherGradesScreen())),
+                    onTap: () => context.go('/teacher/notes'),
                   ),
                   QuickActionTile(
                     icon: Icons.note_add_rounded,
                     label: 'Novedad',
                     iconBg: const Color(0xFFFCEEDD),
                     iconColor: AppColors.orange,
-                    onTap: () => Navigator.of(context)
-                        .push(MaterialPageRoute(builder: (_) => const NovedadFormScreen())),
+                    onTap: () => Navigator.of(context).push(
+                      MaterialPageRoute<void>(builder: (_) => const NovedadFormScreen()),
+                    ),
                   ),
                   QuickActionTile(
                     icon: Icons.fact_check_rounded,
                     label: 'Asistencia',
                     iconBg: AppColors.roleStudentBg,
                     iconColor: AppColors.roleStudent,
-                    onTap: () => Navigator.of(context)
-                        .push(MaterialPageRoute(builder: (_) => const TeacherClassesScreen())),
+                    onTap: () => context.go('/teacher/classes'),
                   ),
                 ],
               ),
@@ -136,34 +171,40 @@ class TeacherHomeScreen extends ConsumerWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text('Clases de hoy', style: AppTextStyles.h2),
-                  Text(Formatters.todayLong(DateTime.now()), style: AppTextStyles.bodyMuted),
+                  Text(Formatters.todayLong(DateTime.now()),
+                      style: AppTextStyles.bodyMuted),
                 ],
               ),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: classesAsync.when(
-                data: (classes) => Column(
-                  children: classes
-                      .map((c) => Padding(
-                            padding: const EdgeInsets.only(bottom: 14),
-                            child: _ClassCard(
-                              session: c,
-                              onPasarLista: () => Navigator.of(context).push(MaterialPageRoute(
-                                builder: (_) => ClassRosterScreen(
-                                  group: c.group.split(' · ').first,
-                                  subject: c.subject,
-                                ),
-                              )),
-                            ),
-                          ))
-                      .toList(),
+                data: (classes) {
+                  if (classes.isEmpty) {
+                    return const EmptyState(
+                      icon: Icons.event_available_rounded,
+                      title: 'Sin clases hoy',
+                      message: 'No tienes bloques programados para hoy.',
+                    );
+                  }
+                  return Column(
+                    children: classes
+                        .map((c) => Padding(
+                              padding: const EdgeInsets.only(bottom: 14),
+                              child: _ClassCard(
+                                session: c,
+                                onPasarLista: () => _openRoster(context, c, classCatalog),
+                              ),
+                            ))
+                        .toList(),
+                  );
+                },
+                loading: () => const LoadingView(),
+                error: (error, _) => ErrorView(
+                  error: error,
+                  compact: true,
+                  onRetry: () => ref.invalidate(teacherWeeklyScheduleProvider),
                 ),
-                loading: () => const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 24),
-                  child: Center(child: CircularProgressIndicator()),
-                ),
-                error: (_, _) => Text('No se pudieron cargar las clases.', style: AppTextStyles.bodyMuted),
               ),
             ),
             Padding(
@@ -171,27 +212,42 @@ class TeacherHomeScreen extends ConsumerWidget {
               child: SectionHeader(
                 title: 'Novedades pendientes',
                 trailingText: 'Ver todo',
-                onTrailingTap: () => Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (_) => const TeacherNovedadesScreen())),
+                onTrailingTap: () => Navigator.of(context).push(
+                  MaterialPageRoute<void>(builder: (_) => const TeacherNovedadesScreen()),
+                ),
               ),
             ),
             Padding(
               padding: const EdgeInsets.fromLTRB(20, 0, 20, 24),
               child: novedadesAsync.when(
-                data: (novedades) => SectionCard(
-                  padding: EdgeInsets.zero,
-                  child: Column(
-                    children: [
-                      for (int i = 0; i < novedades.length; i++)
-                        _NovedadRow(novedad: novedades[i], showDivider: i != novedades.length - 1),
-                    ],
-                  ),
+                data: (novedades) {
+                  if (novedades.isEmpty) {
+                    return const EmptyState(
+                      icon: Icons.check_circle_outline_rounded,
+                      title: 'Todo al día',
+                      message: 'No hay novedades pendientes.',
+                    );
+                  }
+                  final visible = novedades.take(4).toList();
+                  return SectionCard(
+                    padding: EdgeInsets.zero,
+                    child: Column(
+                      children: [
+                        for (var i = 0; i < visible.length; i++)
+                          _NovedadRow(
+                            novedad: visible[i],
+                            showDivider: i != visible.length - 1,
+                          ),
+                      ],
+                    ),
+                  );
+                },
+                loading: () => const LoadingView(),
+                error: (error, _) => ErrorView(
+                  error: error,
+                  compact: true,
+                  onRetry: () => ref.invalidate(teacherNovedadesProvider),
                 ),
-                loading: () => const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 24),
-                  child: Center(child: CircularProgressIndicator()),
-                ),
-                error: (_, _) => Text('No se pudieron cargar las novedades.', style: AppTextStyles.bodyMuted),
               ),
             ),
           ],
@@ -200,11 +256,47 @@ class TeacherHomeScreen extends ConsumerWidget {
     );
   }
 
-  void _showComingSoon(BuildContext context) {
+  /// A schedule block knows its course and subject, so the matching assignment
+  /// is what tells the roll-call screen which class it is taking.
+  void _openRoster(BuildContext context, ClassSession session, List<dynamic> classes) {
+    for (final item in classes) {
+      if (item.courseId == session.courseId && item.subjectId == session.subjectId) {
+        context.go('/teacher/classes/${item.assignmentId}/asistencia');
+        return;
+      }
+    }
+    context.go('/teacher/classes');
+  }
+
+  void _showNoNotifications(BuildContext context) {
     ScaffoldMessenger.of(context)
         .showSnackBar(const SnackBar(content: Text('No tienes notificaciones nuevas.')));
   }
+}
 
+class _Warning extends StatelessWidget {
+  const _Warning({required this.message});
+
+  final String message;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(14),
+      decoration: BoxDecoration(
+        color: AppColors.orange.withValues(alpha: 0.12),
+        borderRadius: BorderRadius.circular(16),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Icon(Icons.warning_amber_rounded, size: 20, color: AppColors.orange),
+          const SizedBox(width: 10),
+          Expanded(child: Text(message, style: AppTextStyles.caption)),
+        ],
+      ),
+    );
+  }
 }
 
 class _HeaderStatsSkeleton extends StatelessWidget {
@@ -232,6 +324,7 @@ class _HeaderStatsSkeleton extends StatelessWidget {
 
 class _NotificationBell extends StatelessWidget {
   const _NotificationBell({required this.onTap});
+
   final VoidCallback onTap;
 
   @override
@@ -242,7 +335,10 @@ class _NotificationBell extends StatelessWidget {
       child: Container(
         width: 44,
         height: 44,
-        decoration: BoxDecoration(color: Colors.white.withValues(alpha: 0.08), shape: BoxShape.circle),
+        decoration: BoxDecoration(
+          color: Colors.white.withValues(alpha: 0.08),
+          shape: BoxShape.circle,
+        ),
         child: const Icon(Icons.notifications_none_rounded, color: Colors.white),
       ),
     );
@@ -258,60 +354,67 @@ class _ClassCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final inCourse = session.status == ClassStatus.inCourse;
-    return Container(
-      decoration: BoxDecoration(
-        color: AppColors.surface,
-        borderRadius: BorderRadius.circular(20),
-        border: inCourse ? const Border(left: BorderSide(color: AppColors.teal, width: 4)) : null,
-        boxShadow: const [
-          BoxShadow(color: AppColors.cardShadow, blurRadius: 20, offset: Offset(0, 6)),
-        ],
-      ),
-      padding: const EdgeInsets.all(18),
-      child: Row(
-        children: [
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    Text(
-                      session.time,
-                      style: AppTextStyles.body.copyWith(
-                        fontWeight: FontWeight.w700,
-                        color: inCourse ? AppColors.tealDark : AppColors.textSecondary,
+    return InkWell(
+      borderRadius: BorderRadius.circular(20),
+      onTap: onPasarLista,
+      child: Container(
+        decoration: BoxDecoration(
+          color: AppColors.surface,
+          borderRadius: BorderRadius.circular(20),
+          border: inCourse
+              ? const Border(left: BorderSide(color: AppColors.teal, width: 4))
+              : null,
+          boxShadow: const [
+            BoxShadow(color: AppColors.cardShadow, blurRadius: 20, offset: Offset(0, 6)),
+          ],
+        ),
+        padding: const EdgeInsets.all(18),
+        child: Row(
+          children: [
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Text(
+                        session.time,
+                        style: AppTextStyles.body.copyWith(
+                          fontWeight: FontWeight.w700,
+                          color: inCourse ? AppColors.tealDark : AppColors.textSecondary,
+                        ),
                       ),
-                    ),
-                    if (inCourse) ...[
-                      const SizedBox(width: 8),
-                      Text('· En curso',
-                          style: AppTextStyles.caption
-                              .copyWith(color: AppColors.tealDark, fontWeight: FontWeight.w700)),
+                      if (inCourse) ...[
+                        const SizedBox(width: 8),
+                        Text('· En curso',
+                            style: AppTextStyles.caption.copyWith(
+                                color: AppColors.tealDark, fontWeight: FontWeight.w700)),
+                      ],
                     ],
-                  ],
-                ),
-                const SizedBox(height: 4),
-                Text(session.subject, style: AppTextStyles.h3),
-                const SizedBox(height: 2),
-                Text(session.group, style: AppTextStyles.caption),
-              ],
-            ),
-          ),
-          if (inCourse)
-            TextButton(
-              style: TextButton.styleFrom(
-                backgroundColor: AppColors.statusActiveBg,
-                foregroundColor: AppColors.tealDark,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(session.subject, style: AppTextStyles.h3),
+                  const SizedBox(height: 2),
+                  Text(session.group, style: AppTextStyles.caption),
+                ],
               ),
-              onPressed: onPasarLista,
-              child: const Text('Pasar lista', style: TextStyle(fontWeight: FontWeight.w700)),
-            )
-          else
-            const Icon(Icons.chevron_right_rounded, color: AppColors.textSecondary),
-        ],
+            ),
+            if (inCourse)
+              TextButton(
+                style: TextButton.styleFrom(
+                  backgroundColor: AppColors.statusActiveBg,
+                  foregroundColor: AppColors.tealDark,
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                ),
+                onPressed: onPasarLista,
+                child: const Text('Pasar lista',
+                    style: TextStyle(fontWeight: FontWeight.w700)),
+              )
+            else
+              const Icon(Icons.chevron_right_rounded, color: AppColors.textSecondary),
+          ],
+        ),
       ),
     );
   }
@@ -325,11 +428,6 @@ class _NovedadRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final dotColor = switch (novedad.severity) {
-      NovedadSeverity.high => AppColors.pink,
-      NovedadSeverity.medium => AppColors.orange,
-      NovedadSeverity.low => AppColors.blue,
-    };
     return Column(
       children: [
         Padding(
@@ -343,7 +441,9 @@ class _NovedadRow extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(novedad.studentName,
-                        style: AppTextStyles.body.copyWith(fontWeight: FontWeight.w700)),
+                        style: AppTextStyles.body.copyWith(fontWeight: FontWeight.w700),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis),
                     Text(novedad.title, style: AppTextStyles.caption),
                   ],
                 ),
@@ -354,16 +454,20 @@ class _NovedadRow extends StatelessWidget {
                   Container(
                     width: 8,
                     height: 8,
-                    decoration: BoxDecoration(color: dotColor, shape: BoxShape.circle),
+                    decoration: BoxDecoration(
+                      color: novedad.severity.color,
+                      shape: BoxShape.circle,
+                    ),
                   ),
                   const SizedBox(height: 6),
-                  Text(novedad.timeAgo, style: AppTextStyles.caption),
+                  Text(Formatters.timeAgo(novedad.date), style: AppTextStyles.caption),
                 ],
               ),
             ],
           ),
         ),
-        if (showDivider) const Divider(height: 1, color: AppColors.divider, indent: 16, endIndent: 16),
+        if (showDivider)
+          const Divider(height: 1, color: AppColors.divider, indent: 16, endIndent: 16),
       ],
     );
   }

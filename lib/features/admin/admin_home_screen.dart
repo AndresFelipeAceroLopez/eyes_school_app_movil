@@ -4,35 +4,42 @@ import 'package:go_router/go_router.dart';
 
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_text_styles.dart';
-import '../../core/widgets/attendance_donut.dart';
+import '../../core/utils/formatters.dart';
+import '../../core/widgets/async_states.dart';
 import '../../core/widgets/avatar_circle.dart';
 import '../../core/widgets/gradient_header.dart';
+import '../../core/widgets/quick_action_tile.dart';
 import '../../core/widgets/section_header.dart';
 import '../../core/widgets/stat_pill.dart';
-import '../../data/mock/mock_seed.dart';
+import '../../domain/entities/attendance_record.dart';
 import '../../providers/data_providers.dart';
+import '../../providers/repository_providers.dart';
 import '../../providers/session_provider.dart';
-import 'admin_activity_screen.dart';
-import 'management_screen.dart';
-import 'reports_screen.dart';
-import 'schedules_screen.dart';
-import 'subjects_screen.dart';
+import '../../domain/value_objects/attendance.dart';
 
+/// Admin home.
+///
+/// The mobile admin is deliberately a hallway tool, not a control panel: the
+/// API has no `/dashboard/admin` and the heavy management screens live in the
+/// web panel. What this screen answers is "how is today's attendance going and
+/// is anything still unsynced".
 class AdminHomeScreen extends ConsumerWidget {
   const AdminHomeScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final user = ref.watch(sessionProvider).value;
-    final attendanceAsync = ref.watch(adminAttendanceTodayProvider);
-    final activityAsync = ref.watch(adminRecentActivityProvider);
+    final user = ref.watch(currentUserProvider);
+    final todayAsync = ref.watch(todayAttendanceProvider(null));
+    final queue = ref.watch(attendanceQueueProvider);
+    final online = ref.watch(connectivityProvider).valueOrNull ?? true;
+    final catalog = ref.watch(studentCatalogProvider);
 
     return Scaffold(
       backgroundColor: AppColors.background,
       body: RefreshIndicator(
         onRefresh: () async {
-          ref.invalidate(adminAttendanceTodayProvider);
-          ref.invalidate(adminRecentActivityProvider);
+          ref.invalidate(todayAttendanceProvider);
+          await ref.read(attendanceRepositoryProvider).warmUp(force: true);
         },
         child: ListView(
           padding: EdgeInsets.zero,
@@ -49,21 +56,23 @@ class AdminHomeScreen extends ConsumerWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('Administrador · ${user?.institution ?? ''}',
-                                style: AppTextStyles.statLabel),
                             Text(
-                              'Hola, ${user?.name ?? ''}',
-                              style: AppTextStyles.h1.copyWith(color: Colors.white, fontSize: 22),
+                              'Administrador${user?.subject == null ? '' : ' · ${user!.subject}'}',
+                              style: AppTextStyles.statLabel,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            Text(
+                              'Hola, ${user?.firstName ?? ''}',
+                              style: AppTextStyles.h1
+                                  .copyWith(color: Colors.white, fontSize: 22),
                             ),
                           ],
                         ),
                       ),
-                      Container(
-                        width: 44,
-                        height: 44,
-                        decoration:
-                            BoxDecoration(color: Colors.white.withValues(alpha: 0.08), shape: BoxShape.circle),
-                        child: const Icon(Icons.notifications_none_rounded, color: Colors.white),
+                      _SyncButton(
+                        pending: queue.pendingCount,
+                        onTap: () => context.push('/admin/qr/pendientes'),
                       ),
                     ],
                   ),
@@ -73,239 +82,105 @@ class AdminHomeScreen extends ConsumerWidget {
                       Container(width: 3, height: 16, color: AppColors.teal),
                       const SizedBox(width: 8),
                       Text('EYESCHOOL',
-                          style: AppTextStyles.statLabel.copyWith(letterSpacing: 2, fontWeight: FontWeight.w700)),
+                          style: AppTextStyles.statLabel
+                              .copyWith(letterSpacing: 2, fontWeight: FontWeight.w700)),
                     ],
                   ),
                   const SizedBox(height: 18),
-                  Row(
-                    children: [
-                      StatPill(value: '${MockSeed.adminStudentCount}', label: 'Estudiantes'),
-                      const SizedBox(width: 10),
-                      StatPill(value: '${MockSeed.adminTeacherCount}', label: 'Docentes'),
-                      const SizedBox(width: 10),
-                      StatPill(
-                        value: '${MockSeed.adminAlertCount}',
-                        label: 'Alertas',
-                        valueColor: AppColors.pink,
-                      ),
-                    ],
+                  // Today's counters are computed from `GET /asistencia?fecha=hoy`;
+                  // there is no institutional dashboard endpoint to ask.
+                  todayAsync.when(
+                    loading: () => const _StatsSkeleton(),
+                    error: (_, _) => Row(
+                      children: [
+                        StatPill(value: '${catalog.size}', label: 'Estudiantes'),
+                        const SizedBox(width: 10),
+                        StatPill(
+                          value: '${queue.pendingCount}',
+                          label: 'Por sincronizar',
+                          valueColor: AppColors.pink,
+                        ),
+                      ],
+                    ),
+                    data: (rows) {
+                      final entries = rows
+                          .where((r) => r.kind == AttendanceKind.entry)
+                          .length;
+                      final late =
+                          rows.where((r) => r.state == AttendanceState.late).length;
+                      return Row(
+                        children: [
+                          StatPill(value: '${rows.length}', label: 'Registros hoy'),
+                          const SizedBox(width: 10),
+                          StatPill(value: '$entries', label: 'Entradas'),
+                          const SizedBox(width: 10),
+                          StatPill(
+                            value: '$late',
+                            label: 'Tardanzas',
+                            valueColor: late > 0 ? AppColors.orange : AppColors.teal,
+                          ),
+                        ],
+                      );
+                    },
                   ),
                 ],
               ),
             ),
+            if (!online)
+              const Padding(
+                padding: EdgeInsets.fromLTRB(20, 16, 20, 0),
+                child: OfflineBanner(),
+              ),
+            if (queue.pendingCount > 0)
+              Padding(
+                padding: const EdgeInsets.fromLTRB(20, 16, 20, 0),
+                child: _PendingBanner(
+                  count: queue.pendingCount,
+                  failed: queue.failed.length,
+                  onTap: () => context.push('/admin/qr/pendientes'),
+                ),
+              ),
             Padding(
               padding: const EdgeInsets.fromLTRB(20, 24, 20, 12),
-              child: SectionHeader(
-                title: 'Indicadores',
-                trailingText: 'Detalles',
-                onTrailingTap: () =>
-                    Navigator.of(context).push(MaterialPageRoute(builder: (_) => const ReportsScreen())),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: attendanceAsync.when(
-                data: (attendance) => Row(
-                  children: [
-                    Expanded(
-                      child: _IndicatorCard(
-                        icon: Icons.trending_up_rounded,
-                        iconBg: AppColors.statusActiveBg,
-                        iconColor: AppColors.tealDark,
-                        value: '${attendance.percent}%',
-                        label: 'Asistencia hoy',
-                        footer: '+1.3% vs ayer',
-                        footerColor: AppColors.tealDark,
-                      ),
-                    ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: _IndicatorCard(
-                        icon: Icons.description_rounded,
-                        iconBg: AppColors.roleTeacherBg,
-                        iconColor: AppColors.roleTeacher,
-                        value: '${MockSeed.adminGradesRegistered}',
-                        label: 'Notas registradas',
-                        footer: 'Este período',
-                        footerColor: AppColors.textSecondary,
-                      ),
-                    ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: _IndicatorCard(
-                        icon: Icons.warning_amber_rounded,
-                        iconBg: const Color(0xFFFCEEDD),
-                        iconColor: AppColors.orange,
-                        value: '${MockSeed.adminIncidents}',
-                        label: 'Incidencias',
-                        footer: '${MockSeed.adminIncidentsUnresolved} sin resolver',
-                        footerColor: AppColors.orange,
-                      ),
-                    ),
-                  ],
-                ),
-                loading: () => const SizedBox(height: 110, child: Center(child: CircularProgressIndicator())),
-                error: (_, _) => const SizedBox.shrink(),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
-              child: attendanceAsync.when(
-                data: (attendance) => SectionCard(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text('Asistencia hoy', style: AppTextStyles.h3),
-                          Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                            decoration: BoxDecoration(
-                              color: AppColors.statusActiveBg,
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Container(
-                                  width: 6,
-                                  height: 6,
-                                  decoration:
-                                      const BoxDecoration(color: AppColors.tealDark, shape: BoxShape.circle),
-                                ),
-                                const SizedBox(width: 6),
-                                Text('En vivo',
-                                    style: AppTextStyles.caption
-                                        .copyWith(color: AppColors.tealDark, fontWeight: FontWeight.w700)),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                      Text('Actualizado hace 5 min', style: AppTextStyles.caption),
-                      const SizedBox(height: 16),
-                      Row(
-                        children: [
-                          AttendanceDonut(percent: attendance.percent),
-                          const SizedBox(width: 20),
-                          Expanded(
-                            child: Column(
-                              children: [
-                                _LegendRow(
-                                  color: AppColors.teal,
-                                  label: 'Presentes',
-                                  value: '${attendance.present}',
-                                ),
-                                const SizedBox(height: 10),
-                                _LegendRow(
-                                  color: AppColors.pink,
-                                  label: 'Ausentes',
-                                  value: '${attendance.absent}',
-                                ),
-                                const SizedBox(height: 10),
-                                _LegendRow(
-                                  color: AppColors.orange,
-                                  label: 'Tardanzas',
-                                  value: '${attendance.late}',
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 16),
-                      SizedBox(
-                        width: double.infinity,
-                        child: OutlinedButton.icon(
-                          style: OutlinedButton.styleFrom(
-                            foregroundColor: AppColors.textPrimary,
-                            side: const BorderSide(color: AppColors.divider),
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
-                            padding: const EdgeInsets.symmetric(vertical: 14),
-                          ),
-                          onPressed: () =>
-                              Navigator.of(context).push(MaterialPageRoute(builder: (_) => const ReportsScreen())),
-                          icon: const Icon(Icons.assignment_outlined, size: 18),
-                          label: const Text('Ver reporte completo'),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                loading: () => const SizedBox.shrink(),
-                error: (_, _) => const SizedBox.shrink(),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(20, 24, 20, 12),
-              child: SectionHeader(
-                title: 'Acceso rápido',
-                trailingText: 'Ver todo',
-                onTrailingTap: () =>
-                    Navigator.of(context).push(MaterialPageRoute(builder: (_) => const ManagementScreen())),
-              ),
+              child: Text('Acciones rápidas', style: AppTextStyles.h2),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: GridView.count(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
-                crossAxisCount: 3,
+                crossAxisCount: 4,
                 mainAxisSpacing: 12,
                 crossAxisSpacing: 12,
-                childAspectRatio: 1.0,
+                childAspectRatio: 0.78,
                 children: [
-                  _AccessTile(
-                    icon: Icons.people_alt_rounded,
-                    iconBg: AppColors.roleStudentBg,
-                    iconColor: AppColors.roleStudent,
-                    title: 'Usuarios',
-                    subtitle: '48 activos',
-                    onTap: () => context.push('/admin/management/users'),
-                  ),
-                  _AccessTile(
-                    icon: Icons.notifications_active_rounded,
-                    iconBg: const Color(0xFFFCEEDD),
-                    iconColor: AppColors.orange,
-                    title: 'Novedades',
-                    subtitle: '3 pendientes',
-                    onTap: () => context.go('/admin/news'),
-                  ),
-                  _AccessTile(
-                    icon: Icons.calendar_month_rounded,
-                    iconBg: AppColors.roleAdminBg,
+                  QuickActionTile(
+                    icon: Icons.qr_code_scanner_rounded,
+                    label: 'Escanear',
+                    iconBg: AppColors.statusActiveBg,
                     iconColor: AppColors.tealDark,
-                    title: 'Horarios',
-                    subtitle: 'Ver calendario',
-                    onTap: () =>
-                        Navigator.of(context).push(MaterialPageRoute(builder: (_) => const SchedulesScreen())),
+                    onTap: () => context.go('/admin/qr'),
                   ),
-                  _AccessTile(
-                    icon: Icons.menu_book_rounded,
+                  QuickActionTile(
+                    icon: Icons.groups_rounded,
+                    label: 'Masivo',
                     iconBg: AppColors.roleTeacherBg,
                     iconColor: AppColors.roleTeacher,
-                    title: 'Materias',
-                    subtitle: '18 materias',
-                    onTap: () =>
-                        Navigator.of(context).push(MaterialPageRoute(builder: (_) => const SubjectsScreen())),
+                    onTap: () => context.push('/admin/masivo'),
                   ),
-                  _AccessTile(
-                    icon: Icons.bar_chart_rounded,
+                  QuickActionTile(
+                    icon: Icons.fact_check_rounded,
+                    label: 'Registro',
                     iconBg: AppColors.roleStudentBg,
                     iconColor: AppColors.roleStudent,
-                    title: 'Reportes',
-                    subtitle: 'Generar reporte',
-                    onTap: () =>
-                        Navigator.of(context).push(MaterialPageRoute(builder: (_) => const ReportsScreen())),
+                    onTap: () => context.push('/admin/dia'),
                   ),
-                  _AccessTile(
-                    icon: Icons.settings_rounded,
-                    iconBg: const Color(0xFFF1F1F6),
-                    iconColor: AppColors.textSecondary,
-                    title: 'Configuración',
-                    subtitle: 'Sistema',
-                    onTap: () => context.go('/admin/profile'),
+                  QuickActionTile(
+                    icon: Icons.people_alt_rounded,
+                    label: 'Directorio',
+                    iconBg: const Color(0xFFFCEEDD),
+                    iconColor: AppColors.orange,
+                    onTap: () => context.go('/admin/management'),
                   ),
                 ],
               ),
@@ -313,62 +188,51 @@ class AdminHomeScreen extends ConsumerWidget {
             Padding(
               padding: const EdgeInsets.fromLTRB(20, 24, 20, 12),
               child: SectionHeader(
-                title: 'Actividad reciente',
+                title: 'Registro del día',
                 trailingText: 'Ver todo',
-                onTrailingTap: () =>
-                    Navigator.of(context).push(MaterialPageRoute(builder: (_) => const AdminActivityScreen())),
+                onTrailingTap: () => context.push('/admin/dia'),
               ),
             ),
             Padding(
               padding: const EdgeInsets.fromLTRB(20, 0, 20, 24),
-              child: activityAsync.when(
-                data: (activity) => SectionCard(
-                  padding: EdgeInsets.zero,
-                  child: Column(
-                    children: [
-                      for (int i = 0; i < activity.length; i++)
-                        Column(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(16),
-                              child: Row(
-                                children: [
-                                  Container(
-                                    width: 40,
-                                    height: 40,
-                                    decoration: BoxDecoration(
-                                      color: activity[i].iconBg,
-                                      borderRadius: BorderRadius.circular(12),
-                                    ),
-                                    child: Icon(activity[i].icon, size: 20, color: activity[i].iconColor),
-                                  ),
-                                  const SizedBox(width: 14),
-                                  Expanded(
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Text(activity[i].title,
-                                            style: AppTextStyles.body.copyWith(fontWeight: FontWeight.w700)),
-                                        Text(activity[i].subtitle, style: AppTextStyles.caption),
-                                      ],
-                                    ),
-                                  ),
-                                  Text(activity[i].timeAgo, style: AppTextStyles.caption),
-                                ],
-                              ),
-                            ),
-                            if (i != activity.length - 1)
-                              const Divider(height: 1, color: AppColors.divider, indent: 16, endIndent: 16),
-                          ],
-                        ),
-                    ],
-                  ),
+              child: todayAsync.when(
+                loading: () => const LoadingView(),
+                error: (error, _) => ErrorView(
+                  error: error,
+                  compact: true,
+                  onRetry: () => ref.invalidate(todayAttendanceProvider),
                 ),
-                loading: () => const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 24),
-                  child: Center(child: CircularProgressIndicator()),
-                ),
-                error: (_, _) => Text('No se pudo cargar la actividad.', style: AppTextStyles.bodyMuted),
+                data: (rows) {
+                  if (rows.isEmpty) {
+                    return const EmptyState(
+                      icon: Icons.qr_code_scanner_rounded,
+                      title: 'Sin registros hoy',
+                      message: 'Empieza a escanear para registrar la asistencia.',
+                    );
+                  }
+                  final recent = rows.reversed.take(5).toList();
+                  return SectionCard(
+                    padding: EdgeInsets.zero,
+                    child: Column(
+                      children: [
+                        for (var i = 0; i < recent.length; i++)
+                          _ScanRow(
+                            row: recent[i],
+                            name: catalog.byId(recent[i].studentId)?.displayName,
+                            showDivider: i != recent.length - 1,
+                          ),
+                      ],
+                    ),
+                  );
+                },
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(20, 0, 20, 32),
+              child: Text(
+                'Catálogo local: ${catalog.size} estudiantes'
+                '${catalog.refreshedAt == null ? '' : ' · actualizado ${Formatters.timeAgo(catalog.refreshedAt).toLowerCase()}'}',
+                style: AppTextStyles.caption,
               ),
             ),
           ],
@@ -378,118 +242,190 @@ class AdminHomeScreen extends ConsumerWidget {
   }
 }
 
-class _IndicatorCard extends StatelessWidget {
-  const _IndicatorCard({
-    required this.icon,
-    required this.iconBg,
-    required this.iconColor,
-    required this.value,
-    required this.label,
-    required this.footer,
-    required this.footerColor,
-  });
+class _SyncButton extends StatelessWidget {
+  const _SyncButton({required this.pending, required this.onTap});
 
-  final IconData icon;
-  final Color iconBg;
-  final Color iconColor;
-  final String value;
-  final String label;
-  final String footer;
-  final Color footerColor;
+  final int pending;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(14),
-      decoration: BoxDecoration(
-        color: AppColors.surface,
-        borderRadius: BorderRadius.circular(18),
-        boxShadow: const [
-          BoxShadow(color: AppColors.cardShadow, blurRadius: 20, offset: Offset(0, 6)),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+    return InkWell(
+      onTap: onTap,
+      customBorder: const CircleBorder(),
+      child: Stack(
+        clipBehavior: Clip.none,
         children: [
           Container(
-            width: 34,
-            height: 34,
-            decoration: BoxDecoration(color: iconBg, borderRadius: BorderRadius.circular(10)),
-            child: Icon(icon, size: 18, color: iconColor),
+            width: 44,
+            height: 44,
+            decoration: BoxDecoration(
+              color: Colors.white.withValues(alpha: 0.08),
+              shape: BoxShape.circle,
+            ),
+            child: const Icon(Icons.cloud_sync_rounded, color: Colors.white),
           ),
-          const SizedBox(height: 10),
-          Text(value, style: AppTextStyles.h2.copyWith(fontSize: 19)),
-          const SizedBox(height: 2),
-          Text(label, style: AppTextStyles.caption, maxLines: 2),
-          const SizedBox(height: 6),
-          Text(footer, style: AppTextStyles.caption.copyWith(color: footerColor, fontWeight: FontWeight.w700)),
+          if (pending > 0)
+            Positioned(
+              right: 0,
+              top: 0,
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                decoration: BoxDecoration(
+                  color: AppColors.pink,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Text(
+                  '$pending',
+                  style: AppTextStyles.caption.copyWith(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w800,
+                    fontSize: 11,
+                  ),
+                ),
+              ),
+            ),
         ],
       ),
     );
   }
 }
 
-class _LegendRow extends StatelessWidget {
-  const _LegendRow({required this.color, required this.label, required this.value});
+class _PendingBanner extends StatelessWidget {
+  const _PendingBanner({
+    required this.count,
+    required this.failed,
+    required this.onTap,
+  });
 
-  final Color color;
-  final String label;
-  final String value;
+  final int count;
+  final int failed;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
-    return Row(
+    final hasErrors = failed > 0;
+    final color = hasErrors ? AppColors.pink : AppColors.blue;
+    return InkWell(
+      borderRadius: BorderRadius.circular(16),
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.all(14),
+        decoration: BoxDecoration(
+          color: color.withValues(alpha: 0.10),
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: Row(
+          children: [
+            Icon(hasErrors ? Icons.error_outline_rounded : Icons.cloud_upload_rounded,
+                size: 20, color: color),
+            const SizedBox(width: 10),
+            Expanded(
+              child: Text(
+                hasErrors
+                    ? '$count registro(s) por sincronizar · $failed con error'
+                    : '$count registro(s) esperando envío',
+                style: AppTextStyles.caption.copyWith(
+                  color: AppColors.textPrimary,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ),
+            const Icon(Icons.chevron_right_rounded, color: AppColors.textSecondary),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _ScanRow extends StatelessWidget {
+  const _ScanRow({
+    required this.row,
+    required this.name,
+    required this.showDivider,
+  });
+
+  final AttendanceRecord row;
+  final String? name;
+  final bool showDivider;
+
+  @override
+  Widget build(BuildContext context) {
+    final label = (name == null || name!.isEmpty)
+        ? 'Estudiante ${row.studentId}'
+        : name!;
+    final color = switch (row.state) {
+      AttendanceState.present => AppColors.tealDark,
+      AttendanceState.late => AppColors.orange,
+      AttendanceState.excused => AppColors.blue,
+      _ => AppColors.pink,
+    };
+    return Column(
       children: [
-        Container(width: 10, height: 10, decoration: BoxDecoration(color: color, shape: BoxShape.circle)),
-        const SizedBox(width: 8),
-        Expanded(child: Text(label, style: AppTextStyles.body)),
-        Text(value, style: AppTextStyles.body.copyWith(fontWeight: FontWeight.w800)),
+        Padding(
+          padding: const EdgeInsets.all(16),
+          child: Row(
+            children: [
+              AvatarCircle(name: label, radius: 20),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(label,
+                        style: AppTextStyles.body.copyWith(fontWeight: FontWeight.w700),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis),
+                    Text(
+                      [
+                        row.kind?.label,
+                        if (row.registeredAt != null)
+                          TimeOfDay.fromDateTime(row.registeredAt!).format(context),
+                      ].whereType<String>().join(' · '),
+                      style: AppTextStyles.caption,
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                decoration: BoxDecoration(
+                  color: color.withValues(alpha: 0.12),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Text(
+                  row.state.label,
+                  style: AppTextStyles.caption
+                      .copyWith(color: color, fontWeight: FontWeight.w700),
+                ),
+              ),
+            ],
+          ),
+        ),
+        if (showDivider)
+          const Divider(height: 1, color: AppColors.divider, indent: 16, endIndent: 16),
       ],
     );
   }
 }
 
-class _AccessTile extends StatelessWidget {
-  const _AccessTile({
-    required this.icon,
-    required this.iconBg,
-    required this.iconColor,
-    required this.title,
-    required this.subtitle,
-    required this.onTap,
-  });
-
-  final IconData icon;
-  final Color iconBg;
-  final Color iconColor;
-  final String title;
-  final String subtitle;
-  final VoidCallback onTap;
+class _StatsSkeleton extends StatelessWidget {
+  const _StatsSkeleton();
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      color: AppColors.surface,
-      borderRadius: BorderRadius.circular(18),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(18),
-        onTap: onTap,
-        child: Padding(
-          padding: const EdgeInsets.all(12),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                width: 36,
-                height: 36,
-                decoration: BoxDecoration(color: iconBg, borderRadius: BorderRadius.circular(10)),
-                child: Icon(icon, size: 18, color: iconColor),
-              ),
-              const SizedBox(height: 8),
-              Text(title, style: AppTextStyles.body.copyWith(fontWeight: FontWeight.w700), maxLines: 1),
-              Text(subtitle, style: AppTextStyles.caption, maxLines: 1, overflow: TextOverflow.ellipsis),
-            ],
+    return Row(
+      children: List.generate(
+        3,
+        (i) => Expanded(
+          child: Container(
+            height: 78,
+            margin: EdgeInsets.only(right: i == 2 ? 0 : 10),
+            decoration: BoxDecoration(
+              color: Colors.white.withValues(alpha: 0.06),
+              borderRadius: BorderRadius.circular(18),
+            ),
           ),
         ),
       ),

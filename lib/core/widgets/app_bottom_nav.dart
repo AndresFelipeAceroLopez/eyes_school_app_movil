@@ -83,11 +83,18 @@ class _NavTab extends StatelessWidget {
             children: [
               Icon(item.icon, color: color, size: 24),
               const SizedBox(height: 3),
-              Text(
-                item.label,
-                style: AppTextStyles.caption.copyWith(
-                  color: color,
-                  fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
+              // One line, always: five tabs on a narrow phone (or a user with
+              // large text) would otherwise wrap and overflow the bar.
+              Flexible(
+                child: Text(
+                  item.label,
+                  maxLines: 1,
+                  softWrap: false,
+                  overflow: TextOverflow.ellipsis,
+                  style: AppTextStyles.caption.copyWith(
+                    color: color,
+                    fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
+                  ),
                 ),
               ),
             ],
