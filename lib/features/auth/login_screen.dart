@@ -6,7 +6,7 @@ import '../../domain/failures/app_failure.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_text_styles.dart';
 import '../../core/utils/validators.dart';
-import '../../core/widgets/eye_logo.dart';
+import '../../core/widgets/monster_mascot.dart';
 import '../../core/widgets/primary_gradient_button.dart';
 import '../../providers/session_provider.dart';
 
@@ -77,7 +77,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Container(
-                padding: const EdgeInsets.symmetric(vertical: 36),
+                padding: const EdgeInsets.symmetric(vertical: 24),
                 decoration: const BoxDecoration(
                   gradient: LinearGradient(
                     begin: Alignment.topLeft,
@@ -87,8 +87,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 ),
                 child: Column(
                   children: [
-                    const EyeLogo(size: 72),
-                    const SizedBox(height: 14),
+                    const MonsterMascot(height: 132),
+                    const SizedBox(height: 8),
                     RichText(
                       text: const TextSpan(
                         style: TextStyle(fontSize: 28, fontWeight: FontWeight.w800),
