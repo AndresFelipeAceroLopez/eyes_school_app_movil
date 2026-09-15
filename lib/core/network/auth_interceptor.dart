@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:dio/dio.dart';
 
-import '../storage/token_storage.dart';
+import 'package:eyes_school/core/storage/token_storage.dart';
 
 /// Injects `Authorization: Bearer <access_token>` and transparently refreshes
 /// an expired access token on the first `401`.

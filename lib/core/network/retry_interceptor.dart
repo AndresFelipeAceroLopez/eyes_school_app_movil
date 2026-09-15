@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 
-import '../../data/network/failure_mapper.dart';
+import 'package:eyes_school/core/network/failure_mapper.dart';
 
 /// Retries **idempotent GETs only** when the transport flaked. Writes are
 /// never retried here: `POST /asistencia` has no idempotency key, so an

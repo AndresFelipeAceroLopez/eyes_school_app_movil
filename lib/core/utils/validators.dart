@@ -1,4 +1,4 @@
-import '../../domain/value_objects/severity.dart';
+import 'package:eyes_school/features/novedades/domain/severity.dart';
 
 abstract final class Validators {
   /// Accepts multi-label domains: the institution uses `@eyesschool.edu.co`,

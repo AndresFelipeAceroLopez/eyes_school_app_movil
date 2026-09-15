@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../theme/app_colors.dart';
+import 'package:eyes_school/core/theme/app_colors.dart';
 
 /// The dark navy -> indigo gradient header used at the top of every home
 /// screen, with a rounded-bottom card so content scrolls under it.

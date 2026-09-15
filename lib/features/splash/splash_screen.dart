@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../core/theme/app_colors.dart';
-import '../../core/widgets/eye_logo.dart';
+import 'package:eyes_school/core/theme/app_colors.dart';
+import 'package:eyes_school/core/widgets/eye_logo.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});

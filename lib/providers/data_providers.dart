@@ -1,18 +1,18 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../domain/entities/app_user.dart';
-import '../domain/entities/attendance_record.dart';
-import '../domain/entities/attendance_summary.dart';
-import '../domain/entities/catalog.dart';
-import '../domain/entities/class_session.dart';
-import '../domain/entities/dashboard.dart';
-import '../domain/entities/grade.dart';
-import '../domain/entities/novedad.dart';
-import '../domain/entities/roster_student.dart';
-import '../domain/entities/subject.dart';
-import '../domain/entities/teacher_class.dart';
-import '../domain/value_objects/attendance.dart';
-import '../domain/value_objects/severity.dart';
+import 'package:eyes_school/features/auth/domain/app_user.dart';
+import 'package:eyes_school/features/attendance/domain/attendance_record.dart';
+import 'package:eyes_school/features/attendance/domain/attendance_summary.dart';
+import 'package:eyes_school/features/directory/domain/catalog.dart';
+import 'package:eyes_school/features/academic/domain/class_session.dart';
+import 'package:eyes_school/features/dashboard/domain/dashboard.dart';
+import 'package:eyes_school/features/academic/domain/grade.dart';
+import 'package:eyes_school/features/novedades/domain/novedad.dart';
+import 'package:eyes_school/features/academic/domain/roster_student.dart';
+import 'package:eyes_school/features/academic/domain/subject.dart';
+import 'package:eyes_school/features/academic/domain/teacher_class.dart';
+import 'package:eyes_school/features/attendance/domain/attendance.dart';
+import 'package:eyes_school/features/novedades/domain/severity.dart';
 import 'repository_providers.dart';
 import 'session_provider.dart';
 

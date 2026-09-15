@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../theme/app_colors.dart';
-import '../theme/app_text_styles.dart';
+import 'package:eyes_school/core/theme/app_colors.dart';
+import 'package:eyes_school/core/theme/app_text_styles.dart';
 
 /// One of the frosted stat cards inside a [GradientHeader], e.g.
 /// "3 / Clases hoy" or "96% / Asistencia".

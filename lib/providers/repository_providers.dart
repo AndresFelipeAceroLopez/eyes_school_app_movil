@@ -1,28 +1,28 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../core/network/dio_client.dart';
-import '../core/storage/local_store.dart';
-import '../core/storage/token_storage.dart';
-import '../core/sync/sync_worker.dart';
-import '../data/api/academic_api.dart';
-import '../data/api/api_client.dart';
-import '../data/api/attendance_api.dart';
-import '../data/api/auth_api.dart';
-import '../data/api/dashboard_api.dart';
-import '../data/api/novedades_api.dart';
-import '../data/api/people_api.dart';
-import '../data/api/reportes_api.dart';
-import '../data/local/attendance_queue.dart';
-import '../data/local/student_catalog.dart';
-import '../data/repositories/academic_repository_impl.dart';
-import '../data/repositories/attendance_repository_impl.dart';
-import '../data/repositories/auth_repository_impl.dart';
-import '../data/repositories/catalog_repository_impl.dart';
-import '../data/repositories/directory_repository_impl.dart';
-import '../data/repositories/report_repository_impl.dart';
-import '../domain/repositories/repositories.dart';
-import '../domain/usecases/usecases.dart';
+import 'package:eyes_school/core/network/dio_client.dart';
+import 'package:eyes_school/core/storage/local_store.dart';
+import 'package:eyes_school/core/storage/token_storage.dart';
+import 'package:eyes_school/core/sync/sync_worker.dart';
+import 'package:eyes_school/features/academic/data/academic_api.dart';
+import 'package:eyes_school/core/network/api_client.dart';
+import 'package:eyes_school/features/attendance/data/attendance_api.dart';
+import 'package:eyes_school/features/auth/data/auth_api.dart';
+import 'package:eyes_school/features/dashboard/data/dashboard_api.dart';
+import 'package:eyes_school/features/novedades/data/novedades_api.dart';
+import 'package:eyes_school/features/directory/data/people_api.dart';
+import 'package:eyes_school/features/reports/data/reportes_api.dart';
+import 'package:eyes_school/features/attendance/data/attendance_queue.dart';
+import 'package:eyes_school/features/directory/data/student_catalog.dart';
+import 'package:eyes_school/features/academic/data/academic_repository_impl.dart';
+import 'package:eyes_school/features/attendance/data/attendance_repository_impl.dart';
+import 'package:eyes_school/features/auth/data/auth_repository_impl.dart';
+import 'package:eyes_school/features/directory/data/catalog_repository_impl.dart';
+import 'package:eyes_school/features/directory/data/directory_repository_impl.dart';
+import 'package:eyes_school/features/reports/data/report_repository_impl.dart';
+import 'package:eyes_school/core/domain/repositories.dart';
+import 'package:eyes_school/core/domain/usecases.dart';
 
 /// Composition root.
 ///

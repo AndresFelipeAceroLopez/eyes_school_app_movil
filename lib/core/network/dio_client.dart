@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 
-import '../../domain/failures/app_failure.dart';
-import '../storage/token_storage.dart';
+import 'package:eyes_school/core/errors/app_failure.dart';
+import 'package:eyes_school/core/storage/token_storage.dart';
 import 'api_config.dart';
 import 'auth_interceptor.dart';
 import 'error_interceptor.dart';

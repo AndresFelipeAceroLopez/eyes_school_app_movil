@@ -1,10 +1,10 @@
-import 'package:eyes_school/domain/entities/attendance_record.dart';
-import 'package:eyes_school/domain/entities/class_session.dart';
-import 'package:eyes_school/domain/failures/app_failure.dart';
-import 'package:eyes_school/domain/repositories/repositories.dart';
-import 'package:eyes_school/domain/usecases/usecases.dart';
-import 'package:eyes_school/domain/value_objects/attendance.dart';
-import 'package:eyes_school/domain/value_objects/class_time.dart';
+import 'package:eyes_school/features/attendance/domain/attendance_record.dart';
+import 'package:eyes_school/features/academic/domain/class_session.dart';
+import 'package:eyes_school/core/errors/app_failure.dart';
+import 'package:eyes_school/core/domain/repositories.dart';
+import 'package:eyes_school/core/domain/usecases.dart';
+import 'package:eyes_school/features/attendance/domain/attendance.dart';
+import 'package:eyes_school/features/academic/domain/class_time.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 /// The application rules, tested without a widget, a plugin or a socket —
