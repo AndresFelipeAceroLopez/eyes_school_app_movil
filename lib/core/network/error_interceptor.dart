@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 
-import '../../data/network/failure_mapper.dart';
-import '../../domain/failures/app_failure.dart';
+import 'package:eyes_school/core/network/failure_mapper.dart';
+import 'package:eyes_school/core/errors/app_failure.dart';
 
 /// Attaches the domain [AppFailure] to every transport error, so nothing above
 /// the data layer has to know what a `DioException` is.

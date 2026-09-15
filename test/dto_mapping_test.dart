@@ -1,14 +1,14 @@
 import 'package:eyes_school/core/utils/json_x.dart';
-import 'package:eyes_school/data/dto/academic_dto.dart';
-import 'package:eyes_school/data/dto/attendance_dto.dart';
-import 'package:eyes_school/data/dto/novedad_dto.dart';
-import 'package:eyes_school/data/dto/people_dto.dart';
-import 'package:eyes_school/domain/entities/catalog.dart';
-import 'package:eyes_school/domain/entities/grade.dart';
-import 'package:eyes_school/domain/entities/role.dart';
-import 'package:eyes_school/domain/value_objects/attendance.dart';
-import 'package:eyes_school/domain/value_objects/class_time.dart';
-import 'package:eyes_school/domain/value_objects/severity.dart';
+import 'package:eyes_school/features/academic/data/academic_dto.dart';
+import 'package:eyes_school/features/attendance/data/attendance_dto.dart';
+import 'package:eyes_school/features/novedades/data/novedad_dto.dart';
+import 'package:eyes_school/features/directory/data/people_dto.dart';
+import 'package:eyes_school/features/directory/domain/catalog.dart';
+import 'package:eyes_school/features/academic/domain/grade.dart';
+import 'package:eyes_school/features/directory/domain/role.dart';
+import 'package:eyes_school/features/attendance/domain/attendance.dart';
+import 'package:eyes_school/features/academic/domain/class_time.dart';
+import 'package:eyes_school/features/novedades/domain/severity.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 /// Covers the boundary between the wire and the domain: the accented

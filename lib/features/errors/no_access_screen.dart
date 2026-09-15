@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../core/theme/app_colors.dart';
-import '../../core/theme/app_text_styles.dart';
-import '../../core/widgets/eye_logo.dart';
-import '../../core/widgets/primary_gradient_button.dart';
-import '../../domain/entities/role.dart';
-import '../../providers/session_provider.dart';
+import 'package:eyes_school/core/theme/app_colors.dart';
+import 'package:eyes_school/core/theme/app_text_styles.dart';
+import 'package:eyes_school/core/widgets/eye_logo.dart';
+import 'package:eyes_school/core/widgets/primary_gradient_button.dart';
+import 'package:eyes_school/features/directory/domain/role.dart';
+import 'package:eyes_school/providers/session_provider.dart';
 
 /// Reached in two situations: a route that belongs to another role, and an
 /// account that an administrator has not validated yet (`MeResponse.estado`

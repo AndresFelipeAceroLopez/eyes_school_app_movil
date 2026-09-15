@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '../theme/app_colors.dart';
-import '../theme/app_text_styles.dart';
+import 'package:eyes_school/core/theme/app_colors.dart';
+import 'package:eyes_school/core/theme/app_text_styles.dart';
 
 /// Standard "secondary screen" shell: a dark gradient bar with a back
 /// button + title, off-white scrollable body below. Used by every screen

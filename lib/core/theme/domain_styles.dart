@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../../domain/entities/grade.dart';
-import '../../domain/value_objects/attendance.dart';
-import '../../domain/value_objects/severity.dart';
+import 'package:eyes_school/features/academic/domain/grade.dart';
+import 'package:eyes_school/features/attendance/domain/attendance.dart';
+import 'package:eyes_school/features/novedades/domain/severity.dart';
 import 'app_colors.dart';
 
 /// How domain concepts look.

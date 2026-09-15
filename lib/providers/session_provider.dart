@@ -1,8 +1,9 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../domain/entities/app_user.dart';
-import '../domain/entities/session.dart';
-import '../domain/repositories/repositories.dart';
+import 'package:eyes_school/features/auth/domain/app_user.dart';
+import 'package:eyes_school/features/auth/domain/session.dart';
+import 'package:eyes_school/features/notifications/providers/push_provider.dart';
+import 'package:eyes_school/core/domain/repositories.dart';
 import 'repository_providers.dart';
 
 /// The auth session.
@@ -26,7 +27,10 @@ class SessionNotifier extends StateNotifier<AsyncValue<AppSession?>> {
   Future<void> _restore() async {
     final session = await _ref.read(restoreSessionProvider).call();
     state = AsyncValue.data(session);
-    if (session != null) await _startBackgroundSync();
+    if (session != null) {
+      await _startBackgroundSync();
+      await _initPushNotifications();
+    }
   }
 
   Future<void> login({required String email, required String password}) async {
@@ -36,6 +40,7 @@ class SessionNotifier extends StateNotifier<AsyncValue<AppSession?>> {
           await _ref.read(signInProvider).call(email: email, password: password);
       state = AsyncValue.data(session);
       await _startBackgroundSync();
+      await _initPushNotifications();
     } catch (error, stackTrace) {
       // Back to "signed out" rather than to an error state, so the login form
       // stays on screen and can show the message itself.
@@ -52,6 +57,19 @@ class SessionNotifier extends StateNotifier<AsyncValue<AppSession?>> {
       await _ref.read(syncWorkerProvider).start();
     } catch (_) {
       // Background sync is best-effort; the queue still works on demand.
+    }
+  }
+
+  /// Initialises FCM, requests notification permission and obtains the
+  /// device token. A failure here must never block the session.
+  Future<void> _initPushNotifications() async {
+    try {
+      final pushService = _ref.read(pushNotificationProvider);
+      await pushService.initialize();
+      // TODO: When the backend has a device-token endpoint, send
+      // pushService.fcmToken there.
+    } catch (_) {
+      // Push is best-effort; the app works fine without it.
     }
   }
 

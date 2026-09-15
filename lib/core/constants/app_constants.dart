@@ -1,4 +1,4 @@
-import '../../domain/value_objects/class_time.dart';
+import 'package:eyes_school/features/academic/domain/class_time.dart';
 
 /// Operational settings of the mobile client.
 ///

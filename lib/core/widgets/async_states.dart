@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../../domain/failures/app_failure.dart';
-import '../theme/app_colors.dart';
-import '../theme/app_text_styles.dart';
+import 'package:eyes_school/core/errors/app_failure.dart';
+import 'package:eyes_school/core/theme/app_colors.dart';
+import 'package:eyes_school/core/theme/app_text_styles.dart';
 import 'primary_gradient_button.dart';
 
 /// Every data screen shows the same three states. These keep that consistent

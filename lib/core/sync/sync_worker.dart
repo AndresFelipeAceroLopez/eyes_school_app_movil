@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/widgets.dart';
 
-import '../../data/local/attendance_queue.dart';
+import 'package:eyes_school/features/attendance/data/attendance_queue.dart';
 
 /// Drives [AttendanceQueue] on the four triggers the plan calls for: when a
 /// record is enqueued (the queue does that itself), when connectivity comes

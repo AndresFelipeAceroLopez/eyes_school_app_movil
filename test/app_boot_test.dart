@@ -1,8 +1,8 @@
 import 'package:eyes_school/app.dart';
 import 'package:eyes_school/core/storage/token_storage.dart';
-import 'package:eyes_school/domain/entities/role.dart';
-import 'package:eyes_school/domain/entities/session.dart';
-import 'package:eyes_school/domain/entities/app_user.dart';
+import 'package:eyes_school/features/directory/domain/role.dart';
+import 'package:eyes_school/features/auth/domain/session.dart';
+import 'package:eyes_school/features/auth/domain/app_user.dart';
 import 'package:eyes_school/providers/repository_providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';

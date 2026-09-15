@@ -4,10 +4,10 @@ import 'package:open_filex/open_filex.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
 
-import '../../providers/repository_providers.dart';
-import '../../domain/failures/app_failure.dart';
-import '../theme/app_colors.dart';
-import '../theme/app_text_styles.dart';
+import 'package:eyes_school/providers/repository_providers.dart';
+import 'package:eyes_school/core/errors/app_failure.dart';
+import 'package:eyes_school/core/theme/app_colors.dart';
+import 'package:eyes_school/core/theme/app_text_styles.dart';
 
 /// Downloads and opens the PDF report card.
 ///

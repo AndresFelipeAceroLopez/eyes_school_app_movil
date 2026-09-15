@@ -1,9 +1,9 @@
 import 'package:eyes_school/core/storage/local_store.dart';
-import 'package:eyes_school/data/api/attendance_api.dart';
-import 'package:eyes_school/data/local/attendance_queue.dart';
-import 'package:eyes_school/domain/entities/attendance_record.dart';
-import 'package:eyes_school/domain/failures/app_failure.dart';
-import 'package:eyes_school/domain/value_objects/attendance.dart';
+import 'package:eyes_school/features/attendance/data/attendance_api.dart';
+import 'package:eyes_school/features/attendance/data/attendance_queue.dart';
+import 'package:eyes_school/features/attendance/domain/attendance_record.dart';
+import 'package:eyes_school/core/errors/app_failure.dart';
+import 'package:eyes_school/features/attendance/domain/attendance.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 /// The offline queue is the part of the app where a bug loses real work, so it
