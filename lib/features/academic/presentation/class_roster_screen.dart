@@ -29,6 +29,10 @@ class ClassRosterScreen extends ConsumerStatefulWidget {
   ConsumerState<ClassRosterScreen> createState() => _ClassRosterScreenState();
 }
 
+// ConsumerState combina estado local de Flutter (_marks, _observations)
+// con acceso a Riverpod vía "ref"; se necesita StatefulWidget porque el
+// progreso de guardado (_progress) vive solo en esta pantalla.
+
 class _ClassRosterScreenState extends ConsumerState<ClassRosterScreen> {
   final Map<int, AttendanceMark> _marks = {};
   final Map<int, String> _observations = {};
@@ -41,7 +45,13 @@ class _ClassRosterScreenState extends ConsumerState<ClassRosterScreen> {
     }
   }
 
+  
+
   Future<void> _save(List<RosterStudent> roster) async {
+    
+    // ref.read (no watch) porque estamos dentro de un callback, no en build:
+    // solo se necesita el valor actual, no reconstruir el widget si cambia.
+    
     final session = ref.read(currentSessionProvider);
     if (session == null) return;
 
@@ -50,6 +60,10 @@ class _ClassRosterScreenState extends ConsumerState<ClassRosterScreen> {
       _progress = 0;
     });
     try {
+      // El repositorio de asistencia usa Dio por debajo para las peticiones
+      // HTTP; recordBulk además reporta progreso (onProgress), que es lo que
+      // alimenta el contador "X/Y enviados" en pantalla.
+
       final result = await ref.read(attendanceRepositoryProvider).recordBulk(
             marks: _marks,
             names: {for (final s in roster) s.id: s.name},
@@ -85,6 +99,9 @@ class _ClassRosterScreenState extends ConsumerState<ClassRosterScreen> {
 
   @override
   Widget build(BuildContext context) {
+
+    // teacherClassProvider es un provider "family": Riverpod crea y cachea
+    // una instancia distinta por cada assignmentId.
     final classAsync = ref.watch(teacherClassProvider(widget.assignmentId));
 
     return classAsync.when(

@@ -20,11 +20,17 @@ import 'package:eyes_school/features/novedades/presentation/teacher_novedades_sc
 import 'package:eyes_school/features/novedades/domain/severity.dart';
 import 'package:eyes_school/core/theme/domain_styles.dart';
 
+
+// Riverpod: ConsumerWidget nos da acceso a "ref" para leer/observar
+// providers sin necesitar StatefulWidget.
 class TeacherHomeScreen extends ConsumerWidget {
   const TeacherHomeScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+
+    // ref.watch reconstruye este widget automáticamente cuando cambia la
+    // sesión (por ejemplo, al iniciar/cerrar sesión).
     final session = ref.watch(currentSessionProvider);
     final user = session?.user;
     final dashboardAsync = ref.watch(teacherDashboardProvider);
@@ -36,6 +42,9 @@ class TeacherHomeScreen extends ConsumerWidget {
     return Scaffold(
       backgroundColor: AppColors.background,
       body: RefreshIndicator(
+
+        // Invalidar el provider hace que Riverpod vuelva a llamar al repositorio
+        // (y por lo tanto a Dio) para traer datos frescos al hacer pull-to-refresh.
         onRefresh: () async {
           ref.invalidate(teacherDashboardProvider);
           ref.invalidate(teacherWeeklyScheduleProvider);
@@ -78,6 +87,9 @@ class TeacherHomeScreen extends ConsumerWidget {
                   // The four KPIs come straight from `/dashboard/docente`;
                   // only three fit in the header, so the fourth (grades
                   // registered today) rides along with the quick actions.
+
+                  // AsyncValue.when es el que maneja a Riverpod para manejar loading/data/error
+                  // de una petición async (aquí, GET /dashboard/docente por debajo con Dio).
                   dashboardAsync.when(
                     data: (data) => Row(
                       children: [
