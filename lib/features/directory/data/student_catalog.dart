@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:eyes_school/core/constants/app_constants.dart';
 import 'package:eyes_school/core/network/api_config.dart';
 import 'package:eyes_school/core/storage/local_store.dart';
@@ -101,11 +103,89 @@ class StudentCatalog {
   void _index(StudentIdentity student) {
     _byId[student.studentId] = student;
     final code = student.code.trim();
-    if (code.isNotEmpty) _byCode[code.toUpperCase()] = student;
+    if (code.isNotEmpty) {
+      final upper = code.toUpperCase();
+      _byCode[upper] = student;
+      _byCode[upper.replaceAll(RegExp(r'[\s\-_]'), '')] = student;
+    }
+    _byCode['${student.studentId}'] = student;
+    _byCode['${student.userId}'] = student;
+    _byCode['EST${student.studentId}'] = student;
   }
 
-  /// O(1) lookup of a scanned code.
-  StudentIdentity? byCode(String code) => _byCode[code.trim().toUpperCase()];
+  List<String> _candidateKeys(String rawCode) {
+    final candidates = <String>{};
+    final trimmed = rawCode.trim();
+    if (trimmed.isEmpty) return const [];
+
+    var cleaned = trimmed;
+    if ((cleaned.startsWith('"') && cleaned.endsWith('"')) ||
+        (cleaned.startsWith("'") && cleaned.endsWith("'"))) {
+      cleaned = cleaned.substring(1, cleaned.length - 1).trim();
+    }
+    if (cleaned.isNotEmpty) candidates.add(cleaned.toUpperCase());
+
+    if (cleaned.startsWith('{') && cleaned.endsWith('}')) {
+      try {
+        final map = jsonDecode(cleaned);
+        if (map is Map) {
+          for (final k in [
+            'codigo_estudiante',
+            'codigo',
+            'code',
+            'student_code',
+            'id_estudiante',
+            'id_usuario',
+            'id',
+            'documento',
+            'numero_documento'
+          ]) {
+            final val = map[k]?.toString().trim();
+            if (val != null && val.isNotEmpty) {
+              candidates.add(val.toUpperCase());
+            }
+          }
+        }
+      } catch (_) {}
+    }
+
+    if (cleaned.toLowerCase().startsWith('http://') ||
+        cleaned.toLowerCase().startsWith('https://')) {
+      try {
+        final uri = Uri.parse(cleaned);
+        if (uri.pathSegments.isNotEmpty) {
+          final last = uri.pathSegments.last.trim();
+          if (last.isNotEmpty) candidates.add(last.toUpperCase());
+        }
+        for (final p in ['code', 'codigo', 'codigo_estudiante', 'id', 'id_estudiante']) {
+          final val = uri.queryParameters[p]?.trim();
+          if (val != null && val.isNotEmpty) candidates.add(val.toUpperCase());
+        }
+      } catch (_) {}
+    }
+
+    final normalized = cleaned.replaceAll(RegExp(r'[\s\-_]'), '').toUpperCase();
+    if (normalized.isNotEmpty) candidates.add(normalized);
+
+    return candidates.toList();
+  }
+
+  /// O(1) lookup of a scanned code, with fallback parsing for JSON, URLs & numeric IDs.
+  StudentIdentity? byCode(String rawCode) {
+    final keys = _candidateKeys(rawCode);
+    for (final key in keys) {
+      final found = _byCode[key];
+      if (found != null) return found;
+    }
+    for (final key in keys) {
+      final parsedInt = int.tryParse(key);
+      if (parsedInt != null) {
+        final foundById = _byId[parsedInt];
+        if (foundById != null) return foundById;
+      }
+    }
+    return null;
+  }
 
   StudentIdentity? byId(int studentId) => _byId[studentId];
 

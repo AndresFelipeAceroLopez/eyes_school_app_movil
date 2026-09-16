@@ -78,7 +78,7 @@ class PendingAttendance {
   /// the client refuses to send the same student twice for the same day and
   /// kind.
   String get dedupeKey =>
-      '$studentId|${date.year}-${date.month}-${date.day}|${kind.wire}';
+      '$studentId|${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}|${kind.wire}';
 
   PendingAttendance copyWith({
     SyncState? sync,
