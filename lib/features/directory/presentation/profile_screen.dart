@@ -84,7 +84,26 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
           child: ListView(
             padding: const EdgeInsets.fromLTRB(20, 24, 20, 24),
             children: [
-              Text('Perfil', style: AppTextStyles.h1),
+              Row(
+                children: [
+                  if (Navigator.of(context).canPop() || context.canPop()) ...[
+                    IconButton(
+                      icon: const Icon(Icons.arrow_back_rounded, color: AppColors.textPrimary),
+                      onPressed: () {
+                        if (Navigator.of(context).canPop()) {
+                          Navigator.of(context).pop();
+                        } else if (context.canPop()) {
+                          context.pop();
+                        } else {
+                          context.go('/admin');
+                        }
+                      },
+                    ),
+                    const SizedBox(width: 4),
+                  ],
+                  Text('Perfil', style: AppTextStyles.h1),
+                ],
+              ),
               const SizedBox(height: 20),
               SectionCard(
                 child: Column(

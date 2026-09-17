@@ -15,6 +15,7 @@ class SimpleHeaderScaffold extends StatelessWidget {
     this.actions,
     this.showBack = true,
     this.floatingActionButton,
+    this.onBack,
   });
 
   final String title;
@@ -22,6 +23,7 @@ class SimpleHeaderScaffold extends StatelessWidget {
   final List<Widget>? actions;
   final bool showBack;
   final Widget? floatingActionButton;
+  final VoidCallback? onBack;
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +47,17 @@ class SimpleHeaderScaffold extends StatelessWidget {
                 if (showBack)
                   IconButton(
                     icon: const Icon(Icons.arrow_back_rounded, color: Colors.white),
-                    onPressed: () => context.canPop() ? context.pop() : context.go('/'),
+                    onPressed: () {
+                      if (onBack != null) {
+                        onBack!();
+                      } else if (Navigator.of(context).canPop()) {
+                        Navigator.of(context).pop();
+                      } else if (context.canPop()) {
+                        context.pop();
+                      } else {
+                        context.go('/admin');
+                      }
+                    },
                   ),
                 Expanded(child: Text(title, style: AppTextStyles.h2.copyWith(color: Colors.white))),
                 ...?actions,

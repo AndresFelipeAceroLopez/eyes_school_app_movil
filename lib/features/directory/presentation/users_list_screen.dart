@@ -74,8 +74,15 @@ class _UsersListScreenState extends ConsumerState<UsersListScreen> {
                   children: [
                     IconButton(
                       icon: const Icon(Icons.arrow_back_rounded, color: Colors.white),
-                      onPressed: () =>
-                          context.canPop() ? context.pop() : context.go('/admin'),
+                      onPressed: () {
+                        if (Navigator.of(context).canPop()) {
+                          Navigator.of(context).pop();
+                        } else if (context.canPop()) {
+                          context.pop();
+                        } else {
+                          context.go('/admin');
+                        }
+                      },
                     ),
                     Text('Directorio',
                         style: AppTextStyles.h2.copyWith(color: Colors.white)),
