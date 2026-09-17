@@ -62,6 +62,7 @@ void main() {
     test('ninguna pantalla importa un DTO, un API o Dio', () {
       final offenders = <String>[];
       for (final file in [...under('features'), ...under('core/widgets')]) {
+        if (relative(file).contains('/data/')) continue;
         for (final line in importsOf(file)) {
           if (line.contains('data/dto/') ||
               line.contains('data/api/') ||

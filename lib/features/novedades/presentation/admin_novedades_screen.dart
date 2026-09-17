@@ -17,7 +17,7 @@ class AdminNovedadesScreen extends ConsumerWidget {
 
     return SimpleHeaderScaffold(
       title: 'Novedades',
-      showBack: false,
+      showBack: true,
       body: RefreshIndicator(
         onRefresh: () async => ref.invalidate(adminNovedadesProvider),
         child: novedadesAsync.when(

@@ -32,7 +32,7 @@ class QrScanScreen extends ConsumerStatefulWidget {
 class _QrScanScreenState extends ConsumerState<QrScanScreen> {
   final MobileScannerController _controller = MobileScannerController(
     formats: const [BarcodeFormat.qrCode],
-    detectionSpeed: DetectionSpeed.noDuplicates,
+    detectionSpeed: DetectionSpeed.normal,
   );
 
   AttendanceKind _tipo = AttendanceKind.entry;
@@ -118,7 +118,7 @@ class _QrScanScreenState extends ConsumerState<QrScanScreen> {
         initialState: result.suggested,
         kind: _tipo,
         onSubmit: (state, observacion) async {
-          return ref.read(attendanceRepositoryProvider).record(
+          final outcome = await ref.read(attendanceRepositoryProvider).record(
                 studentId: result.student.studentId,
                 studentName: result.student.displayName,
                 state: state,
@@ -127,11 +127,17 @@ class _QrScanScreenState extends ConsumerState<QrScanScreen> {
                 qrCode: rawCode,
                 observation: observacion,
               );
+          ref.invalidate(todayAttendanceProvider);
+          return outcome;
         },
       ),
     );
     if (!mounted) return;
-    setState(() => _sheetOpen = false);
+    setState(() {
+      _sheetOpen = false;
+      _lastCode = null;
+      _lastScanAt = null;
+    });
     if (registered == true) setState(() => _sessionCount++);
   }
 

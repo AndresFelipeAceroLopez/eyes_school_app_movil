@@ -28,8 +28,8 @@ class ManagementScreen extends ConsumerWidget {
     final pending = ref.watch(attendanceQueueProvider).pendingCount;
 
     return SimpleHeaderScaffold(
-      title: 'Gestión',
-      showBack: false,
+      title: 'Más opciones',
+      showBack: true,
       body: RefreshIndicator(
         onRefresh: () async {
           ref.invalidate(subjectsProvider);
@@ -124,7 +124,7 @@ class ManagementScreen extends ConsumerWidget {
               iconColor: AppColors.textSecondary,
               title: 'Mi cuenta',
               subtitle: 'Datos personales y contraseña',
-              onTap: () => context.go('/admin/profile'),
+              onTap: () => context.push('/admin/profile'),
             ),
             const SizedBox(height: 8),
             Text(
