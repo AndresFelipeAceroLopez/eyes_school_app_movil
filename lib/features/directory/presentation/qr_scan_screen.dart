@@ -16,12 +16,11 @@ import 'package:eyes_school/providers/repository_providers.dart';
 import 'package:eyes_school/providers/session_provider.dart';
 import 'package:eyes_school/features/attendance/domain/attendance.dart';
 
-/// Continuous QR scanning with a confirmation sheet.
-///
-/// The QR carries plain text: the `codigo_estudiante`, exactly as the web
-/// panel encodes it. Resolution is local (there is no lookup-by-code endpoint)
-/// and every registration goes straight into the offline queue, so a whole
-/// shift can be captured with no signal.
+
+// ConsumerStatefulWidget: se necesita StatefulWidget por el
+// MobileScannerController (tiene ciclo de vida propio, hay que
+// disponerlo), y a la vez acceso a Riverpod para leer los repositorios.
+
 class QrScanScreen extends ConsumerStatefulWidget {
   const QrScanScreen({super.key});
 
@@ -76,6 +75,10 @@ class _QrScanScreenState extends ConsumerState<QrScanScreen> {
     final code = capture.barcodes.isEmpty ? null : capture.barcodes.first.rawValue;
     if (code == null || code.trim().isEmpty) return;
     if (_isDebounced(code)) return;
+
+    // resolve() primero busca el código en el catálogo local de estudiantes
+    // (para funcionar sin señal); solo si hace falta consulta el backend
+    // mediante Dio.
 
     final repo = ref.read(attendanceRepositoryProvider);
     final result = await repo.resolve(code, kind: _tipo);
@@ -149,7 +152,15 @@ class _QrScanScreenState extends ConsumerState<QrScanScreen> {
 
   @override
   Widget build(BuildContext context) {
+
+    // attendanceQueueProvider expone la cola de registros que aún no se han
+    // sincronizado con el backend; se usa para el badge de "pendientes".
+
     final queue = ref.watch(attendanceQueueProvider);
+
+    // connectivityProvider también es un AsyncValue; con valueOrNull se evita
+    // mostrar loading/error de conectividad y se asume "en línea" por defecto.
+
     final online = ref.watch(connectivityProvider).valueOrNull ?? true;
     final pending = queue.pendingCount;
 
