@@ -19,6 +19,11 @@ class MyQrScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+
+    // Esta pantalla no llama a ningún repositorio ni a Dio: el código ya viene
+    // en la sesión (currentSessionProvider) y el QR se genera en el propio
+    // dispositivo con qr_flutter, por eso funciona sin conexión.
+
     final session = ref.watch(currentSessionProvider);
     final code = session?.studentCode ?? session?.user.code;
 
