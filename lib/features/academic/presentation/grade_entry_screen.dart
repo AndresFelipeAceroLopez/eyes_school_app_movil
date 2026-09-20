@@ -84,6 +84,10 @@ class _GradeEntryScreenState extends ConsumerState<GradeEntryScreen> {
     for (final student in roster) {
       final text = _controllers[student.id]?.text.trim() ?? '';
       if (text.isEmpty) continue;
+
+      // Validación de formato en el cliente antes de tocar la red: evita mandar
+      // a la API una nota fuera del rango permitido (0.0–5.0).
+
       final error = Validators.gradeScore(text);
       if (error != null) {
         errors[student.id] = error;
@@ -95,7 +99,7 @@ class _GradeEntryScreenState extends ConsumerState<GradeEntryScreen> {
       pending.add((studentId: student.id, score: score, gradeId: current?.gradeId));
     }
 
-    if (errors.isNotEmpty) {
+      if (errors.isNotEmpty) {
       setState(() => _errors
         ..clear()
         ..addAll(errors));
@@ -118,6 +122,12 @@ class _GradeEntryScreenState extends ConsumerState<GradeEntryScreen> {
     final repo = ref.read(academicRepositoryProvider);
     var saved = 0;
     String? failure;
+
+    // Cada nota se guarda con una llamada Dio individual (POST si es nueva,
+    // PUT si ya tenía id_nota); si una falla, se corta el ciclo para no dejar
+    // un guardado parcial sin que el docente se entere.
+
+
     for (final row in pending) {
       try {
         await repo.saveGrade(
@@ -182,6 +192,11 @@ class _GradeEntryScreenState extends ConsumerState<GradeEntryScreen> {
   Widget _body(TeacherClass teacherClass) {
     final period = _period!;
     final rosterAsync = ref.watch(rosterProvider(teacherClass.courseId));
+    
+    // gradeSheetProvider es un provider "family" cuya clave es un record
+    // (subjectId, period): Riverpod cachea un AsyncValue distinto por cada
+    // combinación de materia y periodo.
+    
     final gradesAsync = ref.watch(
       gradeSheetProvider((subjectId: teacherClass.subjectId, period: period)),
     );
