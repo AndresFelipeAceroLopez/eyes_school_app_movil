@@ -75,6 +75,11 @@ class _NovedadFormScreenState extends ConsumerState<NovedadFormScreen> {
       _errorText = null;
     });
     try {
+
+      // POST vía Dio (a través de academicRepositoryProvider) para crear la
+      // novedad; el nivel de gravedad no se envía desde el formulario porque lo
+      // define el tipo de novedad elegido, no una decisión libre del docente.
+
       await ref.read(academicRepositoryProvider).createNovedad(
             studentId: _studentId!,
             typeId: _typeId!,
@@ -86,6 +91,11 @@ class _NovedadFormScreenState extends ConsumerState<NovedadFormScreen> {
                 : _actionController.text.trim(),
           );
       if (!mounted) return;
+
+      // Se invalidan dos providers de módulos distintos (docente y admin)
+      // porque la misma novedad puede aparecer en ambas listas; así Riverpod
+      // las refresca la próxima vez que se muestren.
+
       ref.invalidate(teacherNovedadesProvider);
       ref.invalidate(adminNovedadesProvider);
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -338,6 +348,11 @@ class _StudentPickerState extends ConsumerState<_StudentPicker> {
 
   Future<void> _search(String query) async {
     final catalog = ref.read(studentCatalogProvider);
+    
+    // El catálogo de estudiantes se carga una sola vez con Dio y queda en
+    // memoria; ensureReady() evita repetir la petición si ya está listo, y
+    // catalog.search() filtra localmente, sin red.
+    
     try {
       await catalog.ensureReady();
     } catch (_) {
