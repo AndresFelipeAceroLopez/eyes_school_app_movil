@@ -13,7 +13,7 @@ import 'package:eyes_school/providers/data_providers.dart';
 import 'package:eyes_school/providers/session_provider.dart';
 import 'package:eyes_school/features/novedades/domain/severity.dart';
 
-/// The linked child's grades by period, plus the PDF report card, which the
+/// The linked childs grades by period, plus the PDF report card, which the
 /// guardian can open or forward from the share sheet.
 class ParentGradesScreen extends ConsumerStatefulWidget {
   const ParentGradesScreen({super.key});
