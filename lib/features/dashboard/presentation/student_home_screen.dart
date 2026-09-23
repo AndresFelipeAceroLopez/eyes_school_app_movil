@@ -18,7 +18,7 @@ import 'package:eyes_school/features/novedades/domain/severity.dart';
 
 class StudentHomeScreen extends ConsumerWidget {
   const StudentHomeScreen({super.key});
-
+//
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final session = ref.watch(currentSessionProvider);
