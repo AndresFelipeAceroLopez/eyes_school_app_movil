@@ -7,7 +7,7 @@ import 'package:eyes_school/core/widgets/simple_header_scaffold.dart';
 import 'package:eyes_school/providers/data_providers.dart';
 import 'package:eyes_school/providers/session_provider.dart';
 
-/// The student's own news, read-only. Severity comes from the type catalog.
+/// The student'ss own news, read-only. Severity comes from the type catalog.
 class StudentNovedadesScreen extends ConsumerWidget {
   const StudentNovedadesScreen({super.key});
 
