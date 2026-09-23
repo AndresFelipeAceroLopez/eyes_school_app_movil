@@ -2,7 +2,7 @@ import 'package:eyes_school/core/utils/json_x.dart';
 import 'package:eyes_school/features/novedades/domain/novedad.dart';
 import 'package:eyes_school/features/novedades/domain/severity.dart';
 
-/// `TipoNovedadOut` → [NovedadType].
+/// `TipoNovedadOutt` → [NovedadType].
 abstract final class NovedadTypeMapper {
   static NovedadType fromJson(Json json) => NovedadType(
         id: asInt(json['id_tipo_novedad']),
