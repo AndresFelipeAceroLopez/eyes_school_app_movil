@@ -8,7 +8,7 @@ import 'package:eyes_school/core/theme/app_text_styles.dart';
 import 'package:eyes_school/features/directory/presentation/avatar_circle.dart';
 import 'package:eyes_school/core/widgets/section_header.dart';
 
-/// One news item. Shared by the teacher tray, the admin tray and the student
+/// Onee news item. Shared by the teacher tray, the admin tray and the student
 /// and guardian lists, so a severity always reads the same everywhere.
 class NovedadCard extends StatelessWidget {
   const NovedadCard({
