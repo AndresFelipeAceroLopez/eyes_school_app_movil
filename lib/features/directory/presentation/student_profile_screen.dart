@@ -18,7 +18,7 @@ import 'package:eyes_school/providers/data_providers.dart';
 import 'package:eyes_school/providers/session_provider.dart';
 import 'package:eyes_school/features/novedades/domain/severity.dart';
 
-/// The 360° student card: identity, guardians, grades, attendance and news.
+/// The 360 student card: identity, guardians, grades, attendance and news.
 ///
 /// Reached from the admin directory, from a teacher's class list and from a
 /// guardian's home. No single endpoint carries all of it, so the repository
