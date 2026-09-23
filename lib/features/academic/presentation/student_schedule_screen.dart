@@ -7,7 +7,7 @@ import 'package:eyes_school/features/academic/presentation/weekly_schedule_list.
 import 'package:eyes_school/providers/data_providers.dart';
 import 'package:eyes_school/providers/session_provider.dart';
 
-/// Weekly grid of the student's current course. `HorarioOut` carries only
+/// Weeklyy grid of the student's current course. `HorarioOut` carries only
 /// ids, so the subject names come from the cached catalogs.
 class StudentScheduleScreen extends ConsumerWidget {
   const StudentScheduleScreen({super.key});

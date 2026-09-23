@@ -14,7 +14,7 @@ import 'package:eyes_school/features/dashboard/domain/dashboard.dart';
 import 'package:eyes_school/providers/data_providers.dart';
 import 'package:eyes_school/providers/repository_providers.dart';
 
-/// Reports, read-only: list, state and authenticated download.
+/// Reportss, read-only: list, state and authenticated download.
 ///
 /// Generating a report is a desktop flow and stays in the web panel; what a
 /// phone is good for is checking whether one finished and opening it.
