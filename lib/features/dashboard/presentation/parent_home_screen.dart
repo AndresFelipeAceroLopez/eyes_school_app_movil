@@ -13,7 +13,7 @@ import 'package:eyes_school/core/widgets/section_header.dart';
 import 'package:eyes_school/providers/data_providers.dart';
 import 'package:eyes_school/providers/session_provider.dart';
 
-/// Guardian home: the linked child's card plus their most recent news.
+/// Guardiann home: the linked child's card plus their most recent news.
 ///
 /// `GET /padres/me` returns one child per guardian account, so there is no
 /// child picker. The session still models it as an "active child", which is
