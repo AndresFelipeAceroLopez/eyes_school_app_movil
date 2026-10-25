@@ -1,0 +1,48 @@
+name: CI
+
+# Quality gate QG3 del MC-01: cada pull request debe pasar el analisis
+# estatico y las pruebas antes de poder fusionarse.
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  analyze_and_test:
+    name: Analisis estatico y pruebas
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          cache: true
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Verify formatting
+        run: dart format --output=none --set-exit-if-changed lib test tool
+        continue-on-error: true
+
+      - name: Static analysis
+        run: flutter analyze
+
+      - name: Unit and widget tests
+        run: flutter test --coverage
+
+      # Piso de no regresion (linea base 81,5 %); la meta de liberacion del
+      # MC-01 (tabla 4) es 60 %.
+      - name: Coverage by layer
+        run: dart run tool/coverage_report.dart --min-logic=75
+
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-lcov
+          path: coverage/lcov.info
