@@ -39,6 +39,7 @@ class _TodayAttendanceScreenState extends ConsumerState<TodayAttendanceScreen> {
       title: 'Registro del día',
       actions: [
         IconButton(
+          tooltip: 'Filtrar',
           icon: const Icon(Icons.filter_list_rounded, color: Colors.white),
           onPressed: () => _openFilters(context),
         ),

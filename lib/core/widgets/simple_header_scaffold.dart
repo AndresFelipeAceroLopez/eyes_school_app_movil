@@ -46,6 +46,7 @@ class SimpleHeaderScaffold extends StatelessWidget {
               children: [
                 if (showBack)
                   IconButton(
+                    tooltip: 'Volver',
                     icon: const Icon(Icons.arrow_back_rounded, color: Colors.white),
                     onPressed: () {
                       if (onBack != null) {

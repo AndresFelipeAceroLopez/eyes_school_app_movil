@@ -144,6 +144,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                           hintText: '••••••••',
                           prefixIcon: const Icon(Icons.lock_outline_rounded),
                           suffixIcon: IconButton(
+                            tooltip: _obscure ? 'Mostrar contraseña' : 'Ocultar contraseña',
                             icon: Icon(_obscure
                                 ? Icons.visibility_off_outlined
                                 : Icons.visibility_outlined),

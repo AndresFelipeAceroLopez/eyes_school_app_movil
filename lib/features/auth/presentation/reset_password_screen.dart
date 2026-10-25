@@ -74,6 +74,7 @@ class _ResetPasswordScreenState extends ConsumerState<ResetPasswordScreen> {
               child: Row(
                 children: [
                   IconButton(
+                    tooltip: 'Volver',
                     icon: const Icon(Icons.arrow_back_rounded, color: Colors.white),
                     onPressed: () => context.go('/login'),
                   ),
@@ -145,6 +146,7 @@ class _ResetPasswordScreenState extends ConsumerState<ResetPasswordScreen> {
             decoration: InputDecoration(
               prefixIcon: const Icon(Icons.lock_outline_rounded),
               suffixIcon: IconButton(
+                tooltip: _obscure ? 'Mostrar contraseña' : 'Ocultar contraseña',
                 icon: Icon(
                     _obscure ? Icons.visibility_off_outlined : Icons.visibility_outlined),
                 onPressed: () => setState(() => _obscure = !_obscure),
