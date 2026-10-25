@@ -30,8 +30,20 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
+      - name: Static analysis
+        run: flutter analyze
+
+      - name: Tests
+        run: flutter test
+
+      # La version del APK sale del tag (v1.2.3 -> 1.2.3). Si saliera del
+      # pubspec, un tag sin el pubspec actualizado publicaria un APK con
+      # version vieja y la actualizacion OTA lo ofreceria en un ciclo sin fin.
       - name: Build APK
-        run: flutter build apk --release
+        run: |
+          flutter build apk --release \
+            --build-name="${GITHUB_REF_NAME#v}" \
+            --build-number="${{ github.run_number }}"
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
