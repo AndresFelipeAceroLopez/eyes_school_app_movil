@@ -287,6 +287,7 @@ class _TopBar extends StatelessWidget {
             ],
           ),
           IconButton(
+            tooltip: torchOn ? 'Apagar linterna' : 'Encender linterna',
             icon: Icon(
               torchOn ? Icons.flash_on_rounded : Icons.flash_off_rounded,
               color: torchOn ? AppColors.teal : Colors.white,

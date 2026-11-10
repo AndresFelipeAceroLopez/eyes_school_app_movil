@@ -199,6 +199,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
               child: Row(
                 children: [
                   IconButton(
+                    tooltip: 'Volver',
                     icon: const Icon(Icons.arrow_back_rounded, color: Colors.white),
                     onPressed: _back,
                   ),
@@ -399,6 +400,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
             decoration: InputDecoration(
               prefixIcon: const Icon(Icons.lock_outline_rounded),
               suffixIcon: IconButton(
+                tooltip: _obscure ? 'Mostrar contraseña' : 'Ocultar contraseña',
                 icon: Icon(_obscure
                     ? Icons.visibility_off_outlined
                     : Icons.visibility_outlined),
