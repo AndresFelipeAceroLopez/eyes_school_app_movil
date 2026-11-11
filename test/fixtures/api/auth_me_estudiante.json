@@ -1,0 +1,9 @@
+{
+  "id_usuario": 3,
+  "primer_nombre": "Sofía",
+  "primer_apellido": "Rodríguez",
+  "correo": "sofia.rodriguez@student.eyes.co",
+  "nombre_rol": "estudiante",
+  "id_rol": 2,
+  "estado": true
+}

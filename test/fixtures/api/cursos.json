@@ -1,0 +1,122 @@
+[
+  {
+    "id_curso": 1,
+    "nombre_curso": "Sexto A",
+    "grado": "6°",
+    "jornada": "Mañana",
+    "ano": 2026,
+    "area": "Básica Secundaria",
+    "intensidad_horaria": 30,
+    "descripcion": "Primer grupo de sexto grado",
+    "activo": true,
+    "fecha_creacion": "2026-11-03T03:03:37.192536"
+  },
+  {
+    "id_curso": 2,
+    "nombre_curso": "Sexto B",
+    "grado": "6°",
+    "jornada": "Tarde",
+    "ano": 2026,
+    "area": "Básica Secundaria",
+    "intensidad_horaria": 30,
+    "descripcion": "Segundo grupo de sexto grado",
+    "activo": true,
+    "fecha_creacion": "2026-11-03T03:03:37.192536"
+  },
+  {
+    "id_curso": 3,
+    "nombre_curso": "Séptimo A",
+    "grado": "7°",
+    "jornada": "Mañana",
+    "ano": 2026,
+    "area": "Básica Secundaria",
+    "intensidad_horaria": 30,
+    "descripcion": "Primer grupo de séptimo grado",
+    "activo": true,
+    "fecha_creacion": "2026-11-03T03:03:37.192536"
+  },
+  {
+    "id_curso": 4,
+    "nombre_curso": "Séptimo B",
+    "grado": "7°",
+    "jornada": "Tarde",
+    "ano": 2026,
+    "area": "Básica Secundaria",
+    "intensidad_horaria": 30,
+    "descripcion": "Segundo grupo de séptimo grado",
+    "activo": true,
+    "fecha_creacion": "2026-11-03T03:03:37.192536"
+  },
+  {
+    "id_curso": 5,
+    "nombre_curso": "Octavo A",
+    "grado": "8°",
+    "jornada": "Mañana",
+    "ano": 2026,
+    "area": "Básica Secundaria",
+    "intensidad_horaria": 32,
+    "descripcion": "Primer grupo de octavo grado",
+    "activo": true,
+    "fecha_creacion": "2026-11-03T03:03:37.192536"
+  },
+  {
+    "id_curso": 6,
+    "nombre_curso": "Noveno A",
+    "grado": "9°",
+    "jornada": "Mañana",
+    "ano": 2026,
+    "area": "Básica Secundaria",
+    "intensidad_horaria": 32,
+    "descripcion": "Primer grupo de noveno grado",
+    "activo": true,
+    "fecha_creacion": "2026-11-03T03:03:37.192536"
+  },
+  {
+    "id_curso": 7,
+    "nombre_curso": "Décimo A",
+    "grado": "10°",
+    "jornada": "Mañana",
+    "ano": 2026,
+    "area": "Media Vocacional",
+    "intensidad_horaria": 35,
+    "descripcion": "Primer grupo de décimo grado",
+    "activo": true,
+    "fecha_creacion": "2026-11-03T03:03:37.192536"
+  },
+  {
+    "id_curso": 8,
+    "nombre_curso": "Décimo B",
+    "grado": "10°",
+    "jornada": "Tarde",
+    "ano": 2026,
+    "area": "Media Vocacional",
+    "intensidad_horaria": 35,
+    "descripcion": "Segundo grupo de décimo grado",
+    "activo": true,
+    "fecha_creacion": "2026-11-03T03:03:37.192536"
+  },
+  {
+    "id_curso": 9,
+    "nombre_curso": "Once A",
+    "grado": "11°",
+    "jornada": "Mañana",
+    "ano": 2026,
+    "area": "Media Vocacional",
+    "intensidad_horaria": 35,
+    "descripcion": "Primer grupo de once grado",
+    "activo": true,
+    "fecha_creacion": "2026-11-03T03:03:37.192536"
+  },
+  {
+    "id_curso": 10,
+    "nombre_curso": "Once B",
+    "grado": "11°",
+    "jornada": "Tarde",
+    "ano": 2026,
+    "area": "Media Vocacional",
+    "intensidad_horaria": 35,
+    "descripcion": "Segundo grupo de once grado",
+    "activo": true,
+    "fecha_creacion": "2026-11-03T03:03:37.192536"
+  }
+]

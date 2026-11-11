@@ -18,6 +18,9 @@ class ScriptedAdapter implements HttpClientAdapter {
 
   final List<String> requested = [];
 
+  /// Each request as it was sent (method, path, body), for contract checks.
+  final List<RequestOptions> sent = [];
+
   static ResponseBody _failConnection(RequestOptions options) {
     throw DioException.connectionError(
       requestOptions: options,
@@ -32,12 +35,15 @@ class ScriptedAdapter implements HttpClientAdapter {
     Future<void>? cancelFuture,
   ) async {
     requested.add(options.path);
+    sent.add(options);
     for (final entry in routes.entries) {
       if (options.path.endsWith(entry.key)) {
-        final body = entry.value(options);
+        final result = entry.value(options);
+        final status = result is ScriptedResponse ? result.status : 200;
+        final body = result is ScriptedResponse ? result.body : result;
         return ResponseBody.fromString(
           jsonEncode(body),
-          200,
+          status,
           headers: {
             Headers.contentTypeHeader: [Headers.jsonContentType],
           },
@@ -49,4 +55,14 @@ class ScriptedAdapter implements HttpClientAdapter {
 
   @override
   void close({bool force = false}) {}
+}
+
+/// A scripted answer with a status other than 200 (for example a FastAPI
+/// `{"detail": "..."}` with 400 or 404). Routes that return anything else keep
+/// answering 200, as before.
+class ScriptedResponse {
+  const ScriptedResponse(this.status, this.body);
+
+  final int status;
+  final Object? body;
 }

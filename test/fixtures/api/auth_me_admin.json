@@ -1,0 +1,9 @@
+{
+  "id_usuario": 1,
+  "primer_nombre": "Carlos",
+  "primer_apellido": "Mendoza",
+  "correo": "admin@eyesschool.edu.co",
+  "nombre_rol": "admin",
+  "id_rol": 3,
+  "estado": true
+}

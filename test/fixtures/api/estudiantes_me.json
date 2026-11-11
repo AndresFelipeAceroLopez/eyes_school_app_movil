@@ -1,0 +1,14 @@
+{
+  "id_estudiante": 1,
+  "id_usuario": 3,
+  "codigo_estudiante": "EST001",
+  "fecha_ingreso": "2026-01-20",
+  "fecha_egreso": null,
+  "estado": "Activo",
+  "id_curso_actual": 1,
+  "fecha_registro": "2026-11-03T03:03:37.192536",
+  "primer_nombre": null,
+  "segundo_nombre": null,
+  "primer_apellido": null,
+  "segundo_apellido": null
+}
