@@ -11,26 +11,29 @@ import 'package:flutter_test/flutter_test.dart';
 /// which is the practical payoff of keeping them out of the screens.
 void main() {
   group('SaveGradeSheet', () {
-    test('rechaza el lote completo si una nota está fuera de 0.0–5.0', () async {
-      final academic = _FakeAcademicRepository();
-      final useCase = SaveGradeSheet(academic);
+    test(
+      'rechaza el lote completo si una nota está fuera de 0.0–5.0',
+      () async {
+        final academic = _FakeAcademicRepository();
+        final useCase = SaveGradeSheet(academic);
 
-      await expectLater(
-        useCase.call(
-          entries: const [
-            GradeEntry(studentId: 1, score: 4.0),
-            GradeEntry(studentId: 2, score: 7.5),
-          ],
-          subjectId: 3,
-          period: 2,
-          registeredBy: 9,
-        ),
-        throwsA(isA<ValidationFailure>()),
-      );
+        await expectLater(
+          useCase.call(
+            entries: const [
+              GradeEntry(studentId: 1, score: 4.0),
+              GradeEntry(studentId: 2, score: 7.5),
+            ],
+            subjectId: 3,
+            period: 2,
+            registeredBy: 9,
+          ),
+          throwsA(isA<ValidationFailure>()),
+        );
 
-      // Nada se guardó: media planilla escrita es peor que una rechazada.
-      expect(academic.saved, isEmpty);
-    });
+        // Nada se guardó: media planilla escrita es peor que una rechazada.
+        expect(academic.saved, isEmpty);
+      },
+    );
 
     test('crea la nota nueva y actualiza la que ya tenía id', () async {
       final academic = _FakeAcademicRepository();
@@ -76,39 +79,43 @@ void main() {
       expect(attendance.recorded, isEmpty);
     });
 
-    test('un escaneo válido llega a la cola con el nombre del estudiante',
-        () async {
-      final attendance = _FakeAttendanceRepository(
-        students: {'EST001': _identity('EST001', first: 'Ana', last: 'Gómez')},
-      );
-      final useCase = RegisterScan(attendance);
+    test(
+      'un escaneo válido llega a la cola con el nombre del estudiante',
+      () async {
+        final attendance = _FakeAttendanceRepository(
+          students: {
+            'EST001': _identity('EST001', first: 'Ana', last: 'Gómez'),
+          },
+        );
+        final useCase = RegisterScan(attendance);
 
-      final result = await useCase.resolve('EST001');
-      expect(result, isA<ScanResolved>());
+        final result = await useCase.resolve('EST001');
+        expect(result, isA<ScanResolved>());
 
-      final queued = await useCase.confirm(
-        student: (result as ScanResolved).student,
-        state: result.suggested,
-        kind: AttendanceKind.entry,
-        registeredBy: 7,
-        qrCode: 'EST001',
-      );
+        final queued = await useCase.confirm(
+          student: (result as ScanResolved).student,
+          state: result.suggested,
+          kind: AttendanceKind.entry,
+          registeredBy: 7,
+          qrCode: 'EST001',
+        );
 
-      expect(queued, isTrue);
-      expect(attendance.recorded.single, 'Ana Gómez');
-    });
+        expect(queued, isTrue);
+        expect(attendance.recorded.single, 'Ana Gómez');
+      },
+    );
   });
 
   group('TodaysClasses y NextClass', () {
     ClassSession block(String day, int hour) => ClassSession(
-          subject: 'Matemáticas',
-          group: '10-A',
-          room: 'Aula 1',
-          status: ClassStatus.upcoming,
-          day: day,
-          start: ClassTime(hour, 0),
-          end: ClassTime(hour + 1, 0),
-        );
+      subject: 'Matemáticas',
+      group: '10-A',
+      room: 'Aula 1',
+      status: ClassStatus.upcoming,
+      day: day,
+      start: ClassTime(hour, 0),
+      end: ClassTime(hour + 1, 0),
+    );
 
     test('solo devuelve los bloques del día, con su estado real', () {
       // Un lunes a las 09:30.
@@ -124,20 +131,27 @@ void main() {
 
     test('la próxima clase es la primera que aún no terminó', () {
       final monday = DateTime(2026, 9, 7, 9, 30);
-      final today = const TodaysClasses()
-          .call([block('Lunes', 7), block('Lunes', 9), block('Lunes', 11)],
-              now: monday);
+      final today = const TodaysClasses().call([
+        block('Lunes', 7),
+        block('Lunes', 9),
+        block('Lunes', 11),
+      ], now: monday);
 
       expect(const NextClass().call(today)?.time, '09:00');
     });
 
-    test('terminada la jornada, se muestra el último bloque en vez de nada', () {
-      final evening = DateTime(2026, 9, 7, 20, 0);
-      final today = const TodaysClasses()
-          .call([block('Lunes', 7), block('Lunes', 9)], now: evening);
+    test(
+      'terminada la jornada, se muestra el último bloque en vez de nada',
+      () {
+        final evening = DateTime(2026, 9, 7, 20, 0);
+        final today = const TodaysClasses().call([
+          block('Lunes', 7),
+          block('Lunes', 9),
+        ], now: evening);
 
-      expect(const NextClass().call(today)?.time, '09:00');
-    });
+        expect(const NextClass().call(today)?.time, '09:00');
+      },
+    );
 
     test('sin clases hoy devuelve null, no una excepción', () {
       expect(const NextClass().call(const []), isNull);
@@ -152,13 +166,15 @@ void main() {
       expect(auth.restoreCalls, 0);
     });
 
-    test('una sesión guardada inservible termina en "sin sesión", no en error',
-        () async {
-      final auth = _FakeAuthRepository(failRestore: true);
+    test(
+      'una sesión guardada inservible termina en "sin sesión", no en error',
+      () async {
+        final auth = _FakeAuthRepository(failRestore: true);
 
-      expect(await RestoreSession(auth).call(), isNull);
-      expect(auth.signedOut, isTrue);
-    });
+        expect(await RestoreSession(auth).call(), isNull);
+        expect(auth.signedOut, isTrue);
+      },
+    );
   });
 }
 
@@ -213,9 +229,10 @@ class _FakeAttendanceRepository implements AttendanceRepository {
 
   @override
   Future<ScanResult> resolve(
-    String rawCode,
-    {AttendanceKind? kind, DateTime? now}
-  ) async {
+    String rawCode, {
+    AttendanceKind? kind,
+    DateTime? now,
+  }) async {
     final student = students[rawCode.trim()];
     if (student == null) return ScanUnknownCode(rawCode);
     if (!student.active) return ScanInactiveStudent(student);

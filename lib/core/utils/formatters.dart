@@ -65,7 +65,8 @@ abstract final class Formatters {
   }
 
   /// 3.87 → "3.9"; null → "—".
-  static String grade(double? value) => value == null ? '—' : value.toStringAsFixed(1);
+  static String grade(double? value) =>
+      value == null ? '—' : value.toStringAsFixed(1);
 
   /// 0.9412 or 94.12 → "94%". The API is inconsistent about whether a
   /// percentage arrives as a fraction or as a number out of a hundred.
@@ -77,6 +78,8 @@ abstract final class Formatters {
 
   static double normalizePercent(double? value) {
     if (value == null) return 0;
-    return (value <= 1 && value > 0 ? value * 100 : value).clamp(0, 100).toDouble();
+    return (value <= 1 && value > 0 ? value * 100 : value)
+        .clamp(0, 100)
+        .toDouble();
   }
 }

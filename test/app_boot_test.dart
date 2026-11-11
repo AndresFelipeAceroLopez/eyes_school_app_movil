@@ -20,12 +20,12 @@ void main() {
     FlutterSecureStorage.setMockInitialValues({});
   });
 
-  testWidgets('sin sesión guardada la app aterriza en el login', (tester) async {
+  testWidgets('sin sesión guardada la app aterriza en el login', (
+    tester,
+  ) async {
     await tester.pumpWidget(
       ProviderScope(
-        overrides: [
-          tokenStorageProvider.overrideWithValue(TokenStorage()),
-        ],
+        overrides: [tokenStorageProvider.overrideWithValue(TokenStorage())],
         child: const EyeSchoolApp(),
       ),
     );
@@ -39,20 +39,14 @@ void main() {
     expect(find.text('Entrar'), findsOneWidget);
   });
 
-  testWidgets('la sesión expone el estudiante sobre el que consulta cada rol',
-      (tester) async {
+  testWidgets('la sesión expone el estudiante sobre el que consulta cada rol', (
+    tester,
+  ) async {
     // Not a widget assertion, but the invariant every student and guardian
     // screen depends on: `subjectStudentId` is the student themself, or the
     // guardian's linked child.
-    const student = AppSession(
-      user: _user,
-      studentId: 41,
-    );
-    const guardian = AppSession(
-      user: _guardian,
-      parentId: 3,
-      childId: 41,
-    );
+    const student = AppSession(user: _user, studentId: 41);
+    const guardian = AppSession(user: _guardian, parentId: 3, childId: 41);
 
     expect(student.subjectStudentId, 41);
     expect(guardian.subjectStudentId, 41);

@@ -22,18 +22,25 @@ class AdminNovedadesScreen extends ConsumerWidget {
         onRefresh: () async => ref.invalidate(adminNovedadesProvider),
         child: novedadesAsync.when(
           loading: () => const LoadingView(),
-          error: (error, _) => ListView(children: [
-            ErrorView(error: error, onRetry: () => ref.invalidate(adminNovedadesProvider)),
-          ]),
+          error: (error, _) => ListView(
+            children: [
+              ErrorView(
+                error: error,
+                onRetry: () => ref.invalidate(adminNovedadesProvider),
+              ),
+            ],
+          ),
           data: (novedades) {
             if (novedades.isEmpty) {
-              return ListView(children: const [
-                EmptyState(
-                  icon: Icons.notifications_none_rounded,
-                  title: 'Sin novedades',
-                  message: 'No hay incidencias registradas en el colegio.',
-                ),
-              ]);
+              return ListView(
+                children: const [
+                  EmptyState(
+                    icon: Icons.notifications_none_rounded,
+                    title: 'Sin novedades',
+                    message: 'No hay incidencias registradas en el colegio.',
+                  ),
+                ],
+              );
             }
             return ListView.separated(
               padding: const EdgeInsets.fromLTRB(20, 20, 20, 32),

@@ -53,11 +53,15 @@ class AuthInterceptor extends Interceptor {
   }
 
   @override
-  Future<void> onError(DioException err, ErrorInterceptorHandler handler) async {
+  Future<void> onError(
+    DioException err,
+    ErrorInterceptorHandler handler,
+  ) async {
     final response = err.response;
     final options = err.requestOptions;
 
-    final shouldRefresh = response?.statusCode == 401 &&
+    final shouldRefresh =
+        response?.statusCode == 401 &&
         !_isPublic(options) &&
         options.extra['retried'] != true;
 
@@ -80,7 +84,9 @@ class AuthInterceptor extends Interceptor {
 
   /// Refreshes at most once at a time; concurrent 401s await the same future.
   Future<_RefreshResult> _refreshAccessToken() {
-    return _refreshing ??= _performRefresh().whenComplete(() => _refreshing = null);
+    return _refreshing ??= _performRefresh().whenComplete(
+      () => _refreshing = null,
+    );
   }
 
   Future<_RefreshResult> _performRefresh() async {
@@ -100,26 +106,24 @@ class AuthInterceptor extends Interceptor {
       // rejection of the refresh token counts as "session over".
       final status = e.response?.statusCode;
       final rejected = status == 401 || status == 403 || status == 422;
-      return rejected ? const _RefreshResult.sessionOver() : const _RefreshResult.unavailable();
+      return rejected
+          ? const _RefreshResult.sessionOver()
+          : const _RefreshResult.unavailable();
     }
   }
 }
 
 class _RefreshResult {
   const _RefreshResult.renewed(String token)
-      : accessToken = token,
-        sessionOver = false;
+    : accessToken = token,
+      sessionOver = false;
 
   /// The refresh token itself was rejected: the user has to log in again.
-  const _RefreshResult.sessionOver()
-      : accessToken = null,
-        sessionOver = true;
+  const _RefreshResult.sessionOver() : accessToken = null, sessionOver = true;
 
   /// The refresh could not be attempted (no network). The session is kept and
   /// the original error surfaces as a `NetworkFailure`.
-  const _RefreshResult.unavailable()
-      : accessToken = null,
-        sessionOver = false;
+  const _RefreshResult.unavailable() : accessToken = null, sessionOver = false;
 
   final String? accessToken;
   final bool sessionOver;

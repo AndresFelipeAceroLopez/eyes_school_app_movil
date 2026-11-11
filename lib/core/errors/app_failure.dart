@@ -22,15 +22,21 @@ class ValidationFailure extends AppFailure {
 }
 
 class UnauthorizedFailure extends AppFailure {
-  const UnauthorizedFailure([super.message = 'Tu sesión expiró. Ingresa de nuevo.']);
+  const UnauthorizedFailure([
+    super.message = 'Tu sesión expiró. Ingresa de nuevo.',
+  ]);
 }
 
 class ForbiddenFailure extends AppFailure {
-  const ForbiddenFailure([super.message = 'No tienes permiso para esta acción.']);
+  const ForbiddenFailure([
+    super.message = 'No tienes permiso para esta acción.',
+  ]);
 }
 
 class NotFoundFailure extends AppFailure {
-  const NotFoundFailure([super.message = 'No encontramos el recurso solicitado.']);
+  const NotFoundFailure([
+    super.message = 'No encontramos el recurso solicitado.',
+  ]);
 }
 
 class ConflictFailure extends AppFailure {
@@ -38,13 +44,19 @@ class ConflictFailure extends AppFailure {
 }
 
 class ServerFailure extends AppFailure {
-  const ServerFailure([super.message = 'El servidor no está disponible. Intenta más tarde.']);
+  const ServerFailure([
+    super.message = 'El servidor no está disponible. Intenta más tarde.',
+  ]);
 }
 
 class NetworkFailure extends AppFailure {
-  const NetworkFailure([super.message = 'Sin conexión. Revisa tu red e intenta de nuevo.']);
+  const NetworkFailure([
+    super.message = 'Sin conexión. Revisa tu red e intenta de nuevo.',
+  ]);
 }
 
 class UnexpectedFailure extends AppFailure {
-  const UnexpectedFailure([super.message = 'No pudimos completar la solicitud.']);
+  const UnexpectedFailure([
+    super.message = 'No pudimos completar la solicitud.',
+  ]);
 }

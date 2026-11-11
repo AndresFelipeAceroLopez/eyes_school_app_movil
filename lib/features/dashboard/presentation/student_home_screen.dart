@@ -18,7 +18,7 @@ import 'package:eyes_school/features/novedades/domain/severity.dart';
 
 class StudentHomeScreen extends ConsumerWidget {
   const StudentHomeScreen({super.key});
-//
+  //
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final session = ref.watch(currentSessionProvider);
@@ -31,7 +31,9 @@ class StudentHomeScreen extends ConsumerWidget {
     final period = ref.watch(currentPeriodProvider);
     final gradesAsync = studentId == null
         ? null
-        : ref.watch(gradesForStudentProvider((studentId: studentId, period: period)));
+        : ref.watch(
+            gradesForStudentProvider((studentId: studentId, period: period)),
+          );
 
     return Scaffold(
       backgroundColor: AppColors.background,
@@ -57,24 +59,28 @@ class StudentHomeScreen extends ConsumerWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              [user.grade, user.jornada]
-                                  .whereType<String>()
-                                  .join(' · '),
+                              [
+                                user.grade,
+                                user.jornada,
+                              ].whereType<String>().join(' · '),
                               style: AppTextStyles.statLabel,
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                             ),
                             Text(
                               'Hola, ${user.firstName}',
-                              style: AppTextStyles.h1
-                                  .copyWith(color: Colors.white, fontSize: 22),
+                              style: AppTextStyles.h1.copyWith(
+                                color: Colors.white,
+                                fontSize: 22,
+                              ),
                             ),
                           ],
                         ),
                       ),
                       _Bell(
                         onTap: () => context.go('/student/news'),
-                        count: dashboardAsync.valueOrNull?.pendingNovedades ?? 0,
+                        count:
+                            dashboardAsync.valueOrNull?.pendingNovedades ?? 0,
                       ),
                     ],
                   ),
@@ -91,7 +97,8 @@ class StudentHomeScreen extends ConsumerWidget {
                             label: 'Promedio',
                             value: Formatters.grade(data.average),
                             caption: AcademicPeriods.labelOf(
-                                data.currentPeriod ?? period),
+                              data.currentPeriod ?? period,
+                            ),
                           ),
                         ),
                         const SizedBox(width: 12),
@@ -123,12 +130,17 @@ class StudentHomeScreen extends ConsumerWidget {
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Icon(Icons.warning_amber_rounded,
-                          size: 20, color: AppColors.orange),
+                      const Icon(
+                        Icons.warning_amber_rounded,
+                        size: 20,
+                        color: AppColors.orange,
+                      ),
                       const SizedBox(width: 10),
                       Expanded(
-                        child: Text(session.bootstrapWarning!,
-                            style: AppTextStyles.caption),
+                        child: Text(
+                          session.bootstrapWarning!,
+                          style: AppTextStyles.caption,
+                        ),
                       ),
                     ],
                   ),
@@ -224,10 +236,13 @@ class StudentHomeScreen extends ConsumerWidget {
                           ? const EmptyState(
                               icon: Icons.bar_chart_rounded,
                               title: 'Sin notas todavía',
-                              message: 'Aún no hay notas registradas en este periodo.',
+                              message:
+                                  'Aún no hay notas registradas en este periodo.',
                             )
                           : GradesCard(
-                              grades: GradesCard.averageBySubject(grades).take(5).toList(),
+                              grades: GradesCard.averageBySubject(
+                                grades,
+                              ).take(5).toList(),
                               groupBySubject: false,
                             ),
                     ),
@@ -257,7 +272,10 @@ class _NextClassCard extends StatelessWidget {
               color: AppColors.roleAdminBg,
               borderRadius: BorderRadius.circular(14),
             ),
-            child: const Icon(Icons.menu_book_rounded, color: AppColors.tealDark),
+            child: const Icon(
+              Icons.menu_book_rounded,
+              color: AppColors.tealDark,
+            ),
           ),
           const SizedBox(width: 14),
           Expanded(
@@ -274,13 +292,17 @@ class _NextClassCard extends StatelessWidget {
             children: [
               Text(
                 session.time,
-                style: AppTextStyles.body
-                    .copyWith(color: AppColors.indigo, fontWeight: FontWeight.w800),
+                style: AppTextStyles.body.copyWith(
+                  color: AppColors.indigo,
+                  fontWeight: FontWeight.w800,
+                ),
               ),
               Text(
                 inCourse ? 'En curso' : _relative(session),
                 style: AppTextStyles.caption.copyWith(
-                  color: inCourse ? AppColors.tealDark : AppColors.textSecondary,
+                  color: inCourse
+                      ? AppColors.tealDark
+                      : AppColors.textSecondary,
                   fontWeight: inCourse ? FontWeight.w700 : FontWeight.w500,
                 ),
               ),
@@ -297,7 +319,8 @@ class _NextClassCard extends StatelessWidget {
     final start = session.start;
     if (start == null) return '';
     final now = DateTime.now();
-    final minutes = (start.hour * 60 + start.minute) - (now.hour * 60 + now.minute);
+    final minutes =
+        (start.hour * 60 + start.minute) - (now.hour * 60 + now.minute);
     if (minutes <= 0) return 'Finalizada';
     if (minutes < 60) return 'En $minutes min';
     return 'En ${(minutes / 60).floor()} h';
@@ -325,7 +348,10 @@ class _Bell extends StatelessWidget {
               color: Colors.white.withValues(alpha: 0.08),
               shape: BoxShape.circle,
             ),
-            child: const Icon(Icons.notifications_none_rounded, color: Colors.white),
+            child: const Icon(
+              Icons.notifications_none_rounded,
+              color: Colors.white,
+            ),
           ),
           if (count > 0)
             Positioned(
@@ -390,19 +416,27 @@ class _StatCard extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 8),
-          Text(value, style: AppTextStyles.h1.copyWith(color: Colors.white, fontSize: 26)),
+          Text(
+            value,
+            style: AppTextStyles.h1.copyWith(color: Colors.white, fontSize: 26),
+          ),
           const SizedBox(height: 2),
           Row(
             children: [
               Flexible(
-                child: Text(caption,
-                    style: AppTextStyles.statLabel,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis),
+                child: Text(
+                  caption,
+                  style: AppTextStyles.statLabel,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
               ),
               if (onTap != null)
-                const Icon(Icons.chevron_right_rounded,
-                    size: 14, color: AppColors.textOnDarkMuted),
+                const Icon(
+                  Icons.chevron_right_rounded,
+                  size: 14,
+                  color: AppColors.textOnDarkMuted,
+                ),
             ],
           ),
         ],
@@ -438,7 +472,10 @@ class _StatsSkeleton extends StatelessWidget {
               borderRadius: BorderRadius.circular(18),
             ),
             child: empty
-                ? Text('—', style: AppTextStyles.h1.copyWith(color: Colors.white38))
+                ? Text(
+                    '—',
+                    style: AppTextStyles.h1.copyWith(color: Colors.white38),
+                  )
                 : null,
           ),
         ),

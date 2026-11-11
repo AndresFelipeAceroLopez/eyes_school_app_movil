@@ -96,16 +96,12 @@ class AppSession {
   /// The student every query in this session is about: the student themself,
   /// or the guardian's child.
   int? get subjectStudentId => switch (role) {
-        Role.student => studentId,
-        Role.parent => childId,
-        _ => null,
-      };
+    Role.student => studentId,
+    Role.parent => childId,
+    _ => null,
+  };
 
-  AppSession copyWith({
-    AppUser? user,
-    int? currentPeriod,
-    String? childName,
-  }) {
+  AppSession copyWith({AppUser? user, int? currentPeriod, String? childName}) {
     return AppSession(
       user: user ?? this.user,
       teacherId: teacherId,

@@ -58,7 +58,7 @@ class UpdateService {
 
       final data = response.data;
       String tagName = data['tag_name'] as String;
-      
+
       // Clean up the tag name (e.g., 'v1.0.2' -> '1.0.2')
       if (tagName.startsWith('v') || tagName.startsWith('V')) {
         tagName = tagName.substring(1);
@@ -73,7 +73,7 @@ class UpdateService {
       if (latestVersion > currentVersion) {
         final assets = data['assets'] as List;
         String? downloadUrl;
-        
+
         // The universal `app-release.apk` installs on any ABI; the per-ABI
         // files are only a fallback.
         for (final asset in assets) {
@@ -120,7 +120,9 @@ class UpdateService {
 
       final result = await OpenFilex.open(savePath);
       if (result.type != ResultType.done) {
-        throw UnexpectedFailure('No se pudo abrir el instalador: ${result.message}');
+        throw UnexpectedFailure(
+          'No se pudo abrir el instalador: ${result.message}',
+        );
       }
     } catch (e) {
       throw UnexpectedFailure('Error al descargar la actualización: $e');

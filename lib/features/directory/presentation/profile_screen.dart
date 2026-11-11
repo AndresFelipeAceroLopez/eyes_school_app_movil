@@ -89,7 +89,10 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                   if (Navigator.of(context).canPop() || context.canPop()) ...[
                     IconButton(
                       tooltip: 'Volver',
-                      icon: const Icon(Icons.arrow_back_rounded, color: AppColors.textPrimary),
+                      icon: const Icon(
+                        Icons.arrow_back_rounded,
+                        color: AppColors.textPrimary,
+                      ),
                       onPressed: () {
                         if (Navigator.of(context).canPop()) {
                           Navigator.of(context).pop();
@@ -122,18 +125,27 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                               width: 28,
                               height: 28,
                               decoration: const BoxDecoration(
-                                gradient: LinearGradient(colors: AppColors.primaryGradient),
+                                gradient: LinearGradient(
+                                  colors: AppColors.primaryGradient,
+                                ),
                                 shape: BoxShape.circle,
                               ),
-                              child: const Icon(Icons.camera_alt_rounded,
-                                  size: 15, color: Colors.white),
+                              child: const Icon(
+                                Icons.camera_alt_rounded,
+                                size: 15,
+                                color: Colors.white,
+                              ),
                             ),
                           ),
                         ),
                       ],
                     ),
                     const SizedBox(height: 14),
-                    Text(user.name, style: AppTextStyles.h2, textAlign: TextAlign.center),
+                    Text(
+                      user.name,
+                      style: AppTextStyles.h2,
+                      textAlign: TextAlign.center,
+                    ),
                     const SizedBox(height: 8),
                     RoleBadge(role: user.role),
                     const SizedBox(height: 8),
@@ -143,13 +155,19 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                     ),
                     if (user.subject != null) ...[
                       const SizedBox(height: 8),
-                      Text(user.subject!,
-                          style: AppTextStyles.bodyMuted, textAlign: TextAlign.center),
+                      Text(
+                        user.subject!,
+                        style: AppTextStyles.bodyMuted,
+                        textAlign: TextAlign.center,
+                      ),
                     ],
                     if (user.grade != null) ...[
                       const SizedBox(height: 4),
                       Text(
-                        [user.grade, user.jornada].whereType<String>().join(' · '),
+                        [
+                          user.grade,
+                          user.jornada,
+                        ].whereType<String>().join(' · '),
                         style: AppTextStyles.bodyMuted,
                       ),
                     ],
@@ -167,7 +185,9 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                     foregroundColor: AppColors.indigo,
                     side: const BorderSide(color: AppColors.indigo),
                     padding: const EdgeInsets.symmetric(vertical: 14),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
                   ),
                   onPressed: () => context.push('/my-qr'),
                   icon: const Icon(Icons.qr_code_rounded),
@@ -182,8 +202,11 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                     Row(
                       children: [
                         Expanded(
-                            child:
-                                Text('Información de la cuenta', style: AppTextStyles.h3)),
+                          child: Text(
+                            'Información de la cuenta',
+                            style: AppTextStyles.h3,
+                          ),
+                        ),
                         if (_loadingDetails)
                           const SizedBox(
                             width: 16,
@@ -195,27 +218,33 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                             tooltip: 'Editar',
                             padding: EdgeInsets.zero,
                             constraints: const BoxConstraints(),
-                            icon: const Icon(Icons.edit_outlined,
-                                size: 18, color: AppColors.indigo),
+                            icon: const Icon(
+                              Icons.edit_outlined,
+                              size: 18,
+                              color: AppColors.indigo,
+                            ),
                             onPressed: () => _editProfile(user),
                           ),
                       ],
                     ),
                     const SizedBox(height: 14),
                     _InfoRow(
-                        icon: Icons.mail_outline_rounded,
-                        label: 'Correo',
-                        value: user.email.isEmpty ? '—' : user.email),
+                      icon: Icons.mail_outline_rounded,
+                      label: 'Correo',
+                      value: user.email.isEmpty ? '—' : user.email,
+                    ),
                     const Divider(height: 24, color: AppColors.divider),
                     _InfoRow(
-                        icon: Icons.phone_outlined,
-                        label: 'Teléfono',
-                        value: user.phone ?? '—'),
+                      icon: Icons.phone_outlined,
+                      label: 'Teléfono',
+                      value: user.phone ?? '—',
+                    ),
                     const Divider(height: 24, color: AppColors.divider),
                     _InfoRow(
-                        icon: Icons.home_outlined,
-                        label: 'Dirección',
-                        value: user.address ?? '—'),
+                      icon: Icons.home_outlined,
+                      label: 'Dirección',
+                      value: user.address ?? '—',
+                    ),
                     const Divider(height: 24, color: AppColors.divider),
                     // Locked on purpose: identity documents are changed by an
                     // administrator, not by their owner.
@@ -228,9 +257,10 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                     if (user.institution != null) ...[
                       const Divider(height: 24, color: AppColors.divider),
                       _InfoRow(
-                          icon: Icons.school_outlined,
-                          label: 'Nivel de acceso',
-                          value: user.institution!),
+                        icon: Icons.school_outlined,
+                        label: 'Nivel de acceso',
+                        value: user.institution!,
+                      ),
                     ],
                   ],
                 ),
@@ -247,11 +277,18 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                     Material(
                       color: Colors.transparent,
                       child: ListTile(
-                        leading: const Icon(Icons.lock_outline_rounded,
-                            color: AppColors.textSecondary),
-                        title: Text('Cambiar contraseña', style: AppTextStyles.body),
-                        trailing: const Icon(Icons.chevron_right_rounded,
-                            color: AppColors.textSecondary),
+                        leading: const Icon(
+                          Icons.lock_outline_rounded,
+                          color: AppColors.textSecondary,
+                        ),
+                        title: Text(
+                          'Cambiar contraseña',
+                          style: AppTextStyles.body,
+                        ),
+                        trailing: const Icon(
+                          Icons.chevron_right_rounded,
+                          color: AppColors.textSecondary,
+                        ),
                         onTap: () => _changePassword(user),
                       ),
                     ),
@@ -265,7 +302,9 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                   style: OutlinedButton.styleFrom(
                     foregroundColor: AppColors.pink,
                     side: const BorderSide(color: AppColors.pink),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
                   ),
                   onPressed: _confirmLogout,
                   icon: const Icon(Icons.logout_rounded),
@@ -291,7 +330,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
           pending == 0
               ? '¿Quieres salir de tu cuenta?'
               : 'Tienes $pending registro(s) de asistencia sin sincronizar. '
-                  'Si cierras sesión ahora se perderán.',
+                    'Si cierras sesión ahora se perderán.',
           style: AppTextStyles.bodyMuted,
         ),
         actions: [
@@ -301,7 +340,10 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
           ),
           TextButton(
             onPressed: () => Navigator.of(context).pop(true),
-            child: Text('Salir', style: AppTextStyles.link.copyWith(color: AppColors.pink)),
+            child: Text(
+              'Salir',
+              style: AppTextStyles.link.copyWith(color: AppColors.pink),
+            ),
           ),
         ],
       ),
@@ -354,10 +396,12 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     try {
       await ref.read(authRepositoryProvider).uploadAvatar(picked.path);
       await _loadDetails();
-      messenger.showSnackBar(const SnackBar(
-        content: Text('Foto actualizada.'),
-        backgroundColor: AppColors.tealDark,
-      ));
+      messenger.showSnackBar(
+        const SnackBar(
+          content: Text('Foto actualizada.'),
+          backgroundColor: AppColors.tealDark,
+        ),
+      );
     } on AppFailure catch (e) {
       messenger.showSnackBar(SnackBar(content: Text(e.message)));
     }
@@ -379,7 +423,9 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
         address: address,
         email: email,
         onSave: () async {
-          await ref.read(authRepositoryProvider).updateProfile(
+          await ref
+              .read(authRepositoryProvider)
+              .updateProfile(
                 userId: user.userId,
                 phone: phone.text.trim(),
                 address: address.text.trim(),
@@ -415,7 +461,9 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
         password: password,
         confirm: confirm,
         onSave: () async {
-          await ref.read(authRepositoryProvider).changePassword(
+          await ref
+              .read(authRepositoryProvider)
+              .changePassword(
                 userId: user.userId,
                 currentPassword: current.text,
                 password: password.text,
@@ -429,10 +477,12 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     confirm.dispose();
 
     if (saved == true && mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        content: Text('Contraseña actualizada.'),
-        backgroundColor: AppColors.tealDark,
-      ));
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Contraseña actualizada.'),
+          backgroundColor: AppColors.tealDark,
+        ),
+      );
     }
   }
 }
@@ -515,7 +565,9 @@ class _EditSheetState extends State<_EditSheet> {
             TextFormField(
               controller: widget.email,
               keyboardType: TextInputType.emailAddress,
-              decoration: const InputDecoration(prefixIcon: Icon(Icons.mail_outline_rounded)),
+              decoration: const InputDecoration(
+                prefixIcon: Icon(Icons.mail_outline_rounded),
+              ),
               validator: (v) => _fieldErrors['correo'] ?? Validators.email(v),
             ),
             const SizedBox(height: 16),
@@ -524,7 +576,9 @@ class _EditSheetState extends State<_EditSheet> {
             TextFormField(
               controller: widget.phone,
               keyboardType: TextInputType.phone,
-              decoration: const InputDecoration(prefixIcon: Icon(Icons.phone_outlined)),
+              decoration: const InputDecoration(
+                prefixIcon: Icon(Icons.phone_outlined),
+              ),
               validator: (_) => _fieldErrors['telefono'],
             ),
             const SizedBox(height: 16),
@@ -532,12 +586,17 @@ class _EditSheetState extends State<_EditSheet> {
             const SizedBox(height: 8),
             TextFormField(
               controller: widget.address,
-              decoration: const InputDecoration(prefixIcon: Icon(Icons.home_outlined)),
+              decoration: const InputDecoration(
+                prefixIcon: Icon(Icons.home_outlined),
+              ),
               validator: (_) => _fieldErrors['direccion'],
             ),
             if (_errorText != null) ...[
               const SizedBox(height: 14),
-              Text(_errorText!, style: AppTextStyles.body.copyWith(color: AppColors.pink)),
+              Text(
+                _errorText!,
+                style: AppTextStyles.body.copyWith(color: AppColors.pink),
+              ),
             ],
             const SizedBox(height: 22),
             PrimaryGradientButton(
@@ -622,7 +681,9 @@ class _PasswordSheetState extends State<_PasswordSheet> {
             TextFormField(
               controller: widget.current,
               obscureText: _obscure,
-              decoration: const InputDecoration(prefixIcon: Icon(Icons.lock_open_rounded)),
+              decoration: const InputDecoration(
+                prefixIcon: Icon(Icons.lock_open_rounded),
+              ),
               validator: Validators.password,
             ),
             const SizedBox(height: 16),
@@ -634,10 +695,14 @@ class _PasswordSheetState extends State<_PasswordSheet> {
               decoration: InputDecoration(
                 prefixIcon: const Icon(Icons.lock_outline_rounded),
                 suffixIcon: IconButton(
-                  tooltip: _obscure ? 'Mostrar contraseña' : 'Ocultar contraseña',
-                  icon: Icon(_obscure
-                      ? Icons.visibility_off_outlined
-                      : Icons.visibility_outlined),
+                  tooltip: _obscure
+                      ? 'Mostrar contraseña'
+                      : 'Ocultar contraseña',
+                  icon: Icon(
+                    _obscure
+                        ? Icons.visibility_off_outlined
+                        : Icons.visibility_outlined,
+                  ),
                   onPressed: () => setState(() => _obscure = !_obscure),
                 ),
               ),
@@ -649,13 +714,19 @@ class _PasswordSheetState extends State<_PasswordSheet> {
             TextFormField(
               controller: widget.confirm,
               obscureText: _obscure,
-              decoration: const InputDecoration(prefixIcon: Icon(Icons.lock_outline_rounded)),
-              validator: (v) =>
-                  v == widget.password.text ? null : 'Las contraseñas no coinciden.',
+              decoration: const InputDecoration(
+                prefixIcon: Icon(Icons.lock_outline_rounded),
+              ),
+              validator: (v) => v == widget.password.text
+                  ? null
+                  : 'Las contraseñas no coinciden.',
             ),
             if (_errorText != null) ...[
               const SizedBox(height: 14),
-              Text(_errorText!, style: AppTextStyles.body.copyWith(color: AppColors.pink)),
+              Text(
+                _errorText!,
+                style: AppTextStyles.body.copyWith(color: AppColors.pink),
+              ),
             ],
             const SizedBox(height: 22),
             PrimaryGradientButton(
@@ -726,12 +797,19 @@ class _InfoRow extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(label, style: AppTextStyles.caption),
-              Text(value, style: AppTextStyles.body.copyWith(fontWeight: FontWeight.w600)),
+              Text(
+                value,
+                style: AppTextStyles.body.copyWith(fontWeight: FontWeight.w600),
+              ),
             ],
           ),
         ),
         if (locked)
-          const Icon(Icons.lock_outline_rounded, size: 15, color: AppColors.textSecondary),
+          const Icon(
+            Icons.lock_outline_rounded,
+            size: 15,
+            color: AppColors.textSecondary,
+          ),
       ],
     );
   }

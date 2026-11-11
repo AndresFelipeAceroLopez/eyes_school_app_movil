@@ -55,7 +55,11 @@ class TeacherProfileScreen extends ConsumerWidget {
             children: [
               AvatarCircle(name: teacher.name, radius: 36),
               const SizedBox(height: 14),
-              Text(teacher.name, style: AppTextStyles.h2, textAlign: TextAlign.center),
+              Text(
+                teacher.name,
+                style: AppTextStyles.h2,
+                textAlign: TextAlign.center,
+              ),
               const SizedBox(height: 8),
               RoleBadge(role: teacher.role),
               const SizedBox(height: 8),
@@ -123,30 +127,41 @@ class TeacherProfileScreen extends ConsumerWidget {
               Text('Cursos asignados', style: AppTextStyles.h3),
               const SizedBox(height: 12),
               coursesAsync.when(
-                loading: () => const LoadingView(padding: EdgeInsets.symmetric(vertical: 16)),
-                error: (_, _) => Text('No pudimos cargar las asignaciones.',
-                    style: AppTextStyles.bodyMuted),
+                loading: () => const LoadingView(
+                  padding: EdgeInsets.symmetric(vertical: 16),
+                ),
+                error: (_, _) => Text(
+                  'No pudimos cargar las asignaciones.',
+                  style: AppTextStyles.bodyMuted,
+                ),
                 data: (courses) => courses.isEmpty
-                    ? Text('Sin asignaciones activas.', style: AppTextStyles.bodyMuted)
+                    ? Text(
+                        'Sin asignaciones activas.',
+                        style: AppTextStyles.bodyMuted,
+                      )
                     : Wrap(
                         spacing: 8,
                         runSpacing: 8,
                         children: courses
-                            .map((c) => Container(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 12, vertical: 7),
-                                  decoration: BoxDecoration(
-                                    color: AppColors.roleTeacherBg,
-                                    borderRadius: BorderRadius.circular(10),
+                            .map(
+                              (c) => Container(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 12,
+                                  vertical: 7,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: AppColors.roleTeacherBg,
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Text(
+                                  c,
+                                  style: AppTextStyles.caption.copyWith(
+                                    color: AppColors.roleTeacher,
+                                    fontWeight: FontWeight.w700,
                                   ),
-                                  child: Text(
-                                    c,
-                                    style: AppTextStyles.caption.copyWith(
-                                      color: AppColors.roleTeacher,
-                                      fontWeight: FontWeight.w700,
-                                    ),
-                                  ),
-                                ))
+                                ),
+                              ),
+                            )
                             .toList(),
                       ),
               ),
@@ -159,7 +174,11 @@ class TeacherProfileScreen extends ConsumerWidget {
 }
 
 class _InfoRow extends StatelessWidget {
-  const _InfoRow({required this.icon, required this.label, required this.value});
+  const _InfoRow({
+    required this.icon,
+    required this.label,
+    required this.value,
+  });
 
   final IconData icon;
   final String label;
@@ -184,7 +203,10 @@ class _InfoRow extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(label, style: AppTextStyles.caption),
-              Text(value, style: AppTextStyles.body.copyWith(fontWeight: FontWeight.w600)),
+              Text(
+                value,
+                style: AppTextStyles.body.copyWith(fontWeight: FontWeight.w600),
+              ),
             ],
           ),
         ),

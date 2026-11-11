@@ -6,8 +6,10 @@ abstract final class ApiConfig {
   static const _defaultBase =
       'https://api-eyesschool-hrf2gsg7hyf9dacq.westus3-01.azurewebsites.net';
 
-  static const String host =
-      String.fromEnvironment('EYESCHOOL_API_BASE', defaultValue: _defaultBase);
+  static const String host = String.fromEnvironment(
+    'EYESCHOOL_API_BASE',
+    defaultValue: _defaultBase,
+  );
 
   static const String baseUrl = '$host/api/v1';
 

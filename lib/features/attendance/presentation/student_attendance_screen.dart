@@ -22,7 +22,8 @@ class StudentAttendanceScreen extends ConsumerWidget {
           ? EmptyState(
               icon: Icons.fact_check_outlined,
               title: 'Perfil de estudiante no encontrado',
-              message: session?.bootstrapWarning ??
+              message:
+                  session?.bootstrapWarning ??
                   'Tu cuenta no tiene un perfil de estudiante asociado.',
             )
           : AttendanceHistoryView(studentId: studentId),

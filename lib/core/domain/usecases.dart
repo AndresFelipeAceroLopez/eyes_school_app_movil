@@ -22,10 +22,14 @@ class SignIn {
 
   Future<AppSession> call({required String email, required String password}) {
     if (email.trim().isEmpty) {
-      throw const ValidationFailure('Ingresa tu correo.', {'correo': 'Requerido'});
+      throw const ValidationFailure('Ingresa tu correo.', {
+        'correo': 'Requerido',
+      });
     }
     if (password.isEmpty) {
-      throw const ValidationFailure('Ingresa tu contraseña.', {'password': 'Requerido'});
+      throw const ValidationFailure('Ingresa tu contraseña.', {
+        'password': 'Requerido',
+      });
     }
     return _auth.signIn(email: email, password: password);
   }
@@ -154,7 +158,11 @@ class SaveGradeSheet {
 }
 
 class GradeEntry {
-  const GradeEntry({required this.studentId, required this.score, this.gradeId});
+  const GradeEntry({
+    required this.studentId,
+    required this.score,
+    this.gradeId,
+  });
 
   final int studentId;
   final double score;
@@ -176,7 +184,10 @@ class TodaysClasses {
   List<ClassSession> call(List<ClassSession> weekly, {DateTime? now}) {
     final moment = now ?? DateTime.now();
     final today = Weekdays.labelFor(moment);
-    return weekly.where((s) => s.day == today).map((s) => s.resolvedAt(moment)).toList();
+    return weekly
+        .where((s) => s.day == today)
+        .map((s) => s.resolvedAt(moment))
+        .toList();
   }
 }
 

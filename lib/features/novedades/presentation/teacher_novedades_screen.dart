@@ -20,10 +20,12 @@ class TeacherNovedadesScreen extends ConsumerStatefulWidget {
   const TeacherNovedadesScreen({super.key});
 
   @override
-  ConsumerState<TeacherNovedadesScreen> createState() => _TeacherNovedadesScreenState();
+  ConsumerState<TeacherNovedadesScreen> createState() =>
+      _TeacherNovedadesScreenState();
 }
 
-class _TeacherNovedadesScreenState extends ConsumerState<TeacherNovedadesScreen> {
+class _TeacherNovedadesScreenState
+    extends ConsumerState<TeacherNovedadesScreen> {
   NovedadStatus? _estado = NovedadStatus.pending;
 
   @override
@@ -63,23 +65,27 @@ class _TeacherNovedadesScreenState extends ConsumerState<TeacherNovedadesScreen>
               onRefresh: () async => ref.invalidate(teacherNovedadesProvider),
               child: novedadesAsync.when(
                 loading: () => const LoadingView(),
-                error: (error, _) => ListView(children: [
-                  ErrorView(
-                    error: error,
-                    onRetry: () => ref.invalidate(teacherNovedadesProvider),
-                  ),
-                ]),
+                error: (error, _) => ListView(
+                  children: [
+                    ErrorView(
+                      error: error,
+                      onRetry: () => ref.invalidate(teacherNovedadesProvider),
+                    ),
+                  ],
+                ),
                 data: (novedades) {
                   if (novedades.isEmpty) {
-                    return ListView(children: [
-                      EmptyState(
-                        icon: Icons.notifications_none_rounded,
-                        title: _estado == NovedadStatus.pending
-                            ? 'No hay novedades pendientes'
-                            : 'Sin novedades',
-                        message: 'Registra una novedad con el botón «Nueva».',
-                      ),
-                    ]);
+                    return ListView(
+                      children: [
+                        EmptyState(
+                          icon: Icons.notifications_none_rounded,
+                          title: _estado == NovedadStatus.pending
+                              ? 'No hay novedades pendientes'
+                              : 'Sin novedades',
+                          message: 'Registra una novedad con el botón «Nueva».',
+                        ),
+                      ],
+                    );
                   }
                   return ListView.separated(
                     padding: const EdgeInsets.fromLTRB(20, 16, 20, 96),
@@ -146,8 +152,10 @@ class _TeacherNovedadesScreenState extends ConsumerState<TeacherNovedadesScreen>
           children: [
             Text(novedad.title, style: AppTextStyles.h2),
             const SizedBox(height: 4),
-            Text('${novedad.studentName} · ${Formatters.timeAgo(novedad.date)}',
-                style: AppTextStyles.caption),
+            Text(
+              '${novedad.studentName} · ${Formatters.timeAgo(novedad.date)}',
+              style: AppTextStyles.caption,
+            ),
             const SizedBox(height: 16),
             if (novedad.description != null)
               Text(novedad.description!, style: AppTextStyles.body),
@@ -159,7 +167,9 @@ class _TeacherNovedadesScreenState extends ConsumerState<TeacherNovedadesScreen>
                 controller: action,
                 minLines: 2,
                 maxLines: 4,
-                decoration: const InputDecoration(hintText: '¿Qué se hizo al respecto?'),
+                decoration: const InputDecoration(
+                  hintText: '¿Qué se hizo al respecto?',
+                ),
               ),
               const SizedBox(height: 18),
               SizedBox(
@@ -169,7 +179,8 @@ class _TeacherNovedadesScreenState extends ConsumerState<TeacherNovedadesScreen>
                     backgroundColor: AppColors.indigo,
                     padding: const EdgeInsets.symmetric(vertical: 14),
                     shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(14)),
+                      borderRadius: BorderRadius.circular(14),
+                    ),
                   ),
                   onPressed: () => Navigator.of(context).pop(true),
                   child: const Text('Marcar como completada'),
@@ -178,7 +189,10 @@ class _TeacherNovedadesScreenState extends ConsumerState<TeacherNovedadesScreen>
             ] else
               Row(
                 children: [
-                  const Icon(Icons.check_circle_rounded, color: AppColors.tealDark),
+                  const Icon(
+                    Icons.check_circle_rounded,
+                    color: AppColors.tealDark,
+                  ),
                   const SizedBox(width: 8),
                   Text('Novedad completada', style: AppTextStyles.body),
                 ],
@@ -193,14 +207,18 @@ class _TeacherNovedadesScreenState extends ConsumerState<TeacherNovedadesScreen>
       return;
     }
     try {
-      await ref.read(academicRepositoryProvider).resolveNovedad(
+      await ref
+          .read(academicRepositoryProvider)
+          .resolveNovedad(
             novedad.novedadId!,
             action: action.text.trim().isEmpty ? null : action.text.trim(),
           );
       ref.invalidate(teacherNovedadesProvider);
     } on AppFailure catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.message)));
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(e.message)));
       }
     } finally {
       action.dispose();

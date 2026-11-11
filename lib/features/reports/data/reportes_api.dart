@@ -15,11 +15,11 @@ class ReportesApi {
     int skip = 0,
     int limit = ApiConfig.pageSize,
   }) {
-    return _client.getList('/reportes', ReportMapper.fromJson, query: {
-      'id_administrador': adminId,
-      'skip': skip,
-      'limit': limit,
-    });
+    return _client.getList(
+      '/reportes',
+      ReportMapper.fromJson,
+      query: {'id_administrador': adminId, 'skip': skip, 'limit': limit},
+    );
   }
 
   /// Authenticated download, same mechanism as the report card.

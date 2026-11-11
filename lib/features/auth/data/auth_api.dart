@@ -9,7 +9,10 @@ class AuthApi {
 
   final ApiClient _client;
 
-  Future<TokenPairDto> login({required String correo, required String password}) async {
+  Future<TokenPairDto> login({
+    required String correo,
+    required String password,
+  }) async {
     final json = await _client.post(
       '/auth/login',
       body: {'correo': correo, 'password': password},
@@ -17,7 +20,8 @@ class AuthApi {
     return TokenPairDto.fromJson(json);
   }
 
-  Future<MeDto> me() async => MeDto.fromJson(await _client.getObject('/auth/me'));
+  Future<MeDto> me() async =>
+      MeDto.fromJson(await _client.getObject('/auth/me'));
 
   Future<void> register(Map<String, dynamic> payload) =>
       _client.post('/auth/register', body: payload);
@@ -30,11 +34,13 @@ class AuthApi {
   Future<void> forgotPassword(String correo) =>
       _client.post('/auth/forgot-password', body: {'correo': correo});
 
-  Future<void> resetPassword({required String token, required String newPassword}) =>
-      _client.post('/auth/reset-password', body: {
-        'token': token,
-        'new_password': newPassword,
-      });
+  Future<void> resetPassword({
+    required String token,
+    required String newPassword,
+  }) => _client.post(
+    '/auth/reset-password',
+    body: {'token': token, 'new_password': newPassword},
+  );
 
   Future<void> uploadAvatar(String filePath) async {
     final data = FormData.fromMap({

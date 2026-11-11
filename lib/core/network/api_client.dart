@@ -19,7 +19,10 @@ class ApiClient {
 
   Future<Json> getObject(String path, {Map<String, dynamic>? query}) async {
     try {
-      final response = await _dio.get<dynamic>(path, queryParameters: _clean(query));
+      final response = await _dio.get<dynamic>(
+        path,
+        queryParameters: _clean(query),
+      );
       return _asObject(response.data);
     } catch (e, s) {
       rethrowAsFailure(e, s);
@@ -32,14 +35,21 @@ class ApiClient {
     Map<String, dynamic>? query,
   }) async {
     try {
-      final response = await _dio.get<dynamic>(path, queryParameters: _clean(query));
+      final response = await _dio.get<dynamic>(
+        path,
+        queryParameters: _clean(query),
+      );
       return asList(_asListPayload(response.data), mapper);
     } catch (e, s) {
       rethrowAsFailure(e, s);
     }
   }
 
-  Future<Json> post(String path, {Object? body, Map<String, dynamic>? query}) async {
+  Future<Json> post(
+    String path, {
+    Object? body,
+    Map<String, dynamic>? query,
+  }) async {
     try {
       final response = await _dio.post<dynamic>(
         path,
@@ -90,18 +100,20 @@ class ApiClient {
         final decoded = body is ResponseBody
             ? await _readErrorBody(body)
             : body is String
-                ? _tryJson(body)
-                : body;
+            ? _tryJson(body)
+            : body;
         Error.throwWithStackTrace(
-          FailureMapper.from(DioException(
-            requestOptions: e.requestOptions,
-            response: Response<dynamic>(
+          FailureMapper.from(
+            DioException(
               requestOptions: e.requestOptions,
-              statusCode: e.response?.statusCode,
-              data: decoded,
+              response: Response<dynamic>(
+                requestOptions: e.requestOptions,
+                statusCode: e.response?.statusCode,
+                data: decoded,
+              ),
+              type: e.type,
             ),
-            type: e.type,
-          )),
+          ),
           s,
         );
       }
@@ -121,7 +133,10 @@ class ApiClient {
 
   static Future<Object?> _readErrorBody(ResponseBody body) async {
     try {
-      final bytes = await body.stream.fold<List<int>>(<int>[], (a, b) => a..addAll(b));
+      final bytes = await body.stream.fold<List<int>>(
+        <int>[],
+        (a, b) => a..addAll(b),
+      );
       final text = utf8.decode(bytes, allowMalformed: true);
       return text.isEmpty ? null : jsonDecode(text);
     } catch (_) {

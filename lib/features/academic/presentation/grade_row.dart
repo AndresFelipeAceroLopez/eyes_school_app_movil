@@ -29,11 +29,14 @@ class GradeRow extends StatelessWidget {
                 children: [
                   Text(
                     grade.subject,
-                    style: AppTextStyles.body.copyWith(fontWeight: FontWeight.w700),
+                    style: AppTextStyles.body.copyWith(
+                      fontWeight: FontWeight.w700,
+                    ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
-                  if (showPeriod) Text(grade.period, style: AppTextStyles.caption),
+                  if (showPeriod)
+                    Text(grade.period, style: AppTextStyles.caption),
                 ],
               ),
             ),
@@ -42,8 +45,10 @@ class GradeRow extends StatelessWidget {
             const SizedBox(width: 8),
             Text(
               grade.score.toStringAsFixed(1),
-              style: AppTextStyles.body
-                  .copyWith(color: grade.color, fontWeight: FontWeight.w800),
+              style: AppTextStyles.body.copyWith(
+                color: grade.color,
+                fontWeight: FontWeight.w800,
+              ),
             ),
           ],
         ),
@@ -80,7 +85,8 @@ class GradesCard extends StatelessWidget {
   static List<Grade> averageBySubject(List<Grade> grades) =>
       Grade.averageBySubject(grades);
 
-  static double overallAverage(List<Grade> grades) => Grade.overallAverage(grades);
+  static double overallAverage(List<Grade> grades) =>
+      Grade.overallAverage(grades);
 
   @override
   Widget build(BuildContext context) {
@@ -132,9 +138,10 @@ class PeriodSelector extends StatelessWidget {
                       ? null
                       : const [
                           BoxShadow(
-                              color: AppColors.cardShadow,
-                              blurRadius: 12,
-                              offset: Offset(0, 4)),
+                            color: AppColors.cardShadow,
+                            blurRadius: 12,
+                            offset: Offset(0, 4),
+                          ),
                         ],
                 ),
                 child: Text(

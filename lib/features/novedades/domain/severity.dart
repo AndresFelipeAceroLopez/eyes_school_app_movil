@@ -18,7 +18,8 @@ enum NovedadSeverity {
   static NovedadSeverity parse(String? value) {
     final normalized = (value ?? '').toLowerCase().trim();
     for (final severity in values) {
-      if (severity.wire.toLowerCase() == normalized || severity.name == normalized) {
+      if (severity.wire.toLowerCase() == normalized ||
+          severity.name == normalized) {
         return severity;
       }
     }
@@ -38,7 +39,9 @@ enum NovedadStatus {
 
   static NovedadStatus parse(String? value) {
     final normalized = (value ?? '').toLowerCase().trim();
-    return normalized.startsWith('comp') ? NovedadStatus.done : NovedadStatus.pending;
+    return normalized.startsWith('comp')
+        ? NovedadStatus.done
+        : NovedadStatus.pending;
   }
 }
 

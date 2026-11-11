@@ -48,14 +48,16 @@ class _SchedulesScreenState extends ConsumerState<SchedulesScreen> {
                 padding: const EdgeInsets.fromLTRB(20, 16, 20, 4),
                 child: Row(
                   children: courses
-                      .map((course) => Padding(
-                            padding: const EdgeInsets.only(right: 10),
-                            child: _CourseChip(
-                              course: course,
-                              selected: selected == course.id,
-                              onTap: () => setState(() => _courseId = course.id),
-                            ),
-                          ))
+                      .map(
+                        (course) => Padding(
+                          padding: const EdgeInsets.only(right: 10),
+                          child: _CourseChip(
+                            course: course,
+                            selected: selected == course.id,
+                            onTap: () => setState(() => _courseId = course.id),
+                          ),
+                        ),
+                      )
                       .toList(),
                 ),
               ),
@@ -107,15 +109,19 @@ class _CourseSchedule extends ConsumerWidget {
     final scheduleAsync = ref.watch(studentWeeklyScheduleProvider(courseId));
 
     return RefreshIndicator(
-      onRefresh: () async => ref.invalidate(studentWeeklyScheduleProvider(courseId)),
+      onRefresh: () async =>
+          ref.invalidate(studentWeeklyScheduleProvider(courseId)),
       child: scheduleAsync.when(
         loading: () => const LoadingView(),
-        error: (error, _) => ListView(children: [
-          ErrorView(
-            error: error,
-            onRetry: () => ref.invalidate(studentWeeklyScheduleProvider(courseId)),
-          ),
-        ]),
+        error: (error, _) => ListView(
+          children: [
+            ErrorView(
+              error: error,
+              onRetry: () =>
+                  ref.invalidate(studentWeeklyScheduleProvider(courseId)),
+            ),
+          ],
+        ),
         data: (sessions) => ListView(
           padding: const EdgeInsets.only(bottom: 32),
           children: [

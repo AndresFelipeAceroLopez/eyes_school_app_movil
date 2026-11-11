@@ -22,16 +22,21 @@ class NovedadesApi {
     int skip = 0,
     int limit = ApiConfig.pageSize,
   }) {
-    return _client.getList('/novedades', (json) => json, query: {
-      'id_estudiante': studentId,
-      'id_tipo': typeId,
-      'estado': status?.label,
-      'skip': skip,
-      'limit': limit,
-    });
+    return _client.getList(
+      '/novedades',
+      (json) => json,
+      query: {
+        'id_estudiante': studentId,
+        'id_tipo': typeId,
+        'estado': status?.label,
+        'skip': skip,
+        'limit': limit,
+      },
+    );
   }
 
-  Future<void> create(Json payload) => _client.post('/novedades', body: payload);
+  Future<void> create(Json payload) =>
+      _client.post('/novedades', body: payload);
 
   Future<void> update(
     int novedadId, {
@@ -41,13 +46,16 @@ class NovedadesApi {
     DateTime? resolvedOn,
     int? typeId,
   }) {
-    return _client.put('/novedades/$novedadId', body: <String, dynamic>{
-      'descripcion': ?description,
-      'accion_tomada': ?action,
-      if (status != null) 'estado': status.label,
-      if (resolvedOn != null) 'fecha_resolucion': toApiDate(resolvedOn),
-      'id_tipo_novedad': ?typeId,
-    });
+    return _client.put(
+      '/novedades/$novedadId',
+      body: <String, dynamic>{
+        'descripcion': ?description,
+        'accion_tomada': ?action,
+        if (status != null) 'estado': status.label,
+        if (resolvedOn != null) 'fecha_resolucion': toApiDate(resolvedOn),
+        'id_tipo_novedad': ?typeId,
+      },
+    );
   }
 
   Future<void> delete(int novedadId) => _client.delete('/novedades/$novedadId');

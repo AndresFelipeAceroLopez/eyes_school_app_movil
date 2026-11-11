@@ -16,7 +16,6 @@ import 'package:eyes_school/providers/repository_providers.dart';
 import 'package:eyes_school/providers/session_provider.dart';
 import 'package:eyes_school/features/attendance/domain/attendance.dart';
 
-
 // ConsumerStatefulWidget: se necesita StatefulWidget por el
 // MobileScannerController (tiene ciclo de vida propio, hay que
 // disponerlo), y a la vez acceso a Riverpod para leer los repositorios.
@@ -72,7 +71,9 @@ class _QrScanScreenState extends ConsumerState<QrScanScreen> {
 
   Future<void> _onDetect(BarcodeCapture capture) async {
     if (_sheetOpen) return;
-    final code = capture.barcodes.isEmpty ? null : capture.barcodes.first.rawValue;
+    final code = capture.barcodes.isEmpty
+        ? null
+        : capture.barcodes.first.rawValue;
     if (code == null || code.trim().isEmpty) return;
     if (_isDebounced(code)) return;
 
@@ -90,8 +91,10 @@ class _QrScanScreenState extends ConsumerState<QrScanScreen> {
         _toast('Código no reconocido: $code', error: true);
       case ScanInactiveStudent(:final student):
         HapticFeedback.heavyImpact();
-        _toast('${student.displayName} no está activo (${student.status}).',
-            error: true);
+        _toast(
+          '${student.displayName} no está activo (${student.status}).',
+          error: true,
+        );
       case ScanResolved():
         HapticFeedback.mediumImpact();
         await _confirm(result, code);
@@ -121,7 +124,9 @@ class _QrScanScreenState extends ConsumerState<QrScanScreen> {
         initialState: result.suggested,
         kind: _tipo,
         onSubmit: (state, observacion) async {
-          final outcome = await ref.read(attendanceRepositoryProvider).record(
+          final outcome = await ref
+              .read(attendanceRepositoryProvider)
+              .record(
                 studentId: result.student.studentId,
                 studentName: result.student.displayName,
                 state: state,
@@ -147,18 +152,21 @@ class _QrScanScreenState extends ConsumerState<QrScanScreen> {
   void _toast(String message, {bool error = false}) {
     ScaffoldMessenger.of(context)
       ..hideCurrentSnackBar()
-      ..showSnackBar(SnackBar(
-        content: Text(message),
-        backgroundColor: error ? AppColors.pink : AppColors.tealDark,
-        behavior: SnackBarBehavior.floating,
-        margin: const EdgeInsets.fromLTRB(16, 0, 16, 96),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
-      ));
+      ..showSnackBar(
+        SnackBar(
+          content: Text(message),
+          backgroundColor: error ? AppColors.pink : AppColors.tealDark,
+          behavior: SnackBarBehavior.floating,
+          margin: const EdgeInsets.fromLTRB(16, 0, 16, 96),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(14),
+          ),
+        ),
+      );
   }
 
   @override
   Widget build(BuildContext context) {
-
     // attendanceQueueProvider expone la cola de registros que aún no se han
     // sincronizado con el backend; se usa para el badge de "pendientes".
 
@@ -231,7 +239,10 @@ class _TopBar extends StatelessWidget {
       child: Row(
         children: [
           Expanded(
-            child: Text('Escanear código', style: AppTextStyles.h3.copyWith(color: Colors.white)),
+            child: Text(
+              'Escanear código',
+              style: AppTextStyles.h3.copyWith(color: Colors.white),
+            ),
           ),
           if (!online)
             Container(
@@ -244,12 +255,18 @@ class _TopBar extends StatelessWidget {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Icon(Icons.cloud_off_rounded, size: 14, color: Colors.white),
+                  const Icon(
+                    Icons.cloud_off_rounded,
+                    size: 14,
+                    color: Colors.white,
+                  ),
                   const SizedBox(width: 6),
                   Text(
                     'Sin conexión',
-                    style: AppTextStyles.caption
-                        .copyWith(color: Colors.white, fontWeight: FontWeight.w700),
+                    style: AppTextStyles.caption.copyWith(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w700,
+                    ),
                   ),
                 ],
               ),
@@ -269,7 +286,10 @@ class _TopBar extends StatelessWidget {
                   right: 2,
                   top: 2,
                   child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 6,
+                      vertical: 2,
+                    ),
                     decoration: BoxDecoration(
                       color: AppColors.pink,
                       borderRadius: BorderRadius.circular(10),
@@ -336,13 +356,19 @@ class _BottomPanel extends StatelessWidget {
                   child: GestureDetector(
                     onTap: () => onKindChanged(option),
                     child: Container(
-                      margin: EdgeInsets.only(right: option == AttendanceKind.entry ? 8 : 0),
+                      margin: EdgeInsets.only(
+                        right: option == AttendanceKind.entry ? 8 : 0,
+                      ),
                       padding: const EdgeInsets.symmetric(vertical: 12),
                       decoration: BoxDecoration(
                         gradient: kind == option
-                            ? const LinearGradient(colors: AppColors.primaryGradient)
+                            ? const LinearGradient(
+                                colors: AppColors.primaryGradient,
+                              )
                             : null,
-                        color: kind == option ? null : Colors.white.withValues(alpha: 0.10),
+                        color: kind == option
+                            ? null
+                            : Colors.white.withValues(alpha: 0.10),
                         borderRadius: BorderRadius.circular(14),
                       ),
                       child: Text(
@@ -388,7 +414,8 @@ class _ConfirmSheet extends StatefulWidget {
   final String? courseName;
   final AttendanceState initialState;
   final AttendanceKind kind;
-  final Future<bool> Function(AttendanceState estado, String? observacion) onSubmit;
+  final Future<bool> Function(AttendanceState estado, String? observacion)
+  onSubmit;
 
   @override
   State<_ConfirmSheet> createState() => _ConfirmSheetState();
@@ -423,19 +450,27 @@ class _ConfirmSheetState extends State<_ConfirmSheet> {
       Navigator.of(context).pop(queued);
       ScaffoldMessenger.of(context)
         ..hideCurrentSnackBar()
-        ..showSnackBar(SnackBar(
-          content: Text(queued
-              ? '${widget.studentName}: ${_state.label} registrado.'
-              : '${widget.studentName} ya tenía registro de ${widget.kind.label.toLowerCase()} hoy.'),
-          backgroundColor: queued ? AppColors.tealDark : AppColors.orange,
-          behavior: SnackBarBehavior.floating,
-          margin: const EdgeInsets.fromLTRB(16, 0, 16, 96),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
-        ));
+        ..showSnackBar(
+          SnackBar(
+            content: Text(
+              queued
+                  ? '${widget.studentName}: ${_state.label} registrado.'
+                  : '${widget.studentName} ya tenía registro de ${widget.kind.label.toLowerCase()} hoy.',
+            ),
+            backgroundColor: queued ? AppColors.tealDark : AppColors.orange,
+            behavior: SnackBarBehavior.floating,
+            margin: const EdgeInsets.fromLTRB(16, 0, 16, 96),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(14),
+            ),
+          ),
+        );
     } on AppFailure catch (e) {
       if (!mounted) return;
       setState(() => _saving = false);
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.message)));
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(e.message)));
     }
   }
 
@@ -478,24 +513,30 @@ class _ConfirmSheetState extends State<_ConfirmSheet> {
                     Text(widget.studentName, style: AppTextStyles.h3),
                     const SizedBox(height: 2),
                     Text(
-                      [widget.studentCode, widget.courseName]
-                          .whereType<String>()
-                          .join(' · '),
+                      [
+                        widget.studentCode,
+                        widget.courseName,
+                      ].whereType<String>().join(' · '),
                       style: AppTextStyles.caption,
                     ),
                   ],
                 ),
               ),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 6,
+                ),
                 decoration: BoxDecoration(
                   color: AppColors.roleStudentBg,
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Text(
                   widget.kind.label,
-                  style: AppTextStyles.caption
-                      .copyWith(color: AppColors.roleStudent, fontWeight: FontWeight.w700),
+                  style: AppTextStyles.caption.copyWith(
+                    color: AppColors.roleStudent,
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
               ),
             ],
@@ -511,7 +552,10 @@ class _ConfirmSheetState extends State<_ConfirmSheet> {
               return GestureDetector(
                 onTap: () => setState(() => _state = option),
                 child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 10,
+                  ),
                   decoration: BoxDecoration(
                     color: selected ? AppColors.indigo : AppColors.background,
                     borderRadius: BorderRadius.circular(12),
@@ -589,12 +633,16 @@ class _CameraError extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Icon(Icons.no_photography_rounded, color: Colors.white54, size: 44),
+              const Icon(
+                Icons.no_photography_rounded,
+                color: Colors.white54,
+                size: 44,
+              ),
               const SizedBox(height: 16),
               Text(
                 denied
                     ? 'Necesitamos acceso a la cámara para leer los códigos QR de '
-                        'los estudiantes. Actívalo desde los ajustes del teléfono.'
+                          'los estudiantes. Actívalo desde los ajustes del teléfono.'
                     : 'No pudimos abrir la cámara en este dispositivo.',
                 style: AppTextStyles.body.copyWith(color: Colors.white70),
                 textAlign: TextAlign.center,

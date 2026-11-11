@@ -2,7 +2,6 @@
 // Inicio de sesión de cada rol con su inicio cargado (verifica BE-03): cada
 // rol llega a su inicio y no queda ningún bloque en estado de error
 // («Reintentar»).
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 

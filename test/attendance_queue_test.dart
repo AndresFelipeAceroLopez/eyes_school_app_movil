@@ -60,50 +60,63 @@ void main() {
     expect(api.created, hasLength(1));
   });
 
-  test('entrada y salida del mismo estudiante son registros distintos', () async {
-    final api = _FakeAttendanceApi();
-    final queue = queueWith(api);
+  test(
+    'entrada y salida del mismo estudiante son registros distintos',
+    () async {
+      final api = _FakeAttendanceApi();
+      final queue = queueWith(api);
 
-    await enqueue(queue, studentId: 1);
-    final exit = await enqueue(queue, studentId: 1, kind: AttendanceKind.exit);
-    await queue.flush();
+      await enqueue(queue, studentId: 1);
+      final exit = await enqueue(
+        queue,
+        studentId: 1,
+        kind: AttendanceKind.exit,
+      );
+      await queue.flush();
 
-    expect(exit, EnqueueOutcome.queued);
-    expect(api.created, hasLength(2));
-  });
+      expect(exit, EnqueueOutcome.queued);
+      expect(api.created, hasLength(2));
+    },
+  );
 
   test('el mismo estudiante en días distintos sí se registra', () async {
     final api = _FakeAttendanceApi();
     final queue = queueWith(api);
 
     await enqueue(queue, studentId: 1, date: DateTime(2026, 9, 6));
-    final otherDay = await enqueue(queue, studentId: 1, date: DateTime(2026, 9, 7));
+    final otherDay = await enqueue(
+      queue,
+      studentId: 1,
+      date: DateTime(2026, 9, 7),
+    );
     await queue.flush();
 
     expect(otherDay, EnqueueOutcome.queued);
     expect(api.created, hasLength(2));
   });
 
-  test('30 escaneos sin red producen exactamente 30 registros al recuperarla',
-      () async {
-    final api = _FakeAttendanceApi(offline: true);
-    final queue = queueWith(api);
+  test(
+    '30 escaneos sin red producen exactamente 30 registros al recuperarla',
+    () async {
+      final api = _FakeAttendanceApi(offline: true);
+      final queue = queueWith(api);
 
-    for (var i = 1; i <= 30; i++) {
-      await enqueue(queue, studentId: i);
-    }
+      for (var i = 1; i <= 30; i++) {
+        await enqueue(queue, studentId: i);
+      }
 
-    // Sin red: nada llegó al servidor, pero nada se perdió tampoco.
-    expect(api.created, isEmpty);
-    expect(queue.pendingCount, 30);
+      // Sin red: nada llegó al servidor, pero nada se perdió tampoco.
+      expect(api.created, isEmpty);
+      expect(queue.pendingCount, 30);
 
-    api.offline = false;
-    await queue.flush(force: true);
+      api.offline = false;
+      await queue.flush(force: true);
 
-    expect(api.created, hasLength(30));
-    expect(api.created.map((e) => e.studentId).toSet(), hasLength(30));
-    expect(queue.pendingCount, 0);
-  });
+      expect(api.created, hasLength(30));
+      expect(api.created.map((e) => e.studentId).toSet(), hasLength(30));
+      expect(queue.pendingCount, 0);
+    },
+  );
 
   test('la fecha enviada es la del escaneo, no la del envío', () async {
     final api = _FakeAttendanceApi(offline: true);
@@ -149,19 +162,23 @@ void main() {
     expect(queue.pendingCount, 0);
   });
 
-  test('un 422 no se reintenta: queda como fallido para revisión humana',
-      () async {
-    final api = _FakeAttendanceApi(
-      failWith: const ValidationFailure('Estado inválido.', {'estado': 'inválido'}),
-    );
-    final queue = queueWith(api);
+  test(
+    'un 422 no se reintenta: queda como fallido para revisión humana',
+    () async {
+      final api = _FakeAttendanceApi(
+        failWith: const ValidationFailure('Estado inválido.', {
+          'estado': 'inválido',
+        }),
+      );
+      final queue = queueWith(api);
 
-    await enqueue(queue, studentId: 1);
-    await queue.flush();
+      await enqueue(queue, studentId: 1);
+      await queue.flush();
 
-    expect(queue.items.single.sync, SyncState.failed);
-    expect(queue.failed, hasLength(1));
-  });
+      expect(queue.items.single.sync, SyncState.failed);
+      expect(queue.failed, hasLength(1));
+    },
+  );
 
   test('la cola sobrevive a un reinicio del proceso', () async {
     final api = _FakeAttendanceApi(offline: true);
@@ -255,8 +272,7 @@ class _FakeAttendanceApi implements AttendanceApi {
     AttendanceKind? kind,
     int skip = 0,
     int limit = 20,
-  }) async =>
-      const [];
+  }) async => const [];
 
   @override
   Future<AttendanceRecord> byId(int attendanceId) => throw UnimplementedError();
@@ -266,8 +282,7 @@ class _FakeAttendanceApi implements AttendanceApi {
     int attendanceId, {
     AttendanceState? state,
     String? observation,
-  }) =>
-      throw UnimplementedError();
+  }) => throw UnimplementedError();
 
   @override
   Future<void> delete(int attendanceId) => throw UnimplementedError();

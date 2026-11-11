@@ -41,8 +41,9 @@ class SessionNotifier extends StateNotifier<AsyncValue<AppSession?>> {
     // splash, so a failed attempt came back to a fresh form with its error
     // message lost.
     try {
-      final session =
-          await _ref.read(signInProvider).call(email: email, password: password);
+      final session = await _ref
+          .read(signInProvider)
+          .call(email: email, password: password);
       state = AsyncValue.data(session);
       await _startBackgroundSync();
       await _initPushNotifications();
@@ -129,8 +130,8 @@ class SessionNotifier extends StateNotifier<AsyncValue<AppSession?>> {
 
 final sessionProvider =
     StateNotifierProvider<SessionNotifier, AsyncValue<AppSession?>>(
-  SessionNotifier.new,
-);
+      SessionNotifier.new,
+    );
 
 /// The signed-in user, or `null`. What most screens actually want.
 final currentUserProvider = Provider<AppUser?>(

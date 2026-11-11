@@ -34,7 +34,12 @@ class SimpleHeaderScaffold extends StatelessWidget {
         children: [
           Container(
             width: double.infinity,
-            padding: EdgeInsets.fromLTRB(showBack ? 4 : 20, MediaQuery.of(context).padding.top + 8, 12, 18),
+            padding: EdgeInsets.fromLTRB(
+              showBack ? 4 : 20,
+              MediaQuery.of(context).padding.top + 8,
+              12,
+              18,
+            ),
             decoration: const BoxDecoration(
               gradient: LinearGradient(
                 begin: Alignment.topLeft,
@@ -47,7 +52,10 @@ class SimpleHeaderScaffold extends StatelessWidget {
                 if (showBack)
                   IconButton(
                     tooltip: 'Volver',
-                    icon: const Icon(Icons.arrow_back_rounded, color: Colors.white),
+                    icon: const Icon(
+                      Icons.arrow_back_rounded,
+                      color: Colors.white,
+                    ),
                     onPressed: () {
                       if (onBack != null) {
                         onBack!();
@@ -60,7 +68,12 @@ class SimpleHeaderScaffold extends StatelessWidget {
                       }
                     },
                   ),
-                Expanded(child: Text(title, style: AppTextStyles.h2.copyWith(color: Colors.white))),
+                Expanded(
+                  child: Text(
+                    title,
+                    style: AppTextStyles.h2.copyWith(color: Colors.white),
+                  ),
+                ),
                 ...?actions,
               ],
             ),

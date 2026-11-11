@@ -23,7 +23,8 @@ class StudentNovedadesScreen extends ConsumerWidget {
         body: EmptyState(
           icon: Icons.notifications_none_rounded,
           title: 'Perfil de estudiante no encontrado',
-          message: session?.bootstrapWarning ??
+          message:
+              session?.bootstrapWarning ??
               'Tu cuenta no tiene un perfil de estudiante asociado.',
         ),
       );
@@ -35,33 +36,37 @@ class StudentNovedadesScreen extends ConsumerWidget {
       title: 'Mis novedades',
       showBack: false,
       body: RefreshIndicator(
-        onRefresh: () async => ref.invalidate(novedadesForStudentProvider(studentId)),
+        onRefresh: () async =>
+            ref.invalidate(novedadesForStudentProvider(studentId)),
         child: novedadesAsync.when(
           loading: () => const LoadingView(),
-          error: (error, _) => ListView(children: [
-            ErrorView(
-              error: error,
-              onRetry: () => ref.invalidate(novedadesForStudentProvider(studentId)),
-            ),
-          ]),
+          error: (error, _) => ListView(
+            children: [
+              ErrorView(
+                error: error,
+                onRetry: () =>
+                    ref.invalidate(novedadesForStudentProvider(studentId)),
+              ),
+            ],
+          ),
           data: (novedades) {
             if (novedades.isEmpty) {
-              return ListView(children: const [
-                EmptyState(
-                  icon: Icons.check_circle_outline_rounded,
-                  title: 'Todo en orden',
-                  message: 'No tienes novedades registradas.',
-                ),
-              ]);
+              return ListView(
+                children: const [
+                  EmptyState(
+                    icon: Icons.check_circle_outline_rounded,
+                    title: 'Todo en orden',
+                    message: 'No tienes novedades registradas.',
+                  ),
+                ],
+              );
             }
             return ListView.separated(
               padding: const EdgeInsets.fromLTRB(20, 20, 20, 32),
               itemCount: novedades.length,
               separatorBuilder: (_, _) => const SizedBox(height: 12),
-              itemBuilder: (context, index) => NovedadCard(
-                novedad: novedades[index],
-                showStudent: false,
-              ),
+              itemBuilder: (context, index) =>
+                  NovedadCard(novedad: novedades[index], showStudent: false),
             );
           },
         ),

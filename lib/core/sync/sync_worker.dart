@@ -59,7 +59,10 @@ class SyncWorker with WidgetsBindingObserver {
 /// banner on the scanner.
 Stream<bool> connectivityStream() async* {
   final connectivity = Connectivity();
-  yield (await connectivity.checkConnectivity()).any((r) => r != ConnectivityResult.none);
-  yield* connectivity.onConnectivityChanged
-      .map((results) => results.any((r) => r != ConnectivityResult.none));
+  yield (await connectivity.checkConnectivity()).any(
+    (r) => r != ConnectivityResult.none,
+  );
+  yield* connectivity.onConnectivityChanged.map(
+    (results) => results.any((r) => r != ConnectivityResult.none),
+  );
 }

@@ -34,7 +34,8 @@ class ChildrenScreen extends ConsumerWidget {
         body: EmptyState(
           icon: Icons.family_restroom_rounded,
           title: 'Sin estudiante vinculado',
-          message: session?.bootstrapWarning ??
+          message:
+              session?.bootstrapWarning ??
               'Tu cuenta de acudiente aún no está vinculada a un estudiante.',
         ),
       );
@@ -43,8 +44,9 @@ class ChildrenScreen extends ConsumerWidget {
     final profileAsync = ref.watch(studentProfileProvider(childId));
     final novedadesAsync = ref.watch(novedadesForStudentProvider(childId));
     final courseId = session?.courseId;
-    final scheduleAsync =
-        courseId == null ? null : ref.watch(studentWeeklyScheduleProvider(courseId));
+    final scheduleAsync = courseId == null
+        ? null
+        : ref.watch(studentWeeklyScheduleProvider(courseId));
 
     return SimpleHeaderScaffold(
       title: 'Mi estudiante',
@@ -53,7 +55,9 @@ class ChildrenScreen extends ConsumerWidget {
         onRefresh: () async {
           ref.invalidate(studentProfileProvider(childId));
           ref.invalidate(novedadesForStudentProvider(childId));
-          if (courseId != null) ref.invalidate(studentWeeklyScheduleProvider(courseId));
+          if (courseId != null) {
+            ref.invalidate(studentWeeklyScheduleProvider(courseId));
+          }
         },
         child: ListView(
           padding: const EdgeInsets.only(bottom: 32),
@@ -62,7 +66,8 @@ class ChildrenScreen extends ConsumerWidget {
               _ChildSelector(
                 children: session.children,
                 activeId: childId,
-                onSelect: (id) => ref.read(sessionProvider.notifier).selectChild(id),
+                onSelect: (id) =>
+                    ref.read(sessionProvider.notifier).selectChild(id),
               ),
             Padding(
               padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
@@ -71,7 +76,8 @@ class ChildrenScreen extends ConsumerWidget {
                 error: (error, _) => ErrorView(
                   error: error,
                   compact: true,
-                  onRetry: () => ref.invalidate(studentProfileProvider(childId)),
+                  onRetry: () =>
+                      ref.invalidate(studentProfileProvider(childId)),
                 ),
                 data: (child) => InkWell(
                   borderRadius: BorderRadius.circular(20),
@@ -95,16 +101,20 @@ class ChildrenScreen extends ConsumerWidget {
                                 overflow: TextOverflow.ellipsis,
                               ),
                               Text(
-                                [child?.grade, child?.jornada, child?.code]
-                                    .whereType<String>()
-                                    .join(' · '),
+                                [
+                                  child?.grade,
+                                  child?.jornada,
+                                  child?.code,
+                                ].whereType<String>().join(' · '),
                                 style: AppTextStyles.caption,
                               ),
                             ],
                           ),
                         ),
-                        const Icon(Icons.chevron_right_rounded,
-                            color: AppColors.textSecondary),
+                        const Icon(
+                          Icons.chevron_right_rounded,
+                          color: AppColors.textSecondary,
+                        ),
                       ],
                     ),
                   ),
@@ -126,7 +136,8 @@ class ChildrenScreen extends ConsumerWidget {
                 error: (error, _) => ErrorView(
                   error: error,
                   compact: true,
-                  onRetry: () => ref.invalidate(novedadesForStudentProvider(childId)),
+                  onRetry: () =>
+                      ref.invalidate(novedadesForStudentProvider(childId)),
                 ),
                 data: (novedades) => novedades.isEmpty
                     ? const EmptyState(
@@ -136,10 +147,15 @@ class ChildrenScreen extends ConsumerWidget {
                       )
                     : Column(
                         children: novedades
-                            .map((n) => Padding(
-                                  padding: const EdgeInsets.only(bottom: 12),
-                                  child: NovedadCard(novedad: n, showStudent: false),
-                                ))
+                            .map(
+                              (n) => Padding(
+                                padding: const EdgeInsets.only(bottom: 12),
+                                child: NovedadCard(
+                                  novedad: n,
+                                  showStudent: false,
+                                ),
+                              ),
+                            )
                             .toList(),
                       ),
               ),
@@ -219,7 +235,10 @@ class _ChildSelector extends StatelessWidget {
                   borderRadius: BorderRadius.circular(18),
                   onTap: () => onSelect(c.id),
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 12,
+                    ),
                     child: Row(
                       children: [
                         AvatarCircle(name: c.name, radius: 18),
@@ -232,12 +251,17 @@ class _ChildSelector extends StatelessWidget {
                                 c.name,
                                 style: AppTextStyles.body.copyWith(
                                   fontWeight: FontWeight.w700,
-                                  color: c.id == activeId ? Colors.white : AppColors.textPrimary,
+                                  color: c.id == activeId
+                                      ? Colors.white
+                                      : AppColors.textPrimary,
                                 ),
                               ),
                               if (c.relationship != null || c.document != null)
                                 Text(
-                                  [c.relationship, c.document].whereType<String>().join(' · '),
+                                  [
+                                    c.relationship,
+                                    c.document,
+                                  ].whereType<String>().join(' · '),
                                   style: AppTextStyles.caption.copyWith(
                                     color: c.id == activeId
                                         ? AppColors.textOnDarkMuted
@@ -248,7 +272,10 @@ class _ChildSelector extends StatelessWidget {
                           ),
                         ),
                         if (c.id == activeId)
-                          const Icon(Icons.check_circle_rounded, color: Colors.white),
+                          const Icon(
+                            Icons.check_circle_rounded,
+                            color: Colors.white,
+                          ),
                       ],
                     ),
                   ),

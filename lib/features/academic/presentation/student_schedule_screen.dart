@@ -35,15 +35,19 @@ class StudentScheduleScreen extends ConsumerWidget {
       title: 'Mi horario',
       showBack: false,
       body: RefreshIndicator(
-        onRefresh: () async => ref.invalidate(studentWeeklyScheduleProvider(courseId)),
+        onRefresh: () async =>
+            ref.invalidate(studentWeeklyScheduleProvider(courseId)),
         child: scheduleAsync.when(
           loading: () => const LoadingView(),
-          error: (error, _) => ListView(children: [
-            ErrorView(
-              error: error,
-              onRetry: () => ref.invalidate(studentWeeklyScheduleProvider(courseId)),
-            ),
-          ]),
+          error: (error, _) => ListView(
+            children: [
+              ErrorView(
+                error: error,
+                onRetry: () =>
+                    ref.invalidate(studentWeeklyScheduleProvider(courseId)),
+              ),
+            ],
+          ),
           data: (sessions) => ListView(
             padding: const EdgeInsets.only(bottom: 32),
             children: [

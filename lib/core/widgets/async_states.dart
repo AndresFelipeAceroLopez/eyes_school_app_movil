@@ -9,7 +9,10 @@ import 'primary_gradient_button.dart';
 /// without any screen having to know what a `DioException` is.
 
 class LoadingView extends StatelessWidget {
-  const LoadingView({super.key, this.padding = const EdgeInsets.symmetric(vertical: 48)});
+  const LoadingView({
+    super.key,
+    this.padding = const EdgeInsets.symmetric(vertical: 48),
+  });
 
   final EdgeInsets padding;
 
@@ -21,7 +24,10 @@ class LoadingView extends StatelessWidget {
         child: SizedBox(
           width: 28,
           height: 28,
-          child: CircularProgressIndicator(strokeWidth: 2.6, color: AppColors.indigo),
+          child: CircularProgressIndicator(
+            strokeWidth: 2.6,
+            color: AppColors.indigo,
+          ),
         ),
       ),
     );
@@ -30,7 +36,12 @@ class LoadingView extends StatelessWidget {
 
 /// An error is never a dead end: it says what happened and offers the retry.
 class ErrorView extends StatelessWidget {
-  const ErrorView({super.key, required this.error, this.onRetry, this.compact = false});
+  const ErrorView({
+    super.key,
+    required this.error,
+    this.onRetry,
+    this.compact = false,
+  });
 
   final Object error;
   final VoidCallback? onRetry;
@@ -42,17 +53,20 @@ class ErrorView extends StatelessWidget {
   }
 
   static IconData iconOf(Object error) => switch (error) {
-        NetworkFailure() => Icons.wifi_off_rounded,
-        ForbiddenFailure() => Icons.lock_outline_rounded,
-        NotFoundFailure() => Icons.search_off_rounded,
-        ServerFailure() => Icons.cloud_off_rounded,
-        _ => Icons.error_outline_rounded,
-      };
+    NetworkFailure() => Icons.wifi_off_rounded,
+    ForbiddenFailure() => Icons.lock_outline_rounded,
+    NotFoundFailure() => Icons.search_off_rounded,
+    ServerFailure() => Icons.cloud_off_rounded,
+    _ => Icons.error_outline_rounded,
+  };
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: compact ? 20 : 40, horizontal: 24),
+      padding: EdgeInsets.symmetric(
+        vertical: compact ? 20 : 40,
+        horizontal: 24,
+      ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -63,7 +77,11 @@ class ErrorView extends StatelessWidget {
               color: AppColors.background,
               borderRadius: BorderRadius.circular(18),
             ),
-            child: Icon(iconOf(error), color: AppColors.textSecondary, size: 26),
+            child: Icon(
+              iconOf(error),
+              color: AppColors.textSecondary,
+              size: 26,
+            ),
           ),
           const SizedBox(height: 14),
           Text(
@@ -116,7 +134,11 @@ class EmptyState extends StatelessWidget {
               color: AppColors.surface,
               borderRadius: BorderRadius.circular(20),
               boxShadow: const [
-                BoxShadow(color: AppColors.cardShadow, blurRadius: 18, offset: Offset(0, 6)),
+                BoxShadow(
+                  color: AppColors.cardShadow,
+                  blurRadius: 18,
+                  offset: Offset(0, 6),
+                ),
               ],
             ),
             child: Icon(icon, color: AppColors.textSecondary, size: 28),
@@ -125,7 +147,11 @@ class EmptyState extends StatelessWidget {
           Text(title, style: AppTextStyles.h3, textAlign: TextAlign.center),
           if (message != null) ...[
             const SizedBox(height: 6),
-            Text(message!, style: AppTextStyles.bodyMuted, textAlign: TextAlign.center),
+            Text(
+              message!,
+              style: AppTextStyles.bodyMuted,
+              textAlign: TextAlign.center,
+            ),
           ],
           if (action != null) ...[const SizedBox(height: 18), action!],
         ],
@@ -149,7 +175,11 @@ class OfflineBanner extends StatelessWidget {
       color: AppColors.orange.withValues(alpha: 0.16),
       child: Row(
         children: [
-          const Icon(Icons.cloud_off_rounded, size: 18, color: AppColors.orange),
+          const Icon(
+            Icons.cloud_off_rounded,
+            size: 18,
+            color: AppColors.orange,
+          ),
           const SizedBox(width: 10),
           Expanded(
             child: Text(

@@ -6,7 +6,12 @@ import 'package:eyes_school/core/theme/app_colors.dart';
 import 'package:eyes_school/core/theme/app_text_styles.dart';
 
 class StatusBadge extends StatelessWidget {
-  const StatusBadge({super.key, required this.active, this.activeLabel = 'Activo', this.inactiveLabel = 'Inactivo'});
+  const StatusBadge({
+    super.key,
+    required this.active,
+    this.activeLabel = 'Activo',
+    this.inactiveLabel = 'Inactivo',
+  });
 
   final bool active;
   final String activeLabel;
@@ -18,7 +23,10 @@ class StatusBadge extends StatelessWidget {
     final fg = active ? AppColors.statusActiveFg : AppColors.statusInactiveFg;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-      decoration: BoxDecoration(color: bg, borderRadius: BorderRadius.circular(20)),
+      decoration: BoxDecoration(
+        color: bg,
+        borderRadius: BorderRadius.circular(20),
+      ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -30,7 +38,10 @@ class StatusBadge extends StatelessWidget {
           ),
           Text(
             active ? activeLabel : inactiveLabel,
-            style: AppTextStyles.caption.copyWith(color: fg, fontWeight: FontWeight.w700),
+            style: AppTextStyles.caption.copyWith(
+              color: fg,
+              fontWeight: FontWeight.w700,
+            ),
           ),
         ],
       ),
@@ -44,21 +55,27 @@ class RoleBadge extends StatelessWidget {
   final Role role;
 
   (Color, Color) get _colors => switch (role) {
-        Role.teacher => (AppColors.roleTeacherBg, AppColors.roleTeacher),
-        Role.student => (AppColors.roleStudentBg, AppColors.roleStudent),
-        Role.admin => (AppColors.roleAdminBg, AppColors.roleAdmin),
-        Role.parent => (AppColors.roleParentBg, AppColors.roleParent),
-      };
+    Role.teacher => (AppColors.roleTeacherBg, AppColors.roleTeacher),
+    Role.student => (AppColors.roleStudentBg, AppColors.roleStudent),
+    Role.admin => (AppColors.roleAdminBg, AppColors.roleAdmin),
+    Role.parent => (AppColors.roleParentBg, AppColors.roleParent),
+  };
 
   @override
   Widget build(BuildContext context) {
     final (bg, fg) = _colors;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-      decoration: BoxDecoration(color: bg, borderRadius: BorderRadius.circular(8)),
+      decoration: BoxDecoration(
+        color: bg,
+        borderRadius: BorderRadius.circular(8),
+      ),
       child: Text(
         role.label,
-        style: AppTextStyles.caption.copyWith(color: fg, fontWeight: FontWeight.w700),
+        style: AppTextStyles.caption.copyWith(
+          color: fg,
+          fontWeight: FontWeight.w700,
+        ),
       ),
     );
   }

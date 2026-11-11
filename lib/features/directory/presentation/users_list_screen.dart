@@ -49,8 +49,9 @@ class _UsersListScreenState extends ConsumerState<UsersListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final resultsAsync =
-        ref.watch(directorySearchProvider((query: _query, tab: _tab)));
+    final resultsAsync = ref.watch(
+      directorySearchProvider((query: _query, tab: _tab)),
+    );
 
     return Scaffold(
       backgroundColor: AppColors.background,
@@ -59,7 +60,11 @@ class _UsersListScreenState extends ConsumerState<UsersListScreen> {
           Container(
             width: double.infinity,
             padding: EdgeInsets.fromLTRB(
-                20, MediaQuery.of(context).padding.top + 12, 20, 20),
+              20,
+              MediaQuery.of(context).padding.top + 12,
+              20,
+              20,
+            ),
             decoration: const BoxDecoration(
               gradient: LinearGradient(
                 begin: Alignment.topLeft,
@@ -74,7 +79,10 @@ class _UsersListScreenState extends ConsumerState<UsersListScreen> {
                   children: [
                     IconButton(
                       tooltip: 'Volver',
-                      icon: const Icon(Icons.arrow_back_rounded, color: Colors.white),
+                      icon: const Icon(
+                        Icons.arrow_back_rounded,
+                        color: Colors.white,
+                      ),
                       onPressed: () {
                         if (Navigator.of(context).canPop()) {
                           Navigator.of(context).pop();
@@ -85,8 +93,10 @@ class _UsersListScreenState extends ConsumerState<UsersListScreen> {
                         }
                       },
                     ),
-                    Text('Directorio',
-                        style: AppTextStyles.h2.copyWith(color: Colors.white)),
+                    Text(
+                      'Directorio',
+                      style: AppTextStyles.h2.copyWith(color: Colors.white),
+                    ),
                   ],
                 ),
                 const SizedBox(height: 14),
@@ -132,23 +142,29 @@ class _UsersListScreenState extends ConsumerState<UsersListScreen> {
               onRefresh: () async => ref.invalidate(directorySearchProvider),
               child: resultsAsync.when(
                 loading: () => const LoadingView(),
-                error: (error, _) => ListView(children: [
-                  ErrorView(
-                    error: error,
-                    onRetry: () => ref.invalidate(directorySearchProvider),
-                  ),
-                ]),
+                error: (error, _) => ListView(
+                  children: [
+                    ErrorView(
+                      error: error,
+                      onRetry: () => ref.invalidate(directorySearchProvider),
+                    ),
+                  ],
+                ),
                 data: (users) {
                   if (users.isEmpty) {
-                    return ListView(children: [
-                      EmptyState(
-                        icon: Icons.person_search_rounded,
-                        title: _query.isEmpty ? 'Sin registros' : 'Sin resultados',
-                        message: _query.isEmpty
-                            ? 'No hay personas para mostrar en esta solapa.'
-                            : 'No encontramos a nadie con «$_query».',
-                      ),
-                    ]);
+                    return ListView(
+                      children: [
+                        EmptyState(
+                          icon: Icons.person_search_rounded,
+                          title: _query.isEmpty
+                              ? 'Sin registros'
+                              : 'Sin resultados',
+                          message: _query.isEmpty
+                              ? 'No hay personas para mostrar en esta solapa.'
+                              : 'No encontramos a nadie con «$_query».',
+                        ),
+                      ],
+                    );
                   }
                   return ListView.separated(
                     padding: const EdgeInsets.fromLTRB(20, 20, 20, 32),
@@ -158,15 +174,14 @@ class _UsersListScreenState extends ConsumerState<UsersListScreen> {
                       if (index == 0) {
                         return Padding(
                           padding: const EdgeInsets.only(bottom: 4),
-                          child: Text('${users.length} resultado(s)',
-                              style: AppTextStyles.caption),
+                          child: Text(
+                            '${users.length} resultado(s)',
+                            style: AppTextStyles.caption,
+                          ),
                         );
                       }
                       final user = users[index - 1];
-                      return _PersonCard(
-                        user: user,
-                        onTap: () => _open(user),
-                      );
+                      return _PersonCard(user: user, onTap: () => _open(user));
                     },
                   );
                 },
@@ -201,7 +216,9 @@ class _UsersListScreenState extends ConsumerState<UsersListScreen> {
           alignment: Alignment.center,
           padding: const EdgeInsets.symmetric(vertical: 10),
           decoration: BoxDecoration(
-            color: selected ? AppColors.teal : Colors.white.withValues(alpha: 0.10),
+            color: selected
+                ? AppColors.teal
+                : Colors.white.withValues(alpha: 0.10),
             borderRadius: BorderRadius.circular(12),
           ),
           child: Text(
@@ -238,10 +255,14 @@ class _PersonCard extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(user.name,
-                      style: AppTextStyles.body.copyWith(fontWeight: FontWeight.w700),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis),
+                  Text(
+                    user.name,
+                    style: AppTextStyles.body.copyWith(
+                      fontWeight: FontWeight.w700,
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                   const SizedBox(height: 2),
                   Text(
                     [user.code, user.grade, user.subject, user.email]
@@ -264,7 +285,10 @@ class _PersonCard extends StatelessWidget {
                 ],
               ),
             ),
-            const Icon(Icons.chevron_right_rounded, color: AppColors.textSecondary),
+            const Icon(
+              Icons.chevron_right_rounded,
+              color: AppColors.textSecondary,
+            ),
           ],
         ),
       ),

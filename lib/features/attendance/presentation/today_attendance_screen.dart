@@ -22,7 +22,8 @@ class TodayAttendanceScreen extends ConsumerStatefulWidget {
   const TodayAttendanceScreen({super.key});
 
   @override
-  ConsumerState<TodayAttendanceScreen> createState() => _TodayAttendanceScreenState();
+  ConsumerState<TodayAttendanceScreen> createState() =>
+      _TodayAttendanceScreenState();
 }
 
 class _TodayAttendanceScreenState extends ConsumerState<TodayAttendanceScreen> {
@@ -50,20 +51,30 @@ class _TodayAttendanceScreenState extends ConsumerState<TodayAttendanceScreen> {
         onRefresh: () async => ref.invalidate(todayAttendanceProvider),
         child: rowsAsync.when(
           loading: () => const LoadingView(),
-          error: (error, _) => ListView(children: [
-            ErrorView(
-              error: error,
-              onRetry: () => ref.invalidate(todayAttendanceProvider),
-            ),
-          ]),
+          error: (error, _) => ListView(
+            children: [
+              ErrorView(
+                error: error,
+                onRetry: () => ref.invalidate(todayAttendanceProvider),
+              ),
+            ],
+          ),
           data: (rows) {
-            final filtered = _courseId == null
-                ? rows
-                : rows
-                    .where((r) => catalog.byId(r.studentId)?.courseId == _courseId)
-                    .toList()
-              ..sort((a, b) =>
-                  (b.registeredAt ?? b.date).compareTo(a.registeredAt ?? a.date));
+            final filtered =
+                _courseId == null
+                      ? rows
+                      : rows
+                            .where(
+                              (r) =>
+                                  catalog.byId(r.studentId)?.courseId ==
+                                  _courseId,
+                            )
+                            .toList()
+                  ..sort(
+                    (a, b) => (b.registeredAt ?? b.date).compareTo(
+                      a.registeredAt ?? a.date,
+                    ),
+                  );
 
             return ListView(
               padding: const EdgeInsets.fromLTRB(20, 20, 20, 40),
@@ -75,9 +86,12 @@ class _TodayAttendanceScreenState extends ConsumerState<TodayAttendanceScreen> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('${filtered.length}',
-                                style: AppTextStyles.statValue
-                                    .copyWith(color: AppColors.indigo)),
+                            Text(
+                              '${filtered.length}',
+                              style: AppTextStyles.statValue.copyWith(
+                                color: AppColors.indigo,
+                              ),
+                            ),
                             Text(
                               Formatters.todayLong(DateTime.now()),
                               style: AppTextStyles.caption,
@@ -91,7 +105,10 @@ class _TodayAttendanceScreenState extends ConsumerState<TodayAttendanceScreen> {
                             _tipo = null;
                             _courseId = null;
                           }),
-                          child: Text('Quitar filtros', style: AppTextStyles.link),
+                          child: Text(
+                            'Quitar filtros',
+                            style: AppTextStyles.link,
+                          ),
                         ),
                     ],
                   ),
@@ -101,11 +118,13 @@ class _TodayAttendanceScreenState extends ConsumerState<TodayAttendanceScreen> {
                   Wrap(
                     spacing: 8,
                     children: _activeFilters(coursesAsync.valueOrNull)
-                        .map((label) => Chip(
-                              label: Text(label, style: AppTextStyles.caption),
-                              backgroundColor: AppColors.roleStudentBg,
-                              side: BorderSide.none,
-                            ))
+                        .map(
+                          (label) => Chip(
+                            label: Text(label, style: AppTextStyles.caption),
+                            backgroundColor: AppColors.roleStudentBg,
+                            side: BorderSide.none,
+                          ),
+                        )
                         .toList(),
                   ),
                 ],
@@ -114,7 +133,8 @@ class _TodayAttendanceScreenState extends ConsumerState<TodayAttendanceScreen> {
                   const EmptyState(
                     icon: Icons.event_busy_rounded,
                     title: 'Sin registros hoy',
-                    message: 'Los escaneos aparecerán aquí en cuanto se sincronicen.',
+                    message:
+                        'Los escaneos aparecerán aquí en cuanto se sincronicen.',
                   )
                 else
                   for (final row in filtered)
@@ -249,8 +269,10 @@ class _TodayAttendanceScreenState extends ConsumerState<TodayAttendanceScreen> {
           ),
           TextButton(
             onPressed: () => Navigator.of(context).pop(true),
-            child: Text('Eliminar',
-                style: AppTextStyles.link.copyWith(color: AppColors.pink)),
+            child: Text(
+              'Eliminar',
+              style: AppTextStyles.link.copyWith(color: AppColors.pink),
+            ),
           ),
         ],
       ),
@@ -261,25 +283,31 @@ class _TodayAttendanceScreenState extends ConsumerState<TodayAttendanceScreen> {
       ref.invalidate(todayAttendanceProvider);
     } on AppFailure catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.message)));
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(e.message)));
       }
     }
   }
 }
 
 class _AttendanceRow extends StatelessWidget {
-  const _AttendanceRow({required this.row, required this.name, required this.onUndo});
+  const _AttendanceRow({
+    required this.row,
+    required this.name,
+    required this.onUndo,
+  });
 
   final AttendanceRecord row;
   final String? name;
   final VoidCallback onUndo;
 
   Color get _stateColor => switch (row.state) {
-        AttendanceState.present => AppColors.tealDark,
-        AttendanceState.late => AppColors.orange,
-        AttendanceState.excused => AppColors.blue,
-        _ => AppColors.pink,
-      };
+    AttendanceState.present => AppColors.tealDark,
+    AttendanceState.late => AppColors.orange,
+    AttendanceState.excused => AppColors.blue,
+    _ => AppColors.pink,
+  };
 
   @override
   Widget build(BuildContext context) {
@@ -298,15 +326,21 @@ class _AttendanceRow extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(label,
-                      style: AppTextStyles.body.copyWith(fontWeight: FontWeight.w700),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis),
+                  Text(
+                    label,
+                    style: AppTextStyles.body.copyWith(
+                      fontWeight: FontWeight.w700,
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                   Text(
                     [
                       row.kind?.label,
                       if (row.registeredAt != null)
-                        TimeOfDay.fromDateTime(row.registeredAt!).format(context),
+                        TimeOfDay.fromDateTime(
+                          row.registeredAt!,
+                        ).format(context),
                     ].whereType<String>().join(' · '),
                     style: AppTextStyles.caption,
                   ),
@@ -321,14 +355,20 @@ class _AttendanceRow extends StatelessWidget {
               ),
               child: Text(
                 row.state.label,
-                style: AppTextStyles.caption
-                    .copyWith(color: _stateColor, fontWeight: FontWeight.w700),
+                style: AppTextStyles.caption.copyWith(
+                  color: _stateColor,
+                  fontWeight: FontWeight.w700,
+                ),
               ),
             ),
             IconButton(
               tooltip: 'Deshacer',
               onPressed: onUndo,
-              icon: const Icon(Icons.undo_rounded, size: 18, color: AppColors.textSecondary),
+              icon: const Icon(
+                Icons.undo_rounded,
+                size: 18,
+                color: AppColors.textSecondary,
+              ),
             ),
           ],
         ),

@@ -12,7 +12,12 @@ class AttendanceSummary {
     this.excused = 0,
   });
 
-  static const empty = AttendanceSummary(percent: 0, present: 0, absent: 0, late: 0);
+  static const empty = AttendanceSummary(
+    percent: 0,
+    present: 0,
+    absent: 0,
+    late: 0,
+  );
 
   final double percent;
   final int present;

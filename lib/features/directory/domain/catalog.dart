@@ -52,8 +52,11 @@ enum SchoolShift {
     return SchoolShift.unknown;
   }
 
-  static List<SchoolShift> get selectable =>
-      const [SchoolShift.morning, SchoolShift.afternoon, SchoolShift.single];
+  static List<SchoolShift> get selectable => const [
+    SchoolShift.morning,
+    SchoolShift.afternoon,
+    SchoolShift.single,
+  ];
 }
 
 class CourseSubject {
@@ -85,9 +88,11 @@ class Catalogs {
   final Map<int, CourseSubject> subjects;
   final Map<int, NovedadType> novedadTypes;
 
-  String courseName(int? id) => id == null ? '—' : courses[id]?.name ?? 'Curso $id';
+  String courseName(int? id) =>
+      id == null ? '—' : courses[id]?.name ?? 'Curso $id';
 
-  String subjectName(int? id) => id == null ? '—' : subjects[id]?.name ?? 'Materia $id';
+  String subjectName(int? id) =>
+      id == null ? '—' : subjects[id]?.name ?? 'Materia $id';
 
   String novedadTypeName(int? id) =>
       id == null ? 'Novedad' : novedadTypes[id]?.name ?? 'Novedad';

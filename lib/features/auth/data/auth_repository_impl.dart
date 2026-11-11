@@ -34,9 +34,18 @@ class AuthRepositoryImpl implements AuthRepository {
 
   /// The tokens land in the Keystore before any authenticated call is made.
   @override
-  Future<AppSession> signIn({required String email, required String password}) async {
-    final pair = await _auth.login(correo: normalizeEmail(email), password: password);
-    await _tokens.save(accessToken: pair.accessToken, refreshToken: pair.refreshToken);
+  Future<AppSession> signIn({
+    required String email,
+    required String password,
+  }) async {
+    final pair = await _auth.login(
+      correo: normalizeEmail(email),
+      password: password,
+    );
+    await _tokens.save(
+      accessToken: pair.accessToken,
+      refreshToken: pair.refreshToken,
+    );
     return restoreSession();
   }
 
@@ -81,7 +90,8 @@ class AuthRepositoryImpl implements AuthRepository {
     if (teacher == null) {
       return AppSession(
         user: user,
-        bootstrapWarning: warning ??
+        bootstrapWarning:
+            warning ??
             'Tu cuenta no tiene un perfil de docente asociado. '
                 'Pide a un administrador que lo cree.',
       );
@@ -114,8 +124,9 @@ class AuthRepositoryImpl implements AuthRepository {
     }
 
     final catalogs = await _catalogs.load();
-    final course =
-        student.idCursoActual == null ? null : catalogs.courses[student.idCursoActual];
+    final course = student.idCursoActual == null
+        ? null
+        : catalogs.courses[student.idCursoActual];
 
     // The dashboard is the only place that reports the running period.
     int? period;
@@ -155,7 +166,9 @@ class AuthRepositoryImpl implements AuthRepository {
     List<LinkedChild> children;
     int? parentId;
     try {
-      children = (await _people.guardianChildren()).map((h) => h.toEntity()).toList();
+      children = (await _people.guardianChildren())
+          .map((h) => h.toEntity())
+          .toList();
     } on AppFailure {
       try {
         final link = await _people.guardianMe();
@@ -178,7 +191,8 @@ class AuthRepositoryImpl implements AuthRepository {
     if (children.isEmpty) {
       return AppSession(
         user: user,
-        bootstrapWarning: 'Tu cuenta de acudiente aún no está vinculada a un estudiante.',
+        bootstrapWarning:
+            'Tu cuenta de acudiente aún no está vinculada a un estudiante.',
       );
     }
 
@@ -228,7 +242,10 @@ class AuthRepositoryImpl implements AuthRepository {
       admin = null;
     }
     return AppSession(
-      user: user.copyWith(subject: admin?.cargo, institution: admin?.nivelAcceso),
+      user: user.copyWith(
+        subject: admin?.cargo,
+        institution: admin?.nivelAcceso,
+      ),
     );
   }
 
@@ -254,7 +271,12 @@ class AuthRepositoryImpl implements AuthRepository {
     String? address,
     String? email,
   }) {
-    return _people.updateUser(userId, phone: phone, address: address, email: email);
+    return _people.updateUser(
+      userId,
+      phone: phone,
+      address: address,
+      email: email,
+    );
   }
 
   @override
@@ -262,8 +284,11 @@ class AuthRepositoryImpl implements AuthRepository {
     required int userId,
     required String currentPassword,
     required String password,
-  }) =>
-      _people.updateUser(userId, password: password, currentPassword: currentPassword);
+  }) => _people.updateUser(
+    userId,
+    password: password,
+    currentPassword: currentPassword,
+  );
 
   @override
   Future<void> uploadAvatar(String filePath) => _auth.uploadAvatar(filePath);
@@ -271,7 +296,9 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<List<RoleOption>> availableRoles() async {
     final roles = await _auth.roles();
-    return roles.map((r) => RoleOption(id: r.idRol, name: r.nombreRol)).toList();
+    return roles
+        .map((r) => RoleOption(id: r.idRol, name: r.nombreRol))
+        .toList();
   }
 
   @override
@@ -280,11 +307,14 @@ class AuthRepositoryImpl implements AuthRepository {
 
   /// Neutral by design: the API never reveals whether the address exists.
   @override
-  Future<void> requestPasswordReset(String email) => _auth.forgotPassword(normalizeEmail(email));
+  Future<void> requestPasswordReset(String email) =>
+      _auth.forgotPassword(normalizeEmail(email));
 
   @override
-  Future<void> resetPassword({required String token, required String newPassword}) =>
-      _auth.resetPassword(token: token, newPassword: newPassword);
+  Future<void> resetPassword({
+    required String token,
+    required String newPassword,
+  }) => _auth.resetPassword(token: token, newPassword: newPassword);
 
   /// Clears local state whatever the server answers — a failed sign-out must
   /// never leave the user stuck in a session they asked to end.

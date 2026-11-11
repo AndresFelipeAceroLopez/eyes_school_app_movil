@@ -19,7 +19,6 @@ class MyQrScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-
     // Esta pantalla no llama a ningún repositorio ni a Dio: el código ya viene
     // en la sesión (currentSessionProvider) y el QR se genera en el propio
     // dispositivo con qr_flutter, por eso funciona sin conexión.
@@ -46,7 +45,8 @@ class MyQrScreen extends ConsumerWidget {
                 child: EmptyState(
                   icon: Icons.qr_code_2_rounded,
                   title: 'Sin código asignado',
-                  message: session?.bootstrapWarning ??
+                  message:
+                      session?.bootstrapWarning ??
                       'Tu cuenta todavía no tiene un código de estudiante.',
                 ),
               )
@@ -78,16 +78,20 @@ class MyQrScreen extends ConsumerWidget {
                             ),
                           ),
                           const SizedBox(height: 20),
-                          Text(session?.user.name ?? '',
-                              style: AppTextStyles.h3, textAlign: TextAlign.center),
+                          Text(
+                            session?.user.name ?? '',
+                            style: AppTextStyles.h3,
+                            textAlign: TextAlign.center,
+                          ),
                           const SizedBox(height: 4),
                           Text(code, style: AppTextStyles.bodyMuted),
                           if (session?.user.grade != null) ...[
                             const SizedBox(height: 2),
                             Text(
-                              [session!.user.grade, session.user.jornada]
-                                  .whereType<String>()
-                                  .join(' · '),
+                              [
+                                session!.user.grade,
+                                session.user.jornada,
+                              ].whereType<String>().join(' · '),
                               style: AppTextStyles.caption,
                             ),
                           ],
@@ -105,14 +109,19 @@ class MyQrScreen extends ConsumerWidget {
                       padding: const EdgeInsets.symmetric(horizontal: 44),
                       child: Row(
                         children: [
-                          const Icon(Icons.brightness_6_rounded,
-                              size: 16, color: Colors.white54),
+                          const Icon(
+                            Icons.brightness_6_rounded,
+                            size: 16,
+                            color: Colors.white54,
+                          ),
                           const SizedBox(width: 8),
                           Expanded(
                             child: Text(
                               'Sube el brillo de la pantalla para que el escáner '
                               'lea el código más rápido.',
-                              style: AppTextStyles.caption.copyWith(color: Colors.white54),
+                              style: AppTextStyles.caption.copyWith(
+                                color: Colors.white54,
+                              ),
                             ),
                           ),
                         ],

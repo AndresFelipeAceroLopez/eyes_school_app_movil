@@ -96,16 +96,26 @@ class _GradeEntryScreenState extends ConsumerState<GradeEntryScreen> {
       final score = Validators.parseScore(text)!;
       final current = byStudent[student.id];
       if (current != null && current.score == score) continue;
-      pending.add((studentId: student.id, score: score, gradeId: current?.gradeId));
+      pending.add((
+        studentId: student.id,
+        score: score,
+        gradeId: current?.gradeId,
+      ));
     }
 
-      if (errors.isNotEmpty) {
-      setState(() => _errors
-        ..clear()
-        ..addAll(errors));
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        content: Text('Revisa las notas marcadas: deben estar entre 0.0 y 5.0.'),
-      ));
+    if (errors.isNotEmpty) {
+      setState(
+        () => _errors
+          ..clear()
+          ..addAll(errors),
+      );
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+            'Revisa las notas marcadas: deben estar entre 0.0 y 5.0.',
+          ),
+        ),
+      );
       return;
     }
     if (pending.isEmpty) {
@@ -127,7 +137,6 @@ class _GradeEntryScreenState extends ConsumerState<GradeEntryScreen> {
     // PUT si ya tenía id_nota); si una falla, se corta el ciclo para no dejar
     // un guardado parcial sin que el docente se entere.
 
-
     for (final row in pending) {
       try {
         await repo.saveGrade(
@@ -148,17 +157,21 @@ class _GradeEntryScreenState extends ConsumerState<GradeEntryScreen> {
     setState(() => _saving = false);
 
     _loadedForPeriod = -1;
-    ref.invalidate(gradeSheetProvider(
-      (subjectId: teacherClass.subjectId, period: period),
-    ));
+    ref.invalidate(
+      gradeSheetProvider((subjectId: teacherClass.subjectId, period: period)),
+    );
     ref.invalidate(teacherDashboardProvider);
 
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text(failure == null
-          ? 'Notas guardadas para $saved de ${roster.length} estudiantes.'
-          : 'Se guardaron $saved. $failure'),
-      backgroundColor: failure == null ? AppColors.tealDark : AppColors.pink,
-    ));
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          failure == null
+              ? 'Notas guardadas para $saved de ${roster.length} estudiantes.'
+              : 'Se guardaron $saved. $failure',
+        ),
+        backgroundColor: failure == null ? AppColors.tealDark : AppColors.pink,
+      ),
+    );
     if (failure == null) Navigator.of(context).pop();
   }
 
@@ -168,12 +181,14 @@ class _GradeEntryScreenState extends ConsumerState<GradeEntryScreen> {
     _period ??= ref.read(currentPeriodProvider);
 
     return classAsync.when(
-      loading: () => const SimpleHeaderScaffold(title: 'Notas', body: LoadingView()),
+      loading: () =>
+          const SimpleHeaderScaffold(title: 'Notas', body: LoadingView()),
       error: (error, _) => SimpleHeaderScaffold(
         title: 'Notas',
         body: ErrorView(
           error: error,
-          onRetry: () => ref.invalidate(teacherClassProvider(widget.assignmentId)),
+          onRetry: () =>
+              ref.invalidate(teacherClassProvider(widget.assignmentId)),
         ),
       ),
       data: (teacherClass) => teacherClass == null
@@ -192,11 +207,11 @@ class _GradeEntryScreenState extends ConsumerState<GradeEntryScreen> {
   Widget _body(TeacherClass teacherClass) {
     final period = _period!;
     final rosterAsync = ref.watch(rosterProvider(teacherClass.courseId));
-    
+
     // gradeSheetProvider es un provider "family" cuya clave es un record
     // (subjectId, period): Riverpod cachea un AsyncValue distinto por cada
     // combinación de materia y periodo.
-    
+
     final gradesAsync = ref.watch(
       gradeSheetProvider((subjectId: teacherClass.subjectId, period: period)),
     );
@@ -227,13 +242,17 @@ class _GradeEntryScreenState extends ConsumerState<GradeEntryScreen> {
                               alignment: Alignment.center,
                               padding: const EdgeInsets.symmetric(vertical: 9),
                               decoration: BoxDecoration(
-                                color: selected ? AppColors.indigo : AppColors.surface,
+                                color: selected
+                                    ? AppColors.indigo
+                                    : AppColors.surface,
                                 borderRadius: BorderRadius.circular(12),
                               ),
                               child: Text(
                                 '$p',
                                 style: AppTextStyles.body.copyWith(
-                                  color: selected ? Colors.white : AppColors.textSecondary,
+                                  color: selected
+                                      ? Colors.white
+                                      : AppColors.textSecondary,
                                   fontWeight: FontWeight.w700,
                                 ),
                               ),
@@ -252,23 +271,28 @@ class _GradeEntryScreenState extends ConsumerState<GradeEntryScreen> {
               loading: () => const LoadingView(),
               error: (error, _) => ErrorView(
                 error: error,
-                onRetry: () => ref.invalidate(rosterProvider(teacherClass.courseId)),
+                onRetry: () =>
+                    ref.invalidate(rosterProvider(teacherClass.courseId)),
               ),
               data: (roster) {
                 if (roster.isEmpty) {
                   return const EmptyState(
                     icon: Icons.person_off_rounded,
                     title: 'Curso sin estudiantes',
-                    message: 'Este curso no tiene estudiantes activos matriculados.',
+                    message:
+                        'Este curso no tiene estudiantes activos matriculados.',
                   );
                 }
                 return gradesAsync.when(
                   loading: () => const LoadingView(),
                   error: (error, _) => ErrorView(
                     error: error,
-                    onRetry: () => ref.invalidate(gradeSheetProvider(
-                      (subjectId: teacherClass.subjectId, period: period),
-                    )),
+                    onRetry: () => ref.invalidate(
+                      gradeSheetProvider((
+                        subjectId: teacherClass.subjectId,
+                        period: period,
+                      )),
+                    ),
                   ),
                   data: (existing) {
                     _seed(existing, period);
@@ -278,7 +302,8 @@ class _GradeEntryScreenState extends ConsumerState<GradeEntryScreen> {
                           child: ListView.separated(
                             padding: const EdgeInsets.fromLTRB(20, 12, 20, 12),
                             itemCount: roster.length,
-                            separatorBuilder: (_, _) => const SizedBox(height: 10),
+                            separatorBuilder: (_, _) =>
+                                const SizedBox(height: 10),
                             itemBuilder: (context, index) {
                               final student = roster[index];
                               return _GradeRow(
@@ -341,9 +366,15 @@ class _GradeRow extends StatelessWidget {
         color: AppColors.surface,
         borderRadius: BorderRadius.circular(18),
         boxShadow: const [
-          BoxShadow(color: AppColors.cardShadow, blurRadius: 16, offset: Offset(0, 4)),
+          BoxShadow(
+            color: AppColors.cardShadow,
+            blurRadius: 16,
+            offset: Offset(0, 4),
+          ),
         ],
-        border: error == null ? null : Border.all(color: AppColors.pink, width: 1.2),
+        border: error == null
+            ? null
+            : Border.all(color: AppColors.pink, width: 1.2),
       ),
       child: Column(
         children: [
@@ -354,7 +385,9 @@ class _GradeRow extends StatelessWidget {
               Expanded(
                 child: Text(
                   student.name,
-                  style: AppTextStyles.body.copyWith(fontWeight: FontWeight.w700),
+                  style: AppTextStyles.body.copyWith(
+                    fontWeight: FontWeight.w700,
+                  ),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -364,10 +397,14 @@ class _GradeRow extends StatelessWidget {
                 child: TextField(
                   controller: controller,
                   onChanged: (_) => onChanged(),
-                  keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                  keyboardType: const TextInputType.numberWithOptions(
+                    decimal: true,
+                  ),
                   // The scale is 0.0–5.0, so one digit before the separator.
                   inputFormatters: [
-                    FilteringTextInputFormatter.allow(RegExp(r'^\d{0,1}[.,]?\d{0,2}$')),
+                    FilteringTextInputFormatter.allow(
+                      RegExp(r'^\d{0,1}[.,]?\d{0,2}$'),
+                    ),
                   ],
                   textAlign: TextAlign.center,
                   decoration: const InputDecoration(

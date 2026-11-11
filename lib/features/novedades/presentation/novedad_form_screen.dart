@@ -75,12 +75,13 @@ class _NovedadFormScreenState extends ConsumerState<NovedadFormScreen> {
       _errorText = null;
     });
     try {
-
       // POST vía Dio (a través de academicRepositoryProvider) para crear la
       // novedad; el nivel de gravedad no se envía desde el formulario porque lo
       // define el tipo de novedad elegido, no una decisión libre del docente.
 
-      await ref.read(academicRepositoryProvider).createNovedad(
+      await ref
+          .read(academicRepositoryProvider)
+          .createNovedad(
             studentId: _studentId!,
             typeId: _typeId!,
             date: _date,
@@ -98,10 +99,14 @@ class _NovedadFormScreenState extends ConsumerState<NovedadFormScreen> {
 
       ref.invalidate(teacherNovedadesProvider);
       ref.invalidate(adminNovedadesProvider);
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text('Novedad registrada para ${_studentName ?? 'el estudiante'}.'),
-        backgroundColor: AppColors.tealDark,
-      ));
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            'Novedad registrada para ${_studentName ?? 'el estudiante'}.',
+          ),
+          backgroundColor: AppColors.tealDark,
+        ),
+      );
       Navigator.of(context).pop();
     } on AppFailure catch (e) {
       if (mounted) setState(() => _errorText = e.message);
@@ -129,7 +134,10 @@ class _NovedadFormScreenState extends ConsumerState<NovedadFormScreen> {
                 borderRadius: BorderRadius.circular(16),
                 onTap: _pickStudent,
                 child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 14,
+                  ),
                   decoration: BoxDecoration(
                     color: AppColors.background,
                     borderRadius: BorderRadius.circular(16),
@@ -139,8 +147,10 @@ class _NovedadFormScreenState extends ConsumerState<NovedadFormScreen> {
                       if (_studentName != null)
                         AvatarCircle(name: _studentName!, radius: 16)
                       else
-                        const Icon(Icons.person_search_rounded,
-                            color: AppColors.textSecondary),
+                        const Icon(
+                          Icons.person_search_rounded,
+                          color: AppColors.textSecondary,
+                        ),
                       const SizedBox(width: 12),
                       Expanded(
                         child: Text(
@@ -150,8 +160,10 @@ class _NovedadFormScreenState extends ConsumerState<NovedadFormScreen> {
                               : AppTextStyles.body,
                         ),
                       ),
-                      const Icon(Icons.chevron_right_rounded,
-                          color: AppColors.textSecondary),
+                      const Icon(
+                        Icons.chevron_right_rounded,
+                        color: AppColors.textSecondary,
+                      ),
                     ],
                   ),
                 ),
@@ -169,23 +181,25 @@ class _NovedadFormScreenState extends ConsumerState<NovedadFormScreen> {
                   spacing: 8,
                   runSpacing: 8,
                   children: types
-                      .map((t) => ChoiceChip(
-                            label: Text(t.name),
-                            selected: _typeId == t.id,
-                            onSelected: (_) =>
-                                setState(() => _typeId = t.id),
-                            selectedColor: AppColors.indigo,
-                            labelStyle: AppTextStyles.caption.copyWith(
-                              color: _typeId == t.id
-                                  ? Colors.white
-                                  : AppColors.textPrimary,
-                              fontWeight: FontWeight.w600,
-                            ),
-                            backgroundColor: AppColors.background,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20)),
-                            side: BorderSide.none,
-                          ))
+                      .map(
+                        (t) => ChoiceChip(
+                          label: Text(t.name),
+                          selected: _typeId == t.id,
+                          onSelected: (_) => setState(() => _typeId = t.id),
+                          selectedColor: AppColors.indigo,
+                          labelStyle: AppTextStyles.caption.copyWith(
+                            color: _typeId == t.id
+                                ? Colors.white
+                                : AppColors.textPrimary,
+                            fontWeight: FontWeight.w600,
+                          ),
+                          backgroundColor: AppColors.background,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          side: BorderSide.none,
+                        ),
+                      )
                       .toList(),
                 ),
               ),
@@ -194,12 +208,16 @@ class _NovedadFormScreenState extends ConsumerState<NovedadFormScreen> {
               // mirrors what the institution configured in `/tipos-novedad`.
               typesAsync.maybeWhen(
                 data: (types) {
-                  final selected =
-                      types.where((t) => t.id == _typeId).firstOrNull;
+                  final selected = types
+                      .where((t) => t.id == _typeId)
+                      .firstOrNull;
                   if (selected == null) return const SizedBox.shrink();
                   final severity = _severityColor(selected.severity);
                   return Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 14,
+                      vertical: 12,
+                    ),
                     decoration: BoxDecoration(
                       color: severity.$2,
                       borderRadius: BorderRadius.circular(14),
@@ -209,8 +227,10 @@ class _NovedadFormScreenState extends ConsumerState<NovedadFormScreen> {
                         Container(
                           width: 8,
                           height: 8,
-                          decoration:
-                              BoxDecoration(color: severity.$1, shape: BoxShape.circle),
+                          decoration: BoxDecoration(
+                            color: severity.$1,
+                            shape: BoxShape.circle,
+                          ),
                         ),
                         const SizedBox(width: 10),
                         Expanded(
@@ -238,22 +258,33 @@ class _NovedadFormScreenState extends ConsumerState<NovedadFormScreen> {
                   final picked = await showDatePicker(
                     context: context,
                     initialDate: _date,
-                    firstDate: DateTime.now().subtract(const Duration(days: 180)),
+                    firstDate: DateTime.now().subtract(
+                      const Duration(days: 180),
+                    ),
                     lastDate: DateTime.now(),
                   );
                   if (picked != null) setState(() => _date = picked);
                 },
                 child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 14,
+                  ),
                   decoration: BoxDecoration(
                     color: AppColors.background,
                     borderRadius: BorderRadius.circular(16),
                   ),
                   child: Row(
                     children: [
-                      const Icon(Icons.event_rounded, color: AppColors.textSecondary),
+                      const Icon(
+                        Icons.event_rounded,
+                        color: AppColors.textSecondary,
+                      ),
                       const SizedBox(width: 12),
-                      Text(Formatters.todayLong(_date), style: AppTextStyles.body),
+                      Text(
+                        Formatters.todayLong(_date),
+                        style: AppTextStyles.body,
+                      ),
                     ],
                   ),
                 ),
@@ -265,9 +296,12 @@ class _NovedadFormScreenState extends ConsumerState<NovedadFormScreen> {
                 controller: _descriptionController,
                 minLines: 3,
                 maxLines: 5,
-                decoration: const InputDecoration(hintText: 'Detalla lo ocurrido...'),
-                validator: (v) =>
-                    (v == null || v.trim().isEmpty) ? 'Describe la novedad.' : null,
+                decoration: const InputDecoration(
+                  hintText: 'Detalla lo ocurrido...',
+                ),
+                validator: (v) => (v == null || v.trim().isEmpty)
+                    ? 'Describe la novedad.'
+                    : null,
               ),
               const SizedBox(height: 18),
               Text('Acción tomada (opcional)', style: AppTextStyles.caption),
@@ -276,11 +310,16 @@ class _NovedadFormScreenState extends ConsumerState<NovedadFormScreen> {
                 controller: _actionController,
                 minLines: 2,
                 maxLines: 4,
-                decoration: const InputDecoration(hintText: '¿Qué se hizo al respecto?'),
+                decoration: const InputDecoration(
+                  hintText: '¿Qué se hizo al respecto?',
+                ),
               ),
               if (_errorText != null) ...[
                 const SizedBox(height: 16),
-                Text(_errorText!, style: AppTextStyles.body.copyWith(color: AppColors.pink)),
+                Text(
+                  _errorText!,
+                  style: AppTextStyles.body.copyWith(color: AppColors.pink),
+                ),
               ],
               const SizedBox(height: 24),
               PrimaryGradientButton(
@@ -296,11 +335,11 @@ class _NovedadFormScreenState extends ConsumerState<NovedadFormScreen> {
   }
 
   (Color, Color) _severityColor(NovedadSeverity nivel) => switch (nivel) {
-        NovedadSeverity.low => (AppColors.blue, AppColors.roleStudentBg),
-        NovedadSeverity.medium => (AppColors.orange, const Color(0xFFFCEEDD)),
-        NovedadSeverity.high => (AppColors.pink, const Color(0xFFFFE7EC)),
-        NovedadSeverity.critical => (AppColors.pink, const Color(0xFFFFD9E1)),
-      };
+    NovedadSeverity.low => (AppColors.blue, AppColors.roleStudentBg),
+    NovedadSeverity.medium => (AppColors.orange, const Color(0xFFFCEEDD)),
+    NovedadSeverity.high => (AppColors.pink, const Color(0xFFFFE7EC)),
+    NovedadSeverity.critical => (AppColors.pink, const Color(0xFFFFD9E1)),
+  };
 
   Future<void> _pickStudent() async {
     final picked = await showModalBottomSheet<StudentIdentity>(
@@ -348,11 +387,11 @@ class _StudentPickerState extends ConsumerState<_StudentPicker> {
 
   Future<void> _search(String query) async {
     final catalog = ref.read(studentCatalogProvider);
-    
+
     // El catálogo de estudiantes se carga una sola vez con Dio y queda en
     // memoria; ensureReady() evita repetir la petición si ya está listo, y
     // catalog.search() filtra localmente, sin red.
-    
+
     try {
       await catalog.ensureReady();
     } catch (_) {
@@ -398,26 +437,31 @@ class _StudentPickerState extends ConsumerState<_StudentPicker> {
             child: _loading
                 ? const Center(child: CircularProgressIndicator())
                 : _results.isEmpty
-                    ? Center(
-                        child: Text('Sin resultados.', style: AppTextStyles.bodyMuted),
-                      )
-                    : ListView.builder(
-                        itemCount: _results.length,
-                        itemBuilder: (context, index) {
-                          final student = _results[index];
-                          final name = student.displayName.isEmpty
-                              ? student.code
-                              : student.displayName;
-                          return ListTile(
-                            contentPadding: EdgeInsets.zero,
-                            leading: AvatarCircle(name: name, radius: 20),
-                            title: Text(name, style: AppTextStyles.body),
-                            subtitle:
-                                Text(student.code, style: AppTextStyles.caption),
-                            onTap: () => Navigator.of(context).pop(student),
-                          );
-                        },
-                      ),
+                ? Center(
+                    child: Text(
+                      'Sin resultados.',
+                      style: AppTextStyles.bodyMuted,
+                    ),
+                  )
+                : ListView.builder(
+                    itemCount: _results.length,
+                    itemBuilder: (context, index) {
+                      final student = _results[index];
+                      final name = student.displayName.isEmpty
+                          ? student.code
+                          : student.displayName;
+                      return ListTile(
+                        contentPadding: EdgeInsets.zero,
+                        leading: AvatarCircle(name: name, radius: 20),
+                        title: Text(name, style: AppTextStyles.body),
+                        subtitle: Text(
+                          student.code,
+                          style: AppTextStyles.caption,
+                        ),
+                        onTap: () => Navigator.of(context).pop(student),
+                      );
+                    },
+                  ),
           ),
         ],
       ),

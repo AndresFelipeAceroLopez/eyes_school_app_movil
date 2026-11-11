@@ -45,7 +45,8 @@ class Grade {
     final result = bySubject.entries.map((entry) {
       final rows = entry.value;
       if (rows.length == 1) return rows.first;
-      final average = rows.fold<double>(0, (sum, g) => sum + g.score) / rows.length;
+      final average =
+          rows.fold<double>(0, (sum, g) => sum + g.score) / rows.length;
       return Grade(
         subject: entry.key,
         score: average,

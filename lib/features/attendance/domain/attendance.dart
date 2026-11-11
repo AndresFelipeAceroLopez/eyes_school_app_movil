@@ -78,11 +78,11 @@ enum AttendanceMark {
   String get label => state.label;
 
   AttendanceState get state => switch (this) {
-        AttendanceMark.present => AttendanceState.present,
-        AttendanceMark.late => AttendanceState.late,
-        AttendanceMark.absent => AttendanceState.absent,
-        AttendanceMark.excused => AttendanceState.excused,
-      };
+    AttendanceMark.present => AttendanceState.present,
+    AttendanceMark.late => AttendanceState.late,
+    AttendanceMark.absent => AttendanceState.absent,
+    AttendanceMark.excused => AttendanceState.excused,
+  };
 }
 
 /// Whether a record still owes something to the server.

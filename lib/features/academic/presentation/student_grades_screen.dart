@@ -17,7 +17,8 @@ class StudentGradesScreen extends ConsumerStatefulWidget {
   const StudentGradesScreen({super.key});
 
   @override
-  ConsumerState<StudentGradesScreen> createState() => _StudentGradesScreenState();
+  ConsumerState<StudentGradesScreen> createState() =>
+      _StudentGradesScreenState();
 }
 
 class _StudentGradesScreenState extends ConsumerState<StudentGradesScreen> {
@@ -36,7 +37,8 @@ class _StudentGradesScreenState extends ConsumerState<StudentGradesScreen> {
         body: EmptyState(
           icon: Icons.school_outlined,
           title: 'Perfil de estudiante no encontrado',
-          message: session?.bootstrapWarning ??
+          message:
+              session?.bootstrapWarning ??
               'Tu cuenta no tiene un perfil de estudiante asociado.',
         ),
       );
@@ -82,7 +84,8 @@ class _StudentGradesScreenState extends ConsumerState<StudentGradesScreen> {
                   return EmptyState(
                     icon: Icons.bar_chart_rounded,
                     title: 'Sin notas en el periodo ${_period!}',
-                    message: 'Cuando tus docentes registren notas aparecerán aquí.',
+                    message:
+                        'Cuando tus docentes registren notas aparecerán aquí.',
                   );
                 }
                 final average = GradesCard.overallAverage(grades);
@@ -96,7 +99,10 @@ class _StudentGradesScreenState extends ConsumerState<StudentGradesScreen> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text('Promedio general', style: AppTextStyles.caption),
+                                Text(
+                                  'Promedio general',
+                                  style: AppTextStyles.caption,
+                                ),
                                 Text(
                                   average.toStringAsFixed(1),
                                   style: AppTextStyles.h1.copyWith(
@@ -124,7 +130,8 @@ class _StudentGradesScreenState extends ConsumerState<StudentGradesScreen> {
                         side: const BorderSide(color: AppColors.indigo),
                         padding: const EdgeInsets.symmetric(vertical: 14),
                         shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(16)),
+                          borderRadius: BorderRadius.circular(16),
+                        ),
                       ),
                       onPressed: () => ReportCardDownloader.run(
                         context,

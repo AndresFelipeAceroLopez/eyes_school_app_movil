@@ -67,14 +67,20 @@ class PushNotificationService {
     _initialized = true;
 
     if (Firebase.apps.isEmpty) {
-      if (kDebugMode) debugPrint('[FCM] Firebase no se inicializó previamente (¿falta google-services.json en Android o firebase_options.dart en Web?). Notificaciones omitidas.');
+      if (kDebugMode) {
+        debugPrint(
+          '[FCM] Firebase no se inicializó previamente (¿falta google-services.json en Android o firebase_options.dart en Web?). Notificaciones omitidas.',
+        );
+      }
       return;
     }
 
     try {
       // Register the background handler (only supported on mobile / non-web).
       if (!kIsWeb) {
-        FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+        FirebaseMessaging.onBackgroundMessage(
+          _firebaseMessagingBackgroundHandler,
+        );
       }
 
       // Setup local notifications for mobile (foreground alerts).
@@ -82,7 +88,8 @@ class PushNotificationService {
         if (Platform.isAndroid) {
           await _localNotifications
               .resolvePlatformSpecificImplementation<
-                  AndroidFlutterLocalNotificationsPlugin>()
+                AndroidFlutterLocalNotificationsPlugin
+              >()
               ?.createNotificationChannel(_channel);
         }
 
@@ -144,7 +151,9 @@ class PushNotificationService {
       await _refreshSubscription?.cancel();
       _refreshSubscription = _messaging.onTokenRefresh.listen(_register);
     } catch (e) {
-      if (kDebugMode) debugPrint('[FCM] No se pudo registrar el dispositivo: $e');
+      if (kDebugMode) {
+        debugPrint('[FCM] No se pudo registrar el dispositivo: $e');
+      }
     }
   }
 
@@ -160,7 +169,9 @@ class PushNotificationService {
     try {
       await _deviceTokens.unregister(token);
     } catch (e) {
-      if (kDebugMode) debugPrint('[FCM] No se pudo dar de baja el dispositivo: $e');
+      if (kDebugMode) {
+        debugPrint('[FCM] No se pudo dar de baja el dispositivo: $e');
+      }
     }
   }
 

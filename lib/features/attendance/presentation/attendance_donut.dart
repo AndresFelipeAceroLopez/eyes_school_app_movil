@@ -4,11 +4,7 @@ import 'package:eyes_school/core/theme/app_colors.dart';
 import 'package:eyes_school/core/theme/app_text_styles.dart';
 
 class AttendanceDonut extends StatelessWidget {
-  const AttendanceDonut({
-    super.key,
-    required this.percent,
-    this.size = 96,
-  });
+  const AttendanceDonut({super.key, required this.percent, this.size = 96});
 
   final double percent;
   final double size;
@@ -27,7 +23,10 @@ class AttendanceDonut extends StatelessWidget {
           ),
           Text(
             '${percent.round()}%',
-            style: AppTextStyles.h3.copyWith(fontSize: size * 0.19, fontWeight: FontWeight.w800),
+            style: AppTextStyles.h3.copyWith(
+              fontSize: size * 0.19,
+              fontWeight: FontWeight.w800,
+            ),
           ),
         ],
       ),
@@ -62,5 +61,6 @@ class _DonutPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(covariant _DonutPainter oldDelegate) => oldDelegate.percent != percent;
+  bool shouldRepaint(covariant _DonutPainter oldDelegate) =>
+      oldDelegate.percent != percent;
 }

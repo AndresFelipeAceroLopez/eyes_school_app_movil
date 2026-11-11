@@ -31,11 +31,13 @@ Dio buildDio({
   // certificate, a test's scripted transport) keeps applying everywhere.
   Dio bare() => Dio(options)..httpClientAdapter = dio.httpClientAdapter;
 
-  dio.interceptors.add(AuthInterceptor(
-    tokens: tokens,
-    onSessionExpired: onSessionExpired,
-    bareDio: bare,
-  ));
+  dio.interceptors.add(
+    AuthInterceptor(
+      tokens: tokens,
+      onSessionExpired: onSessionExpired,
+      bareDio: bare,
+    ),
+  );
   dio.interceptors.add(RetryInterceptor(bareDio: bare));
   dio.interceptors.add(const ErrorInterceptor());
 

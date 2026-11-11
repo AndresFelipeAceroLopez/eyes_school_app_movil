@@ -26,7 +26,8 @@ class BulkAttendanceScreen extends ConsumerStatefulWidget {
   const BulkAttendanceScreen({super.key});
 
   @override
-  ConsumerState<BulkAttendanceScreen> createState() => _BulkAttendanceScreenState();
+  ConsumerState<BulkAttendanceScreen> createState() =>
+      _BulkAttendanceScreenState();
 }
 
 class _BulkAttendanceScreenState extends ConsumerState<BulkAttendanceScreen> {
@@ -65,15 +66,23 @@ class _BulkAttendanceScreenState extends ConsumerState<BulkAttendanceScreen> {
                 child: Wrap(
                   spacing: 8,
                   children: [
-                    _chip('Todas', _shift == null, () => setState(() {
-                          _shift = null;
-                          _course = null;
-                        })),
+                    _chip(
+                      'Todas',
+                      _shift == null,
+                      () => setState(() {
+                        _shift = null;
+                        _course = null;
+                      }),
+                    ),
                     for (final shift in const ['Mañana', 'Tarde', 'Única'])
-                      _chip(shift, _shift == shift, () => setState(() {
-                            _shift = shift;
-                            _course = null;
-                          })),
+                      _chip(
+                        shift,
+                        _shift == shift,
+                        () => setState(() {
+                          _shift = shift;
+                          _course = null;
+                        }),
+                      ),
                   ],
                 ),
               ),
@@ -89,10 +98,12 @@ class _BulkAttendanceScreenState extends ConsumerState<BulkAttendanceScreen> {
                     hintText: 'Selecciona un curso',
                   ),
                   items: visible
-                      .map((c) => DropdownMenuItem(
-                            value: c.id,
-                            child: Text('${c.name} · ${c.shiftLabel}'),
-                          ))
+                      .map(
+                        (c) => DropdownMenuItem(
+                          value: c.id,
+                          child: Text('${c.name} · ${c.shiftLabel}'),
+                        ),
+                      )
                       .toList(),
                   onChanged: (id) => setState(() {
                     _course = visible.where((c) => c.id == id).firstOrNull;
@@ -110,20 +121,31 @@ class _BulkAttendanceScreenState extends ConsumerState<BulkAttendanceScreen> {
                       borderRadius: BorderRadius.circular(14),
                       onTap: _pickDate,
                       child: Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 14,
+                        ),
                         decoration: BoxDecoration(
                           color: AppColors.background,
                           borderRadius: BorderRadius.circular(14),
                         ),
                         child: Row(
                           children: [
-                            const Icon(Icons.event_rounded,
-                                size: 20, color: AppColors.textSecondary),
+                            const Icon(
+                              Icons.event_rounded,
+                              size: 20,
+                              color: AppColors.textSecondary,
+                            ),
                             const SizedBox(width: 12),
-                            Text(Formatters.todayLong(_date), style: AppTextStyles.body),
+                            Text(
+                              Formatters.todayLong(_date),
+                              style: AppTextStyles.body,
+                            ),
                             const Spacer(),
-                            const Icon(Icons.expand_more_rounded,
-                                color: AppColors.textSecondary),
+                            const Icon(
+                              Icons.expand_more_rounded,
+                              color: AppColors.textSecondary,
+                            ),
                           ],
                         ),
                       ),
@@ -153,7 +175,8 @@ class _BulkAttendanceScreenState extends ConsumerState<BulkAttendanceScreen> {
                 const EmptyState(
                   icon: Icons.groups_rounded,
                   title: 'Selecciona un curso',
-                  message: 'Elige el curso para cargar su lista de estudiantes.',
+                  message:
+                      'Elige el curso para cargar su lista de estudiantes.',
                 )
               else
                 _RosterSection(
@@ -181,7 +204,11 @@ class _BulkAttendanceScreenState extends ConsumerState<BulkAttendanceScreen> {
     );
   }
 
-  Widget _stepCard({required int step, required String title, required Widget child}) {
+  Widget _stepCard({
+    required int step,
+    required String title,
+    required Widget child,
+  }) {
     return SectionCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -198,8 +225,10 @@ class _BulkAttendanceScreenState extends ConsumerState<BulkAttendanceScreen> {
                 ),
                 child: Text(
                   '$step',
-                  style: AppTextStyles.caption
-                      .copyWith(color: Colors.white, fontWeight: FontWeight.w800),
+                  style: AppTextStyles.caption.copyWith(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w800,
+                  ),
                 ),
               ),
               const SizedBox(width: 10),
@@ -213,7 +242,12 @@ class _BulkAttendanceScreenState extends ConsumerState<BulkAttendanceScreen> {
     );
   }
 
-  Widget _chip(String label, bool selected, VoidCallback onTap, {bool fullWidth = false}) {
+  Widget _chip(
+    String label,
+    bool selected,
+    VoidCallback onTap, {
+    bool fullWidth = false,
+  }) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -255,7 +289,9 @@ class _BulkAttendanceScreenState extends ConsumerState<BulkAttendanceScreen> {
       _progress = 0;
     });
     try {
-      final result = await ref.read(attendanceRepositoryProvider).recordBulk(
+      final result = await ref
+          .read(attendanceRepositoryProvider)
+          .recordBulk(
             marks: _marks,
             names: {for (final s in roster) s.id: s.name},
             kind: _tipo,
@@ -266,16 +302,22 @@ class _BulkAttendanceScreenState extends ConsumerState<BulkAttendanceScreen> {
             },
           );
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text(result.duplicates == 0
-            ? '${result.queued} registro(s) enviados.'
-            : '${result.queued} enviados · ${result.duplicates} ya existían.'),
-        backgroundColor: AppColors.tealDark,
-      ));
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            result.duplicates == 0
+                ? '${result.queued} registro(s) enviados.'
+                : '${result.queued} enviados · ${result.duplicates} ya existían.',
+          ),
+          backgroundColor: AppColors.tealDark,
+        ),
+      );
       ref.invalidate(todayAttendanceProvider);
     } on AppFailure catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.message)));
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(e.message)));
       }
     } finally {
       if (mounted) setState(() => _sending = false);
@@ -299,7 +341,8 @@ class _RosterSection extends ConsumerWidget {
   final Map<int, AttendanceMark> marks;
   final void Function(int studentId, AttendanceMark mark) onChanged;
   final void Function(List<RosterStudent> roster) onSeeded;
-  final void Function(List<RosterStudent> roster, AttendanceMark mark) onMarkAll;
+  final void Function(List<RosterStudent> roster, AttendanceMark mark)
+  onMarkAll;
   final bool sending;
   final int progress;
   final Future<void> Function(List<RosterStudent> roster) onSubmit;
@@ -323,8 +366,9 @@ class _RosterSection extends ConsumerWidget {
           );
         }
         onSeeded(roster);
-        final present =
-            marks.values.where((m) => m == AttendanceMark.present).length;
+        final present = marks.values
+            .where((m) => m == AttendanceMark.present)
+            .length;
 
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -335,8 +379,10 @@ class _RosterSection extends ConsumerWidget {
               onTrailingTap: () => onMarkAll(roster, AttendanceMark.present),
             ),
             const SizedBox(height: 6),
-            Text('$present de ${roster.length} marcados presentes',
-                style: AppTextStyles.caption),
+            Text(
+              '$present de ${roster.length} marcados presentes',
+              style: AppTextStyles.caption,
+            ),
             const SizedBox(height: 14),
             for (final student in roster)
               _RosterRow(
@@ -351,8 +397,10 @@ class _RosterSection extends ConsumerWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('$progress/${marks.length} enviados',
-                        style: AppTextStyles.caption),
+                    Text(
+                      '$progress/${marks.length} enviados',
+                      style: AppTextStyles.caption,
+                    ),
                     const SizedBox(height: 6),
                     ClipRRect(
                       borderRadius: BorderRadius.circular(4),
@@ -360,7 +408,9 @@ class _RosterSection extends ConsumerWidget {
                         value: marks.isEmpty ? 0 : progress / marks.length,
                         minHeight: 6,
                         backgroundColor: AppColors.divider,
-                        valueColor: const AlwaysStoppedAnimation(AppColors.indigo),
+                        valueColor: const AlwaysStoppedAnimation(
+                          AppColors.indigo,
+                        ),
                       ),
                     ),
                   ],
@@ -398,11 +448,11 @@ class _RosterRow extends StatelessWidget {
   ];
 
   static Color colorFor(AttendanceMark mark) => switch (mark) {
-        AttendanceMark.present => AppColors.tealDark,
-        AttendanceMark.late => AppColors.orange,
-        AttendanceMark.absent => AppColors.pink,
-        AttendanceMark.excused => AppColors.blue,
-      };
+    AttendanceMark.present => AppColors.tealDark,
+    AttendanceMark.late => AppColors.orange,
+    AttendanceMark.absent => AppColors.pink,
+    AttendanceMark.excused => AppColors.blue,
+  };
 
   @override
   Widget build(BuildContext context) {
@@ -421,10 +471,14 @@ class _RosterRow extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(student.name,
-                          style: AppTextStyles.body.copyWith(fontWeight: FontWeight.w700),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis),
+                      Text(
+                        student.name,
+                        style: AppTextStyles.body.copyWith(
+                          fontWeight: FontWeight.w700,
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
                       if (student.code != null)
                         Text(student.code!, style: AppTextStyles.caption),
                     ],
@@ -452,7 +506,9 @@ class _RosterRow extends StatelessWidget {
                         child: Text(
                           option.label,
                           style: AppTextStyles.caption.copyWith(
-                            color: selected ? Colors.white : AppColors.textSecondary,
+                            color: selected
+                                ? Colors.white
+                                : AppColors.textSecondary,
                             fontWeight: FontWeight.w700,
                             fontSize: 11.5,
                           ),

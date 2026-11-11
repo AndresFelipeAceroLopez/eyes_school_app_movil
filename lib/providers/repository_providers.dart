@@ -41,7 +41,9 @@ class SessionExpirySignal {
   Future<void> fire() async => onExpired?.call();
 }
 
-final sessionExpiryProvider = Provider<SessionExpirySignal>((ref) => SessionExpirySignal());
+final sessionExpiryProvider = Provider<SessionExpirySignal>(
+  (ref) => SessionExpirySignal(),
+);
 
 final tokenStorageProvider = Provider<TokenStorage>((ref) => TokenStorage());
 
@@ -54,29 +56,39 @@ final dioProvider = Provider<Dio>((ref) {
   );
 });
 
-final apiClientProvider = Provider<ApiClient>((ref) => ApiClient(ref.watch(dioProvider)));
+final apiClientProvider = Provider<ApiClient>(
+  (ref) => ApiClient(ref.watch(dioProvider)),
+);
 
 // ── Data sources ──────────────────────────────────────────────────────────
 
-final authApiProvider = Provider<AuthApi>((ref) => AuthApi(ref.watch(apiClientProvider)));
+final authApiProvider = Provider<AuthApi>(
+  (ref) => AuthApi(ref.watch(apiClientProvider)),
+);
 
-final peopleApiProvider =
-    Provider<PeopleApi>((ref) => PeopleApi(ref.watch(apiClientProvider)));
+final peopleApiProvider = Provider<PeopleApi>(
+  (ref) => PeopleApi(ref.watch(apiClientProvider)),
+);
 
-final academicApiProvider =
-    Provider<AcademicApi>((ref) => AcademicApi(ref.watch(apiClientProvider)));
+final academicApiProvider = Provider<AcademicApi>(
+  (ref) => AcademicApi(ref.watch(apiClientProvider)),
+);
 
-final attendanceApiProvider =
-    Provider<AttendanceApi>((ref) => AttendanceApi(ref.watch(apiClientProvider)));
+final attendanceApiProvider = Provider<AttendanceApi>(
+  (ref) => AttendanceApi(ref.watch(apiClientProvider)),
+);
 
-final novedadesApiProvider =
-    Provider<NovedadesApi>((ref) => NovedadesApi(ref.watch(apiClientProvider)));
+final novedadesApiProvider = Provider<NovedadesApi>(
+  (ref) => NovedadesApi(ref.watch(apiClientProvider)),
+);
 
-final dashboardApiProvider =
-    Provider<DashboardApi>((ref) => DashboardApi(ref.watch(apiClientProvider)));
+final dashboardApiProvider = Provider<DashboardApi>(
+  (ref) => DashboardApi(ref.watch(apiClientProvider)),
+);
 
-final reportesApiProvider =
-    Provider<ReportesApi>((ref) => ReportesApi(ref.watch(apiClientProvider)));
+final reportesApiProvider = Provider<ReportesApi>(
+  (ref) => ReportesApi(ref.watch(apiClientProvider)),
+);
 
 /// Catalog that resolves a scanned `codigo_estudiante` to an id, and the
 /// reason offline scanning works at all.
@@ -104,7 +116,9 @@ final syncWorkerProvider = Provider<SyncWorker>((ref) {
   return worker;
 });
 
-final connectivityProvider = StreamProvider<bool>((ref) => connectivityStream());
+final connectivityProvider = StreamProvider<bool>(
+  (ref) => connectivityStream(),
+);
 
 // ── Repositories (contract → implementation) ──────────────────────────────
 
@@ -163,22 +177,29 @@ final reportRepositoryProvider = Provider<ReportRepository>(
 
 // ── Use cases ─────────────────────────────────────────────────────────────
 
-final signInProvider = Provider((ref) => SignIn(ref.watch(authRepositoryProvider)));
+final signInProvider = Provider(
+  (ref) => SignIn(ref.watch(authRepositoryProvider)),
+);
 
-final restoreSessionProvider =
-    Provider((ref) => RestoreSession(ref.watch(authRepositoryProvider)));
+final restoreSessionProvider = Provider(
+  (ref) => RestoreSession(ref.watch(authRepositoryProvider)),
+);
 
-final registerScanProvider =
-    Provider((ref) => RegisterScan(ref.watch(attendanceRepositoryProvider)));
+final registerScanProvider = Provider(
+  (ref) => RegisterScan(ref.watch(attendanceRepositoryProvider)),
+);
 
-final registerCourseAttendanceProvider =
-    Provider((ref) => RegisterCourseAttendance(ref.watch(attendanceRepositoryProvider)));
+final registerCourseAttendanceProvider = Provider(
+  (ref) => RegisterCourseAttendance(ref.watch(attendanceRepositoryProvider)),
+);
 
-final saveGradeSheetProvider =
-    Provider((ref) => SaveGradeSheet(ref.watch(academicRepositoryProvider)));
+final saveGradeSheetProvider = Provider(
+  (ref) => SaveGradeSheet(ref.watch(academicRepositoryProvider)),
+);
 
-final nameNovedadesProvider =
-    Provider((ref) => NameNovedades(ref.watch(attendanceRepositoryProvider)));
+final nameNovedadesProvider = Provider(
+  (ref) => NameNovedades(ref.watch(attendanceRepositoryProvider)),
+);
 
 const todaysClasses = TodaysClasses();
 const nextClass = NextClass();

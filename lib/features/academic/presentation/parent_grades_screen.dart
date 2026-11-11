@@ -38,7 +38,8 @@ class _ParentGradesScreenState extends ConsumerState<ParentGradesScreen> {
         body: EmptyState(
           icon: Icons.family_restroom_rounded,
           title: 'Sin estudiante vinculado',
-          message: session?.bootstrapWarning ??
+          message:
+              session?.bootstrapWarning ??
               'Tu cuenta de acudiente aún no está vinculada a un estudiante.',
         ),
       );
@@ -78,7 +79,9 @@ class _ParentGradesScreenState extends ConsumerState<ParentGradesScreen> {
                   Expanded(
                     child: Text(
                       name,
-                      style: AppTextStyles.body.copyWith(fontWeight: FontWeight.w700),
+                      style: AppTextStyles.body.copyWith(
+                        fontWeight: FontWeight.w700,
+                      ),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -104,7 +107,8 @@ class _ParentGradesScreenState extends ConsumerState<ParentGradesScreen> {
                   return EmptyState(
                     icon: Icons.bar_chart_rounded,
                     title: 'Sin notas en el periodo ${_period!}',
-                    message: 'Cuando los docentes registren notas aparecerán aquí.',
+                    message:
+                        'Cuando los docentes registren notas aparecerán aquí.',
                   );
                 }
                 final average = GradesCard.overallAverage(grades);
@@ -118,7 +122,10 @@ class _ParentGradesScreenState extends ConsumerState<ParentGradesScreen> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text('Promedio general', style: AppTextStyles.caption),
+                                Text(
+                                  'Promedio general',
+                                  style: AppTextStyles.caption,
+                                ),
                                 Text(
                                   average.toStringAsFixed(1),
                                   style: AppTextStyles.h1.copyWith(
@@ -130,8 +137,10 @@ class _ParentGradesScreenState extends ConsumerState<ParentGradesScreen> {
                               ],
                             ),
                           ),
-                          Text(AcademicPeriods.labelOf(_period!),
-                              style: AppTextStyles.bodyMuted),
+                          Text(
+                            AcademicPeriods.labelOf(_period!),
+                            style: AppTextStyles.bodyMuted,
+                          ),
                         ],
                       ),
                     ),
@@ -143,8 +152,9 @@ class _ParentGradesScreenState extends ConsumerState<ParentGradesScreen> {
                         foregroundColor: AppColors.indigo,
                         side: const BorderSide(color: AppColors.indigo),
                         padding: const EdgeInsets.symmetric(vertical: 14),
-                        shape:
-                            RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16),
+                        ),
                       ),
                       onPressed: () => ReportCardDownloader.run(
                         context,

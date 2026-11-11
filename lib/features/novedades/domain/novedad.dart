@@ -32,17 +32,17 @@ class Novedad {
   bool get resolved => status == NovedadStatus.done;
 
   Novedad withStudentName(String name) => Novedad(
-        studentName: name,
-        title: title,
-        severity: severity,
-        novedadId: novedadId,
-        studentId: studentId,
-        typeId: typeId,
-        description: description,
-        action: action,
-        date: date,
-        status: status,
-      );
+    studentName: name,
+    title: title,
+    severity: severity,
+    novedadId: novedadId,
+    studentId: studentId,
+    typeId: typeId,
+    description: description,
+    action: action,
+    date: date,
+    status: status,
+  );
 }
 
 /// An entry of the `/tipos-novedad` catalog. The severity of a novedad is a

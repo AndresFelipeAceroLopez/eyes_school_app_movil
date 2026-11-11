@@ -38,7 +38,11 @@ class ClassSession {
   String get time => start?.formatted ?? '--:--';
 
   /// Resolves the block against the wall clock. Only meaningful for today.
-  static ClassStatus statusFor(ClassTime? start, ClassTime? end, {DateTime? now}) {
+  static ClassStatus statusFor(
+    ClassTime? start,
+    ClassTime? end, {
+    DateTime? now,
+  }) {
     if (start == null) return ClassStatus.upcoming;
     final minutes = ClassTime.fromDateTime(now ?? DateTime.now()).minutesOfDay;
     final from = start.minutesOfDay;
@@ -50,17 +54,17 @@ class ClassSession {
   }
 
   ClassSession resolvedAt(DateTime now) => ClassSession(
-        subject: subject,
-        group: group,
-        room: room,
-        status: statusFor(start, end, now: now),
-        day: day,
-        courseId: courseId,
-        subjectId: subjectId,
-        assignmentId: assignmentId,
-        start: start,
-        end: end,
-      );
+    subject: subject,
+    group: group,
+    room: room,
+    status: statusFor(start, end, now: now),
+    day: day,
+    courseId: courseId,
+    subjectId: subjectId,
+    assignmentId: assignmentId,
+    start: start,
+    end: end,
+  );
 
   /// Minutes from now until the block starts; negative once it has begun.
   int minutesUntilStart({DateTime? now}) {

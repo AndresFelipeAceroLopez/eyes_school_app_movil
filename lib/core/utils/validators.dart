@@ -10,8 +10,9 @@ abstract final class Validators {
   /// Accepts multi-label domains: the institution uses `@eyesschool.edu.co`,
   /// and a pattern that allows a single dot after the `@` rejects every
   /// `.edu.co` / `.com.co` address there is.
-  static final _emailRegex =
-      RegExp(r'^[\w.+-]+@[\w-]+(?:\.[\w-]+)*\.[a-zA-Z]{2,}$');
+  static final _emailRegex = RegExp(
+    r'^[\w.+-]+@[\w-]+(?:\.[\w-]+)*\.[a-zA-Z]{2,}$',
+  );
 
   static String? email(String? value) {
     final v = value?.trim() ?? '';

@@ -15,7 +15,11 @@ class EyeLogo extends StatelessWidget {
         borderRadius: BorderRadius.circular(size * 0.28),
         border: Border.all(color: Colors.white.withValues(alpha: 0.18)),
       ),
-      child: Icon(Icons.remove_red_eye_rounded, color: Colors.tealAccent.shade100, size: size * 0.46),
+      child: Icon(
+        Icons.remove_red_eye_rounded,
+        color: Colors.tealAccent.shade100,
+        size: size * 0.46,
+      ),
     );
   }
 }

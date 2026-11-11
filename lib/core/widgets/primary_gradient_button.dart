@@ -38,7 +38,10 @@ class PrimaryGradientButton extends StatelessWidget {
                   ? const SizedBox(
                       width: 22,
                       height: 22,
-                      child: CircularProgressIndicator(strokeWidth: 2.4, color: Colors.white),
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2.4,
+                        color: Colors.white,
+                      ),
                     )
                   // The label must survive a narrow button: this widget is
                   // reused inside sheets and error cards, where the available

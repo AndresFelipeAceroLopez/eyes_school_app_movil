@@ -29,12 +29,16 @@ class StudentProfileScreen extends ConsumerStatefulWidget {
   final int studentId;
 
   @override
-  ConsumerState<StudentProfileScreen> createState() => _StudentProfileScreenState();
+  ConsumerState<StudentProfileScreen> createState() =>
+      _StudentProfileScreenState();
 }
 
 class _StudentProfileScreenState extends ConsumerState<StudentProfileScreen>
     with SingleTickerProviderStateMixin {
-  late final TabController _tabController = TabController(length: 3, vsync: this);
+  late final TabController _tabController = TabController(
+    length: 3,
+    vsync: this,
+  );
 
   @override
   void dispose() {
@@ -64,7 +68,8 @@ class _StudentProfileScreenState extends ConsumerState<StudentProfileScreen>
         loading: () => const LoadingView(),
         error: (error, _) => ErrorView(
           error: error,
-          onRetry: () => ref.invalidate(studentProfileProvider(widget.studentId)),
+          onRetry: () =>
+              ref.invalidate(studentProfileProvider(widget.studentId)),
         ),
         data: (student) {
           if (student == null) {
@@ -82,7 +87,9 @@ class _StudentProfileScreenState extends ConsumerState<StudentProfileScreen>
                 labelColor: AppColors.indigo,
                 unselectedLabelColor: AppColors.textSecondary,
                 indicatorColor: AppColors.indigo,
-                labelStyle: AppTextStyles.caption.copyWith(fontWeight: FontWeight.w700),
+                labelStyle: AppTextStyles.caption.copyWith(
+                  fontWeight: FontWeight.w700,
+                ),
                 tabs: const [
                   Tab(text: 'Notas'),
                   Tab(text: 'Asistencia'),
@@ -112,7 +119,9 @@ class _StudentProfileScreenState extends ConsumerState<StudentProfileScreen>
     final code = student.code;
     if (code == null || code.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Este estudiante no tiene código asignado.')),
+        const SnackBar(
+          content: Text('Este estudiante no tiene código asignado.'),
+        ),
       );
       return;
     }
@@ -140,7 +149,11 @@ class _StudentProfileScreenState extends ConsumerState<StudentProfileScreen>
                 ),
               ),
               const SizedBox(height: 18),
-              Text(student.name, style: AppTextStyles.h3, textAlign: TextAlign.center),
+              Text(
+                student.name,
+                style: AppTextStyles.h3,
+                textAlign: TextAlign.center,
+              ),
               const SizedBox(height: 4),
               Text(code, style: AppTextStyles.bodyMuted),
             ],
@@ -172,15 +185,19 @@ class _Header extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(student.name,
-                          style: AppTextStyles.h3,
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis),
+                      Text(
+                        student.name,
+                        style: AppTextStyles.h3,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
                       const SizedBox(height: 2),
                       Text(
-                        [student.code, student.grade, student.jornada]
-                            .whereType<String>()
-                            .join(' · '),
+                        [
+                          student.code,
+                          student.grade,
+                          student.jornada,
+                        ].whereType<String>().join(' · '),
                         style: AppTextStyles.caption,
                       ),
                       const SizedBox(height: 8),
@@ -191,8 +208,11 @@ class _Header extends StatelessWidget {
                 IconButton(
                   tooltip: 'Ver QR',
                   onPressed: onShowQr,
-                  icon: const Icon(Icons.qr_code_2_rounded,
-                      color: AppColors.indigo, size: 28),
+                  icon: const Icon(
+                    Icons.qr_code_2_rounded,
+                    color: AppColors.indigo,
+                    size: 28,
+                  ),
                 ),
               ],
             ),
@@ -203,16 +223,18 @@ class _Header extends StatelessWidget {
                   if (student.document != null)
                     Expanded(
                       child: _Fact(
-                          icon: Icons.badge_outlined,
-                          label: 'Documento',
-                          value: student.document!),
+                        icon: Icons.badge_outlined,
+                        label: 'Documento',
+                        value: student.document!,
+                      ),
                     ),
                   if (student.phone != null)
                     Expanded(
                       child: _Fact(
-                          icon: Icons.phone_outlined,
-                          label: 'Teléfono',
-                          value: student.phone!),
+                        icon: Icons.phone_outlined,
+                        label: 'Teléfono',
+                        value: student.phone!,
+                      ),
                     ),
                 ],
               ),
@@ -229,8 +251,11 @@ class _Header extends StatelessWidget {
                   padding: const EdgeInsets.only(bottom: 6),
                   child: Row(
                     children: [
-                      const Icon(Icons.diversity_3_rounded,
-                          size: 16, color: AppColors.textSecondary),
+                      const Icon(
+                        Icons.diversity_3_rounded,
+                        size: 16,
+                        color: AppColors.textSecondary,
+                      ),
                       const SizedBox(width: 8),
                       Expanded(
                         child: Text(
@@ -270,13 +295,15 @@ class _Fact extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(label, style: AppTextStyles.caption),
-              Text(value,
-                  style: AppTextStyles.caption.copyWith(
-                    color: AppColors.textPrimary,
-                    fontWeight: FontWeight.w700,
-                  ),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis),
+              Text(
+                value,
+                style: AppTextStyles.caption.copyWith(
+                  color: AppColors.textPrimary,
+                  fontWeight: FontWeight.w700,
+                ),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
             ],
           ),
         ),
@@ -325,7 +352,8 @@ class _GradesTabState extends ConsumerState<_GradesTab> {
                 return EmptyState(
                   icon: Icons.bar_chart_rounded,
                   title: 'Sin notas',
-                  message: 'No hay notas registradas en el periodo ${_period!}.',
+                  message:
+                      'No hay notas registradas en el periodo ${_period!}.',
                 );
               }
               final average = GradesCard.overallAverage(grades);
@@ -351,8 +379,10 @@ class _GradesTabState extends ConsumerState<_GradesTab> {
                             ],
                           ),
                         ),
-                        Text(AcademicPeriods.labelOf(_period!),
-                            style: AppTextStyles.bodyMuted),
+                        Text(
+                          AcademicPeriods.labelOf(_period!),
+                          style: AppTextStyles.bodyMuted,
+                        ),
                       ],
                     ),
                   ),
@@ -378,7 +408,8 @@ class _AttendanceTab extends ConsumerWidget {
     final summaryAsync = ref.watch(attendanceSummaryProvider(studentId));
 
     return RefreshIndicator(
-      onRefresh: () async => ref.invalidate(attendanceSummaryProvider(studentId)),
+      onRefresh: () async =>
+          ref.invalidate(attendanceSummaryProvider(studentId)),
       child: ListView(
         padding: const EdgeInsets.fromLTRB(20, 16, 20, 32),
         children: [
@@ -386,7 +417,8 @@ class _AttendanceTab extends ConsumerWidget {
             loading: () => const LoadingView(),
             error: (error, _) => ErrorView(
               error: error,
-              onRetry: () => ref.invalidate(attendanceSummaryProvider(studentId)),
+              onRetry: () =>
+                  ref.invalidate(attendanceSummaryProvider(studentId)),
             ),
             data: (summary) {
               if (summary.total == 0) {
@@ -404,24 +436,32 @@ class _AttendanceTab extends ConsumerWidget {
                     Row(
                       children: [
                         _Metric(
-                            label: 'Presente',
-                            value: summary.present,
-                            color: AppColors.tealDark),
+                          label: 'Presente',
+                          value: summary.present,
+                          color: AppColors.tealDark,
+                        ),
                         _Metric(
-                            label: 'Tarde', value: summary.late, color: AppColors.orange),
+                          label: 'Tarde',
+                          value: summary.late,
+                          color: AppColors.orange,
+                        ),
                         _Metric(
-                            label: 'Ausente',
-                            value: summary.absent,
-                            color: AppColors.pink),
+                          label: 'Ausente',
+                          value: summary.absent,
+                          color: AppColors.pink,
+                        ),
                         _Metric(
-                            label: 'Excusa',
-                            value: summary.excused,
-                            color: AppColors.blue),
+                          label: 'Excusa',
+                          value: summary.excused,
+                          color: AppColors.blue,
+                        ),
                       ],
                     ),
                     const SizedBox(height: 8),
-                    Text('Sobre los últimos ${summary.total} registros',
-                        style: AppTextStyles.caption),
+                    Text(
+                      'Sobre los últimos ${summary.total} registros',
+                      style: AppTextStyles.caption,
+                    ),
                   ],
                 ),
               );
@@ -434,7 +474,11 @@ class _AttendanceTab extends ConsumerWidget {
 }
 
 class _Metric extends StatelessWidget {
-  const _Metric({required this.label, required this.value, required this.color});
+  const _Metric({
+    required this.label,
+    required this.value,
+    required this.color,
+  });
 
   final String label;
   final int value;
@@ -463,24 +507,30 @@ class _NovedadesTab extends ConsumerWidget {
     final novedadesAsync = ref.watch(novedadesForStudentProvider(studentId));
 
     return RefreshIndicator(
-      onRefresh: () async => ref.invalidate(novedadesForStudentProvider(studentId)),
+      onRefresh: () async =>
+          ref.invalidate(novedadesForStudentProvider(studentId)),
       child: novedadesAsync.when(
         loading: () => const LoadingView(),
-        error: (error, _) => ListView(children: [
-          ErrorView(
-            error: error,
-            onRetry: () => ref.invalidate(novedadesForStudentProvider(studentId)),
-          ),
-        ]),
+        error: (error, _) => ListView(
+          children: [
+            ErrorView(
+              error: error,
+              onRetry: () =>
+                  ref.invalidate(novedadesForStudentProvider(studentId)),
+            ),
+          ],
+        ),
         data: (novedades) {
           if (novedades.isEmpty) {
-            return ListView(children: const [
-              EmptyState(
-                icon: Icons.check_circle_outline_rounded,
-                title: 'Sin novedades',
-                message: 'Este estudiante no tiene novedades registradas.',
-              ),
-            ]);
+            return ListView(
+              children: const [
+                EmptyState(
+                  icon: Icons.check_circle_outline_rounded,
+                  title: 'Sin novedades',
+                  message: 'Este estudiante no tiene novedades registradas.',
+                ),
+              ],
+            );
           }
           return ListView.separated(
             padding: const EdgeInsets.fromLTRB(20, 16, 20, 32),

@@ -10,10 +10,7 @@ abstract final class AppColors {
   ];
 
   // Primary action gradient (buttons, FAB, center nav button)
-  static const primaryGradient = [
-    Color(0xFF4B2AAE),
-    Color(0xFF7C4FE0),
-  ];
+  static const primaryGradient = [Color(0xFF4B2AAE), Color(0xFF7C4FE0)];
 
   static const background = Color(0xFFF4F5F9);
   static const surface = Colors.white;

@@ -39,7 +39,10 @@ abstract interface class AuthRepository {
   /// Neutral by design: it never reveals whether the address exists.
   Future<void> requestPasswordReset(String email);
 
-  Future<void> resetPassword({required String token, required String newPassword});
+  Future<void> resetPassword({
+    required String token,
+    required String newPassword,
+  });
 
   /// Completes a user with the fields `/auth/me` does not carry.
   Future<AppUser> loadFullProfile(AppUser user);
@@ -127,6 +130,7 @@ abstract interface class CatalogRepository {
 abstract interface class AcademicRepository {
   Future<TeacherDashboard> teacherDashboard();
   Future<StudentDashboard> studentDashboard();
+
   /// [studentId]: the guardian's active child (APP-03).
   Future<GuardianDashboard> guardianDashboard({int? studentId});
 
@@ -142,7 +146,11 @@ abstract interface class AcademicRepository {
 
   Future<List<RosterStudent>> roster(int courseId);
 
-  Future<List<Grade>> gradesForStudent(int studentId, {int? period, int? subjectId});
+  Future<List<Grade>> gradesForStudent(
+    int studentId, {
+    int? period,
+    int? subjectId,
+  });
   Future<List<Grade>> gradeSheet({required int subjectId, required int period});
 
   /// Creates the grade, or updates it when [gradeId] is known.
@@ -208,7 +216,11 @@ abstract interface class AttendanceRepository {
   Future<void> warmUp({bool force});
 
   /// Resolves a scanned QR. The code is plain text: the `codigo_estudiante`.
-  Future<ScanResult> resolve(String rawCode, {AttendanceKind? kind, DateTime? now});
+  Future<ScanResult> resolve(
+    String rawCode, {
+    AttendanceKind? kind,
+    DateTime? now,
+  });
 
   /// `Tarde` after the entry cutoff, `Presente` otherwise.
   AttendanceState suggestedState({AttendanceKind? kind, DateTime? now});
@@ -238,15 +250,26 @@ abstract interface class AttendanceRepository {
     void Function(int done, int total)? onProgress,
   });
 
-  Future<List<AttendanceRecord>> registeredOn(DateTime date, {AttendanceKind? kind});
+  Future<List<AttendanceRecord>> registeredOn(
+    DateTime date, {
+    AttendanceKind? kind,
+  });
 
-  Future<void> correct(int attendanceId, {AttendanceState? state, String? observation});
+  Future<void> correct(
+    int attendanceId, {
+    AttendanceState? state,
+    String? observation,
+  });
 
   Future<void> undo(int attendanceId);
 
   /// Local lookup of a student the catalog already knows.
   StudentIdentity? studentById(int studentId);
-  List<StudentIdentity> searchStudents(String query, {int? courseId, int limit});
+  List<StudentIdentity> searchStudents(
+    String query, {
+    int? courseId,
+    int limit,
+  });
   int get cachedStudentCount;
   DateTime? get catalogRefreshedAt;
 }

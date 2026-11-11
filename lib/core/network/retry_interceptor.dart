@@ -15,14 +15,21 @@ class RetryInterceptor extends Interceptor {
   final Dio Function() _bareDio;
   final int maxAttempts;
 
-  static const _backoff = [Duration(milliseconds: 400), Duration(milliseconds: 1200)];
+  static const _backoff = [
+    Duration(milliseconds: 400),
+    Duration(milliseconds: 1200),
+  ];
 
   @override
-  Future<void> onError(DioException err, ErrorInterceptorHandler handler) async {
+  Future<void> onError(
+    DioException err,
+    ErrorInterceptorHandler handler,
+  ) async {
     final options = err.requestOptions;
     final attempt = (options.extra['retryAttempt'] as int?) ?? 0;
 
-    final retriable = options.method.toUpperCase() == 'GET' &&
+    final retriable =
+        options.method.toUpperCase() == 'GET' &&
         FailureMapper.isTransportFailure(err) &&
         attempt < maxAttempts;
 

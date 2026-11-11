@@ -39,7 +39,9 @@ class ReportCardDownloader {
       final safeName = studentName.replaceAll(RegExp(r'[^A-Za-z0-9]+'), '_');
       final path = '${directory.path}/boletin_$safeName.pdf';
 
-      await ref.read(academicRepositoryProvider).downloadReportCard(
+      await ref
+          .read(academicRepositoryProvider)
+          .downloadReportCard(
             studentId: studentId,
             savePath: path,
             onProgress: (received, total) {
@@ -50,34 +52,36 @@ class ReportCardDownloader {
       if (context.mounted) Navigator.of(context, rootNavigator: true).pop();
 
       if (share) {
-        await Share.shareXFiles(
-          [XFile(path, mimeType: 'application/pdf')],
-          text: 'Boletín de $studentName',
-        );
+        await Share.shareXFiles([
+          XFile(path, mimeType: 'application/pdf'),
+        ], text: 'Boletín de $studentName');
         return;
       }
 
       final result = await OpenFilex.open(path);
       if (result.type != ResultType.done) {
-        messenger.showSnackBar(SnackBar(
-          content: Text(
-            'El boletín se descargó pero no encontramos una app para abrir PDF.',
+        messenger.showSnackBar(
+          SnackBar(
+            content: Text(
+              'El boletín se descargó pero no encontramos una app para abrir PDF.',
+            ),
+            backgroundColor: AppColors.orange,
           ),
-          backgroundColor: AppColors.orange,
-        ));
+        );
       }
     } on AppFailure catch (e) {
       if (context.mounted) Navigator.of(context, rootNavigator: true).pop();
-      messenger.showSnackBar(SnackBar(
-        content: Text(e.message),
-        backgroundColor: AppColors.pink,
-      ));
+      messenger.showSnackBar(
+        SnackBar(content: Text(e.message), backgroundColor: AppColors.pink),
+      );
     } catch (_) {
       if (context.mounted) Navigator.of(context, rootNavigator: true).pop();
-      messenger.showSnackBar(const SnackBar(
-        content: Text('No pudimos guardar el boletín en este dispositivo.'),
-        backgroundColor: AppColors.pink,
-      ));
+      messenger.showSnackBar(
+        const SnackBar(
+          content: Text('No pudimos guardar el boletín en este dispositivo.'),
+          backgroundColor: AppColors.pink,
+        ),
+      );
     } finally {
       progress.dispose();
     }
@@ -116,8 +120,10 @@ class _ProgressDialog extends StatelessWidget {
                 if (value != null)
                   Padding(
                     padding: const EdgeInsets.only(top: 4),
-                    child: Text('${(value * 100).round()}%',
-                        style: AppTextStyles.caption),
+                    child: Text(
+                      '${(value * 100).round()}%',
+                      style: AppTextStyles.caption,
+                    ),
                   ),
               ],
             ),

@@ -66,8 +66,10 @@ class AdminHomeScreen extends ConsumerWidget {
                             ),
                             Text(
                               'Hola, ${user?.firstName ?? ''}',
-                              style: AppTextStyles.h1
-                                  .copyWith(color: Colors.white, fontSize: 22),
+                              style: AppTextStyles.h1.copyWith(
+                                color: Colors.white,
+                                fontSize: 22,
+                              ),
                             ),
                           ],
                         ),
@@ -83,9 +85,13 @@ class AdminHomeScreen extends ConsumerWidget {
                     children: [
                       Container(width: 3, height: 16, color: AppColors.teal),
                       const SizedBox(width: 8),
-                      Text('EYESCHOOL',
-                          style: AppTextStyles.statLabel
-                              .copyWith(letterSpacing: 2, fontWeight: FontWeight.w700)),
+                      Text(
+                        'EYESCHOOL',
+                        style: AppTextStyles.statLabel.copyWith(
+                          letterSpacing: 2,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
                     ],
                   ),
                   const SizedBox(height: 18),
@@ -95,7 +101,10 @@ class AdminHomeScreen extends ConsumerWidget {
                     loading: () => const _StatsSkeleton(),
                     error: (_, _) => Row(
                       children: [
-                        StatPill(value: '${catalog.size}', label: 'Estudiantes'),
+                        StatPill(
+                          value: '${catalog.size}',
+                          label: 'Estudiantes',
+                        ),
                         const SizedBox(width: 10),
                         StatPill(
                           value: '${queue.pendingCount}',
@@ -108,18 +117,24 @@ class AdminHomeScreen extends ConsumerWidget {
                       final entries = rows
                           .where((r) => r.kind == AttendanceKind.entry)
                           .length;
-                      final late =
-                          rows.where((r) => r.state == AttendanceState.late).length;
+                      final late = rows
+                          .where((r) => r.state == AttendanceState.late)
+                          .length;
                       return Row(
                         children: [
-                          StatPill(value: '${rows.length}', label: 'Registros hoy'),
+                          StatPill(
+                            value: '${rows.length}',
+                            label: 'Registros hoy',
+                          ),
                           const SizedBox(width: 10),
                           StatPill(value: '$entries', label: 'Entradas'),
                           const SizedBox(width: 10),
                           StatPill(
                             value: '$late',
                             label: 'Tardanzas',
-                            valueColor: late > 0 ? AppColors.orange : AppColors.teal,
+                            valueColor: late > 0
+                                ? AppColors.orange
+                                : AppColors.teal,
                           ),
                         ],
                       );
@@ -209,7 +224,8 @@ class AdminHomeScreen extends ConsumerWidget {
                     return const EmptyState(
                       icon: Icons.qr_code_scanner_rounded,
                       title: 'Sin registros hoy',
-                      message: 'Empieza a escanear para registrar la asistencia.',
+                      message:
+                          'Empieza a escanear para registrar la asistencia.',
                     );
                   }
                   final recent = rows.reversed.take(5).toList();
@@ -220,7 +236,9 @@ class AdminHomeScreen extends ConsumerWidget {
                         for (var i = 0; i < recent.length; i++)
                           _ScanRow(
                             row: recent[i],
-                            name: catalog.byId(recent[i].studentId)?.displayName,
+                            name: catalog
+                                .byId(recent[i].studentId)
+                                ?.displayName,
                             showDivider: i != recent.length - 1,
                           ),
                       ],
@@ -319,8 +337,13 @@ class _PendingBanner extends StatelessWidget {
         ),
         child: Row(
           children: [
-            Icon(hasErrors ? Icons.error_outline_rounded : Icons.cloud_upload_rounded,
-                size: 20, color: color),
+            Icon(
+              hasErrors
+                  ? Icons.error_outline_rounded
+                  : Icons.cloud_upload_rounded,
+              size: 20,
+              color: color,
+            ),
             const SizedBox(width: 10),
             Expanded(
               child: Text(
@@ -333,7 +356,10 @@ class _PendingBanner extends StatelessWidget {
                 ),
               ),
             ),
-            const Icon(Icons.chevron_right_rounded, color: AppColors.textSecondary),
+            const Icon(
+              Icons.chevron_right_rounded,
+              color: AppColors.textSecondary,
+            ),
           ],
         ),
       ),
@@ -375,15 +401,21 @@ class _ScanRow extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(label,
-                        style: AppTextStyles.body.copyWith(fontWeight: FontWeight.w700),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis),
+                    Text(
+                      label,
+                      style: AppTextStyles.body.copyWith(
+                        fontWeight: FontWeight.w700,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                     Text(
                       [
                         row.kind?.label,
                         if (row.registeredAt != null)
-                          TimeOfDay.fromDateTime(row.registeredAt!).format(context),
+                          TimeOfDay.fromDateTime(
+                            row.registeredAt!,
+                          ).format(context),
                       ].whereType<String>().join(' · '),
                       style: AppTextStyles.caption,
                     ),
@@ -391,22 +423,32 @@ class _ScanRow extends StatelessWidget {
                 ),
               ),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 4,
+                ),
                 decoration: BoxDecoration(
                   color: color.withValues(alpha: 0.12),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Text(
                   row.state.label,
-                  style: AppTextStyles.caption
-                      .copyWith(color: color, fontWeight: FontWeight.w700),
+                  style: AppTextStyles.caption.copyWith(
+                    color: color,
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
               ),
             ],
           ),
         ),
         if (showDivider)
-          const Divider(height: 1, color: AppColors.divider, indent: 16, endIndent: 16),
+          const Divider(
+            height: 1,
+            color: AppColors.divider,
+            indent: 16,
+            endIndent: 16,
+          ),
       ],
     );
   }

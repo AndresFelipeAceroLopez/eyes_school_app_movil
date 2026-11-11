@@ -11,9 +11,9 @@ class DeviceTokenRepositoryImpl implements DeviceTokenRepository {
 
   @override
   Future<void> register(String token) => _client.post(
-        '/dispositivos',
-        body: {'token_fcm': token, 'plataforma': platform},
-      );
+    '/dispositivos',
+    body: {'token_fcm': token, 'plataforma': platform},
+  );
 
   @override
   Future<void> unregister(String token) =>

@@ -89,6 +89,5 @@ class Report {
     return s == 'generado' || s == 'completado';
   }
 
-
   bool get isFailed => status.toLowerCase() == 'error';
 }

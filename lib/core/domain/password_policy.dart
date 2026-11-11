@@ -25,12 +25,12 @@ abstract final class PasswordPolicy {
   /// Every rule with whether [password] meets it, in the order the form
   /// reports them.
   static Map<PasswordRule, bool> check(String password) => {
-        PasswordRule.length: password.length >= minLength,
-        PasswordRule.upper: _upper.hasMatch(password),
-        PasswordRule.lower: _lower.hasMatch(password),
-        PasswordRule.number: _number.hasMatch(password),
-        PasswordRule.special: _special.hasMatch(password),
-      };
+    PasswordRule.length: password.length >= minLength,
+    PasswordRule.upper: _upper.hasMatch(password),
+    PasswordRule.lower: _lower.hasMatch(password),
+    PasswordRule.number: _number.hasMatch(password),
+    PasswordRule.special: _special.hasMatch(password),
+  };
 
   /// The first rule [password] breaks, or `null` when it meets all five.
   static PasswordRule? firstFailure(String password) {

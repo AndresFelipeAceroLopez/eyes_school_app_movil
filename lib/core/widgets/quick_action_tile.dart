@@ -35,7 +35,10 @@ class QuickActionTile extends StatelessWidget {
               Container(
                 width: 44,
                 height: 44,
-                decoration: BoxDecoration(color: iconBg, borderRadius: BorderRadius.circular(14)),
+                decoration: BoxDecoration(
+                  color: iconBg,
+                  borderRadius: BorderRadius.circular(14),
+                ),
                 child: Icon(icon, color: iconColor, size: 22),
               ),
               const SizedBox(height: 8),
