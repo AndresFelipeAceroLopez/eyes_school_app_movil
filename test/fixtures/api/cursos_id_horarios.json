@@ -1,0 +1,32 @@
+[
+  {
+    "id_horario": 1,
+    "id_curso": 1,
+    "id_materia": 1,
+    "dia": "Lunes",
+    "hora_inicio": "07:00:00",
+    "hora_fin": "08:00:00",
+    "salon": "Aula 101",
+    "activo": true
+  },
+  {
+    "id_horario": 2,
+    "id_curso": 1,
+    "id_materia": 2,
+    "dia": "Lunes",
+    "hora_inicio": "08:00:00",
+    "hora_fin": "09:00:00",
+    "salon": "Aula 101",
+    "activo": true
+  },
+  {
+    "id_horario": 3,
+    "id_curso": 1,
+    "id_materia": 3,
+    "dia": "Martes",
+    "hora_inicio": "07:00:00",
+    "hora_fin": "08:00:00",
+    "salon": "Lab. Ciencias",
+    "activo": true
+  }
+]

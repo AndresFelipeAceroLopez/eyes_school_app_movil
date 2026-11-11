@@ -1,0 +1,46 @@
+[
+  {
+    "id_novedad": 1,
+    "id_estudiante": 1,
+    "id_tipo_novedad": 4,
+    "fecha": "2026-06-10",
+    "descripcion": "No entregó trabajo de matemáticas",
+    "accion_tomada": "Se notificó al padre",
+    "registrado_por": 2,
+    "fecha_resolucion": null,
+    "estado": "Resuelta"
+  },
+  {
+    "id_novedad": 4,
+    "id_estudiante": 1,
+    "id_tipo_novedad": 5,
+    "fecha": "2026-06-14",
+    "descripcion": "Dolor de cabeza recurrente",
+    "accion_tomada": "Revisión enfermería",
+    "registrado_por": 2,
+    "fecha_resolucion": null,
+    "estado": "Resuelta"
+  },
+  {
+    "id_novedad": 7,
+    "id_estudiante": 1,
+    "id_tipo_novedad": 8,
+    "fecha": "2026-06-18",
+    "descripcion": "Uso de celular en clase",
+    "accion_tomada": "Amonestación verbal",
+    "registrado_por": 2,
+    "fecha_resolucion": null,
+    "estado": "Resuelta"
+  },
+  {
+    "id_novedad": 10,
+    "id_estudiante": 1,
+    "id_tipo_novedad": 3,
+    "fecha": "2026-06-19",
+    "descripcion": "Conflicto con compañero por un balón",
+    "accion_tomada": "Mediación escolar",
+    "registrado_por": 2,
+    "fecha_resolucion": null,
+    "estado": "Resuelta"
+  }
+]

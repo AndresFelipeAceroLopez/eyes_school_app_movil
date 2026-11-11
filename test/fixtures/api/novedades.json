@@ -1,0 +1,112 @@
+[
+  {
+    "id_novedad": 1,
+    "id_estudiante": 1,
+    "id_tipo_novedad": 4,
+    "fecha": "2026-06-10",
+    "descripcion": "No entregó trabajo de matemáticas",
+    "accion_tomada": "Se notificó al padre",
+    "registrado_por": 2,
+    "fecha_resolucion": null,
+    "estado": "Resuelta"
+  },
+  {
+    "id_novedad": 2,
+    "id_estudiante": 2,
+    "id_tipo_novedad": 1,
+    "fecha": "2026-06-12",
+    "descripcion": "Tres inasistencias seguidas",
+    "accion_tomada": "Llamada a acudiente",
+    "registrado_por": 2,
+    "fecha_resolucion": null,
+    "estado": "Pendiente"
+  },
+  {
+    "id_novedad": 3,
+    "id_estudiante": 3,
+    "id_tipo_novedad": 7,
+    "fecha": "2026-06-15",
+    "descripcion": "Agresión verbal a compañero",
+    "accion_tomada": "Citación a padres",
+    "registrado_por": 2,
+    "fecha_resolucion": null,
+    "estado": "En proceso"
+  },
+  {
+    "id_novedad": 4,
+    "id_estudiante": 1,
+    "id_tipo_novedad": 5,
+    "fecha": "2026-06-14",
+    "descripcion": "Dolor de cabeza recurrente",
+    "accion_tomada": "Revisión enfermería",
+    "registrado_por": 2,
+    "fecha_resolucion": null,
+    "estado": "Resuelta"
+  },
+  {
+    "id_novedad": 5,
+    "id_estudiante": 2,
+    "id_tipo_novedad": 2,
+    "fecha": "2026-06-16",
+    "descripcion": "Notas por debajo de 3.0 en dos materias",
+    "accion_tomada": "Plan de apoyo pedagógico",
+    "registrado_por": 2,
+    "fecha_resolucion": null,
+    "estado": "Pendiente"
+  },
+  {
+    "id_novedad": 6,
+    "id_estudiante": 3,
+    "id_tipo_novedad": 6,
+    "fecha": "2026-06-17",
+    "descripcion": "Dificultad con lectoescritura",
+    "accion_tomada": "Derivación a psicopedagogía",
+    "registrado_por": 2,
+    "fecha_resolucion": null,
+    "estado": "En proceso"
+  },
+  {
+    "id_novedad": 7,
+    "id_estudiante": 1,
+    "id_tipo_novedad": 8,
+    "fecha": "2026-06-18",
+    "descripcion": "Uso de celular en clase",
+    "accion_tomada": "Amonestación verbal",
+    "registrado_por": 2,
+    "fecha_resolucion": null,
+    "estado": "Resuelta"
+  },
+  {
+    "id_novedad": 8,
+    "id_estudiante": 2,
+    "id_tipo_novedad": 9,
+    "fecha": "2026-06-11",
+    "descripcion": "Daño a pupitre del salón",
+    "accion_tomada": "Se informó a coordinación",
+    "registrado_por": 2,
+    "fecha_resolucion": null,
+    "estado": "Resuelta"
+  },
+  {
+    "id_novedad": 9,
+    "id_estudiante": 3,
+    "id_tipo_novedad": 10,
+    "fecha": "2026-06-13",
+    "descripcion": "Situación de separación de padres",
+    "accion_tomada": "Seguimiento con orientador",
+    "registrado_por": 2,
+    "fecha_resolucion": null,
+    "estado": "En proceso"
+  },
+  {
+    "id_novedad": 10,
+    "id_estudiante": 1,
+    "id_tipo_novedad": 3,
+    "fecha": "2026-06-19",
+    "descripcion": "Conflicto con compañero por un balón",
+    "accion_tomada": "Mediación escolar",
+    "registrado_por": 2,
+    "fecha_resolucion": null,
+    "estado": "Resuelta"
+  }
+]
