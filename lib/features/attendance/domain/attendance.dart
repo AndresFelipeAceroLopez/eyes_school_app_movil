@@ -46,6 +46,18 @@ enum AttendanceKind {
   final String wire;
   final String label;
 
+  /// The kind [value] names, or `null` when the API sends something that is
+  /// not a kind at all (legacy rows carry `QR` or `Manual`, which is *how* the
+  /// record was taken, not entry/exit). Showing those as «Entrada» invented
+  /// entries that never happened (N-07).
+  static AttendanceKind? tryParse(String? value) {
+    final normalized = (value ?? '').toLowerCase().trim();
+    for (final kind in values) {
+      if (kind.wire == normalized) return kind;
+    }
+    return null;
+  }
+
   static AttendanceKind parse(String? value) {
     final normalized = (value ?? '').toLowerCase().trim();
     return values.firstWhere(

@@ -1,5 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:eyes_school/features/directory/domain/linked_child.dart';
+
 import 'package:eyes_school/features/auth/domain/app_user.dart';
 import 'package:eyes_school/features/auth/domain/session.dart';
 import 'package:eyes_school/features/notifications/providers/push_provider.dart';
@@ -34,7 +36,10 @@ class SessionNotifier extends StateNotifier<AsyncValue<AppSession?>> {
   }
 
   Future<void> login({required String email, required String password}) async {
-    state = const AsyncValue.loading();
+    // No `loading` state here (N-18): the login form shows its own progress.
+    // Flipping the session to loading made the router swap the form for the
+    // splash, so a failed attempt came back to a fresh form with its error
+    // message lost.
     try {
       final session =
           await _ref.read(signInProvider).call(email: email, password: password);
@@ -66,14 +71,20 @@ class SessionNotifier extends StateNotifier<AsyncValue<AppSession?>> {
     try {
       final pushService = _ref.read(pushNotificationProvider);
       await pushService.initialize();
-      // TODO: When the backend has a device-token endpoint, send
-      // pushService.fcmToken there.
+      // APP-08: permission + token registered with the API for this user.
+      await pushService.onSignedIn();
     } catch (_) {
       // Push is best-effort; the app works fine without it.
     }
   }
 
   Future<void> logout() async {
+    // Unlink this device while the session can still authenticate the call.
+    try {
+      await _ref.read(pushNotificationProvider).onSignedOut();
+    } catch (_) {
+      // Push is best-effort (no Firebase on this platform, for instance).
+    }
     await _auth.signOut();
     await _ref.read(attendanceQueueProvider).clear();
     await _ref.read(studentCatalogProvider).clear();
@@ -87,6 +98,14 @@ class SessionNotifier extends StateNotifier<AsyncValue<AppSession?>> {
     if (state.valueOrNull == null) return;
     await _auth.signOut();
     state = const AsyncValue.data(null);
+  }
+
+  /// Guardian with several children (APP-03): makes [studentId] the active
+  /// one. Every parent screen reads the session's child, so they all follow.
+  void selectChild(int studentId) {
+    final current = state.valueOrNull;
+    if (current == null) return;
+    state = AsyncValue.data(current.withActiveChild(studentId));
   }
 
   /// Replaces the signed-in user after a profile edit, keeping the role
@@ -133,4 +152,9 @@ final subjectStudentIdProvider = Provider<int?>(
 /// `periodo_actual` from the dashboard when known, and 1 otherwise.
 final currentPeriodProvider = Provider<int>(
   (ref) => ref.watch(sessionProvider).valueOrNull?.currentPeriod ?? 1,
+);
+
+/// The guardian's active child (APP-03), `null` for other roles.
+final activeChildProvider = Provider<LinkedChild?>(
+  (ref) => ref.watch(currentSessionProvider)?.activeChild,
 );

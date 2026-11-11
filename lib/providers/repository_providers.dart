@@ -22,6 +22,8 @@ import 'package:eyes_school/features/directory/data/catalog_repository_impl.dart
 import 'package:eyes_school/features/directory/data/directory_repository_impl.dart';
 import 'package:eyes_school/features/reports/data/report_repository_impl.dart';
 import 'package:eyes_school/core/domain/repositories.dart';
+import 'package:eyes_school/features/notifications/data/device_token_repository_impl.dart';
+import 'package:eyes_school/features/notifications/domain/device_token_repository.dart';
 import 'package:eyes_school/core/domain/usecases.dart';
 
 /// Composition root.
@@ -149,6 +151,11 @@ final attendanceRepositoryProvider = Provider<AttendanceRepository>((ref) {
     queue: ref.watch(attendanceQueueProvider),
   );
 });
+
+/// APP-08: where the device's push token is registered with the API.
+final deviceTokenRepositoryProvider = Provider<DeviceTokenRepository>(
+  (ref) => DeviceTokenRepositoryImpl(ref.watch(apiClientProvider)),
+);
 
 final reportRepositoryProvider = Provider<ReportRepository>(
   (ref) => ReportRepositoryImpl(ref.watch(reportesApiProvider)),

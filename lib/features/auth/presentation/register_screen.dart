@@ -128,7 +128,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
             secondLastName: _blank(_segundoApellido),
             gender: _genero,
             address: _blank(_direccion),
-            email: _correo.text.trim(),
+            email: normalizeEmail(_correo.text),
             password: _password.text,
             phone: _blank(_telefono),
             roleId: _role.apiId,
@@ -145,17 +145,47 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
       _showSuccess();
     } on ValidationFailure catch (e) {
       if (!mounted) return;
+      // Go back to the first step that holds a rejected field (N-19): an
+      // error on the password, say, cannot be marked from the role step.
+      final fields = Map.of(e.fieldErrors)..remove('_');
+      final step = _stepWithError(fields.keys);
       setState(() {
-        _fieldErrors = e.fieldErrors;
-        _errorText = e.fieldErrors.isEmpty ? e.message : 'Revisa los datos marcados.';
+        _fieldErrors = fields;
+        _errorText = fields.isEmpty
+            ? (e.fieldErrors['_'] ?? e.message)
+            : 'Revisa los datos marcados.';
+        if (step != null) _step = step;
       });
-      _roleKey.currentState?.validate();
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) _currentKey.currentState?.validate();
+      });
     } on AppFailure catch (e) {
       if (mounted) setState(() => _errorText = e.message);
     } finally {
       if (mounted) setState(() => _submitting = false);
     }
   }
+
+  static const _identityFields = {
+    'tipo_documento',
+    'numero_documento',
+    'primer_nombre',
+    'segundo_nombre',
+    'primer_apellido',
+    'segundo_apellido',
+  };
+  static const _contactFields = {'correo', 'telefono', 'direccion', 'genero', 'password'};
+
+  int? _stepWithError(Iterable<String> fields) {
+    if (fields.isEmpty) return null;
+    if (fields.any(_identityFields.contains)) return 0;
+    if (fields.any(_contactFields.contains)) return 1;
+    return 2;
+  }
+
+  /// Guardians who register are linked and active at once (decision of the PO,
+  /// 30/10/2026); every other role waits for an administrator (N-11).
+  bool get _activeOnRegister => _role == Role.parent;
 
   String? _blank(TextEditingController c) =>
       c.text.trim().isEmpty ? null : c.text.trim();
@@ -169,8 +199,11 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
         title: Text('Cuenta creada', style: AppTextStyles.h2),
         content: Text(
-          'Tu cuenta quedó registrada y está pendiente de validación por un '
-          'administrador. Te avisaremos cuando puedas ingresar.',
+          _activeOnRegister
+              ? 'Tu cuenta quedó registrada. Ya puedes iniciar sesión con tu '
+                  'correo y contraseña.'
+              : 'Tu cuenta quedó registrada y está pendiente de validación por un '
+                  'administrador. Te avisaremos cuando puedas ingresar.',
           style: AppTextStyles.bodyMuted,
         ),
         actions: [
@@ -548,7 +581,10 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                 const SizedBox(width: 10),
                 Expanded(
                   child: Text(
-                    'Tu cuenta quedará pendiente de validación por un administrador.',
+                    _activeOnRegister
+                        ? 'Podrás ingresar apenas crees la cuenta y verás los '
+                            'datos del estudiante que indiques.'
+                        : 'Tu cuenta quedará pendiente de validación por un administrador.',
                     style: AppTextStyles.caption,
                   ),
                 ),

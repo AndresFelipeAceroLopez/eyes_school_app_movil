@@ -19,14 +19,15 @@ class AttendanceApi {
     AttendanceKind? kind,
     int skip = 0,
     int limit = ApiConfig.pageSize,
-  }) {
-    return _client.getList('/asistencia', AttendanceMapper.fromJson, query: {
+  }) async {
+    final rows = await _client.getList('/asistencia', (json) => json, query: {
       'id_estudiante': studentId,
       'fecha': date == null ? null : toApiDate(date),
       'tipo': kind?.wire,
       'skip': skip,
       'limit': limit,
     });
+    return AttendanceMapper.activeOnly(rows);
   }
 
   Future<AttendanceRecord> create({

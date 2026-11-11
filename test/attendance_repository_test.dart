@@ -18,7 +18,6 @@ import 'package:eyes_school/core/storage/local_store.dart';
 import 'package:eyes_school/features/attendance/data/attendance_api.dart';
 import 'package:eyes_school/features/attendance/data/attendance_queue.dart';
 import 'package:eyes_school/features/attendance/domain/attendance.dart';
-import 'package:eyes_school/features/attendance/domain/attendance_record.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'support/scripted_api.dart';
@@ -70,11 +69,16 @@ void main() {
         reason: 'estado: ${queue.items.map((i) => i.sync)}',
       );
       expect(queue.failed.single.lastError, _sinEntrada);
-      expect(queue.pendingCount, 0);
+      // Queda visible como fallido (para que alguien lo vea y decida), pero
+      // nada queda esperando un reenvío automático.
+      expect(queue.items.where((i) => i.sync == SyncState.pending), isEmpty);
 
-      // Otra pasada del sincronizador no lo vuelve a enviar.
-      await queue.flush(force: true);
-      expect(posts, 1);
+      // Las pasadas automáticas del sincronizador (sin `force`) no lo vuelven
+      // a enviar; solo un «Reintentar» explícito del usuario lo haría.
+      final sent = posts;
+      await queue.flush();
+      await queue.flush();
+      expect(posts, sent);
     },
   );
 }

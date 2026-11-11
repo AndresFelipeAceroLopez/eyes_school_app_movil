@@ -33,6 +33,8 @@ class AdminHomeScreen extends ConsumerWidget {
     final queue = ref.watch(attendanceQueueProvider);
     final online = ref.watch(connectivityProvider).valueOrNull ?? true;
     final catalog = ref.watch(studentCatalogProvider);
+    // Rebuild with real names once the catalog has loaded (N-16).
+    ref.watch(studentCatalogReadyProvider);
 
     return Scaffold(
       backgroundColor: AppColors.background,

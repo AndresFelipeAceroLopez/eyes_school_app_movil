@@ -399,6 +399,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
   }
 
   Future<void> _changePassword(AppUser user) async {
+    final current = TextEditingController();
     final password = TextEditingController();
     final confirm = TextEditingController();
     final formKey = GlobalKey<FormState>();
@@ -409,17 +410,20 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
       isScrollControlled: true,
       builder: (context) => _PasswordSheet(
         formKey: formKey,
+        current: current,
         password: password,
         confirm: confirm,
         onSave: () async {
           await ref.read(authRepositoryProvider).changePassword(
                 userId: user.userId,
+                currentPassword: current.text,
                 password: password.text,
               );
         },
       ),
     );
 
+    current.dispose();
     password.dispose();
     confirm.dispose();
 
@@ -550,12 +554,14 @@ class _EditSheetState extends State<_EditSheet> {
 class _PasswordSheet extends StatefulWidget {
   const _PasswordSheet({
     required this.formKey,
+    required this.current,
     required this.password,
     required this.confirm,
     required this.onSave,
   });
 
   final GlobalKey<FormState> formKey;
+  final TextEditingController current;
   final TextEditingController password;
   final TextEditingController confirm;
   final Future<void> Function() onSave;
@@ -609,6 +615,16 @@ class _PasswordSheetState extends State<_PasswordSheet> {
           children: [
             Text('Cambiar contraseña', style: AppTextStyles.h2),
             const SizedBox(height: 18),
+            // N-12: the API (BE-09) asks for the current password.
+            Text('Contraseña actual', style: AppTextStyles.caption),
+            const SizedBox(height: 8),
+            TextFormField(
+              controller: widget.current,
+              obscureText: _obscure,
+              decoration: const InputDecoration(prefixIcon: Icon(Icons.lock_open_rounded)),
+              validator: Validators.password,
+            ),
+            const SizedBox(height: 16),
             Text('Nueva contraseña', style: AppTextStyles.caption),
             const SizedBox(height: 8),
             TextFormField(

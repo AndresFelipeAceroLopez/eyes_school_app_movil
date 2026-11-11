@@ -51,7 +51,12 @@ abstract interface class AuthRepository {
     String? email,
   });
 
-  Future<void> changePassword({required int userId, required String password});
+  /// The API (BE-09) requires the current password to set a new one.
+  Future<void> changePassword({
+    required int userId,
+    required String currentPassword,
+    required String password,
+  });
 
   Future<void> uploadAvatar(String filePath);
 
@@ -122,7 +127,8 @@ abstract interface class CatalogRepository {
 abstract interface class AcademicRepository {
   Future<TeacherDashboard> teacherDashboard();
   Future<StudentDashboard> studentDashboard();
-  Future<GuardianDashboard> guardianDashboard();
+  /// [studentId]: the guardian's active child (APP-03).
+  Future<GuardianDashboard> guardianDashboard({int? studentId});
 
   /// Weekly grid of a course.
   Future<List<ClassSession>> courseSchedule(int courseId);

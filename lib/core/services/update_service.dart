@@ -8,11 +8,14 @@ import 'package:path_provider/path_provider.dart';
 import 'package:pub_semver/pub_semver.dart';
 
 import 'package:eyes_school/core/errors/app_failure.dart';
+import 'package:eyes_school/core/network/api_config.dart';
 import 'package:eyes_school/providers/repository_providers.dart';
 
 final updateServiceProvider = Provider<UpdateService>((ref) {
   return UpdateService(ref.watch(dioProvider));
 });
+
+bool _platformIsAndroid() => Platform.isAndroid;
 
 class UpdateInfo {
   final bool hasUpdate;
@@ -29,17 +32,20 @@ class UpdateInfo {
 }
 
 class UpdateService {
-  UpdateService(this._dio);
+  UpdateService(this._dio, {this._isAndroid = _platformIsAndroid});
 
   final Dio _dio;
-  static const String _repoOwner = 'AndresFelipeAceroLopez';
-  static const String _repoName = 'eyes_school';
+
+  /// Injected so the version check can be tested off-device (APP-07).
+  final bool Function() _isAndroid;
+
+  /// `owner/repo` on GitHub, configurable for QA (APP-07).
   static const String _githubApiUrl =
-      'https://api.github.com/repos/$_repoOwner/$_repoName/releases/latest';
+      'https://api.github.com/repos/${ApiConfig.updateRepo}/releases/latest';
 
   /// Checks if there is a newer version published on GitHub Releases.
   Future<UpdateInfo> checkForUpdates() async {
-    if (!Platform.isAndroid) {
+    if (!_isAndroid()) {
       // OTA via direct APK is only supported on Android.
       return UpdateInfo(hasUpdate: false, latestVersion: '');
     }

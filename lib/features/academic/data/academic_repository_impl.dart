@@ -43,10 +43,52 @@ class AcademicRepositoryImpl implements AcademicRepository {
   Future<TeacherDashboard> teacherDashboard() => _dashboard.teacher();
 
   @override
-  Future<StudentDashboard> studentDashboard() => _dashboard.student();
+  Future<StudentDashboard> studentDashboard() async {
+    final d = await _dashboard.student();
+    int? studentId;
+    try {
+      studentId = (await _people.studentMe()).idEstudiante;
+    } on AppFailure {
+      studentId = null;
+    }
+    return StudentDashboard(
+      pendingNovedades: d.pendingNovedades,
+      average: d.average,
+      attendancePercent: await _attendancePercent(studentId, d.attendancePercent),
+      currentPeriod: d.currentPeriod,
+    );
+  }
 
   @override
-  Future<GuardianDashboard> guardianDashboard() => _dashboard.guardian();
+  Future<GuardianDashboard> guardianDashboard({int? studentId}) async {
+    final d = await _dashboard.guardian(studentId: studentId);
+    return GuardianDashboard(
+      pendingNovedades: d.pendingNovedades,
+      studentId: d.studentId ?? studentId,
+      studentName: d.studentName,
+      average: d.average,
+      attendancePercent:
+          await _attendancePercent(d.studentId ?? studentId, d.attendancePercent),
+      currentPeriod: d.currentPeriod,
+    );
+  }
+
+  /// The home card and the attendance screen show the same figure (N-20):
+  /// the one computed from the records, as the attendance screen does. The
+  /// API's own figure has been seen above 100 % (N-04), so it is only a
+  /// fallback, and never shown above 100.
+  Future<double?> _attendancePercent(int? studentId, double? apiValue) async {
+    if (studentId != null) {
+      try {
+        final summary = await attendanceSummary(studentId);
+        if (summary.total > 0) return summary.percent;
+      } on AppFailure {
+        // Fall back to the API figure below.
+      }
+    }
+    if (apiValue == null) return null;
+    return apiValue.clamp(0, 100).toDouble();
+  }
 
   // ── Horarios ────────────────────────────────────────────────────────────
 
@@ -269,14 +311,29 @@ class AcademicRepositoryImpl implements AcademicRepository {
       skip: skip,
       limit: limit,
     );
-    return rows.map((json) => _toNovedad(json, catalogs)).toList();
+    return _newestFirst(rows.map((json) => _toNovedad(json, catalogs)));
   }
 
   @override
   Future<List<Novedad>> novedadesForStudent(int studentId) async {
     final catalogs = await _catalogs.load();
     final rows = await _people.novedadesOfStudent(studentId);
-    return rows.map((json) => _toNovedad(json, catalogs)).toList();
+    return _newestFirst(rows.map((json) => _toNovedad(json, catalogs)));
+  }
+
+  /// Most recent first (N-21, CP-SIS-084). The API has no ordering parameter,
+  /// so each page is ordered as it arrives.
+  static List<Novedad> _newestFirst(Iterable<Novedad> items) {
+    final list = items.toList();
+    list.sort((a, b) {
+      final da = a.date, db = b.date;
+      if (da == null && db == null) return (b.novedadId ?? 0).compareTo(a.novedadId ?? 0);
+      if (da == null) return 1;
+      if (db == null) return -1;
+      final byDate = db.compareTo(da);
+      return byDate != 0 ? byDate : (b.novedadId ?? 0).compareTo(a.novedadId ?? 0);
+    });
+    return list;
   }
 
   Novedad _toNovedad(Map<String, dynamic> json, Catalogs catalogs) {

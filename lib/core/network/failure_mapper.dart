@@ -48,6 +48,10 @@ abstract final class FailureMapper {
 
     final detail = _detail(data);
     return switch (status) {
+      // A 400 is a business rule saying no (e.g. «No hay entrada registrada
+      // hoy para este estudiante», BE-08): retrying will never change the
+      // answer, so it travels as a validation failure, not a transient one.
+      400 => ValidationFailure(detail ?? 'Revisa los datos ingresados.', const {}),
       401 => const UnauthorizedFailure(),
       403 => ForbiddenFailure(detail ?? 'No tienes permiso para esta acción.'),
       404 => NotFoundFailure(detail ?? 'No encontramos el recurso solicitado.'),
@@ -78,7 +82,9 @@ abstract final class FailureMapper {
     for (final item in detail) {
       if (item is! Map) continue;
       final loc = item['loc'];
-      final message = item['msg']?.toString() ?? 'Valor inválido.';
+      // Pydantic prefixes custom validators with «Value error, ».
+      final message = (item['msg']?.toString() ?? 'Valor inválido.')
+          .replaceFirst(RegExp(r'^Value error,\s*'), '');
       final field = (loc is List && loc.isNotEmpty) ? loc.last.toString() : '_';
       result.putIfAbsent(field, () => message);
     }

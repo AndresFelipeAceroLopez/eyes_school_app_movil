@@ -11,6 +11,14 @@ abstract final class ApiConfig {
 
   static const String baseUrl = '$host/api/v1';
 
+  /// GitHub repository (`owner/name`) whose releases feed the OTA update.
+  /// QA can point it to a test repository with
+  /// `--dart-define=EYESCHOOL_UPDATE_REPO=owner/repo` (APP-07).
+  static const String updateRepo = String.fromEnvironment(
+    'EYESCHOOL_UPDATE_REPO',
+    defaultValue: 'AndresFelipeAceroLopez/eyes_school_app_movil',
+  );
+
   static const connectTimeout = Duration(seconds: 15);
   static const receiveTimeout = Duration(seconds: 30);
 

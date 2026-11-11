@@ -34,6 +34,8 @@ class _TodayAttendanceScreenState extends ConsumerState<TodayAttendanceScreen> {
     final rowsAsync = ref.watch(todayAttendanceProvider(_tipo));
     final coursesAsync = ref.watch(coursesProvider);
     final catalog = ref.watch(studentCatalogProvider);
+    // Rebuild with real names once the catalog has loaded (N-16).
+    ref.watch(studentCatalogReadyProvider);
 
     return SimpleHeaderScaffold(
       title: 'Registro del día',

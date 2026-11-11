@@ -6,12 +6,8 @@
 //   - versión igual → hasUpdate == false
 //   - sin red → hasUpdate == false sin excepción
 //
-// Usa el constructor que existe hoy (UpdateService(dio)).
-// OBSERVACIÓN DE QA: hoy `checkForUpdates` sale antes de consultar si
-// `Platform.isAndroid` es falso, así que en el CI (Linux/Windows) la consulta
-// nunca ocurre. Para que esta prueba pase, la corrección tiene que permitir
-// probar la consulta fuera de Android (regla 3 de la planeación: dependencias
-// por constructor). Si eso cambia el constructor, se ajusta solo `build()`.
+// La plataforma se inyecta (`isAndroid`) para que la consulta se pruebe en el
+// CI, que no corre en Android (regla 3 de la planeación).
 //
 // Antes de la corrección: FALLA (nombre viejo del repositorio y salida
 // temprana por plataforma). Después de APP-07: pasa.
@@ -54,7 +50,7 @@ void main() {
   ) {
     final adapter = ScriptedAdapter(routes);
     final dio = Dio()..httpClientAdapter = adapter;
-    return (UpdateService(dio), adapter);
+    return (UpdateService(dio, isAndroid: () => true), adapter);
   }
 
   group('UpdateService (UT-APP-08)', () {

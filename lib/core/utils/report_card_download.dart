@@ -47,7 +47,7 @@ class ReportCardDownloader {
             },
           );
 
-      if (context.mounted) Navigator.of(context).pop();
+      if (context.mounted) Navigator.of(context, rootNavigator: true).pop();
 
       if (share) {
         await Share.shareXFiles(
@@ -67,13 +67,13 @@ class ReportCardDownloader {
         ));
       }
     } on AppFailure catch (e) {
-      if (context.mounted) Navigator.of(context).pop();
+      if (context.mounted) Navigator.of(context, rootNavigator: true).pop();
       messenger.showSnackBar(SnackBar(
         content: Text(e.message),
         backgroundColor: AppColors.pink,
       ));
     } catch (_) {
-      if (context.mounted) Navigator.of(context).pop();
+      if (context.mounted) Navigator.of(context, rootNavigator: true).pop();
       messenger.showSnackBar(const SnackBar(
         content: Text('No pudimos guardar el boletín en este dispositivo.'),
         backgroundColor: AppColors.pink,

@@ -41,12 +41,14 @@ class PeopleApi {
     String? email,
     String? phone,
     String? password,
+    String? currentPassword,
   }) async {
     final body = <String, dynamic>{
       'direccion': ?address,
       'correo': ?email,
       'telefono': ?phone,
       'password': ?password,
+      'password_actual': ?currentPassword,
     };
     return UsuarioDto.fromJson(await _client.put('/usuarios/$userId', body: body));
   }
@@ -85,12 +87,13 @@ class PeopleApi {
     int studentId, {
     int skip = 0,
     int limit = ApiConfig.pageSize,
-  }) {
-    return _client.getList(
+  }) async {
+    final rows = await _client.getList(
       '/estudiantes/$studentId/asistencia',
-      AttendanceMapper.fromJson,
+      (json) => json,
       query: {'skip': skip, 'limit': limit},
     );
+    return AttendanceMapper.activeOnly(rows);
   }
 
   Future<List<Json>> novedadesOfStudent(int studentId) =>
@@ -145,6 +148,10 @@ class PeopleApi {
       .getList('/profesores/$teacherId/especializaciones', EspecializacionDto.fromJson);
 
   // ── Padres ──────────────────────────────────────────────────────────────
+
+  /// Every student linked to the signed-in guardian (APP-03, BE-07).
+  Future<List<HijoDto>> guardianChildren() =>
+      _client.getList('/padres/me/hijos', HijoDto.fromJson);
 
   Future<PadreDto> guardianMe() async =>
       PadreDto.fromJson(await _client.getObject('/padres/me'));

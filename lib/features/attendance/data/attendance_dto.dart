@@ -7,6 +7,14 @@ import 'package:eyes_school/features/attendance/domain/attendance.dart';
 /// The wire spellings live in the domain value objects (`Suspensión` keeps its
 /// accent); this file only moves JSON across the boundary.
 abstract final class AttendanceMapper {
+  /// DELETE /asistencia is a soft delete (`activo: false`) and the list
+  /// endpoints still return those rows; they are not attendance any more
+  /// (N-15), so they are neither shown nor counted.
+  static List<AttendanceRecord> activeOnly(Iterable<Json> rows) => rows
+      .where((json) => json['activo'] != false)
+      .map(fromJson)
+      .toList(growable: false);
+
   static AttendanceRecord fromJson(Json json) => AttendanceRecord(
         id: asInt(json['id_asistencia']),
         studentId: asInt(json['id_estudiante']),
@@ -15,7 +23,7 @@ abstract final class AttendanceMapper {
         registeredBy: asInt(json['registrado_por']),
         kind: json['tipo'] == null
             ? null
-            : AttendanceKind.parse(asStringOrNull(json['tipo'])),
+            : AttendanceKind.tryParse(asStringOrNull(json['tipo'])),
         observation: asStringOrNull(json['observacion']),
         qrCode: asStringOrNull(json['codigo_qr']),
         registeredAt: asDate(json['fecha_registro']),

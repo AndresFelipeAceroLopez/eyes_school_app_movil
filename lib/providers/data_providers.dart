@@ -91,7 +91,9 @@ final studentDashboardProvider = FutureProvider<StudentDashboard>(
 );
 
 final parentDashboardProvider = FutureProvider<GuardianDashboard>(
-  (ref) => ref.watch(academicRepositoryProvider).guardianDashboard(),
+  (ref) => ref.watch(academicRepositoryProvider).guardianDashboard(
+        studentId: ref.watch(currentSessionProvider.select((s) => s?.childId)),
+      ),
 );
 
 /// Grades of a student for a period. `period: null` means "every period".
@@ -168,6 +170,13 @@ final userByIdProvider = FutureProvider.family<AppUser?, int>(
 );
 
 /// Everything registered today, for the scanner's counter and day list.
+/// Completes once the local student catalog is loaded, so screens that show
+/// names from it rebuild when it is ready instead of keeping the
+/// «Estudiante N» fallback (N-16).
+final studentCatalogReadyProvider = FutureProvider<void>((ref) async {
+  await ref.watch(studentCatalogProvider).ensureReady();
+});
+
 final todayAttendanceProvider =
     FutureProvider.family<List<AttendanceRecord>, AttendanceKind?>(
   (ref, kind) =>

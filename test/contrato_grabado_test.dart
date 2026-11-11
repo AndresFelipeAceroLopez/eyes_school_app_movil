@@ -128,20 +128,21 @@ void main() {
         }
       });
 
-      // `AttendanceKind.parse` convierte cualquier valor desconocido en
-      // «Entrada». Un `tipo` fuera de entrada/salida/clase se vería en la app
-      // como una entrada que nunca existió.
-      test('$name · cada «tipo» es uno que la app conoce', () {
+      // Los registros heredados de QA traen `tipo` «QR» o «Manual» (cómo se
+      // tomó, no entrada/salida). La API ya no los acepta al crear, pero los
+      // sigue devolviendo: es un pendiente de datos del backend (N-07). Lo
+      // que la app debe garantizar es no inventar una «Entrada» con ellos.
+      test('$name · un «tipo» desconocido no se muestra como entrada', () {
         final known = AttendanceKind.values.map((k) => k.wire).toSet();
-        final unknown = _list(name)
-            .map((j) => (j['tipo'] as String?)?.toLowerCase().trim())
-            .where((t) => t != null && !known.contains(t))
-            .toSet();
-        expect(
-          unknown,
-          isEmpty,
-          reason: 'valores de «tipo» que la app no conoce',
-        );
+        for (final json in _list(name)) {
+          final tipo = (json['tipo'] as String?)?.toLowerCase().trim();
+          final record = AttendanceMapper.fromJson(json);
+          if (tipo == null || !known.contains(tipo)) {
+            expect(record.kind, isNull, reason: 'tipo «${json['tipo']}»');
+          } else {
+            expect(record.kind?.wire, tipo);
+          }
+        }
       });
     }
   });

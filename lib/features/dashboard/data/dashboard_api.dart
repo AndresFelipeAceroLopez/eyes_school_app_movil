@@ -15,6 +15,11 @@ class DashboardApi {
   Future<StudentDashboard> student() async =>
       DashboardMapper.student(await _client.getObject('/dashboard/estudiante'));
 
-  Future<GuardianDashboard> guardian() async =>
-      DashboardMapper.guardian(await _client.getObject('/dashboard/padre'));
+  /// [studentId] picks which linked child the figures are about (APP-03);
+  /// without it the API answers for the first one.
+  Future<GuardianDashboard> guardian({int? studentId}) async =>
+      DashboardMapper.guardian(await _client.getObject(
+        '/dashboard/padre',
+        query: {'id_estudiante': studentId},
+      ));
 }

@@ -1,4 +1,5 @@
 import 'package:eyes_school/core/utils/json_x.dart';
+import 'package:eyes_school/features/directory/domain/linked_child.dart';
 import 'package:eyes_school/features/attendance/domain/attendance_record.dart';
 
 /// `UsuarioOut`.
@@ -197,6 +198,42 @@ class ProfesorDto {
   final String? primerApellido;
 
   String get nombreCompleto => joinNames([primerNombre, primerApellido]);
+}
+
+/// `HijoOut` — one of the students linked to the signed-in guardian
+/// (`GET /padres/me/hijos`, APP-03).
+class HijoDto {
+  const HijoDto({
+    required this.idEstudiante,
+    required this.parentesco,
+    this.nombreEstudiante,
+    this.documentoEstudiante,
+    this.idCursoActual,
+  });
+
+  factory HijoDto.fromJson(Json json) => HijoDto(
+        idEstudiante: asInt(json['id_estudiante']),
+        parentesco: asString(json['parentesco']),
+        nombreEstudiante: asStringOrNull(json['nombre_estudiante']),
+        documentoEstudiante: asStringOrNull(json['documento_estudiante']),
+        idCursoActual: asIntOrNull(json['id_curso_actual']),
+      );
+
+  final int idEstudiante;
+  final String parentesco;
+  final String? nombreEstudiante;
+  final String? documentoEstudiante;
+  final int? idCursoActual;
+
+  LinkedChild toEntity() => LinkedChild(
+        id: idEstudiante,
+        name: (nombreEstudiante?.trim().isNotEmpty ?? false)
+            ? nombreEstudiante!.trim()
+            : 'Estudiante $idEstudiante',
+        document: documentoEstudiante,
+        relationship: parentesco.isEmpty ? null : parentesco,
+        courseId: idCursoActual,
+      );
 }
 
 /// `PadreOut` — a 1:1 link between a guardian account and one student.

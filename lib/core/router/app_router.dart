@@ -81,8 +81,10 @@ final routerProvider = Provider<GoRouter>((ref) {
       final session = ref.read(sessionProvider);
 
       return session.when(
-        // Still restoring the stored tokens.
-        loading: () => onSplash ? null : '/splash',
+        // Still restoring the stored tokens. Public routes stay put (N-24): a
+        // cold start from the reset e-mail must land on the reset form, not
+        // be swallowed by the splash.
+        loading: () => onSplash || onPublic ? null : '/splash',
         error: (_, _) => onPublic ? null : '/login',
         data: (session) {
           if (session == null) {
@@ -96,6 +98,8 @@ final routerProvider = Provider<GoRouter>((ref) {
           }
 
           final ownPrefix = session.role.homePath;
+          // The reset link works even with a session open on this phone.
+          if (loc == '/reset-password') return null;
           if (onSplash || onPublic) return ownPrefix;
 
           // Namespace guard: a deep link or a restored process can never land
