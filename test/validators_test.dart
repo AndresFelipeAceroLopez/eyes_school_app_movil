@@ -67,4 +67,32 @@ void main() {
       expect(Validators.password(''), isNotNull);
     });
   });
+
+  // UT-APP-02 · APP-04 · Mensaje del validador (PR-04).
+  // Antes de la corrección: FALLA (hoy solo se exigen 8 caracteres).
+  group('Validators.newPassword con la política completa (UT-APP-02)', () {
+    test('«Colegio2026» se rechaza por no tener carácter especial', () {
+      final mensaje = Validators.newPassword('Colegio2026');
+      expect(mensaje, isNotNull);
+      // El texto exacto está por confirmar (P-10); se exige que nombre la regla.
+      expect(mensaje!.toLowerCase(), contains('especial'));
+    });
+
+    test('«Colegio#2026» es válida', () {
+      expect(Validators.newPassword('Colegio#2026'), isNull);
+    });
+
+    test('cada regla incumplida da un mensaje distinto', () {
+      final mensajes = [
+        'Ab1#', // longitud
+        'colegio#2026', // mayúscula
+        'COLEGIO#2026', // minúscula
+        'Colegio#ocho', // número
+        'Colegio2026', // carácter especial
+      ].map(Validators.newPassword).toList();
+
+      expect(mensajes, everyElement(isNotNull));
+      expect(mensajes.toSet(), hasLength(5));
+    });
+  });
 }
