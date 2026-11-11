@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:eyes_school/features/novedades/presentation/student_novedades_list.dart';
 import 'package:eyes_school/core/widgets/async_states.dart';
-import 'package:eyes_school/features/novedades/presentation/novedad_card.dart';
 import 'package:eyes_school/core/widgets/simple_header_scaffold.dart';
-import 'package:eyes_school/providers/data_providers.dart';
 import 'package:eyes_school/providers/session_provider.dart';
 
 /// The student'ss own news, read-only. Severity comes from the type catalog.
@@ -30,46 +29,14 @@ class StudentNovedadesScreen extends ConsumerWidget {
       );
     }
 
-    final novedadesAsync = ref.watch(novedadesForStudentProvider(studentId));
-
     return SimpleHeaderScaffold(
       title: 'Mis novedades',
       showBack: false,
-      body: RefreshIndicator(
-        onRefresh: () async =>
-            ref.invalidate(novedadesForStudentProvider(studentId)),
-        child: novedadesAsync.when(
-          loading: () => const LoadingView(),
-          error: (error, _) => ListView(
-            children: [
-              ErrorView(
-                error: error,
-                onRetry: () =>
-                    ref.invalidate(novedadesForStudentProvider(studentId)),
-              ),
-            ],
-          ),
-          data: (novedades) {
-            if (novedades.isEmpty) {
-              return ListView(
-                children: const [
-                  EmptyState(
-                    icon: Icons.check_circle_outline_rounded,
-                    title: 'Todo en orden',
-                    message: 'No tienes novedades registradas.',
-                  ),
-                ],
-              );
-            }
-            return ListView.separated(
-              padding: const EdgeInsets.fromLTRB(20, 20, 20, 32),
-              itemCount: novedades.length,
-              separatorBuilder: (_, _) => const SizedBox(height: 12),
-              itemBuilder: (context, index) =>
-                  NovedadCard(novedad: novedades[index], showStudent: false),
-            );
-          },
-        ),
+      body: StudentNovedadesList(
+        studentId: studentId,
+        emptyTitle: 'Todo en orden',
+        emptyMessage: 'No tienes novedades registradas.',
+        topPadding: 20,
       ),
     );
   }

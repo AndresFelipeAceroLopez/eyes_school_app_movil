@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:eyes_school/core/theme/app_colors.dart';
+import 'package:eyes_school/features/directory/presentation/info_row.dart';
 import 'package:eyes_school/core/theme/app_text_styles.dart';
 import 'package:eyes_school/core/widgets/async_states.dart';
 import 'package:eyes_school/features/directory/presentation/avatar_circle.dart';
@@ -79,14 +80,14 @@ class TeacherProfileScreen extends ConsumerWidget {
               Text('Información', style: AppTextStyles.h3),
               const SizedBox(height: 14),
               if (teacher.subject != null)
-                _InfoRow(
+                InfoRow(
                   icon: Icons.workspace_premium_outlined,
                   label: 'Especialización',
                   value: teacher.subject!,
                 ),
               if (teacher.institution != null) ...[
                 const Divider(height: 24, color: AppColors.divider),
-                _InfoRow(
+                InfoRow(
                   icon: Icons.school_outlined,
                   label: 'Nivel de estudios',
                   value: teacher.institution!,
@@ -94,7 +95,7 @@ class TeacherProfileScreen extends ConsumerWidget {
               ],
               if (teacher.email.isNotEmpty) ...[
                 const Divider(height: 24, color: AppColors.divider),
-                _InfoRow(
+                InfoRow(
                   icon: Icons.mail_outline_rounded,
                   label: 'Correo',
                   value: teacher.email,
@@ -102,7 +103,7 @@ class TeacherProfileScreen extends ConsumerWidget {
               ],
               if (teacher.phone != null) ...[
                 const Divider(height: 24, color: AppColors.divider),
-                _InfoRow(
+                InfoRow(
                   icon: Icons.phone_outlined,
                   label: 'Teléfono',
                   value: teacher.phone!,
@@ -110,7 +111,7 @@ class TeacherProfileScreen extends ConsumerWidget {
               ],
               if (teacher.document != null) ...[
                 const Divider(height: 24, color: AppColors.divider),
-                _InfoRow(
+                InfoRow(
                   icon: Icons.badge_outlined,
                   label: 'Documento',
                   value: teacher.document!,
@@ -164,48 +165,6 @@ class TeacherProfileScreen extends ConsumerWidget {
                             )
                             .toList(),
                       ),
-              ),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class _InfoRow extends StatelessWidget {
-  const _InfoRow({
-    required this.icon,
-    required this.label,
-    required this.value,
-  });
-
-  final IconData icon;
-  final String label;
-  final String value;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Container(
-          width: 36,
-          height: 36,
-          decoration: BoxDecoration(
-            color: AppColors.background,
-            borderRadius: BorderRadius.circular(10),
-          ),
-          child: Icon(icon, size: 18, color: AppColors.textSecondary),
-        ),
-        const SizedBox(width: 12),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(label, style: AppTextStyles.caption),
-              Text(
-                value,
-                style: AppTextStyles.body.copyWith(fontWeight: FontWeight.w600),
               ),
             ],
           ),

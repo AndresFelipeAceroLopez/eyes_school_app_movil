@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:eyes_school/features/academic/presentation/subject_icon.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -117,18 +118,7 @@ class _ClassCard extends StatelessWidget {
           children: [
             Row(
               children: [
-                Container(
-                  width: 44,
-                  height: 44,
-                  decoration: BoxDecoration(
-                    color: AppColors.roleTeacherBg,
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: const Icon(
-                    Icons.menu_book_rounded,
-                    color: AppColors.roleTeacher,
-                  ),
-                ),
+                const SubjectIcon(),
                 const SizedBox(width: 14),
                 Expanded(
                   child: Column(

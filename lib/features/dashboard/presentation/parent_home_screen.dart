@@ -170,46 +170,37 @@ class ParentHomeScreen extends ConsumerWidget {
                 padding: const EdgeInsets.fromLTRB(20, 24, 20, 12),
                 child: Text('Acceso rápido', style: AppTextStyles.h2),
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: GridView.count(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  crossAxisCount: 4,
-                  mainAxisSpacing: 12,
-                  crossAxisSpacing: 12,
-                  childAspectRatio: 0.78,
-                  children: [
-                    QuickActionTile(
-                      icon: Icons.bar_chart_rounded,
-                      label: 'Notas',
-                      iconBg: AppColors.roleTeacherBg,
-                      iconColor: AppColors.roleTeacher,
-                      onTap: () => context.go('/parent/notes'),
-                    ),
-                    QuickActionTile(
-                      icon: Icons.fact_check_rounded,
-                      label: 'Asistencia',
-                      iconBg: AppColors.statusActiveBg,
-                      iconColor: AppColors.tealDark,
-                      onTap: () => context.go('/parent/attendance'),
-                    ),
-                    QuickActionTile(
-                      icon: Icons.calendar_month_rounded,
-                      label: 'Horario',
-                      iconBg: AppColors.roleStudentBg,
-                      iconColor: AppColors.roleStudent,
-                      onTap: () => context.go('/parent/children'),
-                    ),
-                    QuickActionTile(
-                      icon: Icons.notifications_rounded,
-                      label: 'Novedades',
-                      iconBg: const Color(0xFFFCE4EE),
-                      iconColor: AppColors.pink,
-                      onTap: () => context.go('/parent/children'),
-                    ),
-                  ],
-                ),
+              QuickActionsGrid(
+                children: [
+                  QuickActionTile(
+                    icon: Icons.bar_chart_rounded,
+                    label: 'Notas',
+                    iconBg: AppColors.roleTeacherBg,
+                    iconColor: AppColors.roleTeacher,
+                    onTap: () => context.go('/parent/notes'),
+                  ),
+                  QuickActionTile(
+                    icon: Icons.fact_check_rounded,
+                    label: 'Asistencia',
+                    iconBg: AppColors.statusActiveBg,
+                    iconColor: AppColors.tealDark,
+                    onTap: () => context.go('/parent/attendance'),
+                  ),
+                  QuickActionTile(
+                    icon: Icons.calendar_month_rounded,
+                    label: 'Horario',
+                    iconBg: AppColors.roleStudentBg,
+                    iconColor: AppColors.roleStudent,
+                    onTap: () => context.go('/parent/children'),
+                  ),
+                  QuickActionTile(
+                    icon: Icons.notifications_rounded,
+                    label: 'Novedades',
+                    iconBg: const Color(0xFFFCE4EE),
+                    iconColor: AppColors.pink,
+                    onTap: () => context.go('/parent/children'),
+                  ),
+                ],
               ),
               Padding(
                 padding: const EdgeInsets.fromLTRB(20, 24, 20, 12),

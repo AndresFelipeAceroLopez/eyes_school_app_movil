@@ -3,10 +3,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:eyes_school/core/errors/app_failure.dart';
 import 'package:eyes_school/core/theme/app_colors.dart';
+import 'package:eyes_school/features/attendance/presentation/attendance_record_tile.dart';
 import 'package:eyes_school/core/theme/app_text_styles.dart';
 import 'package:eyes_school/core/utils/formatters.dart';
 import 'package:eyes_school/core/widgets/async_states.dart';
-import 'package:eyes_school/features/directory/presentation/avatar_circle.dart';
 import 'package:eyes_school/core/widgets/section_header.dart';
 import 'package:eyes_school/core/widgets/simple_header_scaffold.dart';
 import 'package:eyes_school/features/attendance/domain/attendance_record.dart';
@@ -302,75 +302,24 @@ class _AttendanceRow extends StatelessWidget {
   final String? name;
   final VoidCallback onUndo;
 
-  Color get _stateColor => switch (row.state) {
-    AttendanceState.present => AppColors.tealDark,
-    AttendanceState.late => AppColors.orange,
-    AttendanceState.excused => AppColors.blue,
-    _ => AppColors.pink,
-  };
-
   @override
   Widget build(BuildContext context) {
-    final label = (name == null || name!.isEmpty)
-        ? 'Estudiante ${row.studentId}'
-        : name!;
     return Padding(
       padding: const EdgeInsets.only(bottom: 12),
       child: SectionCard(
         padding: const EdgeInsets.fromLTRB(14, 12, 8, 12),
-        child: Row(
-          children: [
-            AvatarCircle(name: label, radius: 20),
-            const SizedBox(width: 12),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    label,
-                    style: AppTextStyles.body.copyWith(
-                      fontWeight: FontWeight.w700,
-                    ),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  Text(
-                    [
-                      row.kind?.label,
-                      if (row.registeredAt != null)
-                        TimeOfDay.fromDateTime(
-                          row.registeredAt!,
-                        ).format(context),
-                    ].whereType<String>().join(' · '),
-                    style: AppTextStyles.caption,
-                  ),
-                ],
-              ),
+        child: AttendanceRecordTile(
+          row: row,
+          name: name,
+          trailing: IconButton(
+            tooltip: 'Deshacer',
+            onPressed: onUndo,
+            icon: const Icon(
+              Icons.undo_rounded,
+              size: 18,
+              color: AppColors.textSecondary,
             ),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-              decoration: BoxDecoration(
-                color: _stateColor.withValues(alpha: 0.12),
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: Text(
-                row.state.label,
-                style: AppTextStyles.caption.copyWith(
-                  color: _stateColor,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-            ),
-            IconButton(
-              tooltip: 'Deshacer',
-              onPressed: onUndo,
-              icon: const Icon(
-                Icons.undo_rounded,
-                size: 18,
-                color: AppColors.textSecondary,
-              ),
-            ),
-          ],
+          ),
         ),
       ),
     );

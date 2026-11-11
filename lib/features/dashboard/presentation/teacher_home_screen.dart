@@ -113,7 +113,7 @@ class TeacherHomeScreen extends ConsumerWidget {
                         ),
                       ],
                     ),
-                    loading: () => const _HeaderStatsSkeleton(),
+                    loading: () => const StatsSkeleton(),
                     error: (_, _) => Row(
                       children: [
                         StatPill(
@@ -140,50 +140,41 @@ class TeacherHomeScreen extends ConsumerWidget {
               padding: const EdgeInsets.fromLTRB(20, 24, 20, 12),
               child: Text('Acciones rápidas', style: AppTextStyles.h2),
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: GridView.count(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                crossAxisCount: 4,
-                mainAxisSpacing: 12,
-                crossAxisSpacing: 12,
-                childAspectRatio: 0.78,
-                children: [
-                  QuickActionTile(
-                    icon: Icons.qr_code_scanner_rounded,
-                    label: 'Escanear',
-                    iconBg: AppColors.statusActiveBg,
-                    iconColor: AppColors.tealDark,
-                    onTap: () => context.go('/teacher/qr'),
-                  ),
-                  QuickActionTile(
-                    icon: Icons.edit_note_rounded,
-                    label: 'Nota',
-                    iconBg: AppColors.roleTeacherBg,
-                    iconColor: AppColors.roleTeacher,
-                    onTap: () => context.go('/teacher/notes'),
-                  ),
-                  QuickActionTile(
-                    icon: Icons.note_add_rounded,
-                    label: 'Novedad',
-                    iconBg: const Color(0xFFFCEEDD),
-                    iconColor: AppColors.orange,
-                    onTap: () => Navigator.of(context).push(
-                      MaterialPageRoute<void>(
-                        builder: (_) => const NovedadFormScreen(),
-                      ),
+            QuickActionsGrid(
+              children: [
+                QuickActionTile(
+                  icon: Icons.qr_code_scanner_rounded,
+                  label: 'Escanear',
+                  iconBg: AppColors.statusActiveBg,
+                  iconColor: AppColors.tealDark,
+                  onTap: () => context.go('/teacher/qr'),
+                ),
+                QuickActionTile(
+                  icon: Icons.edit_note_rounded,
+                  label: 'Nota',
+                  iconBg: AppColors.roleTeacherBg,
+                  iconColor: AppColors.roleTeacher,
+                  onTap: () => context.go('/teacher/notes'),
+                ),
+                QuickActionTile(
+                  icon: Icons.note_add_rounded,
+                  label: 'Novedad',
+                  iconBg: const Color(0xFFFCEEDD),
+                  iconColor: AppColors.orange,
+                  onTap: () => Navigator.of(context).push(
+                    MaterialPageRoute<void>(
+                      builder: (_) => const NovedadFormScreen(),
                     ),
                   ),
-                  QuickActionTile(
-                    icon: Icons.fact_check_rounded,
-                    label: 'Asistencia',
-                    iconBg: AppColors.roleStudentBg,
-                    iconColor: AppColors.roleStudent,
-                    onTap: () => context.go('/teacher/classes'),
-                  ),
-                ],
-              ),
+                ),
+                QuickActionTile(
+                  icon: Icons.fact_check_rounded,
+                  label: 'Asistencia',
+                  iconBg: AppColors.roleStudentBg,
+                  iconColor: AppColors.roleStudent,
+                  onTap: () => context.go('/teacher/classes'),
+                ),
+              ],
             ),
             Padding(
               padding: const EdgeInsets.fromLTRB(20, 24, 20, 12),
@@ -331,29 +322,6 @@ class _Warning extends StatelessWidget {
           const SizedBox(width: 10),
           Expanded(child: Text(message, style: AppTextStyles.caption)),
         ],
-      ),
-    );
-  }
-}
-
-class _HeaderStatsSkeleton extends StatelessWidget {
-  const _HeaderStatsSkeleton();
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: List.generate(
-        3,
-        (i) => Expanded(
-          child: Container(
-            height: 78,
-            margin: EdgeInsets.only(right: i == 2 ? 0 : 10),
-            decoration: BoxDecoration(
-              color: Colors.white.withValues(alpha: 0.06),
-              borderRadius: BorderRadius.circular(18),
-            ),
-          ),
-        ),
       ),
     );
   }

@@ -5,6 +5,7 @@ import 'package:image_picker/image_picker.dart';
 
 import 'package:eyes_school/core/errors/app_failure.dart';
 import 'package:eyes_school/core/theme/app_colors.dart';
+import 'package:eyes_school/features/directory/presentation/info_row.dart';
 import 'package:eyes_school/core/theme/app_text_styles.dart';
 import 'package:eyes_school/core/utils/validators.dart';
 import 'package:eyes_school/core/widgets/async_states.dart';
@@ -228,19 +229,19 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                       ],
                     ),
                     const SizedBox(height: 14),
-                    _InfoRow(
+                    InfoRow(
                       icon: Icons.mail_outline_rounded,
                       label: 'Correo',
                       value: user.email.isEmpty ? '—' : user.email,
                     ),
                     const Divider(height: 24, color: AppColors.divider),
-                    _InfoRow(
+                    InfoRow(
                       icon: Icons.phone_outlined,
                       label: 'Teléfono',
                       value: user.phone ?? '—',
                     ),
                     const Divider(height: 24, color: AppColors.divider),
-                    _InfoRow(
+                    InfoRow(
                       icon: Icons.home_outlined,
                       label: 'Dirección',
                       value: user.address ?? '—',
@@ -248,7 +249,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                     const Divider(height: 24, color: AppColors.divider),
                     // Locked on purpose: identity documents are changed by an
                     // administrator, not by their owner.
-                    _InfoRow(
+                    InfoRow(
                       icon: Icons.badge_outlined,
                       label: 'Documento',
                       value: user.document ?? '—',
@@ -256,7 +257,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                     ),
                     if (user.institution != null) ...[
                       const Divider(height: 24, color: AppColors.divider),
-                      _InfoRow(
+                      InfoRow(
                         icon: Icons.school_outlined,
                         label: 'Nivel de acceso',
                         value: user.institution!,
@@ -541,72 +542,57 @@ class _EditSheetState extends State<_EditSheet> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.only(
-        left: 20,
-        right: 20,
-        top: 18,
-        bottom: MediaQuery.of(context).viewInsets.bottom + 28,
-      ),
-      decoration: const BoxDecoration(
-        color: AppColors.surface,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
-      ),
-      child: Form(
-        key: widget.formKey,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text('Editar datos', style: AppTextStyles.h2),
-            const SizedBox(height: 18),
-            Text('Correo', style: AppTextStyles.caption),
-            const SizedBox(height: 8),
-            TextFormField(
-              controller: widget.email,
-              keyboardType: TextInputType.emailAddress,
-              decoration: const InputDecoration(
-                prefixIcon: Icon(Icons.mail_outline_rounded),
-              ),
-              validator: (v) => _fieldErrors['correo'] ?? Validators.email(v),
-            ),
-            const SizedBox(height: 16),
-            Text('Teléfono', style: AppTextStyles.caption),
-            const SizedBox(height: 8),
-            TextFormField(
-              controller: widget.phone,
-              keyboardType: TextInputType.phone,
-              decoration: const InputDecoration(
-                prefixIcon: Icon(Icons.phone_outlined),
-              ),
-              validator: (_) => _fieldErrors['telefono'],
-            ),
-            const SizedBox(height: 16),
-            Text('Dirección', style: AppTextStyles.caption),
-            const SizedBox(height: 8),
-            TextFormField(
-              controller: widget.address,
-              decoration: const InputDecoration(
-                prefixIcon: Icon(Icons.home_outlined),
-              ),
-              validator: (_) => _fieldErrors['direccion'],
-            ),
-            if (_errorText != null) ...[
-              const SizedBox(height: 14),
-              Text(
-                _errorText!,
-                style: AppTextStyles.body.copyWith(color: AppColors.pink),
-              ),
-            ],
-            const SizedBox(height: 22),
-            PrimaryGradientButton(
-              label: 'Guardar cambios',
-              loading: _saving,
-              onPressed: _submit,
-            ),
-          ],
+    return _formSheet(
+      context,
+      formKey: widget.formKey,
+      children: [
+        Text('Editar datos', style: AppTextStyles.h2),
+        const SizedBox(height: 18),
+        Text('Correo', style: AppTextStyles.caption),
+        const SizedBox(height: 8),
+        TextFormField(
+          controller: widget.email,
+          keyboardType: TextInputType.emailAddress,
+          decoration: const InputDecoration(
+            prefixIcon: Icon(Icons.mail_outline_rounded),
+          ),
+          validator: (v) => _fieldErrors['correo'] ?? Validators.email(v),
         ),
-      ),
+        const SizedBox(height: 16),
+        Text('Teléfono', style: AppTextStyles.caption),
+        const SizedBox(height: 8),
+        TextFormField(
+          controller: widget.phone,
+          keyboardType: TextInputType.phone,
+          decoration: const InputDecoration(
+            prefixIcon: Icon(Icons.phone_outlined),
+          ),
+          validator: (_) => _fieldErrors['telefono'],
+        ),
+        const SizedBox(height: 16),
+        Text('Dirección', style: AppTextStyles.caption),
+        const SizedBox(height: 8),
+        TextFormField(
+          controller: widget.address,
+          decoration: const InputDecoration(
+            prefixIcon: Icon(Icons.home_outlined),
+          ),
+          validator: (_) => _fieldErrors['direccion'],
+        ),
+        if (_errorText != null) ...[
+          const SizedBox(height: 14),
+          Text(
+            _errorText!,
+            style: AppTextStyles.body.copyWith(color: AppColors.pink),
+          ),
+        ],
+        const SizedBox(height: 22),
+        PrimaryGradientButton(
+          label: 'Guardar cambios',
+          loading: _saving,
+          onPressed: _submit,
+        ),
+      ],
     );
   }
 }
@@ -656,87 +642,70 @@ class _PasswordSheetState extends State<_PasswordSheet> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.only(
-        left: 20,
-        right: 20,
-        top: 18,
-        bottom: MediaQuery.of(context).viewInsets.bottom + 28,
-      ),
-      decoration: const BoxDecoration(
-        color: AppColors.surface,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
-      ),
-      child: Form(
-        key: widget.formKey,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text('Cambiar contraseña', style: AppTextStyles.h2),
-            const SizedBox(height: 18),
-            // N-12: the API (BE-09) asks for the current password.
-            Text('Contraseña actual', style: AppTextStyles.caption),
-            const SizedBox(height: 8),
-            TextFormField(
-              controller: widget.current,
-              obscureText: _obscure,
-              decoration: const InputDecoration(
-                prefixIcon: Icon(Icons.lock_open_rounded),
-              ),
-              validator: Validators.password,
-            ),
-            const SizedBox(height: 16),
-            Text('Nueva contraseña', style: AppTextStyles.caption),
-            const SizedBox(height: 8),
-            TextFormField(
-              controller: widget.password,
-              obscureText: _obscure,
-              decoration: InputDecoration(
-                prefixIcon: const Icon(Icons.lock_outline_rounded),
-                suffixIcon: IconButton(
-                  tooltip: _obscure
-                      ? 'Mostrar contraseña'
-                      : 'Ocultar contraseña',
-                  icon: Icon(
-                    _obscure
-                        ? Icons.visibility_off_outlined
-                        : Icons.visibility_outlined,
-                  ),
-                  onPressed: () => setState(() => _obscure = !_obscure),
-                ),
-              ),
-              validator: Validators.newPassword,
-            ),
-            const SizedBox(height: 16),
-            Text('Confirmar contraseña', style: AppTextStyles.caption),
-            const SizedBox(height: 8),
-            TextFormField(
-              controller: widget.confirm,
-              obscureText: _obscure,
-              decoration: const InputDecoration(
-                prefixIcon: Icon(Icons.lock_outline_rounded),
-              ),
-              validator: (v) => v == widget.password.text
-                  ? null
-                  : 'Las contraseñas no coinciden.',
-            ),
-            if (_errorText != null) ...[
-              const SizedBox(height: 14),
-              Text(
-                _errorText!,
-                style: AppTextStyles.body.copyWith(color: AppColors.pink),
-              ),
-            ],
-            const SizedBox(height: 22),
-            PrimaryGradientButton(
-              label: 'Guardar contraseña',
-              loading: _saving,
-              onPressed: _submit,
-            ),
-          ],
+    return _formSheet(
+      context,
+      formKey: widget.formKey,
+      children: [
+        Text('Cambiar contraseña', style: AppTextStyles.h2),
+        const SizedBox(height: 18),
+        // N-12: the API (BE-09) asks for the current password.
+        Text('Contraseña actual', style: AppTextStyles.caption),
+        const SizedBox(height: 8),
+        TextFormField(
+          controller: widget.current,
+          obscureText: _obscure,
+          decoration: const InputDecoration(
+            prefixIcon: Icon(Icons.lock_open_rounded),
+          ),
+          validator: Validators.password,
         ),
-      ),
+        const SizedBox(height: 16),
+        Text('Nueva contraseña', style: AppTextStyles.caption),
+        const SizedBox(height: 8),
+        TextFormField(
+          controller: widget.password,
+          obscureText: _obscure,
+          decoration: InputDecoration(
+            prefixIcon: const Icon(Icons.lock_outline_rounded),
+            suffixIcon: IconButton(
+              tooltip: _obscure ? 'Mostrar contraseña' : 'Ocultar contraseña',
+              icon: Icon(
+                _obscure
+                    ? Icons.visibility_off_outlined
+                    : Icons.visibility_outlined,
+              ),
+              onPressed: () => setState(() => _obscure = !_obscure),
+            ),
+          ),
+          validator: Validators.newPassword,
+        ),
+        const SizedBox(height: 16),
+        Text('Confirmar contraseña', style: AppTextStyles.caption),
+        const SizedBox(height: 8),
+        TextFormField(
+          controller: widget.confirm,
+          obscureText: _obscure,
+          decoration: const InputDecoration(
+            prefixIcon: Icon(Icons.lock_outline_rounded),
+          ),
+          validator: (v) => v == widget.password.text
+              ? null
+              : 'Las contraseñas no coinciden.',
+        ),
+        if (_errorText != null) ...[
+          const SizedBox(height: 14),
+          Text(
+            _errorText!,
+            style: AppTextStyles.body.copyWith(color: AppColors.pink),
+          ),
+        ],
+        const SizedBox(height: 22),
+        PrimaryGradientButton(
+          label: 'Guardar contraseña',
+          loading: _saving,
+          onPressed: _submit,
+        ),
+      ],
     );
   }
 }
@@ -765,52 +734,30 @@ class _CodeChip extends StatelessWidget {
   }
 }
 
-class _InfoRow extends StatelessWidget {
-  const _InfoRow({
-    required this.icon,
-    required this.label,
-    required this.value,
-    this.locked = false,
-  });
-
-  final IconData icon;
-  final String label;
-  final String value;
-  final bool locked;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Container(
-          width: 36,
-          height: 36,
-          decoration: BoxDecoration(
-            color: AppColors.background,
-            borderRadius: BorderRadius.circular(10),
-          ),
-          child: Icon(icon, size: 18, color: AppColors.textSecondary),
-        ),
-        const SizedBox(width: 12),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(label, style: AppTextStyles.caption),
-              Text(
-                value,
-                style: AppTextStyles.body.copyWith(fontWeight: FontWeight.w600),
-              ),
-            ],
-          ),
-        ),
-        if (locked)
-          const Icon(
-            Icons.lock_outline_rounded,
-            size: 15,
-            color: AppColors.textSecondary,
-          ),
-      ],
-    );
-  }
+/// Bottom sheet with a form: the layout both profile sheets share.
+Widget _formSheet(
+  BuildContext context, {
+  required GlobalKey<FormState> formKey,
+  required List<Widget> children,
+}) {
+  return Container(
+    padding: EdgeInsets.only(
+      left: 20,
+      right: 20,
+      top: 18,
+      bottom: MediaQuery.of(context).viewInsets.bottom + 28,
+    ),
+    decoration: const BoxDecoration(
+      color: AppColors.surface,
+      borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
+    ),
+    child: Form(
+      key: formKey,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: children,
+      ),
+    ),
+  );
 }

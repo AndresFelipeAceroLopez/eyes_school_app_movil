@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:eyes_school/features/academic/presentation/course_schedule_view.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:eyes_school/core/theme/app_colors.dart';
 import 'package:eyes_school/core/theme/app_text_styles.dart';
 import 'package:eyes_school/core/widgets/async_states.dart';
 import 'package:eyes_school/core/widgets/simple_header_scaffold.dart';
-import 'package:eyes_school/features/academic/presentation/weekly_schedule_list.dart';
 import 'package:eyes_school/features/directory/domain/catalog.dart';
 import 'package:eyes_school/providers/data_providers.dart';
 
@@ -61,7 +61,14 @@ class _SchedulesScreenState extends ConsumerState<SchedulesScreen> {
                       .toList(),
                 ),
               ),
-              Expanded(child: _CourseSchedule(courseId: selected)),
+              Expanded(
+                child: CourseScheduleView(
+                  emptyTitle: 'Sin bloques programados',
+                  emptyMessage:
+                      'Este curso todavía no tiene horario publicado.',
+                  courseId: selected,
+                ),
+              ),
             ],
           );
         },
@@ -95,47 +102,6 @@ class _CourseChip extends StatelessWidget {
       backgroundColor: AppColors.surface,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       side: BorderSide.none,
-    );
-  }
-}
-
-class _CourseSchedule extends ConsumerWidget {
-  const _CourseSchedule({required this.courseId});
-
-  final int courseId;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final scheduleAsync = ref.watch(studentWeeklyScheduleProvider(courseId));
-
-    return RefreshIndicator(
-      onRefresh: () async =>
-          ref.invalidate(studentWeeklyScheduleProvider(courseId)),
-      child: scheduleAsync.when(
-        loading: () => const LoadingView(),
-        error: (error, _) => ListView(
-          children: [
-            ErrorView(
-              error: error,
-              onRetry: () =>
-                  ref.invalidate(studentWeeklyScheduleProvider(courseId)),
-            ),
-          ],
-        ),
-        data: (sessions) => ListView(
-          padding: const EdgeInsets.only(bottom: 32),
-          children: [
-            if (sessions.isEmpty)
-              const EmptyState(
-                icon: Icons.event_busy_rounded,
-                title: 'Sin bloques programados',
-                message: 'Este curso todavía no tiene horario publicado.',
-              )
-            else
-              WeeklyScheduleList(sessions: sessions),
-          ],
-        ),
-      ),
     );
   }
 }

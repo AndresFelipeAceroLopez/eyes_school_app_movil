@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:eyes_school/features/academic/presentation/course_schedule_view.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:eyes_school/core/widgets/async_states.dart';
 import 'package:eyes_school/core/widgets/simple_header_scaffold.dart';
-import 'package:eyes_school/features/academic/presentation/weekly_schedule_list.dart';
-import 'package:eyes_school/providers/data_providers.dart';
 import 'package:eyes_school/providers/session_provider.dart';
 
 /// Weeklyy grid of the student's current course. `HorarioOut` carries only
@@ -29,39 +28,13 @@ class StudentScheduleScreen extends ConsumerWidget {
       );
     }
 
-    final scheduleAsync = ref.watch(studentWeeklyScheduleProvider(courseId));
-
     return SimpleHeaderScaffold(
       title: 'Mi horario',
       showBack: false,
-      body: RefreshIndicator(
-        onRefresh: () async =>
-            ref.invalidate(studentWeeklyScheduleProvider(courseId)),
-        child: scheduleAsync.when(
-          loading: () => const LoadingView(),
-          error: (error, _) => ListView(
-            children: [
-              ErrorView(
-                error: error,
-                onRetry: () =>
-                    ref.invalidate(studentWeeklyScheduleProvider(courseId)),
-              ),
-            ],
-          ),
-          data: (sessions) => ListView(
-            padding: const EdgeInsets.only(bottom: 32),
-            children: [
-              if (sessions.isEmpty)
-                const EmptyState(
-                  icon: Icons.event_busy_rounded,
-                  title: 'Sin horario publicado',
-                  message: 'Tu curso todavía no tiene bloques programados.',
-                )
-              else
-                WeeklyScheduleList(sessions: sessions),
-            ],
-          ),
-        ),
+      body: CourseScheduleView(
+        courseId: courseId,
+        emptyTitle: 'Sin horario publicado',
+        emptyMessage: 'Tu curso todavía no tiene bloques programados.',
       ),
     );
   }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:eyes_school/core/widgets/stat_pill.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -86,8 +87,14 @@ class StudentHomeScreen extends ConsumerWidget {
                   ),
                   const SizedBox(height: 22),
                   dashboardAsync.when(
-                    loading: () => const _StatsSkeleton(),
-                    error: (_, _) => const _StatsSkeleton(empty: true),
+                    loading: () =>
+                        const StatsSkeleton(count: 2, height: 92, gap: 12),
+                    error: (_, _) => const StatsSkeleton(
+                      count: 2,
+                      height: 92,
+                      gap: 12,
+                      empty: true,
+                    ),
                     data: (data) => Row(
                       children: [
                         Expanded(
@@ -172,46 +179,37 @@ class StudentHomeScreen extends ConsumerWidget {
               padding: const EdgeInsets.fromLTRB(20, 24, 20, 12),
               child: Text('Acceso rápido', style: AppTextStyles.h2),
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: GridView.count(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                crossAxisCount: 4,
-                mainAxisSpacing: 12,
-                crossAxisSpacing: 12,
-                childAspectRatio: 0.78,
-                children: [
-                  QuickActionTile(
-                    icon: Icons.qr_code_rounded,
-                    label: 'Mi QR',
-                    iconBg: AppColors.statusActiveBg,
-                    iconColor: AppColors.tealDark,
-                    onTap: () => context.push('/my-qr'),
-                  ),
-                  QuickActionTile(
-                    icon: Icons.bar_chart_rounded,
-                    label: 'Notas',
-                    iconBg: AppColors.roleTeacherBg,
-                    iconColor: AppColors.roleTeacher,
-                    onTap: () => context.go('/student/notes'),
-                  ),
-                  QuickActionTile(
-                    icon: Icons.calendar_month_rounded,
-                    label: 'Horario',
-                    iconBg: AppColors.roleStudentBg,
-                    iconColor: AppColors.roleStudent,
-                    onTap: () => context.go('/student/schedule'),
-                  ),
-                  QuickActionTile(
-                    icon: Icons.notifications_rounded,
-                    label: 'Avisos',
-                    iconBg: const Color(0xFFFCE4EE),
-                    iconColor: AppColors.pink,
-                    onTap: () => context.go('/student/news'),
-                  ),
-                ],
-              ),
+            QuickActionsGrid(
+              children: [
+                QuickActionTile(
+                  icon: Icons.qr_code_rounded,
+                  label: 'Mi QR',
+                  iconBg: AppColors.statusActiveBg,
+                  iconColor: AppColors.tealDark,
+                  onTap: () => context.push('/my-qr'),
+                ),
+                QuickActionTile(
+                  icon: Icons.bar_chart_rounded,
+                  label: 'Notas',
+                  iconBg: AppColors.roleTeacherBg,
+                  iconColor: AppColors.roleTeacher,
+                  onTap: () => context.go('/student/notes'),
+                ),
+                QuickActionTile(
+                  icon: Icons.calendar_month_rounded,
+                  label: 'Horario',
+                  iconBg: AppColors.roleStudentBg,
+                  iconColor: AppColors.roleStudent,
+                  onTap: () => context.go('/student/schedule'),
+                ),
+                QuickActionTile(
+                  icon: Icons.notifications_rounded,
+                  label: 'Avisos',
+                  iconBg: const Color(0xFFFCE4EE),
+                  iconColor: AppColors.pink,
+                  onTap: () => context.go('/student/news'),
+                ),
+              ],
             ),
             Padding(
               padding: const EdgeInsets.fromLTRB(20, 24, 20, 12),
@@ -448,38 +446,6 @@ class _StatCard extends StatelessWidget {
       borderRadius: BorderRadius.circular(18),
       onTap: onTap,
       child: card,
-    );
-  }
-}
-
-class _StatsSkeleton extends StatelessWidget {
-  const _StatsSkeleton({this.empty = false});
-
-  final bool empty;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: List.generate(
-        2,
-        (i) => Expanded(
-          child: Container(
-            height: 92,
-            margin: EdgeInsets.only(right: i == 1 ? 0 : 12),
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              color: Colors.white.withValues(alpha: 0.06),
-              borderRadius: BorderRadius.circular(18),
-            ),
-            child: empty
-                ? Text(
-                    '—',
-                    style: AppTextStyles.h1.copyWith(color: Colors.white38),
-                  )
-                : null,
-          ),
-        ),
-      ),
     );
   }
 }

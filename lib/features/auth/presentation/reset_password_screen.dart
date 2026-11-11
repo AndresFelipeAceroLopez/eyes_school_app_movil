@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import 'package:eyes_school/core/errors/app_failure.dart';
 import 'package:eyes_school/core/theme/app_colors.dart';
+import 'package:eyes_school/features/auth/presentation/auth_sheet_scaffold.dart';
 import 'package:eyes_school/core/theme/app_text_styles.dart';
 import 'package:eyes_school/core/utils/validators.dart';
 import 'package:eyes_school/core/widgets/primary_gradient_button.dart';
@@ -67,47 +68,10 @@ class _ResetPasswordScreenState extends ConsumerState<ResetPasswordScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.headerGradient.first,
-      body: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Padding(
-              padding: const EdgeInsets.fromLTRB(4, 8, 16, 24),
-              child: Row(
-                children: [
-                  IconButton(
-                    tooltip: 'Volver',
-                    icon: const Icon(
-                      Icons.arrow_back_rounded,
-                      color: Colors.white,
-                    ),
-                    onPressed: () => context.go('/login'),
-                  ),
-                  Text(
-                    'Nueva contraseña',
-                    style: AppTextStyles.h3.copyWith(color: Colors.white),
-                  ),
-                ],
-              ),
-            ),
-            Expanded(
-              child: Container(
-                width: double.infinity,
-                padding: const EdgeInsets.fromLTRB(24, 40, 24, 24),
-                decoration: const BoxDecoration(
-                  color: AppColors.surface,
-                  borderRadius: BorderRadius.vertical(top: Radius.circular(32)),
-                ),
-                child: SingleChildScrollView(
-                  child: _done ? _successBody() : _formBody(),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
+    return AuthSheetScaffold(
+      title: 'Nueva contraseña',
+      onBack: () => context.go('/login'),
+      child: SingleChildScrollView(child: _done ? _successBody() : _formBody()),
     );
   }
 

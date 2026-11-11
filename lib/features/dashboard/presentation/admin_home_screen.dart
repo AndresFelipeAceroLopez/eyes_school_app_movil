@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:eyes_school/core/theme/app_colors.dart';
+import 'package:eyes_school/features/attendance/presentation/attendance_record_tile.dart';
 import 'package:eyes_school/core/theme/app_text_styles.dart';
 import 'package:eyes_school/core/utils/formatters.dart';
 import 'package:eyes_school/core/widgets/async_states.dart';
@@ -98,7 +99,7 @@ class AdminHomeScreen extends ConsumerWidget {
                   // Today's counters are computed from `GET /asistencia?fecha=hoy`;
                   // there is no institutional dashboard endpoint to ask.
                   todayAsync.when(
-                    loading: () => const _StatsSkeleton(),
+                    loading: () => const StatsSkeleton(),
                     error: (_, _) => Row(
                       children: [
                         StatPill(
@@ -161,46 +162,37 @@ class AdminHomeScreen extends ConsumerWidget {
               padding: const EdgeInsets.fromLTRB(20, 24, 20, 12),
               child: Text('Acciones rápidas', style: AppTextStyles.h2),
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: GridView.count(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                crossAxisCount: 4,
-                mainAxisSpacing: 12,
-                crossAxisSpacing: 12,
-                childAspectRatio: 0.78,
-                children: [
-                  QuickActionTile(
-                    icon: Icons.qr_code_scanner_rounded,
-                    label: 'Escanear',
-                    iconBg: AppColors.statusActiveBg,
-                    iconColor: AppColors.tealDark,
-                    onTap: () => context.go('/admin/qr'),
-                  ),
-                  QuickActionTile(
-                    icon: Icons.groups_rounded,
-                    label: 'Masivo',
-                    iconBg: AppColors.roleTeacherBg,
-                    iconColor: AppColors.roleTeacher,
-                    onTap: () => context.push('/admin/masivo'),
-                  ),
-                  QuickActionTile(
-                    icon: Icons.fact_check_rounded,
-                    label: 'Registro',
-                    iconBg: AppColors.roleStudentBg,
-                    iconColor: AppColors.roleStudent,
-                    onTap: () => context.push('/admin/dia'),
-                  ),
-                  QuickActionTile(
-                    icon: Icons.widgets_rounded,
-                    label: 'Más opciones',
-                    iconBg: const Color(0xFFFCEEDD),
-                    iconColor: AppColors.orange,
-                    onTap: () => context.push('/admin/management'),
-                  ),
-                ],
-              ),
+            QuickActionsGrid(
+              children: [
+                QuickActionTile(
+                  icon: Icons.qr_code_scanner_rounded,
+                  label: 'Escanear',
+                  iconBg: AppColors.statusActiveBg,
+                  iconColor: AppColors.tealDark,
+                  onTap: () => context.go('/admin/qr'),
+                ),
+                QuickActionTile(
+                  icon: Icons.groups_rounded,
+                  label: 'Masivo',
+                  iconBg: AppColors.roleTeacherBg,
+                  iconColor: AppColors.roleTeacher,
+                  onTap: () => context.push('/admin/masivo'),
+                ),
+                QuickActionTile(
+                  icon: Icons.fact_check_rounded,
+                  label: 'Registro',
+                  iconBg: AppColors.roleStudentBg,
+                  iconColor: AppColors.roleStudent,
+                  onTap: () => context.push('/admin/dia'),
+                ),
+                QuickActionTile(
+                  icon: Icons.widgets_rounded,
+                  label: 'Más opciones',
+                  iconBg: const Color(0xFFFCEEDD),
+                  iconColor: AppColors.orange,
+                  onTap: () => context.push('/admin/management'),
+                ),
+              ],
             ),
             Padding(
               padding: const EdgeInsets.fromLTRB(20, 24, 20, 12),
@@ -380,67 +372,11 @@ class _ScanRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final label = (name == null || name!.isEmpty)
-        ? 'Estudiante ${row.studentId}'
-        : name!;
-    final color = switch (row.state) {
-      AttendanceState.present => AppColors.tealDark,
-      AttendanceState.late => AppColors.orange,
-      AttendanceState.excused => AppColors.blue,
-      _ => AppColors.pink,
-    };
     return Column(
       children: [
         Padding(
           padding: const EdgeInsets.all(16),
-          child: Row(
-            children: [
-              AvatarCircle(name: label, radius: 20),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      label,
-                      style: AppTextStyles.body.copyWith(
-                        fontWeight: FontWeight.w700,
-                      ),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    Text(
-                      [
-                        row.kind?.label,
-                        if (row.registeredAt != null)
-                          TimeOfDay.fromDateTime(
-                            row.registeredAt!,
-                          ).format(context),
-                      ].whereType<String>().join(' · '),
-                      style: AppTextStyles.caption,
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 10,
-                  vertical: 4,
-                ),
-                decoration: BoxDecoration(
-                  color: color.withValues(alpha: 0.12),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Text(
-                  row.state.label,
-                  style: AppTextStyles.caption.copyWith(
-                    color: color,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-              ),
-            ],
-          ),
+          child: AttendanceRecordTile(row: row, name: name),
         ),
         if (showDivider)
           const Divider(
@@ -450,29 +386,6 @@ class _ScanRow extends StatelessWidget {
             endIndent: 16,
           ),
       ],
-    );
-  }
-}
-
-class _StatsSkeleton extends StatelessWidget {
-  const _StatsSkeleton();
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: List.generate(
-        3,
-        (i) => Expanded(
-          child: Container(
-            height: 78,
-            margin: EdgeInsets.only(right: i == 2 ? 0 : 10),
-            decoration: BoxDecoration(
-              color: Colors.white.withValues(alpha: 0.06),
-              borderRadius: BorderRadius.circular(18),
-            ),
-          ),
-        ),
-      ),
     );
   }
 }
