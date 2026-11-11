@@ -4,7 +4,7 @@
 /// `flutter run --dart-define=EYESCHOOL_API_BASE=https://localhost:8000`
 abstract final class ApiConfig {
   static const _defaultBase =
-      'https://apieyeschool-b7fudxavddh9hhah.canadacentral-01.azurewebsites.net';
+      'https://api-eyesschool-hrf2gsg7hyf9dacq.westus3-01.azurewebsites.net';
 
   static const String host =
       String.fromEnvironment('EYESCHOOL_API_BASE', defaultValue: _defaultBase);
