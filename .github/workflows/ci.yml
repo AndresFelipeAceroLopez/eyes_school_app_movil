@@ -1,0 +1,71 @@
+name: CI
+
+# Quality gate QG3 del MC-01: cada pull request debe pasar el analisis
+# estatico, las pruebas, el piso de cobertura y la revision de secretos antes
+# de poder fusionarse.
+on:
+  pull_request:
+  push:
+    branches:
+      - develop
+      - main
+
+jobs:
+  analyze_and_test:
+    name: Analisis estatico y pruebas
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # SonarQube Cloud necesita el historial para el codigo nuevo
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          cache: true
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      # APP-SA-3: el formato ya bloquea (antes tenia continue-on-error).
+      - name: Verify formatting
+        run: dart format --output=none --set-exit-if-changed lib test tool integration_test
+
+      - name: Static analysis
+        run: flutter analyze
+
+      - name: Unit, widget and contract tests
+        run: flutter test --coverage
+
+      # Piso de no regresion del MC-01 (meta de liberacion 60 %).
+      - name: Coverage by layer
+        run: dart run tool/coverage_report.dart --min-logic=75
+
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-lcov
+          path: coverage/lcov.info
+
+      # APP-INF-1: metrica adicional del MC-01 (Quality Gate «Sonar way»).
+      - name: SonarQube Cloud
+        uses: SonarSource/sonarqube-scan-action@v5
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+  secrets:
+    name: Secretos en el historial (gitleaks)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: gitleaks
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

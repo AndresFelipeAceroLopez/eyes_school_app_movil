@@ -66,6 +66,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
               child: Row(
                 children: [
                   IconButton(
+                    tooltip: 'Volver',
                     icon: const Icon(Icons.arrow_back_rounded, color: Colors.white),
                     onPressed: () => context.canPop() ? context.pop() : context.go('/login'),
                   ),

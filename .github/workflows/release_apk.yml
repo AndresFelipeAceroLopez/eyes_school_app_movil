@@ -3,7 +3,7 @@ name: Release APK
 on:
   push:
     tags:
-      - 'v*' # Se ejecuta al subir un tag como v1.0.0
+      - 'v*' # Se ejecuta al subir un tag como v1.1.0
 
 jobs:
   build_and_release:
@@ -11,13 +11,21 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
-    
+
+    env:
+      # APP-01: secretos de la clave de release (se crean una sola vez).
+      RELEASE_KEYSTORE_BASE64: ${{ secrets.RELEASE_KEYSTORE_BASE64 }}
+      RELEASE_KEYSTORE_PASSWORD: ${{ secrets.RELEASE_KEYSTORE_PASSWORD }}
+      RELEASE_KEY_ALIAS: ${{ secrets.RELEASE_KEY_ALIAS }}
+      RELEASE_KEY_PASSWORD: ${{ secrets.RELEASE_KEY_PASSWORD }}
+      RELEASE_CERT_SHA256: ${{ secrets.RELEASE_CERT_SHA256 }}
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
       - name: Set up Java
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
           java-version: '17'
@@ -30,13 +38,55 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
+      # APP-01: sin la clave de release cada runner firmaba con su propia clave
+      # de depuracion y la OTA no podia instalar la version nueva.
+      - name: Release signing key
+        run: |
+          if [ -z "$RELEASE_KEYSTORE_BASE64" ]; then
+            echo "::error::Falta el secreto RELEASE_KEYSTORE_BASE64 (APP-01)."
+            exit 1
+          fi
+          echo "$RELEASE_KEYSTORE_BASE64" | base64 --decode > "$RUNNER_TEMP/release.jks"
+          cat > android/key.properties <<EOF
+          storeFile=$RUNNER_TEMP/release.jks
+          storePassword=$RELEASE_KEYSTORE_PASSWORD
+          keyAlias=$RELEASE_KEY_ALIAS
+          keyPassword=$RELEASE_KEY_PASSWORD
+          EOF
+
+      # N-14: la version del APK sale de la etiqueta (v1.1.0 -> 1.1.0); antes
+      # salia de pubspec.yaml y el APK v1.0.1 se reportaba como 0.1.0.
       - name: Build APK
-        run: flutter build apk --release
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          flutter build apk --release --split-per-abi \
+            --build-name="$VERSION" --build-number="${{ github.run_number }}"
+          flutter build apk --release \
+            --build-name="$VERSION" --build-number="${{ github.run_number }}"
+
+      - name: Verify signature, package and minSdk
+        run: |
+          BT="$ANDROID_HOME/build-tools/$(ls "$ANDROID_HOME/build-tools" | sort -V | tail -1)"
+          APK=build/app/outputs/flutter-apk/app-release.apk
+          "$BT/apksigner" verify --print-certs "$APK" | tee signing.txt
+          if [ -n "$RELEASE_CERT_SHA256" ]; then
+            EXPECTED=$(echo "$RELEASE_CERT_SHA256" | tr -d ':' | tr 'A-F' 'a-f')
+            grep -qi "SHA-256 digest: $EXPECTED" signing.txt \
+              || { echo "::error::La huella del certificado no coincide con RELEASE_CERT_SHA256."; exit 1; }
+          fi
+          if grep -q "CN=Android Debug" signing.txt; then
+            echo "::error::El APK esta firmado con la clave de depuracion."; exit 1
+          fi
+          "$BT/aapt2" dump badging "$APK" | grep -E "^package|minSdkVersion" | tee badging.txt
+          grep -q "minSdkVersion:'30'" badging.txt \
+            || { echo "::error::minSdk distinto de 30 (APP-02)."; exit 1; }
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          files: build/app/outputs/flutter-apk/app-release.apk
+          files: |
+            build/app/outputs/flutter-apk/app-release.apk
+            build/app/outputs/flutter-apk/app-arm64-v8a-release.apk
           name: Release ${{ github.ref_name }}
           draft: false
           prerelease: false

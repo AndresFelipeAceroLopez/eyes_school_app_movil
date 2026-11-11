@@ -2,6 +2,9 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 
+import 'package:eyes_school/core/network/api_client.dart';
+import 'package:eyes_school/core/network/error_interceptor.dart';
+
 /// A Dio adapter that answers from a script instead of the network, so a test
 /// can reproduce exactly what a device sees: a 200 here, a dead connection
 /// there.
@@ -65,4 +68,25 @@ class ScriptedResponse {
 
   final int status;
   final Object? body;
+}
+
+/// What an endpoint the script does not list answers in a repository test:
+/// a 404, so "not found" paths are exercised without the retry backoff a dead
+/// connection would trigger.
+ResponseBody notFound(RequestOptions options) => ResponseBody.fromString(
+  jsonEncode({'detail': 'No encontrado'}),
+  404,
+  headers: {
+    Headers.contentTypeHeader: [Headers.jsonContentType],
+  },
+);
+
+/// An [ApiClient] over [adapter], with the same failure translation as the
+/// app's client but without auth or retries: repository tests are about
+/// mapping and joins, not about the transport.
+ApiClient scriptedClient(ScriptedAdapter adapter) {
+  final dio = Dio(BaseOptions(baseUrl: 'https://api.test/api/v1'))
+    ..httpClientAdapter = adapter
+    ..interceptors.add(const ErrorInterceptor());
+  return ApiClient(dio);
 }

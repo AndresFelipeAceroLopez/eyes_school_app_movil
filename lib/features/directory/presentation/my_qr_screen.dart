@@ -34,6 +34,7 @@ class MyQrScreen extends ConsumerWidget {
         foregroundColor: Colors.white,
         title: const Text('Mi carné'),
         leading: IconButton(
+          tooltip: 'Volver',
           icon: const Icon(Icons.arrow_back_rounded),
           onPressed: () => context.canPop() ? context.pop() : context.go('/'),
         ),

@@ -153,11 +153,13 @@ class AuthRepositoryImpl implements AuthRepository {
     // APP-03: every linked child. `/padres/me/hijos` is not deployed in every
     // environment yet, so a failure falls back to the single `/padres/me`.
     List<LinkedChild> children;
+    int? parentId;
     try {
       children = (await _people.guardianChildren()).map((h) => h.toEntity()).toList();
     } on AppFailure {
       try {
         final link = await _people.guardianMe();
+        parentId = link.idPadre;
         children = [
           LinkedChild(
             id: link.idEstudiante,
@@ -211,6 +213,7 @@ class AuthRepositoryImpl implements AuthRepository {
 
     return AppSession(
       user: user,
+      parentId: parentId,
       currentPeriod: period,
       children: withCourses,
     ).withActiveChild(first.id);

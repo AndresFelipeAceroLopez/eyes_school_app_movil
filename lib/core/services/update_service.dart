@@ -74,12 +74,13 @@ class UpdateService {
         final assets = data['assets'] as List;
         String? downloadUrl;
         
-        // Find the APK asset
+        // The universal `app-release.apk` installs on any ABI; the per-ABI
+        // files are only a fallback.
         for (final asset in assets) {
           final name = asset['name'] as String;
-          if (name.endsWith('.apk')) {
+          if (!name.endsWith('.apk')) continue;
+          if (name == 'app-release.apk' || downloadUrl == null) {
             downloadUrl = asset['browser_download_url'] as String;
-            break;
           }
         }
 

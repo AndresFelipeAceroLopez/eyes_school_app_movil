@@ -1,0 +1,11 @@
+# gitleaks (APP-INF-1 / APP-SA-2)
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Clave de cliente de Firebase de la app Android"
+# google-services.json lleva la API key de cliente de Firebase. No es un
+# secreto de servidor: viaja dentro de cada APK y Firebase la documenta como
+# identificador publico. PENDIENTE (APP-INF-1): restringirla en Google Cloud
+# Console al paquete Android y a la huella SHA-256 de la clave de release.
+paths = ['''android/app/google-services\.json''']

@@ -73,6 +73,7 @@ class _UsersListScreenState extends ConsumerState<UsersListScreen> {
                 Row(
                   children: [
                     IconButton(
+                      tooltip: 'Volver',
                       icon: const Icon(Icons.arrow_back_rounded, color: Colors.white),
                       onPressed: () {
                         if (Navigator.of(context).canPop()) {
@@ -104,6 +105,7 @@ class _UsersListScreenState extends ConsumerState<UsersListScreen> {
                     suffixIcon: _searchController.text.isEmpty
                         ? null
                         : IconButton(
+                            tooltip: 'Limpiar búsqueda',
                             icon: const Icon(Icons.close_rounded),
                             onPressed: () {
                               _searchController.clear();
