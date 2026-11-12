@@ -8,4 +8,9 @@ description = "Clave de cliente de Firebase de la app Android"
 # secreto de servidor: viaja dentro de cada APK y Firebase la documenta como
 # identificador publico. PENDIENTE (APP-INF-1): restringirla en Google Cloud
 # Console al paquete Android y a la huella SHA-256 de la clave de release.
-paths = ['''android/app/google-services\.json''']
+paths = [
+  '''android/app/google-services\.json''',
+  # Reportes de MobSF (CP-NF-004): citan la misma clave de cliente de Firebase
+  # que extraen del APK; no contienen otros secretos (revisado el 12/11/2026).
+  '''planeacion/test/Resultados/evidencias/PR-06/app/mobsf[0-9]*/mobsf_.*\.json''',
+]

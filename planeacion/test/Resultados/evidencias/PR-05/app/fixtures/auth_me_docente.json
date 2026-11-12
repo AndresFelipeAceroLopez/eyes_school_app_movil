@@ -1,0 +1,9 @@
+{
+  "id_usuario": 2,
+  "primer_nombre": "Carlos",
+  "primer_apellido": "Jiménez",
+  "correo": "carlos.jimenez@eyes.edu.co",
+  "nombre_rol": "docente",
+  "id_rol": 1,
+  "estado": true
+}

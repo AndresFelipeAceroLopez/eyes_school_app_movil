@@ -1,0 +1,4033 @@
+{
+  "statistics": {
+    "detectionDate": "2026-11-11T01:00:59.855Z",
+    "formats": {
+      "dart": {
+        "sources": {
+          "lib/features/reports/presentation/reports_screen.dart": {
+            "lines": 199,
+            "tokens": 1832,
+            "sources": 1,
+            "clones": 1,
+            "duplicatedLines": 6,
+            "duplicatedTokens": 94,
+            "percentage": 3.02,
+            "percentageTokens": 5.13,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/features/reports/data/report_repository_impl.dart": {
+            "lines": 31,
+            "tokens": 295,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/features/reports/data/reporte_dto.dart": {
+            "lines": 18,
+            "tokens": 212,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/features/reports/data/reportes_api.dart": {
+            "lines": 37,
+            "tokens": 269,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/features/novedades/presentation/teacher_novedades_screen.dart": {
+            "lines": 209,
+            "tokens": 2027,
+            "sources": 1,
+            "clones": 3,
+            "duplicatedLines": 30,
+            "duplicatedTokens": 292,
+            "percentage": 14.35,
+            "percentageTokens": 14.41,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/features/novedades/presentation/student_novedades_screen.dart": {
+            "lines": 71,
+            "tokens": 621,
+            "sources": 1,
+            "clones": 2,
+            "duplicatedLines": 23,
+            "duplicatedTokens": 277,
+            "percentage": 32.39,
+            "percentageTokens": 44.61,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/features/novedades/presentation/novedad_form_screen.dart": {
+            "lines": 430,
+            "tokens": 4034,
+            "sources": 1,
+            "clones": 1,
+            "duplicatedLines": 8,
+            "duplicatedTokens": 92,
+            "percentage": 1.86,
+            "percentageTokens": 2.28,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/features/novedades/presentation/novedad_card.dart": {
+            "lines": 136,
+            "tokens": 1134,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/features/novedades/presentation/admin_novedades_screen.dart": {
+            "lines": 57,
+            "tokens": 522,
+            "sources": 1,
+            "clones": 1,
+            "duplicatedLines": 8,
+            "duplicatedTokens": 98,
+            "percentage": 14.04,
+            "percentageTokens": 18.77,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/features/novedades/domain/severity.dart": {
+            "lines": 71,
+            "tokens": 673,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/features/novedades/domain/novedad.dart": {
+            "lines": 67,
+            "tokens": 490,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/features/novedades/data/novedad_dto.dart": {
+            "lines": 62,
+            "tokens": 580,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/features/novedades/data/novedades_api.dart": {
+            "lines": 54,
+            "tokens": 485,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/features/notifications/providers/push_provider.dart": {
+            "lines": 50,
+            "tokens": 326,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/features/notifications/data/push_notification_service.dart": {
+            "lines": 179,
+            "tokens": 1289,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/features/directory/presentation/users_list_screen.dart": {
+            "lines": 271,
+            "tokens": 2476,
+            "sources": 1,
+            "clones": 3,
+            "duplicatedLines": 26,
+            "duplicatedTokens": 293,
+            "percentage": 9.59,
+            "percentageTokens": 11.83,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/features/directory/presentation/teacher_profile_screen.dart": {
+            "lines": 194,
+            "tokens": 1819,
+            "sources": 1,
+            "clones": 1,
+            "duplicatedLines": 25,
+            "duplicatedTokens": 224,
+            "percentage": 12.89,
+            "percentageTokens": 12.31,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/features/directory/presentation/student_profile_screen.dart": {
+            "lines": 496,
+            "tokens": 4418,
+            "sources": 1,
+            "clones": 6,
+            "duplicatedLines": 102,
+            "duplicatedTokens": 913,
+            "percentage": 20.56,
+            "percentageTokens": 20.67,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/features/directory/presentation/qr_scan_screen.dart": {
+            "lines": 611,
+            "tokens": 5573,
+            "sources": 1,
+            "clones": 3,
+            "duplicatedLines": 39,
+            "duplicatedTokens": 335,
+            "percentage": 6.38,
+            "percentageTokens": 6.01,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/features/directory/presentation/profile_screen.dart": {
+            "lines": 720,
+            "tokens": 6981,
+            "sources": 1,
+            "clones": 15,
+            "duplicatedLines": 203,
+            "duplicatedTokens": 2032,
+            "percentage": 28.19,
+            "percentageTokens": 29.11,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/features/directory/presentation/my_qr_screen.dart": {
+            "lines": 126,
+            "tokens": 1071,
+            "sources": 1,
+            "clones": 1,
+            "duplicatedLines": 17,
+            "duplicatedTokens": 143,
+            "percentage": 13.49,
+            "percentageTokens": 13.35,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/features/directory/presentation/management_screen.dart": {
+            "lines": 199,
+            "tokens": 1816,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/features/directory/presentation/children_screen.dart": {
+            "lines": 171,
+            "tokens": 1601,
+            "sources": 1,
+            "clones": 3,
+            "duplicatedLines": 30,
+            "duplicatedTokens": 291,
+            "percentage": 17.54,
+            "percentageTokens": 18.18,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/features/directory/presentation/avatar_circle.dart": {
+            "lines": 54,
+            "tokens": 511,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/features/directory/domain/role.dart": {
+            "lines": 38,
+            "tokens": 362,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/features/directory/domain/guardian.dart": {
+            "lines": 11,
+            "tokens": 77,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/features/directory/domain/catalog.dart": {
+            "lines": 109,
+            "tokens": 1044,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/features/directory/data/student_catalog.dart": {
+            "lines": 221,
+            "tokens": 2454,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/features/directory/data/people_dto.dart": {
+            "lines": 273,
+            "tokens": 2609,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/features/directory/data/people_api.dart": {
+            "lines": 174,
+            "tokens": 1667,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/features/directory/data/directory_repository_impl.dart": {
+            "lines": 266,
+            "tokens": 2616,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/features/directory/data/catalog_repository_impl.dart": {
+            "lines": 37,
+            "tokens": 421,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/features/dashboard/presentation/teacher_home_screen.dart": {
+            "lines": 486,
+            "tokens": 4382,
+            "sources": 1,
+            "clones": 7,
+            "duplicatedLines": 101,
+            "duplicatedTokens": 952,
+            "percentage": 20.78,
+            "percentageTokens": 21.73,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/features/dashboard/presentation/student_home_screen.dart": {
+            "lines": 448,
+            "tokens": 4156,
+            "sources": 1,
+            "clones": 9,
+            "duplicatedLines": 114,
+            "duplicatedTokens": 1063,
+            "percentage": 25.45,
+            "percentageTokens": 25.58,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/features/dashboard/presentation/parent_home_screen.dart": {
+            "lines": 343,
+            "tokens": 3127,
+            "sources": 1,
+            "clones": 7,
+            "duplicatedLines": 81,
+            "duplicatedTokens": 763,
+            "percentage": 23.62,
+            "percentageTokens": 24.4,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/features/dashboard/presentation/admin_home_screen.dart": {
+            "lines": 434,
+            "tokens": 3962,
+            "sources": 1,
+            "clones": 9,
+            "duplicatedLines": 148,
+            "duplicatedTokens": 1354,
+            "percentage": 34.1,
+            "percentageTokens": 34.17,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/features/dashboard/domain/dashboard.dart": {
+            "lines": 87,
+            "tokens": 611,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/features/dashboard/data/dashboard_dto.dart": {
+            "lines": 29,
+            "tokens": 303,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/features/dashboard/data/dashboard_api.dart": {
+            "lines": 20,
+            "tokens": 161,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/features/auth/presentation/reset_password_screen.dart": {
+            "lines": 208,
+            "tokens": 1969,
+            "sources": 1,
+            "clones": 7,
+            "duplicatedLines": 84,
+            "duplicatedTokens": 849,
+            "percentage": 40.38,
+            "percentageTokens": 43.12,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/features/auth/presentation/register_screen.dart": {
+            "lines": 567,
+            "tokens": 5607,
+            "sources": 1,
+            "clones": 3,
+            "duplicatedLines": 32,
+            "duplicatedTokens": 299,
+            "percentage": 5.64,
+            "percentageTokens": 5.33,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/features/auth/presentation/login_screen.dart": {
+            "lines": 224,
+            "tokens": 2153,
+            "sources": 1,
+            "clones": 4,
+            "duplicatedLines": 36,
+            "duplicatedTokens": 393,
+            "percentage": 16.07,
+            "percentageTokens": 18.25,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/features/auth/presentation/forgot_password_screen.dart": {
+            "lines": 187,
+            "tokens": 1718,
+            "sources": 1,
+            "clones": 2,
+            "duplicatedLines": 32,
+            "duplicatedTokens": 314,
+            "percentage": 17.11,
+            "percentageTokens": 18.28,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/features/auth/domain/session.dart": {
+            "lines": 83,
+            "tokens": 568,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/features/auth/domain/app_user.dart": {
+            "lines": 113,
+            "tokens": 990,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/features/auth/data/auth_repository_impl.dart": {
+            "lines": 270,
+            "tokens": 2444,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/features/auth/data/auth_dto.dart": {
+            "lines": 87,
+            "tokens": 916,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/features/auth/data/auth_api.dart": {
+            "lines": 47,
+            "tokens": 479,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/features/attendance/presentation/today_attendance_screen.dart": {
+            "lines": 339,
+            "tokens": 3396,
+            "sources": 1,
+            "clones": 3,
+            "duplicatedLines": 53,
+            "duplicatedTokens": 503,
+            "percentage": 15.63,
+            "percentageTokens": 14.81,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/features/attendance/presentation/student_attendance_screen.dart": {
+            "lines": 31,
+            "tokens": 222,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/features/attendance/presentation/pending_attendance_screen.dart": {
+            "lines": 300,
+            "tokens": 3059,
+            "sources": 1,
+            "clones": 4,
+            "duplicatedLines": 40,
+            "duplicatedTokens": 450,
+            "percentage": 13.33,
+            "percentageTokens": 14.71,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/features/attendance/presentation/parent_attendance_screen.dart": {
+            "lines": 67,
+            "tokens": 534,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/features/attendance/presentation/bulk_attendance_screen.dart": {
+            "lines": 475,
+            "tokens": 4564,
+            "sources": 1,
+            "clones": 4,
+            "duplicatedLines": 45,
+            "duplicatedTokens": 452,
+            "percentage": 9.47,
+            "percentageTokens": 9.9,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/features/attendance/presentation/attendance_history_view.dart": {
+            "lines": 333,
+            "tokens": 2957,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/features/attendance/presentation/attendance_donut.dart": {
+            "lines": 66,
+            "tokens": 632,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/features/attendance/domain/attendance_summary.dart": {
+            "lines": 54,
+            "tokens": 468,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/features/attendance/domain/attendance_record.dart": {
+            "lines": 147,
+            "tokens": 1231,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/features/attendance/domain/attendance.dart": {
+            "lines": 77,
+            "tokens": 631,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/features/attendance/data/attendance_repository_impl.dart": {
+            "lines": 162,
+            "tokens": 1473,
+            "sources": 1,
+            "clones": 2,
+            "duplicatedLines": 16,
+            "duplicatedTokens": 203,
+            "percentage": 9.88,
+            "percentageTokens": 13.78,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/features/attendance/data/attendance_queue.dart": {
+            "lines": 299,
+            "tokens": 2876,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/features/attendance/data/attendance_dto.dart": {
+            "lines": 86,
+            "tokens": 997,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/features/attendance/data/attendance_api.dart": {
+            "lines": 71,
+            "tokens": 617,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/features/academic/presentation/weekly_schedule_list.dart": {
+            "lines": 100,
+            "tokens": 983,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/features/academic/presentation/teacher_grades_screen.dart": {
+            "lines": 95,
+            "tokens": 813,
+            "sources": 1,
+            "clones": 2,
+            "duplicatedLines": 30,
+            "duplicatedTokens": 240,
+            "percentage": 31.58,
+            "percentageTokens": 29.52,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/features/academic/presentation/teacher_classes_screen.dart": {
+            "lines": 215,
+            "tokens": 1808,
+            "sources": 1,
+            "clones": 3,
+            "duplicatedLines": 40,
+            "duplicatedTokens": 383,
+            "percentage": 18.6,
+            "percentageTokens": 21.18,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/features/academic/presentation/subjects_screen.dart": {
+            "lines": 93,
+            "tokens": 826,
+            "sources": 1,
+            "clones": 1,
+            "duplicatedLines": 17,
+            "duplicatedTokens": 144,
+            "percentage": 18.28,
+            "percentageTokens": 17.43,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/features/academic/presentation/student_schedule_screen.dart": {
+            "lines": 64,
+            "tokens": 525,
+            "sources": 1,
+            "clones": 1,
+            "duplicatedLines": 16,
+            "duplicatedTokens": 195,
+            "percentage": 25,
+            "percentageTokens": 37.14,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/features/academic/presentation/student_grades_screen.dart": {
+            "lines": 147,
+            "tokens": 1273,
+            "sources": 1,
+            "clones": 7,
+            "duplicatedLines": 92,
+            "duplicatedTokens": 914,
+            "percentage": 62.59,
+            "percentageTokens": 71.8,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/features/academic/presentation/schedules_screen.dart": {
+            "lines": 135,
+            "tokens": 1183,
+            "sources": 1,
+            "clones": 2,
+            "duplicatedLines": 24,
+            "duplicatedTokens": 288,
+            "percentage": 17.78,
+            "percentageTokens": 24.34,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/features/academic/presentation/parent_grades_screen.dart": {
+            "lines": 167,
+            "tokens": 1449,
+            "sources": 1,
+            "clones": 4,
+            "duplicatedLines": 75,
+            "duplicatedTokens": 709,
+            "percentage": 44.91,
+            "percentageTokens": 48.93,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/features/academic/presentation/grade_row.dart": {
+            "lines": 154,
+            "tokens": 1319,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/features/academic/presentation/grade_entry_screen.dart": {
+            "lines": 398,
+            "tokens": 3717,
+            "sources": 1,
+            "clones": 2,
+            "duplicatedLines": 21,
+            "duplicatedTokens": 254,
+            "percentage": 5.28,
+            "percentageTokens": 6.83,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/features/academic/presentation/class_roster_screen.dart": {
+            "lines": 353,
+            "tokens": 3304,
+            "sources": 1,
+            "clones": 4,
+            "duplicatedLines": 42,
+            "duplicatedTokens": 481,
+            "percentage": 11.9,
+            "percentageTokens": 14.56,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/features/academic/domain/teacher_class.dart": {
+            "lines": 37,
+            "tokens": 268,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/features/academic/domain/subject.dart": {
+            "lines": 22,
+            "tokens": 144,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/features/academic/domain/roster_student.dart": {
+            "lines": 17,
+            "tokens": 106,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/features/academic/domain/grade.dart": {
+            "lines": 67,
+            "tokens": 675,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/features/academic/domain/class_time.dart": {
+            "lines": 55,
+            "tokens": 589,
+            "sources": 1,
+            "clones": 1,
+            "duplicatedLines": 7,
+            "duplicatedTokens": 129,
+            "percentage": 12.73,
+            "percentageTokens": 21.9,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/features/academic/domain/class_session.dart": {
+            "lines": 123,
+            "tokens": 1085,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/features/academic/data/academic_repository_impl.dart": {
+            "lines": 370,
+            "tokens": 3744,
+            "sources": 1,
+            "clones": 1,
+            "duplicatedLines": 5,
+            "duplicatedTokens": 106,
+            "percentage": 1.35,
+            "percentageTokens": 2.83,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/features/academic/data/academic_dto.dart": {
+            "lines": 131,
+            "tokens": 1196,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/features/academic/data/academic_api.dart": {
+            "lines": 100,
+            "tokens": 920,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/features/splash/splash_screen.dart": {
+            "lines": 108,
+            "tokens": 974,
+            "sources": 1,
+            "clones": 1,
+            "duplicatedLines": 7,
+            "duplicatedTokens": 85,
+            "percentage": 6.48,
+            "percentageTokens": 8.73,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/features/errors/no_access_screen.dart": {
+            "lines": 80,
+            "tokens": 698,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/core/widgets/update_dialog.dart": {
+            "lines": 153,
+            "tokens": 1271,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/core/widgets/stat_pill.dart": {
+            "lines": 58,
+            "tokens": 488,
+            "sources": 1,
+            "clones": 1,
+            "duplicatedLines": 8,
+            "duplicatedTokens": 93,
+            "percentage": 13.79,
+            "percentageTokens": 19.06,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/core/widgets/status_badge.dart": {
+            "lines": 69,
+            "tokens": 738,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/core/widgets/simple_header_scaffold.dart": {
+            "lines": 72,
+            "tokens": 621,
+            "sources": 1,
+            "clones": 1,
+            "duplicatedLines": 9,
+            "duplicatedTokens": 92,
+            "percentage": 12.5,
+            "percentageTokens": 14.81,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/core/widgets/section_header.dart": {
+            "lines": 55,
+            "tokens": 448,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/core/widgets/role_shell_scaffold.dart": {
+            "lines": 63,
+            "tokens": 482,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/core/widgets/quick_action_tile.dart": {
+            "lines": 61,
+            "tokens": 497,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/core/widgets/primary_gradient_button.dart": {
+            "lines": 72,
+            "tokens": 609,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/core/widgets/monster_mascot.dart": {
+            "lines": 26,
+            "tokens": 162,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/core/widgets/gradient_header.dart": {
+            "lines": 34,
+            "tokens": 284,
+            "sources": 1,
+            "clones": 1,
+            "duplicatedLines": 9,
+            "duplicatedTokens": 87,
+            "percentage": 26.47,
+            "percentageTokens": 30.63,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/core/widgets/eye_logo.dart": {
+            "lines": 21,
+            "tokens": 211,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/core/widgets/async_states.dart": {
+            "lines": 169,
+            "tokens": 1529,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/core/widgets/app_bottom_nav.dart": {
+            "lines": 143,
+            "tokens": 1257,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/core/utils/validators.dart": {
+            "lines": 49,
+            "tokens": 516,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/core/utils/report_card_download.dart": {
+            "lines": 129,
+            "tokens": 1102,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/core/utils/json_x.dart": {
+            "lines": 82,
+            "tokens": 1028,
+            "sources": 1,
+            "clones": 1,
+            "duplicatedLines": 7,
+            "duplicatedTokens": 129,
+            "percentage": 8.54,
+            "percentageTokens": 12.55,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/core/utils/formatters.dart": {
+            "lines": 82,
+            "tokens": 779,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/core/theme/domain_styles.dart": {
+            "lines": 75,
+            "tokens": 756,
+            "sources": 1,
+            "clones": 1,
+            "duplicatedLines": 7,
+            "duplicatedTokens": 105,
+            "percentage": 9.33,
+            "percentageTokens": 13.89,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/core/theme/app_theme.dart": {
+            "lines": 49,
+            "tokens": 460,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/core/theme/app_text_styles.dart": {
+            "lines": 33,
+            "tokens": 459,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/core/theme/app_colors.dart": {
+            "lines": 53,
+            "tokens": 570,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/core/sync/sync_worker.dart": {
+            "lines": 65,
+            "tokens": 582,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/core/storage/token_storage.dart": {
+            "lines": 59,
+            "tokens": 533,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/core/storage/local_store.dart": {
+            "lines": 88,
+            "tokens": 878,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/core/services/update_service.dart": {
+            "lines": 122,
+            "tokens": 1037,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/core/router/app_router.dart": {
+            "lines": 368,
+            "tokens": 3533,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/core/network/retry_interceptor.dart": {
+            "lines": 40,
+            "tokens": 378,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/core/network/failure_mapper.dart": {
+            "lines": 87,
+            "tokens": 954,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/core/network/error_interceptor.dart": {
+            "lines": 25,
+            "tokens": 157,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/core/network/dio_client.dart": {
+            "lines": 70,
+            "tokens": 563,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/core/network/auth_interceptor.dart": {
+            "lines": 126,
+            "tokens": 1140,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/core/network/api_config.dart": {
+            "lines": 23,
+            "tokens": 171,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/core/network/api_client.dart": {
+            "lines": 118,
+            "tokens": 1215,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/core/errors/app_failure.dart": {
+            "lines": 50,
+            "tokens": 385,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/core/domain/usecases.dart": {
+            "lines": 223,
+            "tokens": 1845,
+            "sources": 1,
+            "clones": 2,
+            "duplicatedLines": 13,
+            "duplicatedTokens": 205,
+            "percentage": 5.83,
+            "percentageTokens": 11.11,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/core/domain/repositories.dart": {
+            "lines": 305,
+            "tokens": 2517,
+            "sources": 1,
+            "clones": 1,
+            "duplicatedLines": 8,
+            "duplicatedTokens": 104,
+            "percentage": 2.62,
+            "percentageTokens": 4.13,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/core/constants/app_constants.dart": {
+            "lines": 23,
+            "tokens": 145,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/providers/session_provider.dart": {
+            "lines": 136,
+            "tokens": 1156,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/providers/repository_providers.dart": {
+            "lines": 177,
+            "tokens": 1580,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/providers/data_providers.dart": {
+            "lines": 198,
+            "tokens": 2060,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/main.dart": {
+            "lines": 15,
+            "tokens": 107,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "lib/app.dart": {
+            "lines": 21,
+            "tokens": 147,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          }
+        },
+        "total": {
+          "lines": 18700,
+          "tokens": 172457,
+          "sources": 126,
+          "clones": 69,
+          "duplicatedLines": 868,
+          "duplicatedTokens": 8711,
+          "percentage": 4.64,
+          "percentageTokens": 5.05,
+          "newDuplicatedLines": 0,
+          "newClones": 0
+        }
+      }
+    },
+    "total": {
+      "lines": 18700,
+      "tokens": 172457,
+      "sources": 126,
+      "clones": 69,
+      "duplicatedLines": 868,
+      "duplicatedTokens": 8711,
+      "percentage": 4.64,
+      "percentageTokens": 5.05,
+      "newDuplicatedLines": 0,
+      "newClones": 0
+    }
+  },
+  "duplicates": [
+    {
+      "format": "dart",
+      "lines": 9,
+      "fragment": ",\r\n                ),\r\n              ]);\r\n            }\r\n            return ListView.separated(\r\n              padding: const EdgeInsets.fromLTRB(20, 20, 20, 32),\r\n              itemCount: novedades.length,\r\n              separatorBuilder: (_, _) => const SizedBox(height: 12),\r\n              itemBuilder: (context, index) {",
+      "tokens": 98,
+      "firstFile": {
+        "name": "lib\\features\\novedades\\presentation\\admin_novedades_screen.dart",
+        "start": 34,
+        "end": 42,
+        "startLoc": {
+          "line": 34,
+          "column": 75,
+          "position": 316
+        },
+        "endLoc": {
+          "line": 42,
+          "column": 46,
+          "position": 414
+        }
+      },
+      "secondFile": {
+        "name": "lib\\features\\novedades\\presentation\\student_novedades_screen.dart",
+        "start": 53,
+        "end": 61,
+        "startLoc": {
+          "line": 53,
+          "column": 62,
+          "position": 463
+        },
+        "endLoc": {
+          "line": 61,
+          "column": 46,
+          "position": 561
+        }
+      }
+    },
+    {
+      "format": "dart",
+      "lines": 7,
+      "fragment": ".length + 1,\r\n                    separatorBuilder: (_, _) => const SizedBox(height: 12),\r\n                    itemBuilder: (context, index) {\r\n                      if (index == 0) {\r\n                        return Padding(\r\n                          padding: const EdgeInsets.only(bottom: 4),\r\n                          child: Text('${users.length} resultado(s)'",
+      "tokens": 94,
+      "firstFile": {
+        "name": "lib\\features\\directory\\presentation\\users_list_screen.dart",
+        "start": 153,
+        "end": 159,
+        "startLoc": {
+          "line": 153,
+          "column": 37,
+          "position": 1358
+        },
+        "endLoc": {
+          "line": 159,
+          "column": 69,
+          "position": 1452
+        }
+      },
+      "secondFile": {
+        "name": "lib\\features\\reports\\presentation\\reports_screen.dart",
+        "start": 50,
+        "end": 57,
+        "startLoc": {
+          "line": 50,
+          "column": 33,
+          "position": 419
+        },
+        "endLoc": {
+          "line": 57,
+          "column": 68,
+          "position": 516
+        }
+      }
+    },
+    {
+      "format": "dart",
+      "lines": 16,
+      "fragment": "RefreshIndicator(\r\n      onRefresh: () async => ref.invalidate(novedadesForStudentProvider(studentId)),\r\n      child: novedadesAsync.when(\r\n        loading: () => const LoadingView(),\r\n        error: (error, _) => ListView(children: [\r\n          ErrorView(\r\n            error: error,\r\n            onRetry: () => ref.invalidate(novedadesForStudentProvider(studentId)),\r\n          ),\r\n        ]),\r\n        data: (novedades) {\r\n          if (novedades.isEmpty) {\r\n            return ListView(children: const [\r\n              EmptyState(\r\n                icon: Icons.check_circle_outline_rounded,\r\n                title: 'Sin novedades'",
+      "tokens": 179,
+      "firstFile": {
+        "name": "lib\\features\\directory\\presentation\\student_profile_screen.dart",
+        "start": 465,
+        "end": 480,
+        "startLoc": {
+          "line": 465,
+          "column": 12,
+          "position": 4084
+        },
+        "endLoc": {
+          "line": 480,
+          "column": 39,
+          "position": 4263
+        }
+      },
+      "secondFile": {
+        "name": "lib\\features\\novedades\\presentation\\student_novedades_screen.dart",
+        "start": 37,
+        "end": 52,
+        "startLoc": {
+          "line": 37,
+          "column": 13,
+          "position": 275
+        },
+        "endLoc": {
+          "line": 52,
+          "column": 41,
+          "position": 454
+        }
+      }
+    },
+    {
+      "format": "dart",
+      "lines": 11,
+      "fragment": ",\r\n      ),\r\n      decoration: const BoxDecoration(\r\n        color: AppColors.surface,\r\n        borderRadius: BorderRadius.vertical(top: Radius.circular(28)),\r\n      ),\r\n      child: Column(\r\n        mainAxisSize: MainAxisSize.min,\r\n        crossAxisAlignment: CrossAxisAlignment.start,\r\n        children: [\r\n          Center",
+      "tokens": 90,
+      "firstFile": {
+        "name": "lib\\features\\directory\\presentation\\qr_scan_screen.dart",
+        "start": 448,
+        "end": 458,
+        "startLoc": {
+          "line": 448,
+          "column": 62,
+          "position": 4105
+        },
+        "endLoc": {
+          "line": 458,
+          "column": 17,
+          "position": 4195
+        }
+      },
+      "secondFile": {
+        "name": "lib\\features\\novedades\\presentation\\teacher_novedades_screen.dart",
+        "start": 137,
+        "end": 147,
+        "startLoc": {
+          "line": 137,
+          "column": 64,
+          "position": 1292
+        },
+        "endLoc": {
+          "line": 147,
+          "column": 17,
+          "position": 1382
+        }
+      }
+    },
+    {
+      "format": "dart",
+      "lines": 12,
+      "fragment": "),\r\n                      onPressed: () {\r\n                        if (Navigator.of(context).canPop()) {\r\n                          Navigator.of(context).pop();\r\n                        } else if (context.canPop()) {\r\n                          context.pop();\r\n                        } else {\r\n                          context.go('/admin');\r\n                        }\r\n                      },\r\n                    ),\r\n                    const",
+      "tokens": 107,
+      "firstFile": {
+        "name": "lib\\features\\directory\\presentation\\profile_screen.dart",
+        "start": 91,
+        "end": 102,
+        "startLoc": {
+          "line": 91,
+          "column": 94,
+          "position": 770
+        },
+        "endLoc": {
+          "line": 102,
+          "column": 26,
+          "position": 877
+        }
+      },
+      "secondFile": {
+        "name": "lib\\features\\directory\\presentation\\users_list_screen.dart",
+        "start": 76,
+        "end": 87,
+        "startLoc": {
+          "line": 76,
+          "column": 85,
+          "position": 603
+        },
+        "endLoc": {
+          "line": 87,
+          "column": 25,
+          "position": 710
+        }
+      }
+    },
+    {
+      "format": "dart",
+      "lines": 10,
+      "fragment": "),\r\n        decoration: const BoxDecoration(\r\n          color: AppColors.surface,\r\n          borderRadius: BorderRadius.vertical(top: Radius.circular(28)),\r\n        ),\r\n        child: Column(\r\n          mainAxisSize: MainAxisSize.min,\r\n          crossAxisAlignment: CrossAxisAlignment.start,\r\n          children: [\r\n            Text('Foto de perfil'",
+      "tokens": 88,
+      "firstFile": {
+        "name": "lib\\features\\directory\\presentation\\profile_screen.dart",
+        "start": 316,
+        "end": 325,
+        "startLoc": {
+          "line": 316,
+          "column": 58,
+          "position": 3071
+        },
+        "endLoc": {
+          "line": 325,
+          "column": 34,
+          "position": 3159
+        }
+      },
+      "secondFile": {
+        "name": "lib\\features\\novedades\\presentation\\teacher_novedades_screen.dart",
+        "start": 138,
+        "end": 147,
+        "startLoc": {
+          "line": 138,
+          "column": 9,
+          "position": 1296
+        },
+        "endLoc": {
+          "line": 147,
+          "column": 25,
+          "position": 1384
+        }
+      }
+    },
+    {
+      "format": "dart",
+      "lines": 12,
+      "fragment": "Container(\r\n      padding: EdgeInsets.only(\r\n        left: 20,\r\n        right: 20,\r\n        top: 18,\r\n        bottom: MediaQuery.of(context).viewInsets.bottom + 28,\r\n      ),\r\n      decoration: const BoxDecoration(\r\n        color: AppColors.surface,\r\n        borderRadius: BorderRadius.vertical(top: Radius.circular(28)),\r\n      ),\r\n      child: Form",
+      "tokens": 114,
+      "firstFile": {
+        "name": "lib\\features\\directory\\presentation\\profile_screen.dart",
+        "start": 489,
+        "end": 500,
+        "startLoc": {
+          "line": 489,
+          "column": 12,
+          "position": 4767
+        },
+        "endLoc": {
+          "line": 500,
+          "column": 18,
+          "position": 4881
+        }
+      },
+      "secondFile": {
+        "name": "lib\\features\\novedades\\presentation\\teacher_novedades_screen.dart",
+        "start": 132,
+        "end": 143,
+        "startLoc": {
+          "line": 132,
+          "column": 29,
+          "position": 1236
+        },
+        "endLoc": {
+          "line": 143,
+          "column": 22,
+          "position": 1350
+        }
+      }
+    },
+    {
+      "format": "dart",
+      "lines": 30,
+      "fragment": "} on AppFailure catch (e) {\r\n      if (mounted) {\r\n        setState(() {\r\n          _errorText = e.message;\r\n          _saving = false;\r\n        });\r\n      }\r\n    }\r\n  }\r\n\r\n  @override\r\n  Widget build(BuildContext context) {\r\n    return Container(\r\n      padding: EdgeInsets.only(\r\n        left: 20,\r\n        right: 20,\r\n        top: 18,\r\n        bottom: MediaQuery.of(context).viewInsets.bottom + 28,\r\n      ),\r\n      decoration: const BoxDecoration(\r\n        color: AppColors.surface,\r\n        borderRadius: BorderRadius.vertical(top: Radius.circular(28)),\r\n      ),\r\n      child: Form(\r\n        key: widget.formKey,\r\n        child: Column(\r\n          mainAxisSize: MainAxisSize.min,\r\n          crossAxisAlignment: CrossAxisAlignment.start,\r\n          children: [\r\n            Text('Cambiar contraseña'",
+      "tokens": 260,
+      "firstFile": {
+        "name": "lib\\features\\directory\\presentation\\profile_screen.dart",
+        "start": 581,
+        "end": 610,
+        "startLoc": {
+          "line": 581,
+          "column": 5,
+          "position": 5710
+        },
+        "endLoc": {
+          "line": 610,
+          "column": 38,
+          "position": 5970
+        }
+      },
+      "secondFile": {
+        "name": "lib\\features\\directory\\presentation\\profile_screen.dart",
+        "start": 477,
+        "end": 506,
+        "startLoc": {
+          "line": 477,
+          "column": 5,
+          "position": 4673
+        },
+        "endLoc": {
+          "line": 506,
+          "column": 32,
+          "position": 4933
+        }
+      }
+    },
+    {
+      "format": "dart",
+      "lines": 9,
+      "fragment": ",\r\n            ),\r\n            if (_errorText != null) ...[\r\n              const SizedBox(height: 14),\r\n              Text(_errorText!, style: AppTextStyles.body.copyWith(color: AppColors.pink)),\r\n            ],\r\n            const SizedBox(height: 22),\r\n            PrimaryGradientButton(\r\n              label: 'Guardar contraseña'",
+      "tokens": 92,
+      "firstFile": {
+        "name": "lib\\features\\directory\\presentation\\profile_screen.dart",
+        "start": 636,
+        "end": 644,
+        "startLoc": {
+          "line": 636,
+          "column": 85,
+          "position": 6275
+        },
+        "endLoc": {
+          "line": 644,
+          "column": 42,
+          "position": 6367
+        }
+      },
+      "secondFile": {
+        "name": "lib\\features\\directory\\presentation\\profile_screen.dart",
+        "start": 531,
+        "end": 539,
+        "startLoc": {
+          "line": 531,
+          "column": 58,
+          "position": 5271
+        },
+        "endLoc": {
+          "line": 539,
+          "column": 39,
+          "position": 5363
+        }
+      }
+    },
+    {
+      "format": "dart",
+      "lines": 26,
+      "fragment": ";\r\n\r\n  @override\r\n  Widget build(BuildContext context) {\r\n    return Row(\r\n      children: [\r\n        Container(\r\n          width: 36,\r\n          height: 36,\r\n          decoration: BoxDecoration(\r\n            color: AppColors.background,\r\n            borderRadius: BorderRadius.circular(10),\r\n          ),\r\n          child: Icon(icon, size: 18, color: AppColors.textSecondary),\r\n        ),\r\n        const SizedBox(width: 12),\r\n        Expanded(\r\n          child: Column(\r\n            crossAxisAlignment: CrossAxisAlignment.start,\r\n            children: [\r\n              Text(label, style: AppTextStyles.caption),\r\n              Text(value, style: AppTextStyles.body.copyWith(fontWeight: FontWeight.w600)),\r\n            ],\r\n          ),\r\n        ),\r\n        if",
+      "tokens": 224,
+      "firstFile": {
+        "name": "lib\\features\\directory\\presentation\\profile_screen.dart",
+        "start": 690,
+        "end": 715,
+        "startLoc": {
+          "line": 690,
+          "column": 20,
+          "position": 6710
+        },
+        "endLoc": {
+          "line": 715,
+          "column": 11,
+          "position": 6934
+        }
+      },
+      "secondFile": {
+        "name": "lib\\features\\directory\\presentation\\teacher_profile_screen.dart",
+        "start": 166,
+        "end": 191,
+        "startLoc": {
+          "line": 166,
+          "column": 21,
+          "position": 1582
+        },
+        "endLoc": {
+          "line": 191,
+          "column": 8,
+          "position": 1806
+        }
+      }
+    },
+    {
+      "format": "dart",
+      "lines": 18,
+      "fragment": "),\r\n                      child: Column(\r\n                        mainAxisSize: MainAxisSize.min,\r\n                        children: [\r\n                          QrImageView(\r\n                            data: code,\r\n                            size: 220,\r\n                            backgroundColor: Colors.white,\r\n                            eyeStyle: const QrEyeStyle(\r\n                              eyeShape: QrEyeShape.square,\r\n                              color: AppColors.textPrimary,\r\n                            ),\r\n                            dataModuleStyle: const QrDataModuleStyle(\r\n                              dataModuleShape: QrDataModuleShape.square,\r\n                              color: AppColors.textPrimary,\r\n                            ),\r\n                          ),\r\n                          const SizedBox(height: 20",
+      "tokens": 143,
+      "firstFile": {
+        "name": "lib\\features\\directory\\presentation\\my_qr_screen.dart",
+        "start": 62,
+        "end": 79,
+        "startLoc": {
+          "line": 62,
+          "column": 23,
+          "position": 510
+        },
+        "endLoc": {
+          "line": 79,
+          "column": 52,
+          "position": 653
+        }
+      },
+      "secondFile": {
+        "name": "lib\\features\\directory\\presentation\\student_profile_screen.dart",
+        "start": 125,
+        "end": 142,
+        "startLoc": {
+          "line": 125,
+          "column": 43,
+          "position": 1049
+        },
+        "endLoc": {
+          "line": 142,
+          "column": 40,
+          "position": 1192
+        }
+      }
+    },
+    {
+      "format": "dart",
+      "lines": 14,
+      "fragment": "Container(\r\n                  padding: const EdgeInsets.all(14),\r\n                  decoration: BoxDecoration(\r\n                    color: AppColors.orange.withValues(alpha: 0.12),\r\n                    borderRadius: BorderRadius.circular(16),\r\n                  ),\r\n                  child: Row(\r\n                    crossAxisAlignment: CrossAxisAlignment.start,\r\n                    children: [\r\n                      const Icon(Icons.warning_amber_rounded,\r\n                          size: 20, color: AppColors.orange),\r\n                      const SizedBox(width: 10),\r\n                      Expanded(\r\n                        child: Text(session",
+      "tokens": 140,
+      "firstFile": {
+        "name": "lib\\features\\dashboard\\presentation\\student_home_screen.dart",
+        "start": 117,
+        "end": 130,
+        "startLoc": {
+          "line": 117,
+          "column": 24,
+          "position": 1058
+        },
+        "endLoc": {
+          "line": 130,
+          "column": 44,
+          "position": 1198
+        }
+      },
+      "secondFile": {
+        "name": "lib\\features\\dashboard\\presentation\\teacher_home_screen.dart",
+        "start": 296,
+        "end": 307,
+        "startLoc": {
+          "line": 296,
+          "column": 12,
+          "position": 2635
+        },
+        "endLoc": {
+          "line": 307,
+          "column": 39,
+          "position": 2770
+        }
+      }
+    },
+    {
+      "format": "dart",
+      "lines": 14,
+      "fragment": ", style: AppTextStyles.h2),\r\n            ),\r\n            Padding(\r\n              padding: const EdgeInsets.symmetric(horizontal: 20),\r\n              child: GridView.count(\r\n                shrinkWrap: true,\r\n                physics: const NeverScrollableScrollPhysics(),\r\n                crossAxisCount: 4,\r\n                mainAxisSpacing: 12,\r\n                crossAxisSpacing: 12,\r\n                childAspectRatio: 0.78,\r\n                children: [\r\n                  QuickActionTile(\r\n                    icon: Icons.qr_code_rounded",
+      "tokens": 120,
+      "firstFile": {
+        "name": "lib\\features\\dashboard\\presentation\\student_home_screen.dart",
+        "start": 161,
+        "end": 174,
+        "startLoc": {
+          "line": 161,
+          "column": 42,
+          "position": 1519
+        },
+        "endLoc": {
+          "line": 174,
+          "column": 48,
+          "position": 1639
+        }
+      },
+      "secondFile": {
+        "name": "lib\\features\\dashboard\\presentation\\teacher_home_screen.dart",
+        "start": 135,
+        "end": 148,
+        "startLoc": {
+          "line": 135,
+          "column": 45,
+          "position": 1096
+        },
+        "endLoc": {
+          "line": 148,
+          "column": 56,
+          "position": 1216
+        }
+      }
+    },
+    {
+      "format": "dart",
+      "lines": 10,
+      "fragment": "Container(\r\n            width: 44,\r\n            height: 44,\r\n            decoration: BoxDecoration(\r\n              color: Colors.white.withValues(alpha: 0.08),\r\n              shape: BoxShape.circle,\r\n            ),\r\n            child: const Icon(Icons.notifications_none_rounded, color: Colors.white),\r\n          ),\r\n          if",
+      "tokens": 90,
+      "firstFile": {
+        "name": "lib\\features\\dashboard\\presentation\\student_home_screen.dart",
+        "start": 321,
+        "end": 330,
+        "startLoc": {
+          "line": 321,
+          "column": 11,
+          "position": 3015
+        },
+        "endLoc": {
+          "line": 330,
+          "column": 13,
+          "position": 3105
+        }
+      },
+      "secondFile": {
+        "name": "lib\\features\\dashboard\\presentation\\teacher_home_screen.dart",
+        "start": 347,
+        "end": 356,
+        "startLoc": {
+          "line": 347,
+          "column": 14,
+          "position": 3086
+        },
+        "endLoc": {
+          "line": 356,
+          "column": 6,
+          "position": 3176
+        }
+      }
+    },
+    {
+      "format": "dart",
+      "lines": 13,
+      "fragment": "child: Column(\r\n                crossAxisAlignment: CrossAxisAlignment.start,\r\n                children: [\r\n                  Row(\r\n                    children: [\r\n                      AvatarCircle(name: user.name, radius: 26),\r\n                      const SizedBox(width: 14),\r\n                      Expanded(\r\n                        child: Column(\r\n                          crossAxisAlignment: CrossAxisAlignment.start,\r\n                          children: [\r\n                            Text(\r\n                              session",
+      "tokens": 104,
+      "firstFile": {
+        "name": "lib\\features\\dashboard\\presentation\\parent_home_screen.dart",
+        "start": 57,
+        "end": 69,
+        "startLoc": {
+          "line": 57,
+          "column": 15,
+          "position": 497
+        },
+        "endLoc": {
+          "line": 69,
+          "column": 38,
+          "position": 601
+        }
+      },
+      "secondFile": {
+        "name": "lib\\features\\dashboard\\presentation\\student_home_screen.dart",
+        "start": 48,
+        "end": 60,
+        "startLoc": {
+          "line": 48,
+          "column": 15,
+          "position": 416
+        },
+        "endLoc": {
+          "line": 60,
+          "column": 32,
+          "position": 520
+        }
+      }
+    },
+    {
+      "format": "dart",
+      "lines": 14,
+      "fragment": ",\r\n                              style: AppTextStyles.statLabel,\r\n                              maxLines: 1,\r\n                              overflow: TextOverflow.ellipsis,\r\n                            ),\r\n                            Text(\r\n                              'Hola, ${user.firstName}',\r\n                              style: AppTextStyles.h1\r\n                                  .copyWith(color: Colors.white, fontSize: 22),\r\n                            ),\r\n                          ],\r\n                        ),\r\n                      ),\r\n                      InkWell",
+      "tokens": 96,
+      "firstFile": {
+        "name": "lib\\features\\dashboard\\presentation\\parent_home_screen.dart",
+        "start": 71,
+        "end": 84,
+        "startLoc": {
+          "line": 71,
+          "column": 74,
+          "position": 620
+        },
+        "endLoc": {
+          "line": 84,
+          "column": 30,
+          "position": 716
+        }
+      },
+      "secondFile": {
+        "name": "lib\\features\\dashboard\\presentation\\student_home_screen.dart",
+        "start": 62,
+        "end": 75,
+        "startLoc": {
+          "line": 62,
+          "column": 47,
+          "position": 548
+        },
+        "endLoc": {
+          "line": 75,
+          "column": 28,
+          "position": 644
+        }
+      }
+    },
+    {
+      "format": "dart",
+      "lines": 13,
+      "fragment": ",\r\n                        customBorder: const CircleBorder(),\r\n                        child: Container(\r\n                          width: 44,\r\n                          height: 44,\r\n                          decoration: BoxDecoration(\r\n                            color: Colors.white.withValues(alpha: 0.08),\r\n                            shape: BoxShape.circle,\r\n                          ),\r\n                          child: const Icon(Icons.notifications_none_rounded,\r\n                              color: Colors.white),\r\n                        ),\r\n                      ),",
+      "tokens": 112,
+      "firstFile": {
+        "name": "lib\\features\\dashboard\\presentation\\parent_home_screen.dart",
+        "start": 85,
+        "end": 97,
+        "startLoc": {
+          "line": 85,
+          "column": 68,
+          "position": 736
+        },
+        "endLoc": {
+          "line": 97,
+          "column": 25,
+          "position": 848
+        }
+      },
+      "secondFile": {
+        "name": "lib\\features\\dashboard\\presentation\\teacher_home_screen.dart",
+        "start": 345,
+        "end": 356,
+        "startLoc": {
+          "line": 345,
+          "column": 19,
+          "position": 3067
+        },
+        "endLoc": {
+          "line": 356,
+          "column": 7,
+          "position": 3177
+        }
+      }
+    },
+    {
+      "format": "dart",
+      "lines": 19,
+      "fragment": "),\r\n                ),\r\n              ),\r\n              Padding(\r\n                padding: const EdgeInsets.fromLTRB(20, 24, 20, 12),\r\n                child: Text('Acceso rápido', style: AppTextStyles.h2),\r\n              ),\r\n              Padding(\r\n                padding: const EdgeInsets.symmetric(horizontal: 20),\r\n                child: GridView.count(\r\n                  shrinkWrap: true,\r\n                  physics: const NeverScrollableScrollPhysics(),\r\n                  crossAxisCount: 4,\r\n                  mainAxisSpacing: 12,\r\n                  crossAxisSpacing: 12,\r\n                  childAspectRatio: 0.78,\r\n                  children: [\r\n                    QuickActionTile(\r\n                      icon: Icons.bar_chart_rounded",
+      "tokens": 170,
+      "firstFile": {
+        "name": "lib\\features\\dashboard\\presentation\\parent_home_screen.dart",
+        "start": 147,
+        "end": 165,
+        "startLoc": {
+          "line": 147,
+          "column": 19,
+          "position": 1360
+        },
+        "endLoc": {
+          "line": 165,
+          "column": 52,
+          "position": 1530
+        }
+      },
+      "secondFile": {
+        "name": "lib\\features\\dashboard\\presentation\\student_home_screen.dart",
+        "start": 156,
+        "end": 148,
+        "startLoc": {
+          "line": 156,
+          "column": 51,
+          "position": 1469
+        },
+        "endLoc": {
+          "line": 148,
+          "column": 56,
+          "position": 1216
+        }
+      }
+    },
+    {
+      "format": "dart",
+      "lines": 8,
+      "fragment": ".when(\r\n                  loading: () => const LoadingView(),\r\n                  error: (error, _) => ErrorView(\r\n                    error: error,\r\n                    compact: true,\r\n                    onRetry: () => ref.invalidate(novedadesForStudentProvider(childId)),\r\n                  ),\r\n                  data: (novedades) {",
+      "tokens": 92,
+      "firstFile": {
+        "name": "lib\\features\\dashboard\\presentation\\parent_home_screen.dart",
+        "start": 205,
+        "end": 212,
+        "startLoc": {
+          "line": 205,
+          "column": 39,
+          "position": 1922
+        },
+        "endLoc": {
+          "line": 212,
+          "column": 38,
+          "position": 2014
+        }
+      },
+      "secondFile": {
+        "name": "lib\\features\\directory\\presentation\\children_screen.dart",
+        "start": 117,
+        "end": 124,
+        "startLoc": {
+          "line": 117,
+          "column": 36,
+          "position": 1061
+        },
+        "endLoc": {
+          "line": 124,
+          "column": 36,
+          "position": 1153
+        }
+      }
+    },
+    {
+      "format": "dart",
+      "lines": 14,
+      "fragment": "' : ' · ${user!.subject}'}',\r\n                              style: AppTextStyles.statLabel,\r\n                              maxLines: 1,\r\n                              overflow: TextOverflow.ellipsis,\r\n                            ),\r\n                            Text(\r\n                              'Hola, ${user?.firstName ?? ''}',\r\n                              style: AppTextStyles.h1\r\n                                  .copyWith(color: Colors.white, fontSize: 22),\r\n                            ),\r\n                          ],\r\n                        ),\r\n                      ),\r\n                      _SyncButton",
+      "tokens": 109,
+      "firstFile": {
+        "name": "lib\\features\\dashboard\\presentation\\admin_home_screen.dart",
+        "start": 60,
+        "end": 73,
+        "startLoc": {
+          "line": 60,
+          "column": 72,
+          "position": 479
+        },
+        "endLoc": {
+          "line": 73,
+          "column": 34,
+          "position": 588
+        }
+      },
+      "secondFile": {
+        "name": "lib\\features\\dashboard\\presentation\\teacher_home_screen.dart",
+        "start": 70,
+        "end": 83,
+        "startLoc": {
+          "line": 70,
+          "column": 66,
+          "position": 538
+        },
+        "endLoc": {
+          "line": 83,
+          "column": 40,
+          "position": 647
+        }
+      }
+    },
+    {
+      "format": "dart",
+      "lines": 11,
+      "fragment": "),\r\n                  Row(\r\n                    children: [\r\n                      Container(width: 3, height: 16, color: AppColors.teal),\r\n                      const SizedBox(width: 8),\r\n                      Text('EYESCHOOL',\r\n                          style: AppTextStyles.statLabel\r\n                              .copyWith(letterSpacing: 2, fontWeight: FontWeight.w700)),\r\n                    ],\r\n                  ),\r\n                  const",
+      "tokens": 102,
+      "firstFile": {
+        "name": "lib\\features\\dashboard\\presentation\\admin_home_screen.dart",
+        "start": 79,
+        "end": 89,
+        "startLoc": {
+          "line": 79,
+          "column": 43,
+          "position": 645
+        },
+        "endLoc": {
+          "line": 89,
+          "column": 24,
+          "position": 747
+        }
+      },
+      "secondFile": {
+        "name": "lib\\features\\dashboard\\presentation\\parent_home_screen.dart",
+        "start": 100,
+        "end": 110,
+        "startLoc": {
+          "line": 100,
+          "column": 44,
+          "position": 870
+        },
+        "endLoc": {
+          "line": 110,
+          "column": 18,
+          "position": 972
+        }
+      }
+    },
+    {
+      "format": "dart",
+      "lines": 22,
+      "fragment": "),\r\n              ),\r\n            Padding(\r\n              padding: const EdgeInsets.fromLTRB(20, 24, 20, 12),\r\n              child: Text('Acciones rápidas', style: AppTextStyles.h2),\r\n            ),\r\n            Padding(\r\n              padding: const EdgeInsets.symmetric(horizontal: 20),\r\n              child: GridView.count(\r\n                shrinkWrap: true,\r\n                physics: const NeverScrollableScrollPhysics(),\r\n                crossAxisCount: 4,\r\n                mainAxisSpacing: 12,\r\n                crossAxisSpacing: 12,\r\n                childAspectRatio: 0.78,\r\n                children: [\r\n                  QuickActionTile(\r\n                    icon: Icons.qr_code_scanner_rounded,\r\n                    label: 'Escanear',\r\n                    iconBg: AppColors.statusActiveBg,\r\n                    iconColor: AppColors.tealDark,\r\n                    onTap: () => context.go('/admin/qr'",
+      "tokens": 211,
+      "firstFile": {
+        "name": "lib\\features\\dashboard\\presentation\\admin_home_screen.dart",
+        "start": 141,
+        "end": 162,
+        "startLoc": {
+          "line": 141,
+          "column": 17,
+          "position": 1283
+        },
+        "endLoc": {
+          "line": 162,
+          "column": 56,
+          "position": 1494
+        }
+      },
+      "secondFile": {
+        "name": "lib\\features\\dashboard\\presentation\\teacher_home_screen.dart",
+        "start": 131,
+        "end": 152,
+        "startLoc": {
+          "line": 131,
+          "column": 68,
+          "position": 1051
+        },
+        "endLoc": {
+          "line": 152,
+          "column": 58,
+          "position": 1262
+        }
+      }
+    },
+    {
+      "format": "dart",
+      "lines": 18,
+      "fragment": ";\r\n\r\n  @override\r\n  Widget build(BuildContext context) {\r\n    return InkWell(\r\n      onTap: onTap,\r\n      customBorder: const CircleBorder(),\r\n      child: Stack(\r\n        clipBehavior: Clip.none,\r\n        children: [\r\n          Container(\r\n            width: 44,\r\n            height: 44,\r\n            decoration: BoxDecoration(\r\n              color: Colors.white.withValues(alpha: 0.08),\r\n              shape: BoxShape.circle,\r\n            ),\r\n            child: const Icon(Icons.cloud_sync_rounded",
+      "tokens": 146,
+      "firstFile": {
+        "name": "lib\\features\\dashboard\\presentation\\admin_home_screen.dart",
+        "start": 249,
+        "end": 266,
+        "startLoc": {
+          "line": 249,
+          "column": 27,
+          "position": 2326
+        },
+        "endLoc": {
+          "line": 266,
+          "column": 55,
+          "position": 2472
+        }
+      },
+      "secondFile": {
+        "name": "lib\\features\\dashboard\\presentation\\student_home_screen.dart",
+        "start": 311,
+        "end": 328,
+        "startLoc": {
+          "line": 311,
+          "column": 18,
+          "position": 2940
+        },
+        "endLoc": {
+          "line": 328,
+          "column": 63,
+          "position": 3086
+        }
+      }
+    },
+    {
+      "format": "dart",
+      "lines": 12,
+      "fragment": "> 0)\r\n            Positioned(\r\n              right: 0,\r\n              top: 0,\r\n              child: Container(\r\n                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),\r\n                decoration: BoxDecoration(\r\n                  color: AppColors.pink,\r\n                  borderRadius: BorderRadius.circular(10),\r\n                ),\r\n                child: Text(\r\n                  '$pending'",
+      "tokens": 104,
+      "firstFile": {
+        "name": "lib\\features\\dashboard\\presentation\\admin_home_screen.dart",
+        "start": 268,
+        "end": 279,
+        "startLoc": {
+          "line": 268,
+          "column": 23,
+          "position": 2496
+        },
+        "endLoc": {
+          "line": 279,
+          "column": 29,
+          "position": 2600
+        }
+      },
+      "secondFile": {
+        "name": "lib\\features\\dashboard\\presentation\\student_home_screen.dart",
+        "start": 330,
+        "end": 341,
+        "startLoc": {
+          "line": 330,
+          "column": 21,
+          "position": 3110
+        },
+        "endLoc": {
+          "line": 341,
+          "column": 27,
+          "position": 3214
+        }
+      }
+    },
+    {
+      "format": "dart",
+      "lines": 20,
+      "fragment": ",\r\n              child: Container(\r\n                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),\r\n                decoration: BoxDecoration(\r\n                  color: AppColors.pink,\r\n                  borderRadius: BorderRadius.circular(10),\r\n                ),\r\n                child: Text(\r\n                  '$pending',\r\n                  style: AppTextStyles.caption.copyWith(\r\n                    color: Colors.white,\r\n                    fontWeight: FontWeight.w800,\r\n                    fontSize: 11,\r\n                  ),\r\n                ),\r\n              ),\r\n            ),\r\n        ],\r\n      ),\r\n    )",
+      "tokens": 155,
+      "firstFile": {
+        "name": "lib\\features\\dashboard\\presentation\\admin_home_screen.dart",
+        "start": 271,
+        "end": 290,
+        "startLoc": {
+          "line": 271,
+          "column": 21,
+          "position": 2520
+        },
+        "endLoc": {
+          "line": 290,
+          "column": 6,
+          "position": 2675
+        }
+      },
+      "secondFile": {
+        "name": "lib\\features\\directory\\presentation\\qr_scan_screen.dart",
+        "start": 270,
+        "end": 289,
+        "startLoc": {
+          "line": 270,
+          "column": 25,
+          "position": 2429
+        },
+        "endLoc": {
+          "line": 289,
+          "column": 21,
+          "position": 2584
+        }
+      }
+    },
+    {
+      "format": "dart",
+      "lines": 21,
+      "fragment": "();\r\n\r\n  @override\r\n  Widget build(BuildContext context) {\r\n    return Row(\r\n      children: List.generate(\r\n        3,\r\n        (i) => Expanded(\r\n          child: Container(\r\n            height: 78,\r\n            margin: EdgeInsets.only(right: i == 2 ? 0 : 10),\r\n            decoration: BoxDecoration(\r\n              color: Colors.white.withValues(alpha: 0.06),\r\n              borderRadius: BorderRadius.circular(18),\r\n            ),\r\n          ),\r\n        ),\r\n      ),\r\n    );\r\n  }\r\n}",
+      "tokens": 170,
+      "firstFile": {
+        "name": "lib\\features\\dashboard\\presentation\\admin_home_screen.dart",
+        "start": 414,
+        "end": 434,
+        "startLoc": {
+          "line": 414,
+          "column": 23,
+          "position": 3792
+        },
+        "endLoc": {
+          "line": 434,
+          "column": 2,
+          "position": 3962
+        }
+      },
+      "secondFile": {
+        "name": "lib\\features\\dashboard\\presentation\\teacher_home_screen.dart",
+        "start": 315,
+        "end": 335,
+        "startLoc": {
+          "line": 315,
+          "column": 29,
+          "position": 2823
+        },
+        "endLoc": {
+          "line": 335,
+          "column": 2,
+          "position": 2993
+        }
+      }
+    },
+    {
+      "format": "dart",
+      "lines": 13,
+      "fragment": ",\r\n            obscureText: _obscure,\r\n            decoration: InputDecoration(\r\n              prefixIcon: const Icon(Icons.lock_outline_rounded),\r\n              suffixIcon: IconButton(\r\n                icon: Icon(\r\n                    _obscure ? Icons.visibility_off_outlined : Icons.visibility_outlined),\r\n                onPressed: () => setState(() => _obscure = !_obscure),\r\n              ),\r\n            ),\r\n            validator: Validators.newPassword,\r\n          ),\r\n          const SizedBox(height: 18",
+      "tokens": 129,
+      "firstFile": {
+        "name": "lib\\features\\auth\\presentation\\reset_password_screen.dart",
+        "start": 143,
+        "end": 155,
+        "startLoc": {
+          "line": 143,
+          "column": 44,
+          "position": 1334
+        },
+        "endLoc": {
+          "line": 155,
+          "column": 36,
+          "position": 1463
+        }
+      },
+      "secondFile": {
+        "name": "lib\\features\\directory\\presentation\\profile_screen.dart",
+        "start": 615,
+        "end": 628,
+        "startLoc": {
+          "line": 615,
+          "column": 42,
+          "position": 6037
+        },
+        "endLoc": {
+          "line": 628,
+          "column": 38,
+          "position": 6167
+        }
+      }
+    },
+    {
+      "format": "dart",
+      "lines": 9,
+      "fragment": ",\r\n          ),\r\n          if (_errorText != null) ...[\r\n            const SizedBox(height: 16),\r\n            Text(_errorText!, style: AppTextStyles.body.copyWith(color: AppColors.pink)),\r\n          ],\r\n          const SizedBox(height: 24),\r\n          PrimaryGradientButton(\r\n            label: 'Guardar contraseña'",
+      "tokens": 92,
+      "firstFile": {
+        "name": "lib\\features\\auth\\presentation\\reset_password_screen.dart",
+        "start": 163,
+        "end": 171,
+        "startLoc": {
+          "line": 163,
+          "column": 87,
+          "position": 1567
+        },
+        "endLoc": {
+          "line": 171,
+          "column": 40,
+          "position": 1659
+        }
+      },
+      "secondFile": {
+        "name": "lib\\features\\novedades\\presentation\\novedad_form_screen.dart",
+        "start": 279,
+        "end": 287,
+        "startLoc": {
+          "line": 279,
+          "column": 89,
+          "position": 2640
+        },
+        "endLoc": {
+          "line": 287,
+          "column": 41,
+          "position": 2732
+        }
+      }
+    },
+    {
+      "format": "dart",
+      "lines": 12,
+      "fragment": "}\r\n\r\n  @override\r\n  Widget build(BuildContext context) {\r\n    return Scaffold(\r\n      backgroundColor: AppColors.headerGradient.first,\r\n      body: SafeArea(\r\n        child: Column(\r\n          crossAxisAlignment: CrossAxisAlignment.stretch,\r\n          children: [\r\n            Padding(\r\n              padding: const EdgeInsets.fromLTRB(4, 8, 16, 12",
+      "tokens": 98,
+      "firstFile": {
+        "name": "lib\\features\\auth\\presentation\\register_screen.dart",
+        "start": 187,
+        "end": 198,
+        "startLoc": {
+          "line": 187,
+          "column": 3,
+          "position": 1804
+        },
+        "endLoc": {
+          "line": 198,
+          "column": 62,
+          "position": 1902
+        }
+      },
+      "secondFile": {
+        "name": "lib\\features\\auth\\presentation\\reset_password_screen.dart",
+        "start": 62,
+        "end": 73,
+        "startLoc": {
+          "line": 62,
+          "column": 3,
+          "position": 559
+        },
+        "endLoc": {
+          "line": 73,
+          "column": 62,
+          "position": 657
+        }
+      }
+    },
+    {
+      "format": "dart",
+      "lines": 12,
+      "fragment": ",\r\n            obscureText: _obscure,\r\n            decoration: InputDecoration(\r\n              prefixIcon: const Icon(Icons.lock_outline_rounded),\r\n              suffixIcon: IconButton(\r\n                icon: Icon(_obscure\r\n                    ? Icons.visibility_off_outlined\r\n                    : Icons.visibility_outlined),\r\n                onPressed: () => setState(() => _obscure = !_obscure),\r\n              ),\r\n            ),\r\n            validator: (",
+      "tokens": 111,
+      "firstFile": {
+        "name": "lib\\features\\auth\\presentation\\register_screen.dart",
+        "start": 397,
+        "end": 408,
+        "startLoc": {
+          "line": 397,
+          "column": 34,
+          "position": 3892
+        },
+        "endLoc": {
+          "line": 408,
+          "column": 25,
+          "position": 4003
+        }
+      },
+      "secondFile": {
+        "name": "lib\\features\\directory\\presentation\\profile_screen.dart",
+        "start": 615,
+        "end": 626,
+        "startLoc": {
+          "line": 615,
+          "column": 42,
+          "position": 6037
+        },
+        "endLoc": {
+          "line": 626,
+          "column": 36,
+          "position": 6148
+        }
+      }
+    },
+    {
+      "format": "dart",
+      "lines": 11,
+      "fragment": ".label,\r\n                    style: AppTextStyles.body.copyWith(\r\n                      color: selected ? Colors.white : AppColors.textPrimary,\r\n                      fontWeight: FontWeight.w700,\r\n                    ),\r\n                  ),\r\n                ),\r\n              );\r\n            }).toList(),\r\n          ),\r\n          const SizedBox(height: 22",
+      "tokens": 90,
+      "firstFile": {
+        "name": "lib\\features\\auth\\presentation\\register_screen.dart",
+        "start": 448,
+        "end": 458,
+        "startLoc": {
+          "line": 448,
+          "column": 25,
+          "position": 4416
+        },
+        "endLoc": {
+          "line": 458,
+          "column": 36,
+          "position": 4506
+        }
+      },
+      "secondFile": {
+        "name": "lib\\features\\directory\\presentation\\qr_scan_screen.dart",
+        "start": 519,
+        "end": 529,
+        "startLoc": {
+          "line": 519,
+          "column": 27,
+          "position": 4802
+        },
+        "endLoc": {
+          "line": 529,
+          "column": 36,
+          "position": 4892
+        }
+      }
+    },
+    {
+      "format": "dart",
+      "lines": 11,
+      "fragment": ".dispose();\r\n    super.dispose();\r\n  }\r\n\r\n  Future<void> _submit() async {\r\n    if (!_formKey.currentState!.validate()) return;\r\n    FocusScope.of(context).unfocus();\r\n    setState(() {\r\n      _submitting = true;\r\n      _errorText = null;\r\n      _fieldErrors",
+      "tokens": 98,
+      "firstFile": {
+        "name": "lib\\features\\auth\\presentation\\login_screen.dart",
+        "start": 34,
+        "end": 44,
+        "startLoc": {
+          "line": 34,
+          "column": 24,
+          "position": 258
+        },
+        "endLoc": {
+          "line": 44,
+          "column": 19,
+          "position": 356
+        }
+      },
+      "secondFile": {
+        "name": "lib\\features\\auth\\presentation\\reset_password_screen.dart",
+        "start": 40,
+        "end": 50,
+        "startLoc": {
+          "line": 40,
+          "column": 23,
+          "position": 304
+        },
+        "endLoc": {
+          "line": 50,
+          "column": 6,
+          "position": 402
+        }
+      }
+    },
+    {
+      "format": "dart",
+      "lines": 12,
+      "fragment": ");\r\n    } on AppFailure catch (e) {\r\n      if (mounted) setState(() => _errorText = e.message);\r\n    } finally {\r\n      if (mounted) setState(() => _submitting = false);\r\n    }\r\n  }\r\n\r\n  @override\r\n  Widget build(BuildContext context) {\r\n    return Scaffold(\r\n      backgroundColor: AppColors.background",
+      "tokens": 118,
+      "firstFile": {
+        "name": "lib\\features\\auth\\presentation\\login_screen.dart",
+        "start": 62,
+        "end": 73,
+        "startLoc": {
+          "line": 62,
+          "column": 82,
+          "position": 549
+        },
+        "endLoc": {
+          "line": 73,
+          "column": 44,
+          "position": 667
+        }
+      },
+      "secondFile": {
+        "name": "lib\\features\\auth\\presentation\\reset_password_screen.dart",
+        "start": 56,
+        "end": 67,
+        "startLoc": {
+          "line": 56,
+          "column": 47,
+          "position": 476
+        },
+        "endLoc": {
+          "line": 67,
+          "column": 48,
+          "position": 594
+        }
+      }
+    },
+    {
+      "format": "dart",
+      "lines": 9,
+      "fragment": "prefixIcon: const Icon(Icons.lock_outline_rounded),\r\n                          suffixIcon: IconButton(\r\n                            icon: Icon(_obscure\r\n                                ? Icons.visibility_off_outlined\r\n                                : Icons.visibility_outlined),\r\n                            onPressed: () => setState(() => _obscure = !_obscure),\r\n                          ),\r\n                        ),\r\n                        validator: (value",
+      "tokens": 92,
+      "firstFile": {
+        "name": "lib\\features\\auth\\presentation\\login_screen.dart",
+        "start": 145,
+        "end": 153,
+        "startLoc": {
+          "line": 145,
+          "column": 27,
+          "position": 1420
+        },
+        "endLoc": {
+          "line": 153,
+          "column": 42,
+          "position": 1512
+        }
+      },
+      "secondFile": {
+        "name": "lib\\features\\directory\\presentation\\profile_screen.dart",
+        "start": 618,
+        "end": 408,
+        "startLoc": {
+          "line": 618,
+          "column": 17,
+          "position": 6057
+        },
+        "endLoc": {
+          "line": 408,
+          "column": 26,
+          "position": 4004
+        }
+      }
+    },
+    {
+      "format": "dart",
+      "lines": 19,
+      "fragment": "= false);\r\n    }\r\n  }\r\n\r\n  @override\r\n  Widget build(BuildContext context) {\r\n    return Scaffold(\r\n      backgroundColor: AppColors.headerGradient.first,\r\n      body: SafeArea(\r\n        child: Column(\r\n          crossAxisAlignment: CrossAxisAlignment.stretch,\r\n          children: [\r\n            Padding(\r\n              padding: const EdgeInsets.fromLTRB(4, 8, 16, 24),\r\n              child: Row(\r\n                children: [\r\n                  IconButton(\r\n                    icon: const Icon(Icons.arrow_back_rounded, color: Colors.white),\r\n                    onPressed: () => context.canPop",
+      "tokens": 170,
+      "firstFile": {
+        "name": "lib\\features\\auth\\presentation\\forgot_password_screen.dart",
+        "start": 52,
+        "end": 70,
+        "startLoc": {
+          "line": 52,
+          "column": 44,
+          "position": 489
+        },
+        "endLoc": {
+          "line": 70,
+          "column": 52,
+          "position": 659
+        }
+      },
+      "secondFile": {
+        "name": "lib\\features\\auth\\presentation\\reset_password_screen.dart",
+        "start": 60,
+        "end": 78,
+        "startLoc": {
+          "line": 60,
+          "column": 47,
+          "position": 547
+        },
+        "endLoc": {
+          "line": 78,
+          "column": 48,
+          "position": 717
+        }
+      }
+    },
+    {
+      "format": "dart",
+      "lines": 15,
+      "fragment": ",\r\n                      style: AppTextStyles.h3.copyWith(color: Colors.white)),\r\n                ],\r\n              ),\r\n            ),\r\n            Expanded(\r\n              child: Container(\r\n                width: double.infinity,\r\n                padding: const EdgeInsets.fromLTRB(24, 40, 24, 24),\r\n                decoration: const BoxDecoration(\r\n                  color: AppColors.surface,\r\n                  borderRadius: BorderRadius.vertical(top: Radius.circular(32)),\r\n                ),\r\n                child: SingleChildScrollView(\r\n                  child: Form",
+      "tokens": 144,
+      "firstFile": {
+        "name": "lib\\features\\auth\\presentation\\forgot_password_screen.dart",
+        "start": 72,
+        "end": 86,
+        "startLoc": {
+          "line": 72,
+          "column": 46,
+          "position": 691
+        },
+        "endLoc": {
+          "line": 86,
+          "column": 30,
+          "position": 835
+        }
+      },
+      "secondFile": {
+        "name": "lib\\features\\auth\\presentation\\reset_password_screen.dart",
+        "start": 80,
+        "end": 94,
+        "startLoc": {
+          "line": 80,
+          "column": 42,
+          "position": 733
+        },
+        "endLoc": {
+          "line": 94,
+          "column": 31,
+          "position": 877
+        }
+      }
+    },
+    {
+      "format": "dart",
+      "lines": 11,
+      "fragment": ",\r\n          style: AppTextStyles.bodyMuted,\r\n        ),\r\n        actions: [\r\n          TextButton(\r\n            onPressed: () => Navigator.of(context).pop(false),\r\n            child: const Text('Cancelar'),\r\n          ),\r\n          TextButton(\r\n            onPressed: () => Navigator.of(context).pop(true),\r\n            child: Text('Eliminar'",
+      "tokens": 107,
+      "firstFile": {
+        "name": "lib\\features\\attendance\\presentation\\today_attendance_screen.dart",
+        "start": 239,
+        "end": 249,
+        "startLoc": {
+          "line": 239,
+          "column": 78,
+          "position": 2389
+        },
+        "endLoc": {
+          "line": 249,
+          "column": 35,
+          "position": 2496
+        }
+      },
+      "secondFile": {
+        "name": "lib\\features\\directory\\presentation\\profile_screen.dart",
+        "start": 293,
+        "end": 303,
+        "startLoc": {
+          "line": 293,
+          "column": 57,
+          "position": 2803
+        },
+        "endLoc": {
+          "line": 303,
+          "column": 32,
+          "position": 2910
+        }
+      }
+    },
+    {
+      "format": "dart",
+      "lines": 28,
+      "fragment": "),\r\n        child: Row(\r\n          children: [\r\n            AvatarCircle(name: label, radius: 20),\r\n            const SizedBox(width: 12),\r\n            Expanded(\r\n              child: Column(\r\n                crossAxisAlignment: CrossAxisAlignment.start,\r\n                children: [\r\n                  Text(label,\r\n                      style: AppTextStyles.body.copyWith(fontWeight: FontWeight.w700),\r\n                      maxLines: 1,\r\n                      overflow: TextOverflow.ellipsis),\r\n                  Text(\r\n                    [\r\n                      row.kind?.label,\r\n                      if (row.registeredAt != null)\r\n                        TimeOfDay.fromDateTime(row.registeredAt!).format(context),\r\n                    ].whereType<String>().join(' · '),\r\n                    style: AppTextStyles.caption,\r\n                  ),\r\n                ],\r\n              ),\r\n            ),\r\n            Container(\r\n              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),\r\n              decoration: BoxDecoration(\r\n                color: _stateColor",
+      "tokens": 264,
+      "firstFile": {
+        "name": "lib\\features\\attendance\\presentation\\today_attendance_screen.dart",
+        "start": 289,
+        "end": 316,
+        "startLoc": {
+          "line": 289,
+          "column": 57,
+          "position": 2922
+        },
+        "endLoc": {
+          "line": 316,
+          "column": 35,
+          "position": 3186
+        }
+      },
+      "secondFile": {
+        "name": "lib\\features\\dashboard\\presentation\\admin_home_screen.dart",
+        "start": 367,
+        "end": 394,
+        "startLoc": {
+          "line": 367,
+          "column": 43,
+          "position": 3352
+        },
+        "endLoc": {
+          "line": 394,
+          "column": 31,
+          "position": 3616
+        }
+      }
+    },
+    {
+      "format": "dart",
+      "lines": 11,
+      "fragment": ",\r\n                  ),\r\n                ),\r\n                Container(\r\n                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),\r\n                  decoration: BoxDecoration(\r\n                    color: color.withValues(alpha: 0.12),\r\n                    borderRadius: BorderRadius.circular(8),\r\n                  ),\r\n                  child: Text(\r\n                    label",
+      "tokens": 93,
+      "firstFile": {
+        "name": "lib\\features\\attendance\\presentation\\pending_attendance_screen.dart",
+        "start": 174,
+        "end": 184,
+        "startLoc": {
+          "line": 174,
+          "column": 52,
+          "position": 1745
+        },
+        "endLoc": {
+          "line": 184,
+          "column": 26,
+          "position": 1838
+        }
+      },
+      "secondFile": {
+        "name": "lib\\features\\dashboard\\presentation\\admin_home_screen.dart",
+        "start": 388,
+        "end": 398,
+        "startLoc": {
+          "line": 388,
+          "column": 20,
+          "position": 3562
+        },
+        "endLoc": {
+          "line": 398,
+          "column": 22,
+          "position": 3655
+        }
+      }
+    },
+    {
+      "format": "dart",
+      "lines": 14,
+      "fragment": ">(\r\n      context: context,\r\n      backgroundColor: Colors.transparent,\r\n      builder: (context) => Container(\r\n        padding: const EdgeInsets.fromLTRB(20, 18, 20, 32),\r\n        decoration: const BoxDecoration(\r\n          color: AppColors.surface,\r\n          borderRadius: BorderRadius.vertical(top: Radius.circular(28)),\r\n        ),\r\n        child: Column(\r\n          mainAxisSize: MainAxisSize.min,\r\n          crossAxisAlignment: CrossAxisAlignment.start,\r\n          children: [\r\n            Text('Cambiar estado'",
+      "tokens": 145,
+      "firstFile": {
+        "name": "lib\\features\\attendance\\presentation\\pending_attendance_screen.dart",
+        "start": 243,
+        "end": 256,
+        "startLoc": {
+          "line": 243,
+          "column": 61,
+          "position": 2415
+        },
+        "endLoc": {
+          "line": 256,
+          "column": 34,
+          "position": 2560
+        }
+      },
+      "secondFile": {
+        "name": "lib\\features\\directory\\presentation\\profile_screen.dart",
+        "start": 312,
+        "end": 147,
+        "startLoc": {
+          "line": 312,
+          "column": 58,
+          "position": 3014
+        },
+        "endLoc": {
+          "line": 147,
+          "column": 25,
+          "position": 1384
+        }
+      }
+    },
+    {
+      "format": "dart",
+      "lines": 11,
+      "fragment": ",\r\n          style: AppTextStyles.bodyMuted,\r\n        ),\r\n        actions: [\r\n          TextButton(\r\n            onPressed: () => Navigator.of(context).pop(false),\r\n            child: const Text('Cancelar'),\r\n          ),\r\n          TextButton(\r\n            onPressed: () => Navigator.of(context).pop(true),\r\n            child: Text('Descartar'",
+      "tokens": 107,
+      "firstFile": {
+        "name": "lib\\features\\attendance\\presentation\\pending_attendance_screen.dart",
+        "start": 282,
+        "end": 292,
+        "startLoc": {
+          "line": 282,
+          "column": 82,
+          "position": 2879
+        },
+        "endLoc": {
+          "line": 292,
+          "column": 36,
+          "position": 2986
+        }
+      },
+      "secondFile": {
+        "name": "lib\\features\\directory\\presentation\\profile_screen.dart",
+        "start": 293,
+        "end": 303,
+        "startLoc": {
+          "line": 293,
+          "column": 57,
+          "position": 2803
+        },
+        "endLoc": {
+          "line": 303,
+          "column": 32,
+          "position": 2910
+        }
+      }
+    },
+    {
+      "format": "dart",
+      "lines": 17,
+      "fragment": "),\r\n        decoration: BoxDecoration(\r\n          color: selected ? AppColors.indigo : AppColors.background,\r\n          borderRadius: BorderRadius.circular(12),\r\n        ),\r\n        child: Text(\r\n          label,\r\n          style: AppTextStyles.caption.copyWith(\r\n            color: selected ? Colors.white : AppColors.textPrimary,\r\n            fontWeight: FontWeight.w700,\r\n          ),\r\n        ),\r\n      ),\r\n    );\r\n  }\r\n\r\n  Future",
+      "tokens": 132,
+      "firstFile": {
+        "name": "lib\\features\\attendance\\presentation\\bulk_attendance_screen.dart",
+        "start": 222,
+        "end": 238,
+        "startLoc": {
+          "line": 222,
+          "column": 73,
+          "position": 2060
+        },
+        "endLoc": {
+          "line": 238,
+          "column": 9,
+          "position": 2192
+        }
+      },
+      "secondFile": {
+        "name": "lib\\features\\attendance\\presentation\\today_attendance_screen.dart",
+        "start": 214,
+        "end": 230,
+        "startLoc": {
+          "line": 214,
+          "column": 72,
+          "position": 2139
+        },
+        "endLoc": {
+          "line": 230,
+          "column": 62,
+          "position": 2271
+        }
+      }
+    },
+    {
+      "format": "dart",
+      "lines": 16,
+      "fragment": "]\r\n                                        .whereType<String>()\r\n                                        .join(' · '),\r\n                                    style: AppTextStyles.caption,\r\n                                  ),\r\n                                ],\r\n                              ),\r\n                            ),\r\n                            const Icon(Icons.chevron_right_rounded,\r\n                                color: AppColors.textSecondary),\r\n                          ],\r\n                        ),\r\n                      ),\r\n                    ),\r\n                  ),\r\n              ]",
+      "tokens": 100,
+      "firstFile": {
+        "name": "lib\\features\\academic\\presentation\\teacher_grades_screen.dart",
+        "start": 73,
+        "end": 88,
+        "startLoc": {
+          "line": 73,
+          "column": 65,
+          "position": 680
+        },
+        "endLoc": {
+          "line": 88,
+          "column": 16,
+          "position": 780
+        }
+      },
+      "secondFile": {
+        "name": "lib\\features\\directory\\presentation\\children_screen.dart",
+        "start": 91,
+        "end": 106,
+        "startLoc": {
+          "line": 91,
+          "column": 75,
+          "position": 847
+        },
+        "endLoc": {
+          "line": 106,
+          "column": 14,
+          "position": 947
+        }
+      }
+    },
+    {
+      "format": "dart",
+      "lines": 9,
+      "fragment": "(),\r\n              error: (_, _) => const SizedBox.shrink(),\r\n              data: (sessions) => sessions.isEmpty\r\n                  ? const SizedBox.shrink()\r\n                  : Column(\r\n                      crossAxisAlignment: CrossAxisAlignment.start,\r\n                      children: [\r\n                        const Padding(\r\n                          padding: EdgeInsets.fromLTRB(20, 12",
+      "tokens": 99,
+      "firstFile": {
+        "name": "lib\\features\\academic\\presentation\\teacher_classes_screen.dart",
+        "start": 81,
+        "end": 89,
+        "startLoc": {
+          "line": 81,
+          "column": 51,
+          "position": 683
+        },
+        "endLoc": {
+          "line": 89,
+          "column": 62,
+          "position": 782
+        }
+      },
+      "secondFile": {
+        "name": "lib\\features\\directory\\presentation\\children_screen.dart",
+        "start": 142,
+        "end": 150,
+        "startLoc": {
+          "line": 142,
+          "column": 49,
+          "position": 1327
+        },
+        "endLoc": {
+          "line": 150,
+          "column": 64,
+          "position": 1426
+        }
+      }
+    },
+    {
+      "format": "dart",
+      "lines": 16,
+      "fragment": ", color: AppColors.roleTeacher),\r\n                ),\r\n                const SizedBox(width: 14),\r\n                Expanded(\r\n                  child: Column(\r\n                    crossAxisAlignment: CrossAxisAlignment.start,\r\n                    children: [\r\n                      Text(item.subjectName, style: AppTextStyles.h3),\r\n                      Text(\r\n                        [item.courseName, item.shift].whereType<String>().join(' · '),\r\n                        style: AppTextStyles.caption,\r\n                      ),\r\n                    ],\r\n                  ),\r\n                ),\r\n              ]",
+      "tokens": 140,
+      "firstFile": {
+        "name": "lib\\features\\academic\\presentation\\teacher_classes_screen.dart",
+        "start": 125,
+        "end": 140,
+        "startLoc": {
+          "line": 125,
+          "column": 60,
+          "position": 1062
+        },
+        "endLoc": {
+          "line": 140,
+          "column": 16,
+          "position": 1202
+        }
+      },
+      "secondFile": {
+        "name": "lib\\features\\academic\\presentation\\teacher_grades_screen.dart",
+        "start": 63,
+        "end": 81,
+        "startLoc": {
+          "line": 63,
+          "column": 72,
+          "position": 585
+        },
+        "endLoc": {
+          "line": 81,
+          "column": 34,
+          "position": 733
+        }
+      }
+    },
+    {
+      "format": "dart",
+      "lines": 18,
+      "fragment": "Row(\r\n                    children: [\r\n                      Container(\r\n                        width: 44,\r\n                        height: 44,\r\n                        decoration: BoxDecoration(\r\n                          color: AppColors.roleTeacherBg,\r\n                          borderRadius: BorderRadius.circular(12),\r\n                        ),\r\n                        child: const Icon(Icons.menu_book_rounded,\r\n                            color: AppColors.roleTeacher),\r\n                      ),\r\n                      const SizedBox(width: 14),\r\n                      Expanded(\r\n                        child: Column(\r\n                          crossAxisAlignment: CrossAxisAlignment.start,\r\n                          children: [\r\n                            Text(s",
+      "tokens": 144,
+      "firstFile": {
+        "name": "lib\\features\\academic\\presentation\\subjects_screen.dart",
+        "start": 46,
+        "end": 63,
+        "startLoc": {
+          "line": 46,
+          "column": 26,
+          "position": 443
+        },
+        "endLoc": {
+          "line": 63,
+          "column": 35,
+          "position": 587
+        }
+      },
+      "secondFile": {
+        "name": "lib\\features\\academic\\presentation\\teacher_classes_screen.dart",
+        "start": 116,
+        "end": 132,
+        "startLoc": {
+          "line": 116,
+          "column": 13,
+          "position": 983
+        },
+        "endLoc": {
+          "line": 132,
+          "column": 32,
+          "position": 1125
+        }
+      }
+    },
+    {
+      "format": "dart",
+      "lines": 12,
+      "fragment": "),\r\n            gradesAsync.when(\r\n              loading: () => const LoadingView(),\r\n              error: (error, _) => ErrorView(\r\n                error: error,\r\n                onRetry: () => ref.invalidate(gradesForStudentProvider(args)),\r\n              ),\r\n              data: (grades) {\r\n                if (grades.isEmpty) {\r\n                  return EmptyState(\r\n                    icon: Icons.bar_chart_rounded,\r\n                    title: 'Sin notas en el periodo ${_period!}'",
+      "tokens": 126,
+      "firstFile": {
+        "name": "lib\\features\\academic\\presentation\\student_grades_screen.dart",
+        "start": 73,
+        "end": 84,
+        "startLoc": {
+          "line": 73,
+          "column": 38,
+          "position": 633
+        },
+        "endLoc": {
+          "line": 84,
+          "column": 65,
+          "position": 759
+        }
+      },
+      "secondFile": {
+        "name": "lib\\features\\directory\\presentation\\student_profile_screen.dart",
+        "start": 316,
+        "end": 327,
+        "startLoc": {
+          "line": 316,
+          "column": 36,
+          "position": 2799
+        },
+        "endLoc": {
+          "line": 327,
+          "column": 37,
+          "position": 2925
+        }
+      }
+    },
+    {
+      "format": "dart",
+      "lines": 15,
+      "fragment": ",\r\n                  );\r\n                }\r\n                final average = GradesCard.overallAverage(grades);\r\n                return Column(\r\n                  crossAxisAlignment: CrossAxisAlignment.start,\r\n                  children: [\r\n                    SectionCard(\r\n                      child: Row(\r\n                        children: [\r\n                          Expanded(\r\n                            child: Column(\r\n                              crossAxisAlignment: CrossAxisAlignment.start,\r\n                              children: [\r\n                                Text('Promedio general'",
+      "tokens": 105,
+      "firstFile": {
+        "name": "lib\\features\\academic\\presentation\\student_grades_screen.dart",
+        "start": 85,
+        "end": 99,
+        "startLoc": {
+          "line": 85,
+          "column": 84,
+          "position": 768
+        },
+        "endLoc": {
+          "line": 99,
+          "column": 56,
+          "position": 873
+        }
+      },
+      "secondFile": {
+        "name": "lib\\features\\directory\\presentation\\student_profile_screen.dart",
+        "start": 328,
+        "end": 342,
+        "startLoc": {
+          "line": 328,
+          "column": 81,
+          "position": 2934
+        },
+        "endLoc": {
+          "line": 342,
+          "column": 46,
+          "position": 3039
+        }
+      }
+    },
+    {
+      "format": "dart",
+      "lines": 15,
+      "fragment": ", style: AppTextStyles.caption),\r\n                                Text(\r\n                                  average.toStringAsFixed(1),\r\n                                  style: AppTextStyles.h1.copyWith(\r\n                                    color: average >= 3.0\r\n                                        ? AppColors.tealDark\r\n                                        : AppColors.pink,\r\n                                  ),\r\n                                ),\r\n                              ],\r\n                            ),\r\n                          ),\r\n                          Text(\r\n                            AcademicPeriods.labelOf(_period!),\r\n                            style: AppTextStyles.bodyMuted,",
+      "tokens": 115,
+      "firstFile": {
+        "name": "lib\\features\\academic\\presentation\\student_grades_screen.dart",
+        "start": 99,
+        "end": 113,
+        "startLoc": {
+          "line": 99,
+          "column": 56,
+          "position": 874
+        },
+        "endLoc": {
+          "line": 113,
+          "column": 60,
+          "position": 989
+        }
+      },
+      "secondFile": {
+        "name": "lib\\features\\directory\\presentation\\student_profile_screen.dart",
+        "start": 342,
+        "end": 355,
+        "startLoc": {
+          "line": 342,
+          "column": 46,
+          "position": 3040
+        },
+        "endLoc": {
+          "line": 355,
+          "column": 60,
+          "position": 3152
+        }
+      }
+    },
+    {
+      "format": "dart",
+      "lines": 10,
+      "fragment": "),\r\n                    OutlinedButton.icon(\r\n                      style: OutlinedButton.styleFrom(\r\n                        foregroundColor: AppColors.indigo,\r\n                        side: const BorderSide(color: AppColors.indigo),\r\n                        padding: const EdgeInsets.symmetric(vertical: 14),\r\n                        shape: RoundedRectangleBorder(\r\n                            borderRadius: BorderRadius.circular(16)),\r\n                      ),\r\n                      onPressed: () => ReportCardDownloader",
+      "tokens": 104,
+      "firstFile": {
+        "name": "lib\\features\\academic\\presentation\\student_grades_screen.dart",
+        "start": 120,
+        "end": 129,
+        "startLoc": {
+          "line": 120,
+          "column": 46,
+          "position": 1045
+        },
+        "endLoc": {
+          "line": 129,
+          "column": 60,
+          "position": 1149
+        }
+      },
+      "secondFile": {
+        "name": "lib\\features\\directory\\presentation\\profile_screen.dart",
+        "start": 163,
+        "end": 171,
+        "startLoc": {
+          "line": 163,
+          "column": 42,
+          "position": 1507
+        },
+        "endLoc": {
+          "line": 171,
+          "column": 43,
+          "position": 1608
+        }
+      }
+    },
+    {
+      "format": "dart",
+      "lines": 9,
+      "fragment": ",\r\n      body: coursesAsync.when(\r\n        loading: () => const LoadingView(),\r\n        error: (error, _) => ErrorView(\r\n          error: error,\r\n          onRetry: () => ref.invalidate(coursesProvider),\r\n        ),\r\n        data: (courses) {\r\n          if",
+      "tokens": 93,
+      "firstFile": {
+        "name": "lib\\features\\academic\\presentation\\schedules_screen.dart",
+        "start": 28,
+        "end": 36,
+        "startLoc": {
+          "line": 28,
+          "column": 24,
+          "position": 187
+        },
+        "endLoc": {
+          "line": 36,
+          "column": 13,
+          "position": 280
+        }
+      },
+      "secondFile": {
+        "name": "lib\\features\\attendance\\presentation\\bulk_attendance_screen.dart",
+        "start": 47,
+        "end": 55,
+        "startLoc": {
+          "line": 47,
+          "column": 31,
+          "position": 327
+        },
+        "endLoc": {
+          "line": 55,
+          "column": 16,
+          "position": 420
+        }
+      }
+    },
+    {
+      "format": "dart",
+      "lines": 17,
+      "fragment": "RefreshIndicator(\r\n      onRefresh: () async => ref.invalidate(studentWeeklyScheduleProvider(courseId)),\r\n      child: scheduleAsync.when(\r\n        loading: () => const LoadingView(),\r\n        error: (error, _) => ListView(children: [\r\n          ErrorView(\r\n            error: error,\r\n            onRetry: () => ref.invalidate(studentWeeklyScheduleProvider(courseId)),\r\n          ),\r\n        ]),\r\n        data: (sessions) => ListView(\r\n          padding: const EdgeInsets.only(bottom: 32),\r\n          children: [\r\n            if (sessions.isEmpty)\r\n              const EmptyState(\r\n                icon: Icons.event_busy_rounded,\r\n                title: 'Sin bloques programados'",
+      "tokens": 195,
+      "firstFile": {
+        "name": "lib\\features\\academic\\presentation\\schedules_screen.dart",
+        "start": 109,
+        "end": 125,
+        "startLoc": {
+          "line": 109,
+          "column": 12,
+          "position": 933
+        },
+        "endLoc": {
+          "line": 125,
+          "column": 49,
+          "position": 1128
+        }
+      },
+      "secondFile": {
+        "name": "lib\\features\\academic\\presentation\\student_schedule_screen.dart",
+        "start": 37,
+        "end": 53,
+        "startLoc": {
+          "line": 37,
+          "column": 13,
+          "position": 270
+        },
+        "endLoc": {
+          "line": 53,
+          "column": 49,
+          "position": 465
+        }
+      }
+    },
+    {
+      "format": "dart",
+      "lines": 10,
+      "fragment": ",\r\n          ),\r\n        ),\r\n      ],\r\n      body: RefreshIndicator(\r\n        onRefresh: () async => ref.invalidate(gradesForStudentProvider(args)),\r\n        child: ListView(\r\n          padding: const EdgeInsets.fromLTRB(20, 20, 20, 32),\r\n          children: [\r\n            SectionCard",
+      "tokens": 90,
+      "firstFile": {
+        "name": "lib\\features\\academic\\presentation\\parent_grades_screen.dart",
+        "start": 63,
+        "end": 72,
+        "startLoc": {
+          "line": 63,
+          "column": 24,
+          "position": 504
+        },
+        "endLoc": {
+          "line": 72,
+          "column": 24,
+          "position": 594
+        }
+      },
+      "secondFile": {
+        "name": "lib\\features\\academic\\presentation\\student_grades_screen.dart",
+        "start": 59,
+        "end": 68,
+        "startLoc": {
+          "line": 59,
+          "column": 60,
+          "position": 478
+        },
+        "endLoc": {
+          "line": 68,
+          "column": 27,
+          "position": 568
+        }
+      }
+    },
+    {
+      "format": "dart",
+      "lines": 18,
+      "fragment": "PeriodSelector(\r\n              periods: AcademicPeriods.all,\r\n              selected: _period!,\r\n              onChanged: (p) => setState(() => _period = p),\r\n            ),\r\n            const SizedBox(height: 20),\r\n            gradesAsync.when(\r\n              loading: () => const LoadingView(),\r\n              error: (error, _) => ErrorView(\r\n                error: error,\r\n                onRetry: () => ref.invalidate(gradesForStudentProvider(args)),\r\n              ),\r\n              data: (grades) {\r\n                if (grades.isEmpty) {\r\n                  return EmptyState(\r\n                    icon: Icons.bar_chart_rounded,\r\n                    title: 'Sin notas en el periodo ${_period!}',\r\n                    message: 'Cuando los docentes registren notas aparecerán aquí.'",
+      "tokens": 199,
+      "firstFile": {
+        "name": "lib\\features\\academic\\presentation\\parent_grades_screen.dart",
+        "start": 90,
+        "end": 107,
+        "startLoc": {
+          "line": 90,
+          "column": 13,
+          "position": 762
+        },
+        "endLoc": {
+          "line": 107,
+          "column": 84,
+          "position": 961
+        }
+      },
+      "secondFile": {
+        "name": "lib\\features\\academic\\presentation\\student_grades_screen.dart",
+        "start": 68,
+        "end": 85,
+        "startLoc": {
+          "line": 68,
+          "column": 13,
+          "position": 568
+        },
+        "endLoc": {
+          "line": 85,
+          "column": 84,
+          "position": 767
+        }
+      }
+    },
+    {
+      "format": "dart",
+      "lines": 32,
+      "fragment": ",\r\n                  );\r\n                }\r\n                final average = GradesCard.overallAverage(grades);\r\n                return Column(\r\n                  crossAxisAlignment: CrossAxisAlignment.start,\r\n                  children: [\r\n                    SectionCard(\r\n                      child: Row(\r\n                        children: [\r\n                          Expanded(\r\n                            child: Column(\r\n                              crossAxisAlignment: CrossAxisAlignment.start,\r\n                              children: [\r\n                                Text('Promedio general', style: AppTextStyles.caption),\r\n                                Text(\r\n                                  average.toStringAsFixed(1),\r\n                                  style: AppTextStyles.h1.copyWith(\r\n                                    color: average >= 3.0\r\n                                        ? AppColors.tealDark\r\n                                        : AppColors.pink,\r\n                                  ),\r\n                                ),\r\n                              ],\r\n                            ),\r\n                          ),\r\n                          Text(AcademicPeriods.labelOf(_period!),\r\n                              style: AppTextStyles.bodyMuted),\r\n                        ],\r\n                      ),\r\n                    ),\r\n                    const SizedBox(height: 20",
+      "tokens": 245,
+      "firstFile": {
+        "name": "lib\\features\\academic\\presentation\\parent_grades_screen.dart",
+        "start": 107,
+        "end": 138,
+        "startLoc": {
+          "line": 107,
+          "column": 84,
+          "position": 962
+        },
+        "endLoc": {
+          "line": 138,
+          "column": 46,
+          "position": 1207
+        }
+      },
+      "secondFile": {
+        "name": "lib\\features\\directory\\presentation\\student_profile_screen.dart",
+        "start": 328,
+        "end": 359,
+        "startLoc": {
+          "line": 328,
+          "column": 81,
+          "position": 2934
+        },
+        "endLoc": {
+          "line": 359,
+          "column": 44,
+          "position": 3179
+        }
+      }
+    },
+    {
+      "format": "dart",
+      "lines": 19,
+      "fragment": "),\r\n                        ],\r\n                      ),\r\n                    ),\r\n                    const SizedBox(height: 20),\r\n                    GradesCard(grades: grades),\r\n                    const SizedBox(height: 20),\r\n                    OutlinedButton.icon(\r\n                      style: OutlinedButton.styleFrom(\r\n                        foregroundColor: AppColors.indigo,\r\n                        side: const BorderSide(color: AppColors.indigo),\r\n                        padding: const EdgeInsets.symmetric(vertical: 14),\r\n                        shape:\r\n                            RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),\r\n                      ),\r\n                      onPressed: () => ReportCardDownloader.run(\r\n                        context,\r\n                        ref,\r\n                        studentId: childId",
+      "tokens": 175,
+      "firstFile": {
+        "name": "lib\\features\\academic\\presentation\\parent_grades_screen.dart",
+        "start": 134,
+        "end": 152,
+        "startLoc": {
+          "line": 134,
+          "column": 61,
+          "position": 1180
+        },
+        "endLoc": {
+          "line": 152,
+          "column": 43,
+          "position": 1355
+        }
+      },
+      "secondFile": {
+        "name": "lib\\features\\academic\\presentation\\student_grades_screen.dart",
+        "start": 114,
+        "end": 132,
+        "startLoc": {
+          "line": 114,
+          "column": 27,
+          "position": 993
+        },
+        "endLoc": {
+          "line": 132,
+          "column": 45,
+          "position": 1169
+        }
+      }
+    },
+    {
+      "format": "dart",
+      "lines": 7,
+      "fragment": ");\r\n    } on AppFailure catch (e) {\r\n      if (mounted) {\r\n        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.message)));\r\n      }\r\n    } finally {\r\n      if (mounted) setState(() => _saving",
+      "tokens": 83,
+      "firstFile": {
+        "name": "lib\\features\\academic\\presentation\\class_roster_screen.dart",
+        "start": 90,
+        "end": 96,
+        "startLoc": {
+          "line": 90,
+          "column": 33,
+          "position": 801
+        },
+        "endLoc": {
+          "line": 96,
+          "column": 42,
+          "position": 884
+        }
+      },
+      "secondFile": {
+        "name": "lib\\features\\attendance\\presentation\\bulk_attendance_screen.dart",
+        "start": 275,
+        "end": 281,
+        "startLoc": {
+          "line": 275,
+          "column": 45,
+          "position": 2628
+        },
+        "endLoc": {
+          "line": 281,
+          "column": 43,
+          "position": 2711
+        }
+      }
+    },
+    {
+      "format": "dart",
+      "lines": 15,
+      "fragment": ": rosterAsync.when(\r\n        loading: () => const LoadingView(),\r\n        error: (error, _) => ErrorView(\r\n          error: error,\r\n          onRetry: () => ref.invalidate(rosterProvider(teacherClass.courseId)),\r\n        ),\r\n        data: (roster) {\r\n          if (roster.isEmpty) {\r\n            return const EmptyState(\r\n              icon: Icons.person_off_rounded,\r\n              title: 'Curso sin estudiantes',\r\n              message: 'Este curso no tiene estudiantes activos matriculados.',\r\n            );\r\n          }\r\n          _ensureDefaults",
+      "tokens": 149,
+      "firstFile": {
+        "name": "lib\\features\\academic\\presentation\\class_roster_screen.dart",
+        "start": 137,
+        "end": 151,
+        "startLoc": {
+          "line": 137,
+          "column": 11,
+          "position": 1237
+        },
+        "endLoc": {
+          "line": 151,
+          "column": 26,
+          "position": 1386
+        }
+      },
+      "secondFile": {
+        "name": "lib\\features\\academic\\presentation\\grade_entry_screen.dart",
+        "start": 251,
+        "end": 265,
+        "startLoc": {
+          "line": 251,
+          "column": 18,
+          "position": 2336
+        },
+        "endLoc": {
+          "line": 265,
+          "column": 23,
+          "position": 2485
+        }
+      }
+    },
+    {
+      "format": "dart",
+      "lines": 8,
+      "fragment": "Expanded(\r\n                child: ListView.separated(\r\n                  padding: const EdgeInsets.fromLTRB(20, 12, 20, 12),\r\n                  itemCount: roster.length,\r\n                  separatorBuilder: (_, _) => const SizedBox(height: 10),\r\n                  itemBuilder: (context, index) {\r\n                    final student = roster[index];\r\n                    return _RosterRow",
+      "tokens": 105,
+      "firstFile": {
+        "name": "lib\\features\\academic\\presentation\\class_roster_screen.dart",
+        "start": 182,
+        "end": 189,
+        "startLoc": {
+          "line": 182,
+          "column": 15,
+          "position": 1681
+        },
+        "endLoc": {
+          "line": 189,
+          "column": 38,
+          "position": 1786
+        }
+      },
+      "secondFile": {
+        "name": "lib\\features\\academic\\presentation\\grade_entry_screen.dart",
+        "start": 277,
+        "end": 284,
+        "startLoc": {
+          "line": 277,
+          "column": 25,
+          "position": 2621
+        },
+        "endLoc": {
+          "line": 284,
+          "column": 47,
+          "position": 2726
+        }
+      }
+    },
+    {
+      "format": "dart",
+      "lines": 16,
+      "fragment": "),\r\n              const SizedBox(width: 12),\r\n              Expanded(\r\n                child: Column(\r\n                  crossAxisAlignment: CrossAxisAlignment.start,\r\n                  children: [\r\n                    Text(student.name,\r\n                        style: AppTextStyles.body.copyWith(fontWeight: FontWeight.w700),\r\n                        maxLines: 1,\r\n                        overflow: TextOverflow.ellipsis),\r\n                    if (student.code != null)\r\n                      Text(student.code!, style: AppTextStyles.caption),\r\n                  ],\r\n                ),\r\n              ),\r\n              _MarkButton",
+      "tokens": 144,
+      "firstFile": {
+        "name": "lib\\features\\academic\\presentation\\class_roster_screen.dart",
+        "start": 261,
+        "end": 276,
+        "startLoc": {
+          "line": 261,
+          "column": 58,
+          "position": 2451
+        },
+        "endLoc": {
+          "line": 276,
+          "column": 26,
+          "position": 2595
+        }
+      },
+      "secondFile": {
+        "name": "lib\\features\\attendance\\presentation\\bulk_attendance_screen.dart",
+        "start": 418,
+        "end": 433,
+        "startLoc": {
+          "line": 418,
+          "column": 60,
+          "position": 4032
+        },
+        "endLoc": {
+          "line": 433,
+          "column": 16,
+          "position": 4176
+        }
+      }
+    },
+    {
+      "format": "dart",
+      "lines": 8,
+      "fragment": ", fontWeight: FontWeight.w800),\r\n                  children: [\r\n                    TextSpan(text: 'Eye', style: TextStyle(color: Colors.white)),\r\n                    TextSpan(text: 'School', style: TextStyle(color: AppColors.teal)),\r\n                  ],\r\n                ),\r\n              ),\r\n              const",
+      "tokens": 85,
+      "firstFile": {
+        "name": "lib\\features\\splash\\splash_screen.dart",
+        "start": 32,
+        "end": 39,
+        "startLoc": {
+          "line": 32,
+          "column": 48,
+          "position": 252
+        },
+        "endLoc": {
+          "line": 39,
+          "column": 20,
+          "position": 337
+        }
+      },
+      "secondFile": {
+        "name": "lib\\features\\auth\\presentation\\login_screen.dart",
+        "start": 94,
+        "end": 101,
+        "startLoc": {
+          "line": 94,
+          "column": 54,
+          "position": 859
+        },
+        "endLoc": {
+          "line": 101,
+          "column": 20,
+          "position": 944
+        }
+      }
+    },
+    {
+      "format": "dart",
+      "lines": 9,
+      "fragment": "),\r\n        decoration: BoxDecoration(\r\n          color: Colors.white.withValues(alpha: 0.08),\r\n          borderRadius: BorderRadius.circular(18),\r\n          border: Border.all(color: Colors.white.withValues(alpha: 0.08)),\r\n        ),\r\n        child: Column(\r\n          crossAxisAlignment: CrossAxisAlignment.start,\r\n          mainAxisSize",
+      "tokens": 93,
+      "firstFile": {
+        "name": "lib\\core\\widgets\\stat_pill.dart",
+        "start": 26,
+        "end": 34,
+        "startLoc": {
+          "line": 26,
+          "column": 73,
+          "position": 191
+        },
+        "endLoc": {
+          "line": 34,
+          "column": 23,
+          "position": 284
+        }
+      },
+      "secondFile": {
+        "name": "lib\\features\\dashboard\\presentation\\student_home_screen.dart",
+        "start": 376,
+        "end": 384,
+        "startLoc": {
+          "line": 376,
+          "column": 39,
+          "position": 3477
+        },
+        "endLoc": {
+          "line": 384,
+          "column": 17,
+          "position": 3570
+        }
+      }
+    },
+    {
+      "format": "dart",
+      "lines": 10,
+      "fragment": "if (Navigator.of(context).canPop()) {\r\n                        Navigator.of(context).pop();\r\n                      } else if (context.canPop()) {\r\n                        context.pop();\r\n                      } else {\r\n                        context.go('/admin');\r\n                      }\r\n                    },\r\n                  ),\r\n                Expanded",
+      "tokens": 92,
+      "firstFile": {
+        "name": "lib\\core\\widgets\\simple_header_scaffold.dart",
+        "start": 53,
+        "end": 62,
+        "startLoc": {
+          "line": 53,
+          "column": 30,
+          "position": 444
+        },
+        "endLoc": {
+          "line": 62,
+          "column": 25,
+          "position": 536
+        }
+      },
+      "secondFile": {
+        "name": "lib\\features\\directory\\presentation\\users_list_screen.dart",
+        "start": 78,
+        "end": 87,
+        "startLoc": {
+          "line": 78,
+          "column": 25,
+          "position": 618
+        },
+        "endLoc": {
+          "line": 87,
+          "column": 25,
+          "position": 710
+        }
+      }
+    },
+    {
+      "format": "dart",
+      "lines": 10,
+      "fragment": "),\r\n      decoration: const BoxDecoration(\r\n        gradient: LinearGradient(\r\n          begin: Alignment.topLeft,\r\n          end: Alignment.bottomRight,\r\n          colors: AppColors.headerGradient,\r\n        ),\r\n        borderRadius: BorderRadius.vertical(bottom: Radius.circular(28)),\r\n      ),\r\n      child: child",
+      "tokens": 87,
+      "firstFile": {
+        "name": "lib\\core\\widgets\\gradient_header.dart",
+        "start": 22,
+        "end": 31,
+        "startLoc": {
+          "line": 22,
+          "column": 60,
+          "position": 184
+        },
+        "endLoc": {
+          "line": 31,
+          "column": 19,
+          "position": 271
+        }
+      },
+      "secondFile": {
+        "name": "lib\\features\\dashboard\\presentation\\parent_home_screen.dart",
+        "start": 48,
+        "end": 57,
+        "startLoc": {
+          "line": 48,
+          "column": 70,
+          "position": 413
+        },
+        "endLoc": {
+          "line": 57,
+          "column": 28,
+          "position": 500
+        }
+      }
+    },
+    {
+      "format": "dart",
+      "lines": 8,
+      "fragment": "();\r\n  if (text == null || text.isEmpty) return null;\r\n  final parts = text.split(':');\r\n  if (parts.length < 2) return null;\r\n  final hour = int.tryParse(parts[0]);\r\n  final minute = int.tryParse(parts[1]);\r\n  if (hour == null || minute == null) return null;\r\n  return TimeOfDay",
+      "tokens": 129,
+      "firstFile": {
+        "name": "lib\\core\\utils\\json_x.dart",
+        "start": 62,
+        "end": 69,
+        "startLoc": {
+          "line": 62,
+          "column": 31,
+          "position": 736
+        },
+        "endLoc": {
+          "line": 69,
+          "column": 19,
+          "position": 865
+        }
+      },
+      "secondFile": {
+        "name": "lib\\features\\academic\\domain\\class_time.dart",
+        "start": 13,
+        "end": 20,
+        "startLoc": {
+          "line": 13,
+          "column": 29,
+          "position": 87
+        },
+        "endLoc": {
+          "line": 20,
+          "column": 21,
+          "position": 216
+        }
+      }
+    },
+    {
+      "format": "dart",
+      "lines": 8,
+      "fragment": ") {\r\n        SyncState.sent => (AppColors.tealDark, 'Enviado'),\r\n        SyncState.failed => (AppColors.pink, 'Error'),\r\n        SyncState.sending => (AppColors.blue, 'Enviando'),\r\n        SyncState.duplicate => (AppColors.orange, 'Duplicado'),\r\n        SyncState.pending => (AppColors.textSecondary, 'En cola'),\r\n      };\r\n}",
+      "tokens": 105,
+      "firstFile": {
+        "name": "lib\\core\\theme\\domain_styles.dart",
+        "start": 68,
+        "end": 75,
+        "startLoc": {
+          "line": 68,
+          "column": 44,
+          "position": 651
+        },
+        "endLoc": {
+          "line": 75,
+          "column": 2,
+          "position": 756
+        }
+      },
+      "secondFile": {
+        "name": "lib\\features\\attendance\\presentation\\pending_attendance_screen.dart",
+        "start": 149,
+        "end": 157,
+        "startLoc": {
+          "line": 149,
+          "column": 50,
+          "position": 1454
+        },
+        "endLoc": {
+          "line": 157,
+          "column": 12,
+          "position": 1562
+        }
+      }
+    },
+    {
+      "format": "dart",
+      "lines": 9,
+      "fragment": "({\r\n    required Map<int, AttendanceMark> marks,\r\n    required Map<int, String> names,\r\n    required AttendanceKind kind,\r\n    required int registeredBy,\r\n    required DateTime date,\r\n    Map<int, String>? observations,\r\n    void Function(int done, int total)? onProgress,\r\n  }) {",
+      "tokens": 99,
+      "firstFile": {
+        "name": "lib\\core\\domain\\usecases.dart",
+        "start": 92,
+        "end": 100,
+        "startLoc": {
+          "line": 92,
+          "column": 36,
+          "position": 658
+        },
+        "endLoc": {
+          "line": 100,
+          "column": 7,
+          "position": 757
+        }
+      },
+      "secondFile": {
+        "name": "lib\\features\\attendance\\data\\attendance_repository_impl.dart",
+        "start": 95,
+        "end": 103,
+        "startLoc": {
+          "line": 95,
+          "column": 42,
+          "position": 791
+        },
+        "endLoc": {
+          "line": 103,
+          "column": 11,
+          "position": 890
+        }
+      }
+    },
+    {
+      "format": "dart",
+      "lines": 6,
+      "fragment": "(List<ClassSession> weekly, {DateTime? now}) {\r\n    final moment = now ?? DateTime.now();\r\n    final today = Weekdays.labelFor(moment);\r\n    return weekly.where((s) => s.day == today).map((s) => s.resolvedAt(moment)).toList();\r\n  }\r\n}",
+      "tokens": 106,
+      "firstFile": {
+        "name": "lib\\core\\domain\\usecases.dart",
+        "start": 176,
+        "end": 181,
+        "startLoc": {
+          "line": 176,
+          "column": 26,
+          "position": 1349
+        },
+        "endLoc": {
+          "line": 181,
+          "column": 2,
+          "position": 1455
+        }
+      },
+      "secondFile": {
+        "name": "lib\\features\\academic\\data\\academic_repository_impl.dart",
+        "start": 362,
+        "end": 370,
+        "startLoc": {
+          "line": 362,
+          "column": 38,
+          "position": 3629
+        },
+        "endLoc": {
+          "line": 370,
+          "column": 2,
+          "position": 3744
+        }
+      }
+    },
+    {
+      "format": "dart",
+      "lines": 9,
+      "fragment": "Future<BulkAttendanceResult> recordBulk({\r\n    required Map<int, AttendanceMark> marks,\r\n    required Map<int, String> names,\r\n    required AttendanceKind kind,\r\n    required int registeredBy,\r\n    required DateTime date,\r\n    Map<int, String>? observations,\r\n    void Function(int done, int total)? onProgress,\r\n  });",
+      "tokens": 104,
+      "firstFile": {
+        "name": "lib\\core\\domain\\repositories.dart",
+        "start": 225,
+        "end": 233,
+        "startLoc": {
+          "line": 225,
+          "column": 3,
+          "position": 1758
+        },
+        "endLoc": {
+          "line": 233,
+          "column": 6,
+          "position": 1862
+        }
+      },
+      "secondFile": {
+        "name": "lib\\features\\attendance\\data\\attendance_repository_impl.dart",
+        "start": 95,
+        "end": 103,
+        "startLoc": {
+          "line": 95,
+          "column": 3,
+          "position": 785
+        },
+        "endLoc": {
+          "line": 103,
+          "column": 11,
+          "position": 890
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+00:00 +0: loading C:/Users/marig/eyes_school_app_movil/test/dto_hijos_test.dart
+test/dto_hijos_test.dart:20:8: Error: Error when reading 'lib/features/directory/domain/linked_child.dart': El sistema no puede encontrar el archivo especificado
+import 'package:eyes_school/features/directory/domain/linked_child.dart';
+       ^
+test/dto_hijos_test.dart:34:16: Error: 'LinkedChild' isn't a type.
+    final List<LinkedChild> children = rows
+               ^^^^^^^^^^^
+test/dto_hijos_test.dart:35:21: Error: Undefined name 'HijoDto'.
+        .map((j) => HijoDto.fromJson(j).toEntity())
+                    ^^^^^^^
+test/dto_hijos_test.dart:39:34: Error: The getter 'id' isn't defined for the type 'Object?'.
+ - 'Object' is from 'dart:core'.
+Try correcting the name to the name of an existing getter, or defining a getter or field named 'id'.
+    expect(children.map((c) => c.id), [1, 3]);
+                                 ^^
+00:00 +0 -1: loading C:/Users/marig/eyes_school_app_movil/test/dto_hijos_test.dart [E]
+  Failed to load "C:/Users/marig/eyes_school_app_movil/test/dto_hijos_test.dart":
+  Compilation failed for testPath=C:/Users/marig/eyes_school_app_movil/test/dto_hijos_test.dart: test/dto_hijos_test.dart:20:8: Error: Error when reading 'lib/features/directory/domain/linked_child.dart': El sistema no puede encontrar el archivo especificado
+  import 'package:eyes_school/features/directory/domain/linked_child.dart';
+         ^
+  test/dto_hijos_test.dart:34:16: Error: 'LinkedChild' isn't a type.
+      final List<LinkedChild> children = rows
+                 ^^^^^^^^^^^
+  test/dto_hijos_test.dart:35:21: Error: Undefined name 'HijoDto'.
+          .map((j) => HijoDto.fromJson(j).toEntity())
+                      ^^^^^^^
+  test/dto_hijos_test.dart:39:34: Error: The getter 'id' isn't defined for the type 'Object?'.
+   - 'Object' is from 'dart:core'.
+  Try correcting the name to the name of an existing getter, or defining a getter or field named 'id'.
+      expect(children.map((c) => c.id), [1, 3]);
+                                   ^^
+  .
+00:00 +0 -1: Some tests failed.
+
+Failing tests:
+  C:/Users/marig/eyes_school_app_movil/test/dto_hijos_test.dart: loading C:/Users/marig/eyes_school_app_movil/test/dto_hijos_test.dart

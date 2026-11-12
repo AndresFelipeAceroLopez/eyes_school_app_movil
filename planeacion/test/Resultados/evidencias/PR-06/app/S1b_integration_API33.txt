@@ -1,0 +1,492 @@
+00:00 +0: loading C:/Users/marig/eyes_school_app_movil/integration_test/login_roles_test.dart
+Running Gradle task 'assembleDebug'...                          
+WARNING: Your app uses the following plugins that apply Kotlin Gradle Plugin (KGP): firebase_core, mobile_scanner, package_info_plus, share_plus
+Future versions of Flutter will fail to build if your app uses plugins that apply KGP.
+
+Please check the changelogs of these plugins and upgrade to a version that supports Built-in Kotlin.
+If no such version exists, report the issue to the plugin. If necessary, here is a guide on filing
+an issue against a plugin: https://docs.flutter.dev/release/breaking-changes/migrate-to-built-in-kotlin/for-app-developers#report-incompatible-kotlin-gradle-plugin-usage-to-plugin-authors
+
+If you are a plugin author, please migrate your plugin to Built-in Kotlin using this guide: https://docs.flutter.dev/release/breaking-changes/migrate-to-built-in-kotlin/for-plugin-authors
+Running Gradle task 'assembleDebug'...                             54,7s
+✓ Built build\app\outputs\flutter-apk\app-debug.apk
+Installing build\app\outputs\flutter-apk\app-debug.apk...           5,3s
+00:00 +0: C:/Users/marig/eyes_school_app_movil/integration_test/login_roles_test.dart: CP-SIS-066 · administrador llega a su inicio con los datos cargados
+*** Request ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/auth/login
+data:
+{correo: admin@eyesschool.edu.co, password: ***REDACTADO***}
+
+*** Response ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/auth/login
+
+*** Request ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/auth/me
+data:
+null
+
+*** Response ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/auth/me
+
+*** Request ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/cursos?skip=0&limit=200
+data:
+null
+
+*** Request ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/materias
+data:
+null
+
+*** Request ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/tipos-novedad
+data:
+null
+
+*** Response ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/cursos?skip=0&limit=200
+
+*** Response ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/materias
+
+*** Response ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/tipos-novedad
+
+*** Request ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/administradores?skip=0&limit=200
+data:
+null
+
+*** Response ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/administradores?skip=0&limit=200
+
+*** Request ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/asistencia?fecha=2026-11-11&skip=0&limit=500
+data:
+null
+
+*** Request ***
+uri: https://api.github.com/repos/AndresFelipeAceroLopez/eyes_school/releases/latest
+data:
+null
+
+*** Response ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/asistencia?fecha=2026-11-11&skip=0&limit=500
+
+00:28 +1: C:/Users/marig/eyes_school_app_movil/integration_test/login_roles_test.dart: CP-SIS-066 · docente llega a su inicio con los datos cargados
+*** Request ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/auth/login
+data:
+{correo: carlos.jimenez@eyes.edu.co, password: ***REDACTADO***}
+
+*** Response ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/auth/login
+
+*** Request ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/auth/me
+data:
+null
+
+*** Response ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/auth/me
+
+*** Request ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/cursos?skip=0&limit=200
+data:
+null
+
+*** Request ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/materias
+data:
+null
+
+*** Request ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/tipos-novedad
+data:
+null
+
+*** Response ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/cursos?skip=0&limit=200
+
+*** Response ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/materias
+
+*** Response ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/tipos-novedad
+
+*** Request ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/profesores/me
+data:
+null
+
+*** Request ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/profesores?skip=0&limit=200
+data:
+null
+
+*** Response ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/profesores?skip=0&limit=200
+
+00:38 +1: C:/Users/marig/eyes_school_app_movil/integration_test/login_roles_test.dart: CP-SIS-066 · administrador llega a su inicio con los datos cargados
+*** Request ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/dashboard/docente
+data:
+null
+
+*** Request ***
+uri: https://api.github.com/repos/AndresFelipeAceroLopez/eyes_school/releases/latest
+data:
+null
+
+*** Request ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/asignaciones?id_profesor=1&activo=true&skip=0&limit=200
+data:
+null
+
+*** Request ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/novedades?estado=Pendiente&skip=0&limit=50
+data:
+null
+
+*** Request ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/asignaciones?id_profesor=1&activo=true&skip=0&limit=200
+data:
+null
+
+*** Response ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/asignaciones?id_profesor=1&activo=true&skip=0&limit=200
+
+*** Request ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/cursos/1/horarios
+data:
+null
+
+*** Response ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/novedades?estado=Pendiente&skip=0&limit=50
+
+*** Request ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/estudiantes?skip=0&limit=200
+data:
+null
+
+*** Response ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/dashboard/docente
+
+*** Response ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/asignaciones?id_profesor=1&activo=true&skip=0&limit=200
+
+00:46 +2: C:/Users/marig/eyes_school_app_movil/integration_test/login_roles_test.dart: CP-SIS-066 · estudiante llega a su inicio con los datos cargados
+*** Request ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/auth/login
+data:
+{correo: sofia.rodriguez@student.eyes.co, password: ***REDACTADO***}
+
+00:55 +2: C:/Users/marig/eyes_school_app_movil/integration_test/login_roles_test.dart: CP-SIS-066 · administrador llega a su inicio con los datos cargados
+*** Response ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/cursos/1/horarios
+
+*** Request ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/cursos/2/horarios
+data:
+null
+
+*** Response ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/estudiantes?skip=0&limit=200
+
+*** Response ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/cursos/2/horarios
+
+*** Request ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/cursos/5/horarios
+data:
+null
+
+00:56 +2: C:/Users/marig/eyes_school_app_movil/integration_test/login_roles_test.dart: CP-SIS-066 · estudiante llega a su inicio con los datos cargados
+*** Response ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/auth/login
+
+*** Request ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/auth/me
+data:
+null
+
+00:57 +2: C:/Users/marig/eyes_school_app_movil/integration_test/login_roles_test.dart: CP-SIS-066 · administrador llega a su inicio con los datos cargados
+*** Response ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/cursos/5/horarios
+
+*** Request ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/cursos/6/horarios
+data:
+null
+
+00:58 +2: C:/Users/marig/eyes_school_app_movil/integration_test/login_roles_test.dart: CP-SIS-066 · estudiante llega a su inicio con los datos cargados
+*** Response ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/auth/me
+
+*** Request ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/cursos?skip=0&limit=200
+data:
+null
+
+*** Request ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/materias
+data:
+null
+
+*** Request ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/tipos-novedad
+data:
+null
+
+00:58 +2: C:/Users/marig/eyes_school_app_movil/integration_test/login_roles_test.dart: CP-SIS-066 · administrador llega a su inicio con los datos cargados
+*** Response ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/cursos/6/horarios
+
+00:59 +2: C:/Users/marig/eyes_school_app_movil/integration_test/login_roles_test.dart: CP-SIS-066 · estudiante llega a su inicio con los datos cargados
+*** Response ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/cursos?skip=0&limit=200
+
+*** Response ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/tipos-novedad
+
+*** Response ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/materias
+
+*** Request ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/estudiantes/me
+data:
+null
+
+*** Response ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/estudiantes/me
+
+*** Request ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/dashboard/estudiante
+data:
+null
+
+*** Response ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/dashboard/estudiante
+
+01:02 +2: C:/Users/marig/eyes_school_app_movil/integration_test/login_roles_test.dart: CP-SIS-066 · administrador llega a su inicio con los datos cargados
+*** Request ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/dashboard/estudiante
+data:
+null
+
+*** Request ***
+uri: https://api.github.com/repos/AndresFelipeAceroLopez/eyes_school/releases/latest
+data:
+null
+
+*** Request ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/cursos/1/horarios
+data:
+null
+
+*** Request ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/estudiantes/1/notas?id_periodo=1
+data:
+null
+
+*** Response ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/cursos/1/horarios
+
+*** Response ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/estudiantes/1/notas?id_periodo=1
+
+*** Response ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/dashboard/estudiante
+
+01:11 +3: C:/Users/marig/eyes_school_app_movil/integration_test/login_roles_test.dart: CP-SIS-066 · padre llega a su inicio con los datos cargados
+*** Request ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/auth/login
+data:
+{correo: roberto.diaz@gmail.com, password: ***REDACTADO***}
+
+*** Response ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/auth/login
+
+*** Request ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/auth/me
+data:
+null
+
+*** Response ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/auth/me
+
+*** Request ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/cursos?skip=0&limit=200
+data:
+null
+
+*** Request ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/materias
+data:
+null
+
+*** Request ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/tipos-novedad
+data:
+null
+
+*** Response ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/cursos?skip=0&limit=200
+
+*** Response ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/materias
+
+*** Response ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/tipos-novedad
+
+*** Request ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/padres/me
+data:
+null
+
+*** Response ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/padres/me
+
+*** Request ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/dashboard/padre
+data:
+null
+
+*** Response ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/dashboard/padre
+
+*** Request ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/estudiantes/2
+data:
+null
+
+*** Response ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/estudiantes/2
+
+01:25 +3: C:/Users/marig/eyes_school_app_movil/integration_test/login_roles_test.dart: CP-SIS-066 · administrador llega a su inicio con los datos cargados
+*** Request ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/dashboard/padre
+data:
+null
+
+*** Request ***
+uri: https://api.github.com/repos/AndresFelipeAceroLopez/eyes_school/releases/latest
+data:
+null
+
+*** Request ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/estudiantes/2/novedades
+data:
+null
+
+*** Response ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/dashboard/padre
+
+*** Response ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/estudiantes/2/novedades
+
+01:33 +4: C:/Users/marig/eyes_school_app_movil/integration_test/login_roles_test.dart: (tearDownAll)
+01:35 +4: loading C:/Users/marig/eyes_school_app_movil/integration_test/registro_padre_test.dart
+Running Gradle task 'assembleDebug'...                          
+WARNING: Your app uses the following plugins that apply Kotlin Gradle Plugin (KGP): firebase_core, mobile_scanner, package_info_plus, share_plus
+Future versions of Flutter will fail to build if your app uses plugins that apply KGP.
+
+Please check the changelogs of these plugins and upgrade to a version that supports Built-in Kotlin.
+If no such version exists, report the issue to the plugin. If necessary, here is a guide on filing
+an issue against a plugin: https://docs.flutter.dev/release/breaking-changes/migrate-to-built-in-kotlin/for-app-developers#report-incompatible-kotlin-gradle-plugin-usage-to-plugin-authors
+
+If you are a plugin author, please migrate your plugin to Built-in Kotlin using this guide: https://docs.flutter.dev/release/breaking-changes/migrate-to-built-in-kotlin/for-plugin-authors
+Running Gradle task 'assembleDebug'...                             79,5s
+✓ Built build\app\outputs\flutter-apk\app-debug.apk
+Installing build\app\outputs\flutter-apk\app-debug.apk...           5,6s
+03:17 +4: C:/Users/marig/eyes_school_app_movil/integration_test/registro_padre_test.dart: CP-SIS-097 · el padre registrado en la app ve a su hijo vinculado
+CP-SIS-097 correo creado: qa.cpsis097.1794421920768@example.com
+*** Request ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/cursos?skip=0&limit=200
+data:
+null
+
+*** Request ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/materias
+data:
+null
+
+*** Request ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/tipos-novedad
+data:
+null
+
+*** Request ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/auth/register
+data:
+{tipo_documento: CC, numero_documento: 7921920768, primer_nombre: QA, primer_apellido: Registro097, id_rol: 4, correo: qa.cpsis097.1794421920768@example.com, password: Colegio#2026, id_estudiante_vinculado: 2, parentesco: Tutor}
+
+*** Response ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/cursos?skip=0&limit=200
+
+*** Response ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/auth/register
+
+*** Request ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/auth/login
+data:
+{correo: qa.cpsis097.1794421920768@example.com, password: Colegio#2026}
+
+*** Response ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/auth/login
+
+*** Request ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/auth/me
+data:
+null
+
+*** Response ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/auth/me
+
+*** Request ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/padres/me
+data:
+null
+
+*** Response ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/padres/me
+
+*** Request ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/dashboard/padre
+data:
+null
+
+*** Response ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/dashboard/padre
+
+*** Request ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/estudiantes/2
+data:
+null
+
+*** Response ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/estudiantes/2
+
+*** Request ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/dashboard/padre
+data:
+null
+
+*** Request ***
+uri: https://api.github.com/repos/AndresFelipeAceroLopez/eyes_school/releases/latest
+data:
+null
+
+*** Request ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/estudiantes/2/novedades
+data:
+null
+
+*** Response ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/estudiantes/2/novedades
+
+*** Response ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/dashboard/padre
+
+03:59 +5: C:/Users/marig/eyes_school_app_movil/integration_test/registro_padre_test.dart: (tearDownAll)
+04:00 +5: All tests passed!

@@ -1,0 +1,319 @@
+{"protocolVersion":"0.1.1","runnerVersion":null,"pid":22012,"type":"start","time":0}
+{"suite":{"id":0,"platform":"vm","path":"C:/Users/marig/eyes_school_app_movil/test/dto_mapping_test.dart"},"type":"suite","time":0}
+{"test":{"id":1,"name":"loading C:/Users/marig/eyes_school_app_movil/test/dto_mapping_test.dart","suiteID":0,"groupIDs":[],"metadata":{"skip":false,"skipReason":null},"line":null,"column":null,"url":null},"type":"testStart","time":3}
+{"suite":{"id":2,"platform":"vm","path":"C:/Users/marig/eyes_school_app_movil/test/contrato_grabado_test.dart"},"type":"suite","time":14}
+{"test":{"id":3,"name":"loading C:/Users/marig/eyes_school_app_movil/test/contrato_grabado_test.dart","suiteID":2,"groupIDs":[],"metadata":{"skip":false,"skipReason":null},"line":null,"column":null,"url":null},"type":"testStart","time":14}
+{"suite":{"id":4,"platform":"vm","path":"C:/Users/marig/eyes_school_app_movil/test/auth_repository_test.dart"},"type":"suite","time":16}
+{"test":{"id":5,"name":"loading C:/Users/marig/eyes_school_app_movil/test/auth_repository_test.dart","suiteID":4,"groupIDs":[],"metadata":{"skip":false,"skipReason":null},"line":null,"column":null,"url":null},"type":"testStart","time":16}
+{"suite":{"id":6,"platform":"vm","path":"C:/Users/marig/eyes_school_app_movil/test/attendance_repository_test.dart"},"type":"suite","time":18}
+{"test":{"id":7,"name":"loading C:/Users/marig/eyes_school_app_movil/test/attendance_repository_test.dart","suiteID":6,"groupIDs":[],"metadata":{"skip":false,"skipReason":null},"line":null,"column":null,"url":null},"type":"testStart","time":18}
+{"count":5,"time":21,"type":"allSuites"}
+{"testID":1,"result":"success","skipped":false,"hidden":true,"type":"testDone","time":9149}
+{"group":{"id":8,"suiteID":0,"parentID":null,"name":"","metadata":{"skip":false,"skipReason":null},"testCount":20,"line":null,"column":null,"url":null},"type":"group","time":9155}
+{"group":{"id":9,"suiteID":0,"parentID":8,"name":"AttendanceState","metadata":{"skip":false,"skipReason":null},"testCount":4,"line":18,"column":3,"url":"file:///C:/Users/marig/eyes_school_app_movil/test/dto_mapping_test.dart"},"type":"group","time":9157}
+{"test":{"id":10,"name":"AttendanceState conserva la tilde y la mayúscula que exige la API","suiteID":0,"groupIDs":[8,9],"metadata":{"skip":false,"skipReason":null},"line":19,"column":5,"url":"file:///C:/Users/marig/eyes_school_app_movil/test/dto_mapping_test.dart"},"type":"testStart","time":9157}
+{"testID":10,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":9371}
+{"test":{"id":11,"name":"AttendanceState lee \"Suspensión\" venga con tilde o sin ella","suiteID":0,"groupIDs":[8,9],"metadata":{"skip":false,"skipReason":null},"line":24,"column":5,"url":"file:///C:/Users/marig/eyes_school_app_movil/test/dto_mapping_test.dart"},"type":"testStart","time":9373}
+{"testID":11,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":9443}
+{"test":{"id":12,"name":"AttendanceState un estado desconocido no rompe la pantalla","suiteID":0,"groupIDs":[8,9],"metadata":{"skip":false,"skipReason":null},"line":30,"column":5,"url":"file:///C:/Users/marig/eyes_school_app_movil/test/dto_mapping_test.dart"},"type":"testStart","time":9444}
+{"testID":3,"result":"success","skipped":false,"hidden":true,"type":"testDone","time":9484}
+{"group":{"id":13,"suiteID":2,"parentID":null,"name":"","metadata":{"skip":false,"skipReason":null},"testCount":22,"line":null,"column":null,"url":null},"type":"group","time":9485}
+{"group":{"id":14,"suiteID":2,"parentID":13,"name":"Contrato grabado · autenticación y personas","metadata":{"skip":false,"skipReason":null},"testCount":6,"line":47,"column":3,"url":"file:///C:/Users/marig/eyes_school_app_movil/test/contrato_grabado_test.dart"},"type":"group","time":9486}
+{"test":{"id":15,"name":"Contrato grabado · autenticación y personas /auth/me (estudiante) → MeDto","suiteID":2,"groupIDs":[13,14],"metadata":{"skip":false,"skipReason":null},"line":49,"column":7,"url":"file:///C:/Users/marig/eyes_school_app_movil/test/contrato_grabado_test.dart"},"type":"testStart","time":9486}
+{"testID":12,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":9549}
+{"test":{"id":16,"name":"AttendanceState llegar tarde cuenta como asistencia; la excusa no","suiteID":0,"groupIDs":[8,9],"metadata":{"skip":false,"skipReason":null},"line":35,"column":5,"url":"file:///C:/Users/marig/eyes_school_app_movil/test/dto_mapping_test.dart"},"type":"testStart","time":9550}
+{"testID":16,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":9588}
+{"group":{"id":17,"suiteID":0,"parentID":8,"name":"AsistenciaCreate","metadata":{"skip":false,"skipReason":null},"testCount":2,"line":43,"column":3,"url":"file:///C:/Users/marig/eyes_school_app_movil/test/dto_mapping_test.dart"},"type":"group","time":9589}
+{"test":{"id":18,"name":"AsistenciaCreate serializa la fecha como yyyy-MM-dd, no como ISO datetime","suiteID":0,"groupIDs":[8,17],"metadata":{"skip":false,"skipReason":null},"line":44,"column":5,"url":"file:///C:/Users/marig/eyes_school_app_movil/test/dto_mapping_test.dart"},"type":"testStart","time":9590}
+{"testID":15,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":9609}
+{"test":{"id":19,"name":"Contrato grabado · autenticación y personas /auth/me (docente) → MeDto","suiteID":2,"groupIDs":[13,14],"metadata":{"skip":false,"skipReason":null},"line":49,"column":7,"url":"file:///C:/Users/marig/eyes_school_app_movil/test/contrato_grabado_test.dart"},"type":"testStart","time":9621}
+{"testID":18,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":9629}
+{"test":{"id":20,"name":"AsistenciaCreate omite la observación vacía en lugar de mandar cadena vacía","suiteID":0,"groupIDs":[8,17],"metadata":{"skip":false,"skipReason":null},"line":59,"column":5,"url":"file:///C:/Users/marig/eyes_school_app_movil/test/dto_mapping_test.dart"},"type":"testStart","time":9631}
+{"testID":19,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":9634}
+{"test":{"id":21,"name":"Contrato grabado · autenticación y personas /auth/me (admin) → MeDto","suiteID":2,"groupIDs":[13,14],"metadata":{"skip":false,"skipReason":null},"line":49,"column":7,"url":"file:///C:/Users/marig/eyes_school_app_movil/test/contrato_grabado_test.dart"},"type":"testStart","time":9635}
+{"testID":20,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":9639}
+{"group":{"id":22,"suiteID":0,"parentID":8,"name":"HorarioOut","metadata":{"skip":false,"skipReason":null},"testCount":2,"line":72,"column":3,"url":"file:///C:/Users/marig/eyes_school_app_movil/test/dto_mapping_test.dart"},"type":"group","time":9640}
+{"test":{"id":23,"name":"HorarioOut parsea \"07:00:00\" a ClassTime: no es un datetime ISO","suiteID":0,"groupIDs":[8,22],"metadata":{"skip":false,"skipReason":null},"line":73,"column":5,"url":"file:///C:/Users/marig/eyes_school_app_movil/test/dto_mapping_test.dart"},"type":"testStart","time":9641}
+{"testID":21,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":9651}
+{"test":{"id":24,"name":"Contrato grabado · autenticación y personas /auth/me (padre) → MeDto","suiteID":2,"groupIDs":[13,14],"metadata":{"skip":false,"skipReason":null},"line":49,"column":7,"url":"file:///C:/Users/marig/eyes_school_app_movil/test/contrato_grabado_test.dart"},"type":"testStart","time":9652}
+{"testID":23,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":9655}
+{"test":{"id":25,"name":"HorarioOut una hora ilegible deja el bloque sin hora en vez de reventar","suiteID":0,"groupIDs":[8,22],"metadata":{"skip":false,"skipReason":null},"line":92,"column":5,"url":"file:///C:/Users/marig/eyes_school_app_movil/test/dto_mapping_test.dart"},"type":"testStart","time":9657}
+{"testID":25,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":9666}
+{"group":{"id":26,"suiteID":0,"parentID":8,"name":"NotaOut","metadata":{"skip":false,"skipReason":null},"testCount":2,"line":107,"column":3,"url":"file:///C:/Users/marig/eyes_school_app_movil/test/dto_mapping_test.dart"},"type":"group","time":9668}
+{"test":{"id":27,"name":"NotaOut acepta la nota como entero o como decimal","suiteID":0,"groupIDs":[8,26],"metadata":{"skip":false,"skipReason":null},"line":117,"column":5,"url":"file:///C:/Users/marig/eyes_school_app_movil/test/dto_mapping_test.dart"},"type":"testStart","time":9669}
+{"testID":24,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":9673}
+{"test":{"id":28,"name":"Contrato grabado · autenticación y personas /estudiantes/me → EstudianteDto","suiteID":2,"groupIDs":[13,14],"metadata":{"skip":false,"skipReason":null},"line":58,"column":5,"url":"file:///C:/Users/marig/eyes_school_app_movil/test/contrato_grabado_test.dart"},"type":"testStart","time":9674}
+{"testID":27,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":9683}
+{"test":{"id":29,"name":"NotaOut etiqueta el periodo con el nombre institucional","suiteID":0,"groupIDs":[8,26],"metadata":{"skip":false,"skipReason":null},"line":122,"column":5,"url":"file:///C:/Users/marig/eyes_school_app_movil/test/dto_mapping_test.dart"},"type":"testStart","time":9684}
+{"testID":29,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":9693}
+{"group":{"id":30,"suiteID":0,"parentID":8,"name":"CursoOut.jornada","metadata":{"skip":false,"skipReason":null},"testCount":1,"line":127,"column":3,"url":"file:///C:/Users/marig/eyes_school_app_movil/test/dto_mapping_test.dart"},"type":"group","time":9695}
+{"test":{"id":31,"name":"CursoOut.jornada normaliza las variantes que acepta la API","suiteID":0,"groupIDs":[8,30],"metadata":{"skip":false,"skipReason":null},"line":137,"column":5,"url":"file:///C:/Users/marig/eyes_school_app_movil/test/dto_mapping_test.dart"},"type":"testStart","time":9696}
+{"testID":28,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":9709}
+{"test":{"id":32,"name":"Contrato grabado · autenticación y personas /padres/me → PadreDto","suiteID":2,"groupIDs":[13,14],"metadata":{"skip":false,"skipReason":null},"line":65,"column":5,"url":"file:///C:/Users/marig/eyes_school_app_movil/test/contrato_grabado_test.dart"},"type":"testStart","time":9710}
+{"testID":31,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":9717}
+{"group":{"id":33,"suiteID":0,"parentID":8,"name":"EstudianteOut","metadata":{"skip":false,"skipReason":null},"testCount":2,"line":146,"column":3,"url":"file:///C:/Users/marig/eyes_school_app_movil/test/dto_mapping_test.dart"},"type":"group","time":9718}
+{"test":{"id":34,"name":"EstudianteOut el ida y vuelta por el caché conserva lo que resuelve un escaneo","suiteID":0,"groupIDs":[8,33],"metadata":{"skip":false,"skipReason":null},"line":147,"column":5,"url":"file:///C:/Users/marig/eyes_school_app_movil/test/dto_mapping_test.dart"},"type":"testStart","time":9719}
+{"testID":32,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":9722}
+{"group":{"id":35,"suiteID":2,"parentID":13,"name":"Contrato grabado · académico","metadata":{"skip":false,"skipReason":null},"testCount":5,"line":73,"column":3,"url":"file:///C:/Users/marig/eyes_school_app_movil/test/contrato_grabado_test.dart"},"type":"group","time":9723}
+{"test":{"id":36,"name":"Contrato grabado · académico /cursos → Course","suiteID":2,"groupIDs":[13,35],"metadata":{"skip":false,"skipReason":null},"line":74,"column":5,"url":"file:///C:/Users/marig/eyes_school_app_movil/test/contrato_grabado_test.dart"},"type":"testStart","time":9723}
+{"testID":34,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":9736}
+{"test":{"id":37,"name":"EstudianteOut sin nombres, el carné cae al código en vez de quedar vacío","suiteID":0,"groupIDs":[8,33],"metadata":{"skip":false,"skipReason":null},"line":174,"column":5,"url":"file:///C:/Users/marig/eyes_school_app_movil/test/dto_mapping_test.dart"},"type":"testStart","time":9737}
+{"testID":37,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":9748}
+{"testID":36,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":9749}
+{"group":{"id":38,"suiteID":0,"parentID":8,"name":"NovedadSeverity","metadata":{"skip":false,"skipReason":null},"testCount":2,"line":189,"column":3,"url":"file:///C:/Users/marig/eyes_school_app_movil/test/dto_mapping_test.dart"},"type":"group","time":9750}
+{"test":{"id":39,"name":"NovedadSeverity reconoce \"Crítico\" con y sin tilde","suiteID":0,"groupIDs":[8,38],"metadata":{"skip":false,"skipReason":null},"line":190,"column":5,"url":"file:///C:/Users/marig/eyes_school_app_movil/test/dto_mapping_test.dart"},"type":"testStart","time":9751}
+{"test":{"id":40,"name":"Contrato grabado · académico /materias → CourseSubject","suiteID":2,"groupIDs":[13,35],"metadata":{"skip":false,"skipReason":null},"line":83,"column":5,"url":"file:///C:/Users/marig/eyes_school_app_movil/test/contrato_grabado_test.dart"},"type":"testStart","time":9752}
+{"testID":39,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":9765}
+{"testID":40,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":9766}
+{"test":{"id":41,"name":"NovedadSeverity la gravedad la define el tipo, no la novedad","suiteID":0,"groupIDs":[8,38],"metadata":{"skip":false,"skipReason":null},"line":196,"column":5,"url":"file:///C:/Users/marig/eyes_school_app_movil/test/dto_mapping_test.dart"},"type":"testStart","time":9766}
+{"test":{"id":42,"name":"Contrato grabado · académico /estudiantes/{id}/notas → Grade (0.0–5.0)","suiteID":2,"groupIDs":[13,35],"metadata":{"skip":false,"skipReason":null},"line":90,"column":5,"url":"file:///C:/Users/marig/eyes_school_app_movil/test/contrato_grabado_test.dart"},"type":"testStart","time":9769}
+{"testID":41,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":9785}
+{"group":{"id":43,"suiteID":0,"parentID":8,"name":"Rol","metadata":{"skip":false,"skipReason":null},"testCount":2,"line":225,"column":3,"url":"file:///C:/Users/marig/eyes_school_app_movil/test/dto_mapping_test.dart"},"type":"group","time":9786}
+{"test":{"id":44,"name":"Rol los id_rol de la API mapean al shell correcto","suiteID":0,"groupIDs":[8,43],"metadata":{"skip":false,"skipReason":null},"line":226,"column":5,"url":"file:///C:/Users/marig/eyes_school_app_movil/test/dto_mapping_test.dart"},"type":"testStart","time":9786}
+{"testID":42,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":9788}
+{"test":{"id":45,"name":"Contrato grabado · académico /cursos/{id}/horarios → ScheduleBlockDto con horas","suiteID":2,"groupIDs":[13,35],"metadata":{"skip":false,"skipReason":null},"line":102,"column":5,"url":"file:///C:/Users/marig/eyes_school_app_movil/test/contrato_grabado_test.dart"},"type":"testStart","time":9789}
+{"testID":44,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":9796}
+{"test":{"id":46,"name":"Rol un rol desconocido cae en el shell más restringido","suiteID":0,"groupIDs":[8,43],"metadata":{"skip":false,"skipReason":null},"line":233,"column":5,"url":"file:///C:/Users/marig/eyes_school_app_movil/test/dto_mapping_test.dart"},"type":"testStart","time":9797}
+{"testID":46,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":9809}
+{"testID":45,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":9810}
+{"group":{"id":47,"suiteID":0,"parentID":8,"name":"Escala de notas","metadata":{"skip":false,"skipReason":null},"testCount":2,"line":238,"column":3,"url":"file:///C:/Users/marig/eyes_school_app_movil/test/dto_mapping_test.dart"},"type":"group","time":9810}
+{"test":{"id":48,"name":"Escala de notas la barra de progreso usa 0.0–5.0, no 0–10","suiteID":0,"groupIDs":[8,47],"metadata":{"skip":false,"skipReason":null},"line":239,"column":5,"url":"file:///C:/Users/marig/eyes_school_app_movil/test/dto_mapping_test.dart"},"type":"testStart","time":9811}
+{"test":{"id":49,"name":"Contrato grabado · académico /asignaciones?id_profesor= → AssignmentDto","suiteID":2,"groupIDs":[13,35],"metadata":{"skip":false,"skipReason":null},"line":112,"column":5,"url":"file:///C:/Users/marig/eyes_school_app_movil/test/contrato_grabado_test.dart"},"type":"testStart","time":9812}
+{"testID":49,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":9825}
+{"group":{"id":50,"suiteID":2,"parentID":13,"name":"Contrato grabado · asistencia","metadata":{"skip":false,"skipReason":null},"testCount":4,"line":122,"column":3,"url":"file:///C:/Users/marig/eyes_school_app_movil/test/contrato_grabado_test.dart"},"type":"group","time":9828}
+{"test":{"id":51,"name":"Contrato grabado · asistencia estudiantes_id_asistencia → AttendanceRecord","suiteID":2,"groupIDs":[13,50],"metadata":{"skip":false,"skipReason":null},"line":124,"column":7,"url":"file:///C:/Users/marig/eyes_school_app_movil/test/contrato_grabado_test.dart"},"type":"testStart","time":9829}
+{"testID":48,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":9835}
+{"test":{"id":52,"name":"Escala de notas el promedio agrupa por materia antes de promediar","suiteID":0,"groupIDs":[8,47],"metadata":{"skip":false,"skipReason":null},"line":263,"column":5,"url":"file:///C:/Users/marig/eyes_school_app_movil/test/dto_mapping_test.dart"},"type":"testStart","time":9836}
+{"testID":52,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":9852}
+{"testID":51,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":9854}
+{"group":{"id":53,"suiteID":0,"parentID":8,"name":"Lecturas defensivas","metadata":{"skip":false,"skipReason":null},"testCount":1,"line":276,"column":3,"url":"file:///C:/Users/marig/eyes_school_app_movil/test/dto_mapping_test.dart"},"type":"group","time":9854}
+{"test":{"id":54,"name":"Lecturas defensivas un campo nulo o de otro tipo no tumba el parseo","suiteID":0,"groupIDs":[8,53],"metadata":{"skip":false,"skipReason":null},"line":277,"column":5,"url":"file:///C:/Users/marig/eyes_school_app_movil/test/dto_mapping_test.dart"},"type":"testStart","time":9855}
+{"test":{"id":55,"name":"Contrato grabado · asistencia estudiantes_id_asistencia · cada «tipo» es uno que la app conoce","suiteID":2,"groupIDs":[13,50],"metadata":{"skip":false,"skipReason":null},"line":134,"column":7,"url":"file:///C:/Users/marig/eyes_school_app_movil/test/contrato_grabado_test.dart"},"type":"testStart","time":9856}
+{"testID":54,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":9871}
+{"testID":55,"error":"Expected: empty\n  Actual: Set:['manual', 'qr']\nvalores de «tipo» que la app no conoce\n","stackTrace":"package:matcher                                     expect\npackage:flutter_test/src/widget_tester.dart 473:18  expect\ntest\\contrato_grabado_test.dart 140:9               main.<fn>.<fn>\n","isFailure":true,"type":"error","time":9981}
+{"suite":{"id":56,"platform":"vm","path":"C:/Users/marig/eyes_school_app_movil/test/academic_repository_test.dart"},"type":"suite","time":10001}
+{"test":{"id":57,"name":"loading C:/Users/marig/eyes_school_app_movil/test/academic_repository_test.dart","suiteID":56,"groupIDs":[],"metadata":{"skip":false,"skipReason":null},"line":null,"column":null,"url":null},"type":"testStart","time":10001}
+{"testID":55,"result":"failure","skipped":false,"hidden":false,"type":"testDone","time":10051}
+{"test":{"id":58,"name":"Contrato grabado · asistencia asistencia_fecha → AttendanceRecord","suiteID":2,"groupIDs":[13,50],"metadata":{"skip":false,"skipReason":null},"line":124,"column":7,"url":"file:///C:/Users/marig/eyes_school_app_movil/test/contrato_grabado_test.dart"},"type":"testStart","time":10053}
+{"testID":58,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":10068}
+{"test":{"id":59,"name":"Contrato grabado · asistencia asistencia_fecha · cada «tipo» es uno que la app conoce","suiteID":2,"groupIDs":[13,50],"metadata":{"skip":false,"skipReason":null},"line":134,"column":7,"url":"file:///C:/Users/marig/eyes_school_app_movil/test/contrato_grabado_test.dart"},"type":"testStart","time":10070}
+{"testID":59,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":10083}
+{"group":{"id":60,"suiteID":2,"parentID":13,"name":"Contrato grabado · novedades y reportes","metadata":{"skip":false,"skipReason":null},"testCount":4,"line":149,"column":3,"url":"file:///C:/Users/marig/eyes_school_app_movil/test/contrato_grabado_test.dart"},"type":"group","time":10084}
+{"test":{"id":61,"name":"Contrato grabado · novedades y reportes /tipos-novedad → NovedadType","suiteID":2,"groupIDs":[13,60],"metadata":{"skip":false,"skipReason":null},"line":150,"column":5,"url":"file:///C:/Users/marig/eyes_school_app_movil/test/contrato_grabado_test.dart"},"type":"testStart","time":10084}
+{"testID":61,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":10098}
+{"test":{"id":62,"name":"Contrato grabado · novedades y reportes novedades → Novedad","suiteID":2,"groupIDs":[13,60],"metadata":{"skip":false,"skipReason":null},"line":160,"column":7,"url":"file:///C:/Users/marig/eyes_school_app_movil/test/contrato_grabado_test.dart"},"type":"testStart","time":10099}
+{"testID":62,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":10116}
+{"test":{"id":63,"name":"Contrato grabado · novedades y reportes estudiantes_id_novedades → Novedad","suiteID":2,"groupIDs":[13,60],"metadata":{"skip":false,"skipReason":null},"line":160,"column":7,"url":"file:///C:/Users/marig/eyes_school_app_movil/test/contrato_grabado_test.dart"},"type":"testStart","time":10116}
+{"testID":5,"result":"success","skipped":false,"hidden":true,"type":"testDone","time":10148}
+{"group":{"id":64,"suiteID":4,"parentID":null,"name":"","metadata":{"skip":false,"skipReason":null},"testCount":3,"line":null,"column":null,"url":null},"type":"group","time":10149}
+{"group":{"id":65,"suiteID":4,"parentID":64,"name":"IT-APP-02 · sesión del padre","metadata":{"skip":false,"skipReason":null},"testCount":2,"line":106,"column":3,"url":"file:///C:/Users/marig/eyes_school_app_movil/test/auth_repository_test.dart"},"type":"group","time":10150}
+{"test":{"id":66,"name":"IT-APP-02 · sesión del padre con 2 hijos: la app consulta /padres/me/hijos y el hijo activo es el primero","suiteID":4,"groupIDs":[64,65],"metadata":{"skip":false,"skipReason":null},"line":107,"column":5,"url":"file:///C:/Users/marig/eyes_school_app_movil/test/auth_repository_test.dart"},"type":"testStart","time":10151}
+{"testID":63,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":10155}
+{"test":{"id":67,"name":"Contrato grabado · novedades y reportes /reportes → Report","suiteID":2,"groupIDs":[13,60],"metadata":{"skip":false,"skipReason":null},"line":175,"column":5,"url":"file:///C:/Users/marig/eyes_school_app_movil/test/contrato_grabado_test.dart"},"type":"testStart","time":10156}
+{"testID":67,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":10172}
+{"group":{"id":68,"suiteID":2,"parentID":13,"name":"Contrato grabado · tableros","metadata":{"skip":false,"skipReason":null},"testCount":3,"line":184,"column":3,"url":"file:///C:/Users/marig/eyes_school_app_movil/test/contrato_grabado_test.dart"},"type":"group","time":10173}
+{"test":{"id":69,"name":"Contrato grabado · tableros /dashboard/docente → TeacherDashboard","suiteID":2,"groupIDs":[13,68],"metadata":{"skip":false,"skipReason":null},"line":185,"column":5,"url":"file:///C:/Users/marig/eyes_school_app_movil/test/contrato_grabado_test.dart"},"type":"testStart","time":10174}
+{"testID":69,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":10190}
+{"test":{"id":70,"name":"Contrato grabado · tableros /dashboard/estudiante → StudentDashboard (porcentaje 0–100)","suiteID":2,"groupIDs":[13,68],"metadata":{"skip":false,"skipReason":null},"line":190,"column":5,"url":"file:///C:/Users/marig/eyes_school_app_movil/test/contrato_grabado_test.dart"},"type":"testStart","time":10191}
+{"testID":70,"error":"Expected: be in range from 0 (inclusive) to 100 (inclusive)\n  Actual: <140.6>\n","stackTrace":"package:matcher                                     expect\npackage:flutter_test/src/widget_tester.dart 473:18  expect\ntest\\contrato_grabado_test.dart 193:7               main.<fn>.<fn>\n","isFailure":true,"type":"error","time":10240}
+{"testID":70,"result":"failure","skipped":false,"hidden":false,"type":"testDone","time":10241}
+{"test":{"id":71,"name":"Contrato grabado · tableros /dashboard/padre → GuardianDashboard (porcentaje 0–100)","suiteID":2,"groupIDs":[13,68],"metadata":{"skip":false,"skipReason":null},"line":196,"column":5,"url":"file:///C:/Users/marig/eyes_school_app_movil/test/contrato_grabado_test.dart"},"type":"testStart","time":10242}
+{"testID":71,"error":"Expected: be in range from 0 (inclusive) to 100 (inclusive)\n  Actual: <140.6>\n","stackTrace":"package:matcher                                     expect\npackage:flutter_test/src/widget_tester.dart 473:18  expect\ntest\\contrato_grabado_test.dart 199:7               main.<fn>.<fn>\n","isFailure":true,"type":"error","time":10305}
+{"testID":71,"result":"failure","skipped":false,"hidden":false,"type":"testDone","time":10307}
+{"testID":66,"messageType":"print","message":"*** Request ***","type":"print","time":10402}
+{"testID":66,"messageType":"print","message":"uri: https://apieyeschool-b7fudxavddh9hhah.canadacentral-01.azurewebsites.net/api/v1/auth/login","type":"print","time":10501}
+{"testID":66,"messageType":"print","message":"data:","type":"print","time":10520}
+{"testID":7,"result":"success","skipped":false,"hidden":true,"type":"testDone","time":10547}
+{"group":{"id":72,"suiteID":6,"parentID":null,"name":"","metadata":{"skip":false,"skipReason":null},"testCount":1,"line":null,"column":null,"url":null},"type":"group","time":10548}
+{"test":{"id":73,"name":"IT-APP-05 · un 400 «No hay entrada registrada hoy» queda fallido y no se reintenta","suiteID":6,"groupIDs":[72],"metadata":{"skip":false,"skipReason":null},"line":31,"column":3,"url":"file:///C:/Users/marig/eyes_school_app_movil/test/attendance_repository_test.dart"},"type":"testStart","time":10549}
+{"testID":66,"messageType":"print","message":"{correo: rosa.perez@gmail.com, password: x}","type":"print","time":10551}
+{"testID":66,"messageType":"print","message":"","type":"print","time":10569}
+{"testID":66,"messageType":"print","message":"*** Response ***","type":"print","time":10577}
+{"testID":66,"messageType":"print","message":"uri: https://apieyeschool-b7fudxavddh9hhah.canadacentral-01.azurewebsites.net/api/v1/auth/login","type":"print","time":10604}
+{"testID":66,"messageType":"print","message":"","type":"print","time":10622}
+{"testID":66,"messageType":"print","message":"*** Request ***","type":"print","time":10623}
+{"testID":66,"messageType":"print","message":"uri: https://apieyeschool-b7fudxavddh9hhah.canadacentral-01.azurewebsites.net/api/v1/auth/me","type":"print","time":10630}
+{"testID":66,"messageType":"print","message":"data:","type":"print","time":10636}
+{"testID":66,"messageType":"print","message":"null","type":"print","time":10638}
+{"testID":66,"messageType":"print","message":"","type":"print","time":10640}
+{"testID":66,"messageType":"print","message":"*** Response ***","type":"print","time":10646}
+{"testID":66,"messageType":"print","message":"uri: https://apieyeschool-b7fudxavddh9hhah.canadacentral-01.azurewebsites.net/api/v1/auth/me","type":"print","time":10650}
+{"testID":66,"messageType":"print","message":"","type":"print","time":10653}
+{"testID":66,"messageType":"print","message":"*** Request ***","type":"print","time":10654}
+{"testID":66,"messageType":"print","message":"uri: https://apieyeschool-b7fudxavddh9hhah.canadacentral-01.azurewebsites.net/api/v1/cursos?skip=0&limit=200","type":"print","time":10656}
+{"testID":66,"messageType":"print","message":"data:","type":"print","time":10657}
+{"testID":66,"messageType":"print","message":"null","type":"print","time":10666}
+{"testID":66,"messageType":"print","message":"","type":"print","time":10669}
+{"testID":66,"messageType":"print","message":"*** Request ***","type":"print","time":10683}
+{"testID":66,"messageType":"print","message":"uri: https://apieyeschool-b7fudxavddh9hhah.canadacentral-01.azurewebsites.net/api/v1/materias","type":"print","time":10690}
+{"testID":66,"messageType":"print","message":"data:","type":"print","time":10704}
+{"testID":66,"messageType":"print","message":"null","type":"print","time":10722}
+{"testID":66,"messageType":"print","message":"","type":"print","time":10751}
+{"testID":66,"messageType":"print","message":"*** Request ***","type":"print","time":10755}
+{"testID":66,"messageType":"print","message":"uri: https://apieyeschool-b7fudxavddh9hhah.canadacentral-01.azurewebsites.net/api/v1/tipos-novedad","type":"print","time":10759}
+{"testID":66,"messageType":"print","message":"data:","type":"print","time":10764}
+{"testID":66,"messageType":"print","message":"null","type":"print","time":10765}
+{"testID":66,"messageType":"print","message":"","type":"print","time":10769}
+{"testID":66,"messageType":"print","message":"*** Response ***","type":"print","time":10771}
+{"testID":66,"messageType":"print","message":"uri: https://apieyeschool-b7fudxavddh9hhah.canadacentral-01.azurewebsites.net/api/v1/cursos?skip=0&limit=200","type":"print","time":10772}
+{"testID":66,"messageType":"print","message":"","type":"print","time":10774}
+{"testID":66,"messageType":"print","message":"*** Response ***","type":"print","time":10776}
+{"testID":66,"messageType":"print","message":"uri: https://apieyeschool-b7fudxavddh9hhah.canadacentral-01.azurewebsites.net/api/v1/materias","type":"print","time":10782}
+{"testID":66,"messageType":"print","message":"","type":"print","time":10799}
+{"testID":73,"messageType":"print","message":"*** Request ***","type":"print","time":10850}
+{"testID":73,"messageType":"print","message":"uri: https://apieyeschool-b7fudxavddh9hhah.canadacentral-01.azurewebsites.net/api/v1/asistencia","type":"print","time":10925}
+{"testID":73,"messageType":"print","message":"data:","type":"print","time":10939}
+{"testID":73,"messageType":"print","message":"{id_estudiante: 5, fecha: 2026-11-10, estado: Presente, registrado_por: 1, tipo: salida}","type":"print","time":10948}
+{"testID":73,"messageType":"print","message":"","type":"print","time":10953}
+{"testID":73,"messageType":"print","message":"*** Request ***","type":"print","time":10955}
+{"testID":66,"messageType":"print","message":"*** Request ***","type":"print","time":10996}
+{"testID":66,"messageType":"print","message":"uri: https://apieyeschool-b7fudxavddh9hhah.canadacentral-01.azurewebsites.net/api/v1/padres/me","type":"print","time":11012}
+{"testID":73,"messageType":"print","message":"uri: https://apieyeschool-b7fudxavddh9hhah.canadacentral-01.azurewebsites.net/api/v1/asistencia","type":"print","time":11017}
+{"testID":66,"messageType":"print","message":"data:","type":"print","time":11018}
+{"testID":73,"messageType":"print","message":"data:","type":"print","time":11019}
+{"testID":73,"messageType":"print","message":"{id_estudiante: 5, fecha: 2026-11-10, estado: Presente, registrado_por: 1, tipo: salida}","type":"print","time":11020}
+{"testID":66,"messageType":"print","message":"null","type":"print","time":11021}
+{"testID":73,"messageType":"print","message":"","type":"print","time":11022}
+{"testID":73,"error":"Expected: an object with length of <1>\n  Actual: []\n   Which: has length of <0>\nestado: (SyncState.pending)\n","stackTrace":"package:matcher                                     expect\npackage:flutter_test/src/widget_tester.dart 473:18  expect\ntest\\attendance_repository_test.dart 67:7           main.<fn>\n","isFailure":true,"type":"error","time":11026}
+{"testID":66,"messageType":"print","message":"","type":"print","time":11027}
+{"testID":73,"result":"failure","skipped":false,"hidden":false,"type":"testDone","time":11028}
+{"testID":66,"messageType":"print","message":"*** Response ***","type":"print","time":11118}
+{"testID":66,"messageType":"print","message":"uri: https://apieyeschool-b7fudxavddh9hhah.canadacentral-01.azurewebsites.net/api/v1/padres/me","type":"print","time":11119}
+{"testID":66,"messageType":"print","message":"","type":"print","time":11120}
+{"testID":66,"messageType":"print","message":"*** Request ***","type":"print","time":11120}
+{"testID":66,"messageType":"print","message":"uri: https://apieyeschool-b7fudxavddh9hhah.canadacentral-01.azurewebsites.net/api/v1/dashboard/padre","type":"print","time":11123}
+{"testID":66,"messageType":"print","message":"data:","type":"print","time":11124}
+{"testID":66,"messageType":"print","message":"null","type":"print","time":11125}
+{"testID":66,"messageType":"print","message":"","type":"print","time":11130}
+{"testID":66,"messageType":"print","message":"*** Response ***","type":"print","time":11131}
+{"testID":66,"messageType":"print","message":"uri: https://apieyeschool-b7fudxavddh9hhah.canadacentral-01.azurewebsites.net/api/v1/dashboard/padre","type":"print","time":11132}
+{"testID":66,"messageType":"print","message":"","type":"print","time":11133}
+{"testID":66,"messageType":"print","message":"*** Request ***","type":"print","time":11134}
+{"testID":66,"messageType":"print","message":"uri: https://apieyeschool-b7fudxavddh9hhah.canadacentral-01.azurewebsites.net/api/v1/estudiantes/1","type":"print","time":11135}
+{"testID":66,"messageType":"print","message":"data:","type":"print","time":11136}
+{"testID":66,"messageType":"print","message":"null","type":"print","time":11137}
+{"testID":66,"messageType":"print","message":"","type":"print","time":11138}
+{"testID":66,"messageType":"print","message":"*** Response ***","type":"print","time":11139}
+{"testID":66,"messageType":"print","message":"uri: https://apieyeschool-b7fudxavddh9hhah.canadacentral-01.azurewebsites.net/api/v1/estudiantes/1","type":"print","time":11140}
+{"testID":66,"messageType":"print","message":"","type":"print","time":11141}
+{"testID":66,"error":"Expected: true\n  Actual: <false>\npedidas: [/auth/login, /auth/me, /cursos, /materias, /tipos-novedad, /tipos-novedad, /padres/me, /dashboard/padre, /estudiantes/1]\n","stackTrace":"package:matcher                                     expect\npackage:flutter_test/src/widget_tester.dart 473:18  expect\ntest\\auth_repository_test.dart 120:9                main.<fn>.<fn>\n","isFailure":true,"type":"error","time":11144}
+{"testID":66,"result":"failure","skipped":false,"hidden":false,"type":"testDone","time":11146}
+{"test":{"id":74,"name":"IT-APP-02 · sesión del padre sin hijos: la sesión se crea sin hijo vinculado","suiteID":4,"groupIDs":[64,65],"metadata":{"skip":false,"skipReason":null},"line":129,"column":5,"url":"file:///C:/Users/marig/eyes_school_app_movil/test/auth_repository_test.dart"},"type":"testStart","time":11147}
+{"testID":74,"messageType":"print","message":"*** Request ***","type":"print","time":11159}
+{"testID":74,"messageType":"print","message":"uri: https://apieyeschool-b7fudxavddh9hhah.canadacentral-01.azurewebsites.net/api/v1/auth/login","type":"print","time":11165}
+{"testID":74,"messageType":"print","message":"data:","type":"print","time":11167}
+{"testID":74,"messageType":"print","message":"{correo: rosa.perez@gmail.com, password: x}","type":"print","time":11170}
+{"testID":74,"messageType":"print","message":"","type":"print","time":11173}
+{"testID":74,"messageType":"print","message":"*** Response ***","type":"print","time":11181}
+{"testID":74,"messageType":"print","message":"uri: https://apieyeschool-b7fudxavddh9hhah.canadacentral-01.azurewebsites.net/api/v1/auth/login","type":"print","time":11186}
+{"testID":74,"messageType":"print","message":"","type":"print","time":11188}
+{"testID":74,"messageType":"print","message":"*** Request ***","type":"print","time":11195}
+{"testID":74,"messageType":"print","message":"uri: https://apieyeschool-b7fudxavddh9hhah.canadacentral-01.azurewebsites.net/api/v1/auth/me","type":"print","time":11197}
+{"testID":74,"messageType":"print","message":"data:","type":"print","time":11202}
+{"testID":74,"messageType":"print","message":"null","type":"print","time":11206}
+{"testID":74,"messageType":"print","message":"","type":"print","time":11213}
+{"testID":74,"messageType":"print","message":"*** Response ***","type":"print","time":11220}
+{"testID":74,"messageType":"print","message":"uri: https://apieyeschool-b7fudxavddh9hhah.canadacentral-01.azurewebsites.net/api/v1/auth/me","type":"print","time":11222}
+{"testID":74,"messageType":"print","message":"","type":"print","time":11224}
+{"testID":74,"messageType":"print","message":"*** Request ***","type":"print","time":11227}
+{"testID":74,"messageType":"print","message":"uri: https://apieyeschool-b7fudxavddh9hhah.canadacentral-01.azurewebsites.net/api/v1/cursos?skip=0&limit=200","type":"print","time":11229}
+{"testID":74,"messageType":"print","message":"data:","type":"print","time":11230}
+{"testID":74,"messageType":"print","message":"null","type":"print","time":11232}
+{"testID":74,"messageType":"print","message":"","type":"print","time":11233}
+{"testID":74,"messageType":"print","message":"*** Request ***","type":"print","time":11234}
+{"testID":74,"messageType":"print","message":"uri: https://apieyeschool-b7fudxavddh9hhah.canadacentral-01.azurewebsites.net/api/v1/materias","type":"print","time":11235}
+{"testID":74,"messageType":"print","message":"data:","type":"print","time":11235}
+{"testID":74,"messageType":"print","message":"null","type":"print","time":11236}
+{"testID":74,"messageType":"print","message":"","type":"print","time":11237}
+{"testID":74,"messageType":"print","message":"*** Request ***","type":"print","time":11238}
+{"testID":74,"messageType":"print","message":"uri: https://apieyeschool-b7fudxavddh9hhah.canadacentral-01.azurewebsites.net/api/v1/tipos-novedad","type":"print","time":11239}
+{"testID":74,"messageType":"print","message":"data:","type":"print","time":11240}
+{"testID":74,"messageType":"print","message":"null","type":"print","time":11241}
+{"testID":74,"messageType":"print","message":"","type":"print","time":11242}
+{"testID":74,"messageType":"print","message":"*** Response ***","type":"print","time":11243}
+{"testID":74,"messageType":"print","message":"uri: https://apieyeschool-b7fudxavddh9hhah.canadacentral-01.azurewebsites.net/api/v1/cursos?skip=0&limit=200","type":"print","time":11244}
+{"testID":74,"messageType":"print","message":"","type":"print","time":11246}
+{"testID":74,"messageType":"print","message":"*** Response ***","type":"print","time":11247}
+{"testID":74,"messageType":"print","message":"uri: https://apieyeschool-b7fudxavddh9hhah.canadacentral-01.azurewebsites.net/api/v1/materias","type":"print","time":11248}
+{"testID":74,"messageType":"print","message":"","type":"print","time":11249}
+{"testID":74,"messageType":"print","message":"*** Request ***","type":"print","time":11633}
+{"testID":74,"messageType":"print","message":"uri: https://apieyeschool-b7fudxavddh9hhah.canadacentral-01.azurewebsites.net/api/v1/padres/me","type":"print","time":11638}
+{"testID":74,"messageType":"print","message":"data:","type":"print","time":11639}
+{"testID":74,"messageType":"print","message":"null","type":"print","time":11642}
+{"testID":74,"messageType":"print","message":"","type":"print","time":11644}
+{"testID":74,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":11654}
+{"test":{"id":75,"name":"IT-APP-03 · login con « Ana@X.com » envía «ana@x.com»","suiteID":4,"groupIDs":[64],"metadata":{"skip":false,"skipReason":null},"line":148,"column":3,"url":"file:///C:/Users/marig/eyes_school_app_movil/test/auth_repository_test.dart"},"type":"testStart","time":11655}
+{"testID":75,"messageType":"print","message":"*** Request ***","type":"print","time":11666}
+{"testID":75,"messageType":"print","message":"uri: https://apieyeschool-b7fudxavddh9hhah.canadacentral-01.azurewebsites.net/api/v1/auth/login","type":"print","time":11671}
+{"testID":75,"messageType":"print","message":"data:","type":"print","time":11673}
+{"testID":75,"messageType":"print","message":"{correo: Ana@X.com, password: x}","type":"print","time":11677}
+{"testID":75,"messageType":"print","message":"","type":"print","time":11679}
+{"testID":75,"messageType":"print","message":"*** Response ***","type":"print","time":11682}
+{"testID":75,"messageType":"print","message":"uri: https://apieyeschool-b7fudxavddh9hhah.canadacentral-01.azurewebsites.net/api/v1/auth/login","type":"print","time":11687}
+{"testID":75,"messageType":"print","message":"","type":"print","time":11692}
+{"testID":75,"messageType":"print","message":"*** Request ***","type":"print","time":11695}
+{"testID":75,"messageType":"print","message":"uri: https://apieyeschool-b7fudxavddh9hhah.canadacentral-01.azurewebsites.net/api/v1/auth/me","type":"print","time":11697}
+{"testID":75,"messageType":"print","message":"data:","type":"print","time":11701}
+{"testID":75,"messageType":"print","message":"null","type":"print","time":11703}
+{"testID":75,"messageType":"print","message":"","type":"print","time":11705}
+{"testID":75,"messageType":"print","message":"*** Response ***","type":"print","time":11708}
+{"testID":75,"messageType":"print","message":"uri: https://apieyeschool-b7fudxavddh9hhah.canadacentral-01.azurewebsites.net/api/v1/auth/me","type":"print","time":11713}
+{"testID":75,"messageType":"print","message":"","type":"print","time":11715}
+{"testID":75,"messageType":"print","message":"*** Request ***","type":"print","time":11719}
+{"testID":75,"messageType":"print","message":"uri: https://apieyeschool-b7fudxavddh9hhah.canadacentral-01.azurewebsites.net/api/v1/cursos?skip=0&limit=200","type":"print","time":11726}
+{"testID":75,"messageType":"print","message":"data:","type":"print","time":11728}
+{"testID":75,"messageType":"print","message":"null","type":"print","time":11730}
+{"testID":75,"messageType":"print","message":"","type":"print","time":11733}
+{"testID":75,"messageType":"print","message":"*** Request ***","type":"print","time":11734}
+{"testID":75,"messageType":"print","message":"uri: https://apieyeschool-b7fudxavddh9hhah.canadacentral-01.azurewebsites.net/api/v1/materias","type":"print","time":11737}
+{"testID":75,"messageType":"print","message":"data:","type":"print","time":11738}
+{"testID":75,"messageType":"print","message":"null","type":"print","time":11739}
+{"testID":75,"messageType":"print","message":"","type":"print","time":11740}
+{"testID":75,"messageType":"print","message":"*** Request ***","type":"print","time":11741}
+{"testID":75,"messageType":"print","message":"uri: https://apieyeschool-b7fudxavddh9hhah.canadacentral-01.azurewebsites.net/api/v1/tipos-novedad","type":"print","time":11742}
+{"testID":75,"messageType":"print","message":"data:","type":"print","time":11743}
+{"testID":75,"messageType":"print","message":"null","type":"print","time":11745}
+{"testID":75,"messageType":"print","message":"","type":"print","time":11746}
+{"testID":75,"messageType":"print","message":"*** Response ***","type":"print","time":11747}
+{"testID":75,"messageType":"print","message":"uri: https://apieyeschool-b7fudxavddh9hhah.canadacentral-01.azurewebsites.net/api/v1/cursos?skip=0&limit=200","type":"print","time":11748}
+{"testID":75,"messageType":"print","message":"","type":"print","time":11749}
+{"testID":75,"messageType":"print","message":"*** Response ***","type":"print","time":11750}
+{"testID":75,"messageType":"print","message":"uri: https://apieyeschool-b7fudxavddh9hhah.canadacentral-01.azurewebsites.net/api/v1/materias","type":"print","time":11751}
+{"testID":75,"messageType":"print","message":"","type":"print","time":11752}
+{"testID":75,"messageType":"print","message":"*** Request ***","type":"print","time":12138}
+{"testID":75,"messageType":"print","message":"uri: https://apieyeschool-b7fudxavddh9hhah.canadacentral-01.azurewebsites.net/api/v1/padres/me","type":"print","time":12142}
+{"testID":75,"messageType":"print","message":"data:","type":"print","time":12145}
+{"testID":75,"messageType":"print","message":"null","type":"print","time":12148}
+{"testID":75,"messageType":"print","message":"","type":"print","time":12150}
+{"testID":75,"messageType":"print","message":"*** Response ***","type":"print","time":12153}
+{"testID":75,"messageType":"print","message":"uri: https://apieyeschool-b7fudxavddh9hhah.canadacentral-01.azurewebsites.net/api/v1/padres/me","type":"print","time":12155}
+{"testID":75,"messageType":"print","message":"","type":"print","time":12157}
+{"testID":75,"messageType":"print","message":"*** Request ***","type":"print","time":12157}
+{"testID":75,"messageType":"print","message":"uri: https://apieyeschool-b7fudxavddh9hhah.canadacentral-01.azurewebsites.net/api/v1/dashboard/padre","type":"print","time":12163}
+{"testID":75,"messageType":"print","message":"data:","type":"print","time":12167}
+{"testID":75,"messageType":"print","message":"null","type":"print","time":12168}
+{"testID":75,"messageType":"print","message":"","type":"print","time":12170}
+{"testID":75,"messageType":"print","message":"*** Response ***","type":"print","time":12171}
+{"testID":75,"messageType":"print","message":"uri: https://apieyeschool-b7fudxavddh9hhah.canadacentral-01.azurewebsites.net/api/v1/dashboard/padre","type":"print","time":12175}
+{"testID":75,"messageType":"print","message":"","type":"print","time":12179}
+{"testID":75,"messageType":"print","message":"*** Request ***","type":"print","time":12208}
+{"testID":75,"messageType":"print","message":"uri: https://apieyeschool-b7fudxavddh9hhah.canadacentral-01.azurewebsites.net/api/v1/estudiantes/1","type":"print","time":12209}
+{"testID":75,"messageType":"print","message":"data:","type":"print","time":12209}
+{"testID":75,"messageType":"print","message":"null","type":"print","time":12211}
+{"testID":57,"result":"success","skipped":false,"hidden":true,"type":"testDone","time":12213}
+{"group":{"id":76,"suiteID":56,"parentID":null,"name":"","metadata":{"skip":false,"skipReason":null},"testCount":1,"line":null,"column":null,"url":null},"type":"group","time":12214}
+{"test":{"id":77,"name":"IT-APP-06 · un 404 del boletín produce AppFailure con el texto de la API","suiteID":56,"groupIDs":[76],"metadata":{"skip":false,"skipReason":null},"line":27,"column":3,"url":"file:///C:/Users/marig/eyes_school_app_movil/test/academic_repository_test.dart"},"type":"testStart","time":12215}
+{"testID":75,"messageType":"print","message":"","type":"print","time":12217}
+{"testID":75,"messageType":"print","message":"*** Response ***","type":"print","time":12217}
+{"testID":75,"messageType":"print","message":"uri: https://apieyeschool-b7fudxavddh9hhah.canadacentral-01.azurewebsites.net/api/v1/estudiantes/1","type":"print","time":12217}
+{"testID":75,"messageType":"print","message":"","type":"print","time":12217}
+{"testID":75,"error":"Expected: 'ana@x.com'\n  Actual: 'Ana@X.com'\n   Which: is different.\n          Expected: ana@x.com\n            Actual: Ana@X.com\n                    ^\n           Differ at offset 0\n","stackTrace":"package:matcher                                     expect\npackage:flutter_test/src/widget_tester.dart 473:18  expect\ntest\\auth_repository_test.dart 165:5                main.<fn>\n","isFailure":true,"type":"error","time":12219}
+{"testID":75,"result":"failure","skipped":false,"hidden":false,"type":"testDone","time":12220}
+{"testID":77,"messageType":"print","message":"*** Request ***","type":"print","time":12344}
+{"testID":77,"messageType":"print","message":"uri: https://apieyeschool-b7fudxavddh9hhah.canadacentral-01.azurewebsites.net/api/v1/notas/estudiantes/4/boletin/pdf","type":"print","time":12351}
+{"testID":77,"messageType":"print","message":"data:","type":"print","time":12375}
+{"testID":77,"messageType":"print","message":"null","type":"print","time":12378}
+{"testID":77,"messageType":"print","message":"","type":"print","time":12380}
+{"testID":77,"error":"Expected: throws <Instance of 'AppFailure'> with `message`: 'No hay datos disponibles para generar el boletín.'\n  Actual: <Instance of 'Future<void>'>\n   Which: threw NotFoundFailure:<No encontramos el recurso solicitado.>\n          stack package:dio/src/dio_mixin.dart 598:7               DioMixin.fetch\n                ===== asynchronous gap ===========================\n                package:matcher                                    expectLater\n                package:flutter_test/src/widget_tester.dart 507:8  expectLater\n                test\\academic_repository_test.dart 47:13           main.<fn>\n                ===== asynchronous gap ===========================\n                dart:async                                         _CustomZone.registerUnaryCallback\n                test\\academic_repository_test.dart 44:19           main.<fn>\n                \n          which has `message` with value 'No encontramos el recurso solicitado.' which is different.\n                Expected: No hay datos  ...\n                  Actual: No encontramo ...\n                             ^\n                 Differ at offset 3\n","stackTrace":"package:matcher                                    expectLater\npackage:flutter_test/src/widget_tester.dart 507:8  expectLater\ntest\\academic_repository_test.dart 47:13           main.<fn>\n===== asynchronous gap ===========================\ndart:async                                         _CustomZone.registerUnaryCallback\ntest\\academic_repository_test.dart 44:19           main.<fn>\n","isFailure":true,"type":"error","time":12467}
+{"testID":77,"result":"failure","skipped":false,"hidden":false,"type":"testDone","time":12468}
+{"success":false,"type":"done","time":12536}

@@ -1,0 +1,26 @@
+00:00 +0: loading C:/Users/marig/eyes_school_app_movil/test/device_token_repository_test.dart
+test/device_token_repository_test.dart:19:8: Error: Error when reading 'lib/features/notifications/data/device_token_repository_impl.dart': El sistema no puede encontrar el archivo especificado
+import 'package:eyes_school/features/notifications/data/device_token_repository_impl.dart';
+       ^
+test/device_token_repository_test.dart:28:8: Error: 'DeviceTokenRepositoryImpl' isn't a type.
+  late DeviceTokenRepositoryImpl repo;
+       ^^^^^^^^^^^^^^^^^^^^^^^^^
+test/device_token_repository_test.dart:37:12: Error: Method not found: 'DeviceTokenRepositoryImpl'.
+    repo = DeviceTokenRepositoryImpl(ApiClient(dio));
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+00:00 +0 -1: loading C:/Users/marig/eyes_school_app_movil/test/device_token_repository_test.dart [E]
+  Failed to load "C:/Users/marig/eyes_school_app_movil/test/device_token_repository_test.dart":
+  Compilation failed for testPath=C:/Users/marig/eyes_school_app_movil/test/device_token_repository_test.dart: test/device_token_repository_test.dart:19:8: Error: Error when reading 'lib/features/notifications/data/device_token_repository_impl.dart': El sistema no puede encontrar el archivo especificado
+  import 'package:eyes_school/features/notifications/data/device_token_repository_impl.dart';
+         ^
+  test/device_token_repository_test.dart:28:8: Error: 'DeviceTokenRepositoryImpl' isn't a type.
+    late DeviceTokenRepositoryImpl repo;
+         ^^^^^^^^^^^^^^^^^^^^^^^^^
+  test/device_token_repository_test.dart:37:12: Error: Method not found: 'DeviceTokenRepositoryImpl'.
+      repo = DeviceTokenRepositoryImpl(ApiClient(dio));
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+  .
+00:00 +0 -1: Some tests failed.
+
+Failing tests:
+  C:/Users/marig/eyes_school_app_movil/test/device_token_repository_test.dart: loading C:/Users/marig/eyes_school_app_movil/test/device_token_repository_test.dart

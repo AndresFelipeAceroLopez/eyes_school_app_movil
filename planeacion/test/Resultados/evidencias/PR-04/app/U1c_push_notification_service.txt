@@ -1,0 +1,68 @@
+00:00 +0: loading C:/Users/marig/eyes_school_app_movil/test/push_notification_service_test.dart
+test/push_notification_service_test.dart:22:8: Error: Error when reading 'lib/features/notifications/domain/device_token_repository.dart': El sistema no puede encontrar la ruta especificada
+import 'package:eyes_school/features/notifications/domain/device_token_repository.dart';
+       ^
+test/push_notification_service_test.dart:62:35: Error: Type 'DeviceTokenRepository' not found.
+class _RecordingTokens implements DeviceTokenRepository {
+                                  ^^^^^^^^^^^^^^^^^^^^^
+test/push_notification_service_test.dart:53:19: Error: The method '_FakeMessaging.getToken' has fewer named arguments than those of overridden method 'FirebaseMessaging.getToken'.
+  Future<String?> getToken({String? vapidKey}) async => token;
+                  ^
+../AppData/Local/Pub/Cache/hosted/pub.dev/firebase_messaging-16.7.0/lib/src/messaging.dart:121:19: Context: This is the overridden method ('getToken').
+  Future<String?> getToken({
+                  ^
+test/push_notification_service_test.dart:53:19: Error: The method '_FakeMessaging.getToken' doesn't have the named parameter 'serviceWorkerScriptPath' of overridden method 'FirebaseMessaging.getToken'.
+  Future<String?> getToken({String? vapidKey}) async => token;
+                  ^
+../AppData/Local/Pub/Cache/hosted/pub.dev/firebase_messaging-16.7.0/lib/src/messaging.dart:121:19: Context: This is the overridden method ('getToken').
+  Future<String?> getToken({
+                  ^
+test/push_notification_service_test.dart:78:11: Error: Couldn't find constructor 'PushNotificationService'.
+          PushNotificationService(messaging: _FakeMessaging(), deviceTokens: tokens);
+          ^^^^^^^^^^^^^^^^^^^^^^^
+test/push_notification_service_test.dart:88:23: Error: Couldn't find constructor 'PushNotificationService'.
+      final service = PushNotificationService(messaging: messaging, deviceTokens: tokens);
+                      ^^^^^^^^^^^^^^^^^^^^^^^
+test/push_notification_service_test.dart:99:23: Error: Couldn't find constructor 'PushNotificationService'.
+      final service = PushNotificationService(
+                      ^^^^^^^^^^^^^^^^^^^^^^^
+test/push_notification_service_test.dart:111:11: Error: Couldn't find constructor 'PushNotificationService'.
+          PushNotificationService(messaging: _FakeMessaging(), deviceTokens: tokens);
+          ^^^^^^^^^^^^^^^^^^^^^^^
+00:00 +0 -1: loading C:/Users/marig/eyes_school_app_movil/test/push_notification_service_test.dart [E]
+  Failed to load "C:/Users/marig/eyes_school_app_movil/test/push_notification_service_test.dart":
+  Compilation failed for testPath=C:/Users/marig/eyes_school_app_movil/test/push_notification_service_test.dart: test/push_notification_service_test.dart:22:8: Error: Error when reading 'lib/features/notifications/domain/device_token_repository.dart': El sistema no puede encontrar la ruta especificada
+  import 'package:eyes_school/features/notifications/domain/device_token_repository.dart';
+         ^
+  test/push_notification_service_test.dart:62:35: Error: Type 'DeviceTokenRepository' not found.
+  class _RecordingTokens implements DeviceTokenRepository {
+                                    ^^^^^^^^^^^^^^^^^^^^^
+  test/push_notification_service_test.dart:53:19: Error: The method '_FakeMessaging.getToken' has fewer named arguments than those of overridden method 'FirebaseMessaging.getToken'.
+    Future<String?> getToken({String? vapidKey}) async => token;
+                    ^
+  ../AppData/Local/Pub/Cache/hosted/pub.dev/firebase_messaging-16.7.0/lib/src/messaging.dart:121:19: Context: This is the overridden method ('getToken').
+    Future<String?> getToken({
+                    ^
+  test/push_notification_service_test.dart:53:19: Error: The method '_FakeMessaging.getToken' doesn't have the named parameter 'serviceWorkerScriptPath' of overridden method 'FirebaseMessaging.getToken'.
+    Future<String?> getToken({String? vapidKey}) async => token;
+                    ^
+  ../AppData/Local/Pub/Cache/hosted/pub.dev/firebase_messaging-16.7.0/lib/src/messaging.dart:121:19: Context: This is the overridden method ('getToken').
+    Future<String?> getToken({
+                    ^
+  test/push_notification_service_test.dart:78:11: Error: Couldn't find constructor 'PushNotificationService'.
+            PushNotificationService(messaging: _FakeMessaging(), deviceTokens: tokens);
+            ^^^^^^^^^^^^^^^^^^^^^^^
+  test/push_notification_service_test.dart:88:23: Error: Couldn't find constructor 'PushNotificationService'.
+        final service = PushNotificationService(messaging: messaging, deviceTokens: tokens);
+                        ^^^^^^^^^^^^^^^^^^^^^^^
+  test/push_notification_service_test.dart:99:23: Error: Couldn't find constructor 'PushNotificationService'.
+        final service = PushNotificationService(
+                        ^^^^^^^^^^^^^^^^^^^^^^^
+  test/push_notification_service_test.dart:111:11: Error: Couldn't find constructor 'PushNotificationService'.
+            PushNotificationService(messaging: _FakeMessaging(), deviceTokens: tokens);
+            ^^^^^^^^^^^^^^^^^^^^^^^
+  .
+00:00 +0 -1: Some tests failed.
+
+Failing tests:
+  C:/Users/marig/eyes_school_app_movil/test/push_notification_service_test.dart: loading C:/Users/marig/eyes_school_app_movil/test/push_notification_service_test.dart

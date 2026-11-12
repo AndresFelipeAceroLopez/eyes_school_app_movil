@@ -1,0 +1,3 @@
+29200965 build/app/outputs/flutter-apk/app-arm64-v8a-release.apk
+25087159 build/app/outputs/flutter-apk/app-armeabi-v7a-release.apk
+31773248 build/app/outputs/flutter-apk/app-x86_64-release.apk
