@@ -31,18 +31,23 @@ void main() {
     writes = [];
   });
 
-  Map<String, Object? Function(RequestOptions)> api() => {
-    '/estudiantes': (_) => enrolled,
-    '/asistencia/55': (options) {
-      writes.add(options);
-      return _record(55);
-    },
-    '/asistencia': (options) {
-      if (options.method == 'GET') return [_record(1), _record(2)];
-      writes.add(options);
-      return _record(100 + writes.length);
-    },
-  };
+  Map<String, Object? Function(RequestOptions)> api() {
+    // Each API keeps the list of the test that created it: a queue flush that
+    // a previous test left running in the background must not land here.
+    final sink = writes;
+    return {
+      '/estudiantes': (_) => enrolled,
+      '/asistencia/55': (options) {
+        sink.add(options);
+        return _record(55);
+      },
+      '/asistencia': (options) {
+        if (options.method == 'GET') return [_record(1), _record(2)];
+        sink.add(options);
+        return _record(100 + sink.length);
+      },
+    };
+  }
 
   AttendanceRepositoryImpl repositoryOver(
     Map<String, Object? Function(RequestOptions)> routes, {
