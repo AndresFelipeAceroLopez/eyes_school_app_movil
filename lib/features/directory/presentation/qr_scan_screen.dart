@@ -15,6 +15,7 @@ import 'package:eyes_school/providers/data_providers.dart';
 import 'package:eyes_school/providers/repository_providers.dart';
 import 'package:eyes_school/providers/session_provider.dart';
 import 'package:eyes_school/features/attendance/domain/attendance.dart';
+import 'package:eyes_school/features/directory/domain/role.dart';
 
 // ConsumerStatefulWidget: se necesita StatefulWidget por el
 // MobileScannerController (tiene ciclo de vida propio, hay que
@@ -26,6 +27,11 @@ class QrScanScreen extends ConsumerStatefulWidget {
   @override
   ConsumerState<QrScanScreen> createState() => _QrScanScreenState();
 }
+
+/// The pending-queue screen inside the scanner's own branch (N-27): the
+/// teacher scans too, and the router only lets each role into its own prefix.
+String pendingRouteFor(Role? role) =>
+    role == Role.teacher ? '/teacher/qr/pendientes' : '/admin/qr/pendientes';
 
 class _QrScanScreenState extends ConsumerState<QrScanScreen> {
   final MobileScannerController _controller = MobileScannerController(
@@ -200,7 +206,9 @@ class _QrScanScreenState extends ConsumerState<QrScanScreen> {
                     await _controller.toggleTorch();
                     if (mounted) setState(() => _torchOn = !_torchOn);
                   },
-                  onOpenPending: () => context.push('/admin/qr/pendientes'),
+                  onOpenPending: () => context.push(
+                    pendingRouteFor(ref.read(currentSessionProvider)?.role),
+                  ),
                 ),
                 const Spacer(),
                 _BottomPanel(

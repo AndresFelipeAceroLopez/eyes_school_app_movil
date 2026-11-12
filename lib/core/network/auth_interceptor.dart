@@ -40,12 +40,20 @@ class AuthInterceptor extends Interceptor {
   bool _isPublic(RequestOptions options) =>
       _publicPaths.any((p) => options.path.endsWith(p));
 
+  /// Only requests to our own API carry the session (N-29). An absolute URL
+  /// to another host (GitHub, a file CDN) must never receive the token, and
+  /// its 401 says nothing about our session.
+  bool _isOwnApi(RequestOptions options) {
+    final base = Uri.tryParse(options.baseUrl);
+    return base == null || options.uri.host == base.host;
+  }
+
   @override
   Future<void> onRequest(
     RequestOptions options,
     RequestInterceptorHandler handler,
   ) async {
-    if (!_isPublic(options)) {
+    if (_isOwnApi(options) && !_isPublic(options)) {
       final token = await _tokens.readAccessToken();
       if (token != null) options.headers['Authorization'] = 'Bearer $token';
     }
@@ -62,6 +70,7 @@ class AuthInterceptor extends Interceptor {
 
     final shouldRefresh =
         response?.statusCode == 401 &&
+        _isOwnApi(options) &&
         !_isPublic(options) &&
         options.extra['retried'] != true;
 

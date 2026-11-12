@@ -89,12 +89,17 @@ void main() {
   });
 
   testWidgets(
-    'una API totalmente caída deja al usuario en el login, no en rojo',
+    'una API totalmente caída con sesión guardada ofrece reintentar: no borra '
+    'la sesión ni pinta en rojo (N-28)',
     (tester) async {
       await pumpApp(tester, ScriptedAdapter(const {}));
 
       expect(tester.takeException(), isNull);
-      expect(find.text('Bienvenido'), findsOneWidget);
+      // Antes la app borraba la sesión y mostraba el login: abrirla sin señal
+      // cerraba la sesión del docente.
+      expect(find.text('Bienvenido'), findsNothing);
+      expect(find.text('Reintentar'), findsOneWidget);
+      expect(find.text('Cerrar sesión'), findsOneWidget);
     },
   );
 }
