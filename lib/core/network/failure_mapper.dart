@@ -59,7 +59,13 @@ abstract final class FailureMapper {
         detail ?? 'Revisa los datos ingresados.',
         const {},
       ),
-      401 => const UnauthorizedFailure(),
+      // N-25: a 401 from a public auth endpoint carries its own reason
+      // (e.g. «El enlace de recuperación es inválido o expiró»); only a bare
+      // 401 means the session expired.
+      401 =>
+        detail == null
+            ? const UnauthorizedFailure()
+            : UnauthorizedFailure(detail),
       403 => ForbiddenFailure(detail ?? 'No tienes permiso para esta acción.'),
       404 => NotFoundFailure(detail ?? 'No encontramos el recurso solicitado.'),
       409 => ConflictFailure(detail ?? 'El registro ya existe.'),

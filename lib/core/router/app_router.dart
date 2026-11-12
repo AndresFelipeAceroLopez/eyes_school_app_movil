@@ -138,8 +138,11 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         // Deep link: eyesschool://reset?token=…
         path: '/reset-password',
-        builder: (context, state) =>
-            ResetPasswordScreen(token: state.uri.queryParameters['token']),
+        builder: (context, state) {
+          final token = state.uri.queryParameters['token'];
+          // A new link while the form is open rebuilds it with its code.
+          return ResetPasswordScreen(key: ValueKey(token), token: token);
+        },
       ),
       GoRoute(
         path: '/error/sin-permiso',
