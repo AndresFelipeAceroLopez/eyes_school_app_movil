@@ -59,11 +59,12 @@ jobs:
 
       # N-14: la version del APK sale de la etiqueta (v1.1.0 -> 1.1.0); antes
       # salia de pubspec.yaml y el APK v1.0.1 se reportaba como 0.1.0.
+      # N-26: solo el APK universal. Los APK por ABI suman 1000-3000 al
+      # versionCode (v1.1.0 arm64 = 2003) y la OTA siguiente (universal, 4)
+      # no podria instalarse encima de ellos.
       - name: Build APK
         run: |
           VERSION="${GITHUB_REF_NAME#v}"
-          flutter build apk --release --split-per-abi \
-            --build-name="$VERSION" --build-number="${{ github.run_number }}"
           flutter build apk --release \
             --build-name="$VERSION" --build-number="${{ github.run_number }}"
 
@@ -87,9 +88,7 @@ jobs:
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          files: |
-            build/app/outputs/flutter-apk/app-release.apk
-            build/app/outputs/flutter-apk/app-arm64-v8a-release.apk
+          files: build/app/outputs/flutter-apk/app-release.apk
           name: Release ${{ github.ref_name }}
           draft: false
           prerelease: false
