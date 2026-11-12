@@ -15,6 +15,10 @@ import 'package:eyes_school/features/novedades/domain/severity.dart';
 
 /// Signing in, and the invariant that a background concern must never cost
 /// the user their session.
+/// Fields of the login form, named as the API names them, so field errors
+/// from the use case and from a 422 land on the same input.
+enum LoginField { correo, password }
+
 class SignIn {
   const SignIn(this._auth);
 
@@ -22,14 +26,13 @@ class SignIn {
 
   Future<AppSession> call({required String email, required String password}) {
     if (email.trim().isEmpty) {
-      throw const ValidationFailure('Ingresa tu correo.', {
-        'correo': 'Requerido',
+      throw ValidationFailure('Ingresa tu correo.', {
+        LoginField.correo.name: 'Requerido',
       });
     }
     if (password.isEmpty) {
-      // NOSONAR: field-error map of the login form, not a credential (S2068).
-      throw const ValidationFailure('Ingresa tu contraseña.', {
-        'password': 'Requerido', // NOSONAR
+      throw ValidationFailure('Ingresa tu contraseña.', {
+        LoginField.password.name: 'Requerido',
       });
     }
     return _auth.signIn(email: email, password: password);

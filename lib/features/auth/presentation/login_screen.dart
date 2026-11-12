@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import 'package:eyes_school/core/domain/usecases.dart';
 import 'package:eyes_school/core/errors/app_failure.dart';
 import 'package:eyes_school/core/theme/app_colors.dart';
 import 'package:eyes_school/core/theme/app_text_styles.dart';
@@ -145,7 +146,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                           prefixIcon: Icon(Icons.mail_outline_rounded),
                         ),
                         validator: (value) =>
-                            _fieldErrors['correo'] ?? Validators.email(value),
+                            _fieldErrors[LoginField.correo.name] ??
+                            Validators.email(value),
                       ),
                       const SizedBox(height: 18),
                       Text('Contraseña', style: AppTextStyles.caption),
@@ -173,7 +175,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                           ),
                         ),
                         validator: (value) =>
-                            _fieldErrors['password'] ??
+                            _fieldErrors[LoginField.password.name] ??
                             Validators.password(value),
                       ),
                       if (_errorText != null) ...[
