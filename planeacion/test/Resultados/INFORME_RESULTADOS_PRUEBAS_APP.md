@@ -1,13 +1,25 @@
 # Informe de resultados de pruebas — App móvil (Flutter) · Eyes School
 
-> **Ejecutó:** QA (sesión asistida) · **Inicio:** 10/11/2026 · **Corte:** 11/11/2026 · **Estado:** S1 completa en emulador; pendiente POCO X7, cámara, Docker y Azure Boards
+> **Ejecutó:** QA (sesión asistida) · **Inicio:** 10/11/2026 · **Corte:** 12/11/2026 · **Estado:** S1 y regresión S2 completas en emulador; correcciones en `develop` (`4111de9`), backend desplegado en QA y release `v1.1.0` publicado. Pendiente: POCO X7 (cámara), UAT con el PO, participantes del SUS y Azure Boards
 > **Rama y commit bajo prueba:** `develop` · `f253eb0` (tal como está, sin fusionar nada)
 > **Ramas publicadas en GitHub (11/11/2026):** `test/pr04-unitarias-app` (`a5fb7fd`), `test/pr05-integracion-app` (`40d39b3`), `fix/api-config-url`. Revisadas con gitleaks antes del push: sin secretos
 > **API de QA:** `https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1`
 > **Regla del informe:** solo se anota lo que se ejecutó y se vio. Lo que no se ejecutó dice «No ejecutado» y por qué.
 
 
-## Resumen ejecutivo (corte 11/11/2026)
+## Estado actual (corte 12/11/2026)
+
+| Tema | Estado | Detalle |
+|---|---|---|
+| Pruebas automáticas de la app | **168 de 168** en `develop` | Unitarias, widget, integración con el contrato grabado de la API de QA y accesibilidad. El CI (formato, analyze, pruebas, cobertura de la lógica ≥ 75 %, gitleaks y SonarQube) está en verde (sección 9) |
+| PR-03 estático | Cumple | analyze 0 · formato 0 · duplicación 2,89 % · cobertura de la lógica 83,1 % · Quality Gate de SonarQube en verde (sección 8.1) |
+| PR-06 sistema (regresión S2) | Aprobada | Los defectos de la app se verificaron corregidos en el emulador API 33 (sección 8.2) |
+| PR-07 defectos | 7 conocidos + 26 nuevos | Corregidos en la app: APP-01 a APP-08, N-01 a N-03, N-05 a N-12 (N-06 junto con APP-07), N-14 a N-22 y N-24 a N-26. Corregidos en el backend y desplegados en QA: N-04, N-07 (datos y seed) y N-13. Quedan por decisión del equipo: Firebase (`applicationId` y restricción de la API key) y N-23 (sección 8.3) |
+| Release `v1.1.0` | Publicado y verificado | Solo `app-release.apk` (sha256 `81401e9d…69271`, el mismo que QA verificó): clave de release, `1.1.0`, `minSdk 30`; se instala y abre (sección 9) |
+| PR-08 UAT (sin PO) | Sin repetir | El resultado de S1 (abajo) es anterior a las correcciones. La regresión S2 cubre los defectos que causaron los rechazos, pero la UAT completa no se volvió a ejecutar; la aceptación la decide el PO |
+| No ejecutado | — | Casos con cámara y CP-NF-007 en el POCO X7; registro masivo (requiere autorización); SUS y tareas medidas (participantes); registro de bugs en Azure Boards (lo hace el equipo); despliegue del backend a producción (el equipo decidió dejarlo en `developer`) |
+
+## Resumen ejecutivo S1 (corte 11/11/2026, antes de las correcciones)
 
 | Plan | Resultado |
 |---|---|
@@ -347,6 +359,8 @@ La respuesta real de `/padres/me` sin vínculo (404) confirma la suposición de 
 
 ## 7. Defectos
 
+> Las tablas 7.1 y 7.2 describen los defectos tal como se encontraron en S1 (`develop` `f253eb0`). El estado actual de cada uno está en la sección 8.3.
+
 ### 7.1 Conocidos (PR-07), confirmados en `develop`
 
 | ID | Corrección | Evidencia en `develop` | Estado |
@@ -388,12 +402,14 @@ La respuesta real de `/padres/me` sin vínculo (404) confirma la suposición de 
 | N-24 | El enlace de recuperación de contraseña abre el login | `eyesschool://reset?token=…` (frío y caliente) termina en `/login`. La traducción existe (`app_router.dart:51-53`), pero la redirección inicial a `/splash` parece descartarla. No hay otro camino a `ResetPasswordScreen` | **Alta** | App |
 | R-N1 | (Riesgo, no defecto) Vinculación del padre por id consecutivo | El registro pide «Código o id del estudiante» con teclado numérico. Los ids son enteros consecutivos (1 a 103 en QA): quien se registre como padre puede vincularse a cualquier estudiante y ver sus notas, asistencia y novedades. Es comportamiento por diseño (PO, 30/10/2026); QA recomienda que el PO lo revise por tratarse de datos de menores | — | PO |
 | N-04 | `/dashboard/estudiante` devuelve `porcentaje_asistencia` mayor que 100 | QA, sofia.rodriguez: `{"porcentaje_asistencia": 140.6}`; el estudiante 1 tiene >500 registros, con varios «clase» en la misma fecha | Media | API (backend) |
+| N-25 | Un código de restablecimiento inválido muestra «Tu sesión expiró» | Encontrado en la regresión S2 (sección 8.2): la app convertía todo 401 en sesión expirada y perdía el `detail` de la API | Media | App |
+| N-26 | El release `v1.1.0` publicó un APK arm64 con `versionCode 2003` | Encontrado al verificar el release (sección 9): el universal tiene `3`, así que quien instale el de arm64 no recibe la OTA siguiente (`4`) | Alta (OTA) | CI |
 
 ---
 
 ## 8. Correcciones y regresión S2 (11–12/11/2026)
 
-**Entregas:** app → PR [#16](https://github.com/AndresFelipeAceroLopez/eyes_school_app_movil/pull/16) (`fix/correcciones-qa` → `develop`; incluye las fusiones de las ramas de prueba, porque la regla del repositorio rechaza el push directo a `develop`). Backend → PR [#45](https://github.com/AndresFelipeAceroLopez/backend-Eyes-School/pull/45) (`fix/qa-defectos-app-movil` → `developer`). No se desplegó nada.
+**Entregas:** app → PR [#16](https://github.com/AndresFelipeAceroLopez/eyes_school_app_movil/pull/16) (`fix/correcciones-qa` → `develop`; incluye las fusiones de las ramas de prueba, porque la regla del repositorio rechaza el push directo a `develop`). Backend → PR [#45](https://github.com/AndresFelipeAceroLopez/backend-Eyes-School/pull/45) (`fix/qa-defectos-app-movil` → `developer`). Al cierre de S2 no se había desplegado nada; el despliegue está en la sección 9.
 
 ### 8.1 Métricas después de las correcciones
 
@@ -406,7 +422,7 @@ La respuesta real de `/padres/me` sin vínculo (404) confirma la suposición de 
 | Pruebas | 59 | **166 aprobadas + 2 skip** (N-04, backend) | 100 % de las que no dependen de otro componente |
 | Tamaño APK arm64 | 27,8 MB | 29,2 MB | ≤ 40 MB |
 | minSdk | 24 | **30** | 30 |
-| MobSF 4.4.0 (sin Docker, venv) | — | Altos: firma debug (APP-01, faltan secretos) y AES/CBC en una clase de `flutter_secure_storage` que la app no usa (`encryptedSharedPreferences: true`). Se corrigió `allowBackup` y se quitaron 2 permisos. | 0 altos |
+| MobSF 4.4.0 (sin Docker, venv) | — | Altos: firma debug (APP-01, faltan secretos) y AES/CBC en una clase de `flutter_secure_storage` que la app no usa (`encryptedSharedPreferences: true`). Se corrigió `allowBackup` y se quitaron 2 permisos. **12/11:** la firma debug quedó resuelta en el release `v1.1.0` (verificado con `apksigner`, no con un nuevo escaneo de MobSF); el hallazgo AES/CBC sigue sin uso en la app | 0 altos |
 
 ### 8.2 Regresión en el emulador (APK de release de QA)
 
@@ -432,7 +448,7 @@ Datos temporales de QA creados y borrados en S2: padre del estudiante 4 (id 149)
 |---|---|
 | Corregidos en la app (PR #16) | APP-02, APP-03, APP-04, APP-06, APP-07, APP-08, N-01, N-02, N-03, N-05, N-07 (app), N-08, N-09, N-10, N-11, N-12, N-14, N-15, N-16, N-17, N-18, N-19, N-20, N-21, N-22, N-24, N-25 |
 | Corregidos en el backend (PR #45, desplegado en QA) | N-04, N-13, N-07 (seed + `scripts/qa/corregir_datos_asistencia.sql`) |
-| Corregido y publicado (release `v1.1.0`, sección 9) | APP-01: firma con clave de release |
+| Corregidos y publicados (release `v1.1.0`, sección 9) | APP-01 (firma con clave de release) · N-26 (PR #28 y APK arm64 retirado del release) |
 | Preparados, falta acción del equipo | El `applicationId` definitivo exige registrar el paquete en Firebase y reemplazar `google-services.json` · APP-INF-1: restringir la API key de Firebase |
 | Se deja así (decisión del equipo) | N-23: los reportes del seed apuntan a archivos inexistentes y los subidos se guardan en el disco del App Service, que se reemplaza en cada despliegue |
 | No ejecutado aún | Casos con cámara y CP-NF-007 en el POCO X7; registro masivo (requiere autorización); SUS y tareas medidas (participantes); bugs en Azure Boards |
@@ -450,8 +466,8 @@ Datos temporales de QA creados y borrados en S2: padre del estudiante 4 (id 149)
 | App → `develop` | PR [#16](https://github.com/AndresFelipeAceroLopez/eyes_school_app_movil/pull/16) fusionado (commit `2d04035`) con CI, gitleaks y Quality Gate de SonarQube en verde (seguridad A, cobertura del código nuevo 81,5 %, duplicación 0,6 %) | Fusionado |
 | Contrato app ↔ API | Regrabado tras el despliegue; los 2 `skip` de N-04 se quitaron | 168 de 168 pruebas |
 | Backend · Newman | PR [#46](https://github.com/AndresFelipeAceroLopez/backend-Eyes-School/pull/46): CP-INT-052 busca solo un estudiante sin notas (cambio que estaba sin commit) | Fusionado |
-| App → release APK (OTA) | Clave de release creada fuera del repositorio (`C:\Users\marig\.eyesschool-release\`, huella SHA-256 `7A:E1:AE:3F:…:99:22`) ; el equipo cargó los 5 secretos `RELEASE_*` y publicó el release `v1.1.0` desde la web sobre `develop` (`f3f9cf5`) | Workflow «Release APK» en verde, incluida la verificación de firma, paquete y minSdk. QA verificó el APK descargado: firmado con la clave de release (`CN=Eyes School App`, huella coincide), `versionName 1.1.0`, `versionCode 3`, `minSdk 30`; se instala y abre en el emulador API 33 ([evidencia](evidencias/PR-06/app/S2/v1.1.0_publicado_inicio.png)). La copia firmada con la clave de depuración no se actualiza encima: hay que desinstalarla una vez |
-| N-26 (nuevo) | El release `v1.1.0` publicó también `app-arm64-v8a-release.apk` con `versionCode 2003` (el universal tiene `3`): quien lo instale no recibiría la OTA siguiente (`4`) | PR [#28](https://github.com/AndresFelipeAceroLopez/eyes_school_app_movil/pull/28) fusionado: el release publica solo el APK universal. **Pendiente (equipo)**: borrar `app-arm64-v8a-release.apk` del release `v1.1.0` desde la web |
+| App → release APK (OTA) | Clave de release creada fuera del repositorio (`C:\Users\marig\.eyesschool-release\`, huella SHA-256 `7A:E1:AE:3F:…:99:22`); el equipo cargó los 5 secretos `RELEASE_*` y publicó el release `v1.1.0` desde la web sobre `develop` (`f3f9cf5`) | Workflow «Release APK» en verde, incluida la verificación de firma, paquete y minSdk. QA verificó el APK descargado: firmado con la clave de release (`CN=Eyes School App`, huella coincide), `versionName 1.1.0`, `versionCode 3`, `minSdk 30`; se instala y abre en el emulador API 33 ([evidencia](evidencias/PR-06/app/S2/v1.1.0_publicado_inicio.png)). La copia firmada con la clave de depuración no se actualiza encima: hay que desinstalarla una vez |
+| N-26 (nuevo) | El release `v1.1.0` publicó también `app-arm64-v8a-release.apk` con `versionCode 2003` (el universal tiene `3`): quien lo instale no recibiría la OTA siguiente (`4`) | PR [#28](https://github.com/AndresFelipeAceroLopez/eyes_school_app_movil/pull/28) fusionado: los próximos releases publican solo el APK universal. El equipo borró `app-arm64-v8a-release.apk` del release `v1.1.0`. **Resuelto**: verificado con `gh release view v1.1.0`, que lista un único APK, `app-release.apk`, con sha256 `81401e9df486021708f8ce10cc191d1a29a860037b55d09595b51aec49769271`, idéntico al que QA descargó e instaló |
 | CI endurecido | PR #28: acciones de terceros fijadas por SHA (SonarLint S7637) y `flutter pub get --enforce-lockfile` (S8550) | Fusionado |
 | Firebase | `applicationId` definitivo y restricción de la API key (APP-INF-1) | **Pendiente, por decisión del equipo** |
 | N-23 | Reportes del seed sin archivo y enlace de restablecimiento que abre la web | **Se deja así, por decisión del equipo** |
