@@ -586,3 +586,47 @@ Pruebas automáticas después de las correcciones: **190 de 190**, `flutter anal
 ### 10.6 Registro en Azure Boards
 
 CSV listo para importar: `evidencias/PR-07/defectos_azure_boards_app.csv` (35 bugs: DEF-029 a DEF-035 y N-01 a N-31, sin los solo del backend N-04, N-13 y N-23, que van en GitHub Issues del backend). Lo genera `planeacion/test/GestionDefectos/generar_csv_azure_boards.py` a partir de la tabla 7.2 y de la planeación: si cambian, se vuelve a generar. Azure Boards crea todos los elementos importados en estado **New** (no permite fijar otro estado al importar); los 33 ya corregidos y verificados llevan la etiqueta `cerrar-done` para pasarlos a **Done** en bloque después de importar. Quedan abiertos DEF-029 (falta el `applicationId`) y N-31.
+
+### 10.7 Números de Azure Boards (AB#)
+
+El CSV se importó en este orden y Azure Boards asignó los números consecutivos **AB#88 a AB#122**. Se comprobó con dos tarjetas del tablero: N-06 = AB#99 y N-31 = AB#122. «Estado» es el que debe tener cada bug en Azure Boards.
+
+| AB# | ID de QA | Título | Estado en Azure Boards |
+|---|---|---|---|
+| AB#88 | DEF-029 | El APK de release se firma con la clave de depuración y el applicationId es de plantilla: la OTA no instala | Abierto (New) |
+| AB#89 | DEF-030 | El minSdk no está fijado | Done |
+| AB#90 | DEF-031 | La app solo maneja un hijo por padre | Done |
+| AB#91 | DEF-032 | La contraseña nueva solo exige 8 caracteres | Done |
+| AB#92 | DEF-033 | El correo no se pasa a minúsculas al iniciar sesión, registrarse ni recuperar contraseña | Done |
+| AB#93 | DEF-034 | El token de notificaciones se imprime en el log (también en release) y el actualizador usa el nombre viejo del repositorio | Done |
+| AB#94 | DEF-035 | La app nunca envía su token de notificaciones a la API | Done |
+| AB#95 | N-01 | La URL por defecto de la API está caída y el APK de release no la cambia | Done |
+| AB#96 | N-02 | Las pruebas, ci.yml y coverage_report.dart de chore/modelo-calidad no están en develop | Done |
+| AB#97 | N-03 | develop no tiene las correcciones de accesibilidad de chore/modelo-calidad | Done |
+| AB#98 | N-05 | El padre ve vacío el nombre de su hijo en «Mi estudiante» | Done |
+| AB#99 | N-06 | El token de FCM también se imprime al renovarse | Done |
+| AB#100 | N-07 | Registros de asistencia con tipo desconocido se muestran como «Entrada» | Done |
+| AB#101 | N-08 | La cola reintenta una salida sin entrada en vez de dejarla fallida | Done |
+| AB#102 | N-09 | El boletín sin notas muestra un mensaje genérico | Done |
+| AB#103 | N-10 | Cambio local sin commit en api_config.dart rompe la URL por defecto | Done |
+| AB#104 | N-11 | Al padre se le dice «pendiente de validación» aunque su cuenta ya está activa | Done |
+| AB#105 | N-12 | Cambiar la contraseña desde el perfil siempre falla | Done |
+| AB#106 | N-14 | El APK publicado como v1.0.1 se reporta como 0.1.0: la OTA ofrece actualizar siempre | Done |
+| AB#107 | N-15 | Se muestran y se cuentan registros de asistencia borrados | Done |
+| AB#108 | N-16 | El admin ve «Estudiante 6» en vez del nombre | Done |
+| AB#109 | N-17 | Pantalla negra después de pedir el boletín | Done |
+| AB#110 | N-18 | El login nunca muestra errores (credenciales, bloqueo, sin red) | Done |
+| AB#111 | N-19 | Un error de la API en un campo de otro paso del registro no se ve | Done |
+| AB#112 | N-20 | Dos porcentajes de asistencia distintos para el mismo hijo | Done |
+| AB#113 | N-21 | Las novedades del admin no están ordenadas por fecha | Done |
+| AB#114 | N-22 | Ningún reporte se puede descargar desde la app | Done |
+| AB#115 | N-24 | El enlace de recuperación de contraseña abre el login | Done |
+| AB#116 | N-25 | Un código de restablecimiento inválido muestra «Tu sesión expiró» | Done |
+| AB#117 | N-26 | El release v1.1.0 publicó un APK arm64 con versionCode 2003 | Done |
+| AB#118 | N-27 | El docente no puede abrir «Pendientes por sincronizar» desde el escáner | Done |
+| AB#119 | N-28 | Abrir la app sin señal cierra la sesión | Done |
+| AB#120 | N-29 | El token de la sesión se envía a GitHub y la OTA nunca se ofrece a un usuario con sesión | Done |
+| AB#121 | N-30 | Un fallo de red al descargar la actualización muestra el texto de la excepción | Done |
+| AB#122 | N-31 | Una cuenta desactivada ve «Tu cuenta está pendiente de validación» | Abierto (New) |
+
+AB#88 (DEF-029) y AB#122 (N-31) deben quedar abiertos: el primero espera el `applicationId` definitivo y el segundo no se puede corregir solo en la app.
