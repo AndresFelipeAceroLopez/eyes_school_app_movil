@@ -435,3 +435,25 @@ Datos temporales de QA creados y borrados en S2: padre del estudiante 4 (id 149)
 | Preparados, falta acción del equipo | APP-01: crear la clave de release y los secretos `RELEASE_KEYSTORE_BASE64`, `RELEASE_KEYSTORE_PASSWORD`, `RELEASE_KEY_ALIAS`, `RELEASE_KEY_PASSWORD`, `RELEASE_CERT_SHA256`; el `applicationId` definitivo exige registrar el paquete en Firebase y reemplazar `google-services.json` · APP-INF-1: restringir la API key de Firebase |
 | Necesita decisión | N-23: los reportes del seed apuntan a archivos inexistentes y los subidos se guardan en el disco del App Service, que se reemplaza en cada despliegue |
 | No ejecutado aún | Casos con cámara y CP-NF-007 en el POCO X7; registro masivo (requiere autorización); SUS y tareas medidas (participantes); bugs en Azure Boards |
+
+---
+
+## 9. Despliegue (12/11/2026)
+
+| Componente | Qué se hizo | Resultado |
+|---|---|---|
+| Backend → QA | PR [#45](https://github.com/AndresFelipeAceroLopez/backend-Eyes-School/pull/45) fusionado en `developer` (CI, integración PostgreSQL 18, gitleaks y Sonar en verde) → workflow `apieyeschool-q` | Desplegado. Verificado en vivo: `/dashboard/estudiante` 99,94 % (antes 140,6 %), `/dashboard/padre` 100 %, novedad con descripción vacía → 422 |
+| Datos de QA (N-07, estados) | Por la API (`PUT /asistencia/{id}`): `Tardanza` → `Tarde` | 1 registro (id 5) corregido |
+| Datos de QA (N-07, `tipo`) | `scripts/qa/corregir_datos_asistencia.sql` | **Pendiente**: requiere la conexión de la base de QA (la API no permite cambiar `tipo`). El `.env` local apunta a una base de Render que no se pudo confirmar como la de QA, así que no se tocó |
+| Backend → producción | — | **No desplegado**: requiere decisión (fusionar `developer` en `main` lleva también otros cambios) |
+| App → `develop` | PR [#16](https://github.com/AndresFelipeAceroLopez/eyes_school_app_movil/pull/16) fusionado (commit `2d04035`) con CI, gitleaks y Quality Gate de SonarQube en verde (seguridad A, cobertura del código nuevo 81,5 %, duplicación 0,6 %) | Fusionado |
+| Contrato app ↔ API | Regrabado tras el despliegue; los 2 `skip` de N-04 se quitaron | 168 de 168 pruebas |
+| Backend · Newman | PR [#46](https://github.com/AndresFelipeAceroLopez/backend-Eyes-School/pull/46): CP-INT-052 busca solo un estudiante sin notas (cambio que estaba sin commit) | Fusionado |
+| App → release APK (OTA) | Clave de release creada fuera del repositorio (`C:\Users\marig\.eyesschool-release\`, huella SHA-256 `7A:E1:AE:3F:…:99:22`) | **Pendiente**: cargar los 5 secretos `RELEASE_*` en GitHub (la sesión no tiene permiso para escribir secretos) y crear la etiqueta `v1.1.0` |
+
+Ajustes hechos durante el despliegue:
+- El CI usaba Flutter 3.50.0 (nuevo), que depreca `package:flutter/material.dart` (78 avisos de analyze). `ci.yml` y `release_apk.yml` fijan **Flutter 3.47.9**, la versión con la que se verificó todo; migrar a `material_ui` queda como tarea aparte.
+- Una prueba traída de `chore/modelo-calidad` tenía una carrera entre pruebas (falló en Linux); se aisló la lista de escrituras de cada prueba.
+- SonarQube marcaba como credencial el mapa de errores `'password': 'Requerido'` del login (S2068, falso positivo que `NOSONAR` no silencia); los campos del login ahora se nombran con el enum `LoginField`.
+- `sonar.coverage.exclusions` aplica las exclusiones de la planeación de pruebas unitarias (sección 8).
+- Antes de subir `planeacion/test` se encontró la contraseña de QA en dos logs de `integration_test` (Flutter repite los `--dart-define`); se tachó. Se verificó con `git log -S` que nunca entró al historial de ningún repositorio.
