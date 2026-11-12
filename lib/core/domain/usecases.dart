@@ -27,8 +27,9 @@ class SignIn {
       });
     }
     if (password.isEmpty) {
+      // NOSONAR: field-error map of the login form, not a credential (S2068).
       throw const ValidationFailure('Ingresa tu contraseña.', {
-        'password': 'Requerido',
+        'password': 'Requerido', // NOSONAR
       });
     }
     return _auth.signIn(email: email, password: password);
