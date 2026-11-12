@@ -175,6 +175,33 @@ void main() {
         expect(auth.signedOut, isTrue);
       },
     );
+
+    test(
+      'una sesión que el servidor prohíbe (403) también se cierra',
+      () async {
+        final auth = _FakeAuthRepository(
+          restoreFailure: const ForbiddenFailure(),
+        );
+
+        expect(await RestoreSession(auth).call(), isNull);
+        expect(auth.signedOut, isTrue);
+      },
+    );
+
+    // N-28: abrir la app sin señal cerraba la sesión del docente.
+    for (final failure in const <AppFailure>[
+      NetworkFailure(),
+      ServerFailure(),
+      UnexpectedFailure(),
+    ]) {
+      test('sin red o con el servidor caído (${failure.runtimeType}) la sesión '
+          'se conserva y el error sube para ofrecer reintentar', () async {
+        final auth = _FakeAuthRepository(restoreFailure: failure);
+
+        await expectLater(RestoreSession(auth).call(), throwsA(same(failure)));
+        expect(auth.signedOut, isFalse);
+      });
+    }
   });
 }
 
@@ -259,10 +286,15 @@ class _FakeAttendanceRepository implements AttendanceRepository {
 }
 
 class _FakeAuthRepository implements AuthRepository {
-  _FakeAuthRepository({this.hasSession = true, this.failRestore = false});
+  _FakeAuthRepository({
+    this.hasSession = true,
+    this.failRestore = false,
+    this.restoreFailure = const UnauthorizedFailure(),
+  });
 
   final bool hasSession;
   final bool failRestore;
+  final AppFailure restoreFailure;
   int restoreCalls = 0;
   bool signedOut = false;
 
@@ -272,7 +304,7 @@ class _FakeAuthRepository implements AuthRepository {
   @override
   Future<Never> restoreSession() async {
     restoreCalls++;
-    throw const UnauthorizedFailure();
+    throw restoreFailure;
   }
 
   @override

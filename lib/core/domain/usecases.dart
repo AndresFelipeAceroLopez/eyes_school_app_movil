@@ -39,8 +39,9 @@ class SignIn {
   }
 }
 
-/// Cold start: a stored session is restored, and anything unrecoverable ends
-/// as "signed out" rather than as an error the user cannot act on.
+/// Cold start: a stored session is restored. A session the server rejects
+/// ends as "signed out"; any other failure is rethrown with the session kept,
+/// so the user can retry once the connection is back.
 class RestoreSession {
   const RestoreSession(this._auth);
 
@@ -50,11 +51,17 @@ class RestoreSession {
     if (!await _auth.hasStoredSession()) return null;
     try {
       return await _auth.restoreSession();
-    } on AppFailure {
-      // A bad or expired stored session is not an app error: it is a login.
+    } on UnauthorizedFailure {
+      // The server rejected the stored session: that is a login, not an error.
+      await _auth.signOut();
+      return null;
+    } on ForbiddenFailure {
       await _auth.signOut();
       return null;
     }
+    // Anything else (no network, server down, timeout) says nothing about the
+    // session (N-28): the tokens stay and the caller offers a retry. Signing
+    // out here logged a teacher out just for opening the app without signal.
   }
 }
 

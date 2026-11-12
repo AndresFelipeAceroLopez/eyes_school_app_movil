@@ -93,7 +93,9 @@ final routerProvider = Provider<GoRouter>((ref) {
         // cold start from the reset e-mail must land on the reset form, not
         // be swallowed by the splash.
         loading: () => onSplash || onPublic ? null : '/splash',
-        error: (_, _) => onPublic ? null : '/login',
+        // The stored session could not be checked (no network, N-28): it is
+        // kept, and the splash offers a retry instead of a login form.
+        error: (_, _) => onSplash || onPublic ? null : '/splash',
         data: (session) {
           if (session == null) {
             return onPublic ? null : '/login';
@@ -225,6 +227,15 @@ final routerProvider = Provider<GoRouter>((ref) {
               GoRoute(
                 path: '/teacher/qr',
                 builder: (context, state) => const QrScanScreen(),
+                routes: [
+                  // N-27: the teacher is the one who scans, so the teacher
+                  // must be able to see what is still queued or failed.
+                  GoRoute(
+                    path: 'pendientes',
+                    builder: (context, state) =>
+                        const PendingAttendanceScreen(),
+                  ),
+                ],
               ),
             ],
           ),

@@ -24,15 +24,30 @@ class SessionNotifier extends StateNotifier<AsyncValue<AppSession?>> {
 
   AuthRepository get _auth => _ref.read(authRepositoryProvider);
 
-  /// Cold start. The use case owns the rule that an unusable stored session
-  /// means "signed out", not "error".
+  /// Cold start. The use case owns the rule that a stored session the server
+  /// rejects means "signed out". Any other failure (no network, N-28) leaves
+  /// the session stored and the state in `error`, which the splash turns into
+  /// a retry.
   Future<void> _restore() async {
-    final session = await _ref.read(restoreSessionProvider).call();
+    final AppSession? session;
+    try {
+      session = await _ref.read(restoreSessionProvider).call();
+    } catch (error, stackTrace) {
+      state = AsyncValue.error(error, stackTrace);
+      return;
+    }
     state = AsyncValue.data(session);
     if (session != null) {
       await _startBackgroundSync();
       await _initPushNotifications();
     }
+  }
+
+  /// The splash's "Reintentar" after a cold start that could not reach the
+  /// API (N-28).
+  Future<void> retryRestore() async {
+    state = const AsyncValue.loading();
+    await _restore();
   }
 
   Future<void> login({required String email, required String password}) async {

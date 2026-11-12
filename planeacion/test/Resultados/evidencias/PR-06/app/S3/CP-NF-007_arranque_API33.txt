@@ -1,0 +1,11 @@
+CP-NF-007 · emulador EyesQA_API33 (x86_64, WHPX, -gpu host) · APK QA 1.0.9 (release) · 2026-11-12T21:51:28Z
+TotalTime: 4380
+WaitTime: 4534
+TotalTime: 3250
+WaitTime: 3276
+TotalTime: 3279
+WaitTime: 3293
+TotalTime: 3321
+WaitTime: 3332
+TotalTime: 3437
+WaitTime: 3501

@@ -1,6 +1,6 @@
 # Informe de resultados de pruebas — App móvil (Flutter) · Eyes School
 
-> **Ejecutó:** QA (sesión asistida) · **Inicio:** 10/11/2026 · **Corte:** 12/11/2026 · **Estado:** S1 y regresión S2 completas en emulador; correcciones en `develop` (`4111de9`), backend desplegado en QA y release `v1.1.0` publicado. Pendiente: POCO X7 (cámara), UAT con el PO, participantes del SUS y Azure Boards
+> **Ejecutó:** QA (sesión asistida) · **Inicio:** 10/11/2026 · **Corte:** 12/11/2026 · **Estado:** S1, regresión S2 y ronda S3 (todo lo pendiente) completas en emulador; backend desplegado en QA; release `v1.1.0` publicado; correcciones de S3 en el PR #31. Pendiente: POCO X7, UAT con el PO, participantes del SUS e importar el CSV en Azure Boards
 > **Rama y commit bajo prueba:** `develop` · `f253eb0` (tal como está, sin fusionar nada)
 > **Ramas publicadas en GitHub (11/11/2026):** `test/pr04-unitarias-app` (`a5fb7fd`), `test/pr05-integracion-app` (`40d39b3`), `fix/api-config-url`. Revisadas con gitleaks antes del push: sin secretos
 > **API de QA:** `https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1`
@@ -11,13 +11,14 @@
 
 | Tema | Estado | Detalle |
 |---|---|---|
-| Pruebas automáticas de la app | **168 de 168** en `develop` | Unitarias, widget, integración con el contrato grabado de la API de QA y accesibilidad. El CI (formato, analyze, pruebas, cobertura de la lógica ≥ 75 %, gitleaks y SonarQube) está en verde (sección 9) |
+| Pruebas automáticas de la app | **190 de 190** (con el PR #31) | Unitarias, widget, integración con el contrato grabado de la API de QA y accesibilidad. Cobertura de la lógica 87,8 %. El CI (formato, analyze, pruebas, cobertura ≥ 75 %, gitleaks y SonarQube) corre en cada PR (secciones 9 y 10.4) |
 | PR-03 estático | Cumple | analyze 0 · formato 0 · duplicación 2,89 % · cobertura de la lógica 83,1 % · Quality Gate de SonarQube en verde (sección 8.1) |
-| PR-06 sistema (regresión S2) | Aprobada | Los defectos de la app se verificaron corregidos en el emulador API 33 (sección 8.2) |
-| PR-07 defectos | 7 conocidos + 26 nuevos | Corregidos en la app: APP-01 a APP-08, N-01 a N-03, N-05 a N-12 (N-06 junto con APP-07), N-14 a N-22 y N-24 a N-26. Corregidos en el backend y desplegados en QA: N-04, N-07 (datos y seed) y N-13. Quedan por decisión del equipo: Firebase (`applicationId` y restricción de la API key) y N-23 (sección 8.3) |
+| PR-06 sistema | Aprobada | Regresión S2 (8.2) y S3 (10.3): escaneo QR con cámara virtual, registro masivo, bloqueo por intentos, usuario desactivado y OTA de 1.0.9 a 1.1.0 |
+| PR-07 defectos | 7 conocidos + 31 nuevos | Corregidos en la app: APP-01 a APP-08, N-01 a N-03, N-05 a N-12 (N-06 junto con APP-07), N-14 a N-22, N-24 a N-26 y, en el PR #31, N-27 a N-30. Corregidos en el backend y desplegados en QA: N-04, N-07 (datos y seed) y N-13. Abiertos: N-31 (baja). Por decisión del equipo: Firebase (`applicationId` y restricción de la API key) y N-23 (sección 8.3). CSV para Azure Boards listo (10.6) |
 | Release `v1.1.0` | Publicado y verificado | Solo `app-release.apk` (sha256 `81401e9d…69271`, el mismo que QA verificó): clave de release, `1.1.0`, `minSdk 30`; se instala y abre (sección 9) |
-| PR-08 UAT (sin PO) | Sin repetir | El resultado de S1 (abajo) es anterior a las correcciones. La regresión S2 cubre los defectos que causaron los rechazos, pero la UAT completa no se volvió a ejecutar; la aceptación la decide el PO |
-| No ejecutado | — | Casos con cámara y CP-NF-007 en el POCO X7; registro masivo (requiere autorización); SUS y tareas medidas (participantes); registro de bugs en Azure Boards (lo hace el equipo); despliegue del backend a producción (el equipo decidió dejarlo en `developer`) |
+| PR-08 UAT (sin PO) | 60 aceptados · 13 con observación · **3 rechazados** · 7 no ejecutados | Rechazados: CP-ACE-067 y 085 (la notificación no llega: bloqueo de entorno, falta confirmar Firebase en el backend de QA) y CP-ACE-096 (N-23). Detalle en 10.2. La aceptación la decide el PO |
+| Producción | Solo lectura (10.1) | El APK `v1.1.0` llega a producción, pero producción no tiene `/dispositivos` ni `/padres/me/hijos`: APP-03 y APP-08 no funcionan ahí hasta desplegar el backend (el equipo decidió dejarlo en `developer`) |
+| No ejecutado | — | En el POCO X7 (no conectado): CP-NF-007 y la cámara real; la cámara se probó en el emulador. SUS y tareas medidas (necesitan participantes). CP-ACE-016 (falta un buzón de QA), 034 (falta el QR de la web), 060, 086, 087, 094 y 097 (motivos en 10.2) |
 
 ## Resumen ejecutivo S1 (corte 11/11/2026, antes de las correcciones)
 
@@ -404,6 +405,11 @@ La respuesta real de `/padres/me` sin vínculo (404) confirma la suposición de 
 | N-04 | `/dashboard/estudiante` devuelve `porcentaje_asistencia` mayor que 100 | QA, sofia.rodriguez: `{"porcentaje_asistencia": 140.6}`; el estudiante 1 tiene >500 registros, con varios «clase» en la misma fecha | Media | API (backend) |
 | N-25 | Un código de restablecimiento inválido muestra «Tu sesión expiró» | Encontrado en la regresión S2 (sección 8.2): la app convertía todo 401 en sesión expirada y perdía el `detail` de la API | Media | App |
 | N-26 | El release `v1.1.0` publicó un APK arm64 con `versionCode 2003` | Encontrado al verificar el release (sección 9): el universal tiene `3`, así que quien instale el de arm64 no recibe la OTA siguiente (`4`) | Alta (OTA) | CI |
+| N-27 | El docente no puede abrir «Pendientes por sincronizar» desde el escáner | S3, CP-ACE-039: el botón lleva a `/admin/qr/pendientes` y el router responde «Sin acceso · Esta sección no está disponible para tu rol». El docente es quien escanea y no puede ver lo que quedó en cola o con error. Viene del PR #9 | Alta | App |
+| N-28 | Abrir la app sin señal cierra la sesión | S3, CP-ACE-009: con la sesión guardada y modo avión, la app muestra el login, y al volver la red sigue en el login (la sesión se borró). `RestoreSession` trataba cualquier fallo (incluida la red) como sesión inválida y llamaba a `signOut()`. El docente no puede escanear sin conexión después de reabrir la app | Alta | App |
+| N-29 | El token de la sesión se envía a GitHub y la OTA nunca se ofrece a un usuario con sesión | S3, CP-ACE-089: `UpdateService` usaba el Dio de la API; el interceptor agregaba `Authorization: Bearer <token de Eyes School>` a `api.github.com`, GitHub respondía 401, el interceptor renovaba la sesión y repetía la petición con el token nuevo. Con 1.0.9 instalada y v1.1.0 publicada, no apareció el diálogo de actualización | Alta (seguridad) | App |
+| N-30 | Un fallo de red al descargar la actualización muestra el texto de la excepción | S3, CP-ACE-090: «Error al descargar la actualización: DioException [unknown]: null … HttpException» | Baja | App |
+| N-31 | Una cuenta desactivada ve «Tu cuenta está pendiente de validación» | S3, CP-NF-019: tras desactivar la cuenta, al reabrir la app muestra «Cuenta pendiente · Tu cuenta está pendiente de validación por un administrador». La API solo entrega `estado: false`, así que la app no distingue «pendiente» de «desactivada» | Baja | App + API |
 
 ---
 
@@ -449,9 +455,11 @@ Datos temporales de QA creados y borrados en S2: padre del estudiante 4 (id 149)
 | Corregidos en la app (PR #16) | APP-02, APP-03, APP-04, APP-06, APP-07, APP-08, N-01, N-02, N-03, N-05, N-07 (app), N-08, N-09, N-10, N-11, N-12, N-14, N-15, N-16, N-17, N-18, N-19, N-20, N-21, N-22, N-24, N-25 |
 | Corregidos en el backend (PR #45, desplegado en QA) | N-04, N-13, N-07 (seed + `scripts/qa/corregir_datos_asistencia.sql`) |
 | Corregidos y publicados (release `v1.1.0`, sección 9) | APP-01 (firma con clave de release) · N-26 (PR #28 y APK arm64 retirado del release) |
+| Corregidos en S3 (PR #31, verificados en el emulador) | N-27, N-28, N-29, N-30 (sección 10.4) |
+| Abiertos | N-31 (baja: la API no distingue una cuenta pendiente de una desactivada) |
 | Preparados, falta acción del equipo | El `applicationId` definitivo exige registrar el paquete en Firebase y reemplazar `google-services.json` · APP-INF-1: restringir la API key de Firebase |
 | Se deja así (decisión del equipo) | N-23: los reportes del seed apuntan a archivos inexistentes y los subidos se guardan en el disco del App Service, que se reemplaza en cada despliegue |
-| No ejecutado aún | Casos con cámara y CP-NF-007 en el POCO X7; registro masivo (requiere autorización); SUS y tareas medidas (participantes); bugs en Azure Boards |
+| No ejecutado aún | CP-NF-007 en el POCO X7; SUS y tareas medidas (participantes). Bugs de Azure Boards: CSV listo (10.6) |
 
 ---
 
@@ -478,3 +486,103 @@ Ajustes hechos durante el despliegue:
 - SonarQube marcaba como credencial el mapa de errores `'password': 'Requerido'` del login (S2068, falso positivo que `NOSONAR` no silencia); los campos del login ahora se nombran con el enum `LoginField`.
 - `sonar.coverage.exclusions` aplica las exclusiones de la planeación de pruebas unitarias (sección 8).
 - Antes de subir `planeacion/test` se encontró la contraseña de QA en dos logs de `integration_test` (Flutter repite los `--dart-define`); se tachó. Se verificó con `git log -S` que nunca entró al historial de ningún repositorio.
+
+---
+
+## 10. Ronda S3: lo que quedaba sin ejecutar (12/11/2026)
+
+**Autorización:** el equipo autorizó ejecutar todo lo pendiente (12/11/2026), incluido el registro masivo en QA; producción, **solo lectura**; los casos con cámara, en el emulador.
+**Entorno:** emulador `EyesQA_API33` (Android 13) con cámara virtual (`-camera-back virtualscene`); los QR de DS-05 (`planeacion/test/QR/`) se pusieron en el cartel de la escena con `adb emu virtualscene-image` y la cámara se movió por gRPC. APK de QA **1.0.9** firmado con la clave de release, compilado desde `develop` (y luego desde la rama de las correcciones de esta ronda), contra la API de QA.
+
+### 10.1 Producción (solo lectura)
+
+| Prueba | Resultado |
+|---|---|
+| APK `v1.1.0` publicado → login con un correo inexistente | «Correo o contraseña incorrectos.»: la app llega a la API de producción. Con un correo inexistente la API solo consulta, no escribe (`AuthService.login` de `main`) · `evidencias/PR-06/app/S3/PROD_login_credenciales_invalidas_v110.png` |
+| Contrato de producción vs. QA (`/openapi.json`) | Producción **no tiene** `POST /dispositivos`, `DELETE /dispositivos/{token}` ni `GET /padres/me/hijos`, que usa la app 1.1.0. La app lo tolera: sin `/padres/me/hijos` vuelve a `/padres/me` (un solo hijo) y el registro del token falla en silencio. **Consecuencia:** en producción APP-03 (varios hijos) y APP-08 (notificaciones) no funcionan hasta desplegar el backend |
+| Esquemas | Producción exige `registrado_por` al crear asistencia, notas y novedades; la app lo envía, así que es compatible. Producción acepta notas hasta 10 (QA, hasta 5; la app valida 0–5) y no exige `password_actual` (BE-09) |
+| Seguridad | Producción no bloquea por intentos fallidos (BE-16 no está en `main`) y no envía `X-Content-Type-Options` (QA sí) |
+
+`main` del backend está 49 commits detrás de `developer`; el equipo decidió no desplegar a producción por ahora.
+
+### 10.2 UAT: escenarios no ejecutados y rechazados en S1
+
+| ID | Resultado S3 | Evidencia / motivo (`evidencias/PR-08/app/S3/`) |
+|---|---|---|
+| CP-ACE-002, 051, 063, 073 | Aceptado | «Correo o contraseña incorrectos.» y el formulario conserva los datos (N-18 corregido) · `CP-ACE-002_*` |
+| CP-ACE-005 | Aceptado | Sin red: «Sin conexión. Revisa tu red e intenta de nuevo.» · `CP-ACE-005_*` |
+| CP-ACE-008 | Aceptado | El router no deja entrar a una ruta de otro rol: «Sin acceso · Esta sección no está disponible para tu rol» con «Volver a mi inicio» (se vio al abrir `/admin/qr/pendientes` como docente, que además es N-27) · `N-27_CP-ACE-008_*` |
+| CP-ACE-009 | Aceptado (con N-28 corregido) | Con el APK de `develop`: abrir sin red **borra la sesión** (N-28, `CP-ACE-009_inicio_sin_red_login.png`). Con la corrección: el splash dice «Sin conexión…» con «Reintentar» y «Cerrar sesión»; con la red de vuelta, «Reintentar» entra sin pedir login · `evidencias/PR-06/app/S3/N-28_*` |
+| CP-ACE-011 | Aceptado con observación | «El correo ya está registrado» y no se crea la cuenta (verificado en la API). Obs.: el mensaje sale en el paso 3, no junto al correo del paso 2 |
+| CP-ACE-016 | No ejecutado | Necesita un código de restablecimiento válido: es un JWT firmado que solo llega por correo (no se guarda en la base) y no hay buzón de QA disponible |
+| CP-ACE-017 | Aceptado | Enlace `eyesschool://reset?token=` inválido → abre «Restablecer contraseña»; al guardar: «El enlace de recuperación es inválido o expiró» |
+| CP-ACE-031 | Aceptado | Sin red, los estudiantes salen de la caché local (búsqueda «Flores»: 13); las pestañas sin caché (Acudientes) muestran «Sin conexión…» con «Reintentar» |
+| CP-ACE-034 | No ejecutado | No se tuvo el QR que genera la web. Se leyó el QR de DS-05 con el código `EST001` (el mismo contenido que el QR de la app, S1) |
+| CP-ACE-037 | Aceptado | Docente, cámara virtual, QR de EST001 como entrada → confirmación con «Sofía Valentina Rodríguez Torres · EST001» → Presente → la API tiene el registro 2327 (`entrada`, Presente, `registrado_por` 2) |
+| CP-ACE-038 | Aceptado | Los 3 QR inválidos de DS-05 → «Código no reconocido: EST999», «… HOLA EYES SCHOOL», «… https://www.example.com»; no se registra nada |
+| CP-ACE-039 | Aceptado con observación | Segunda entrada de EST001 → «Sofía … ya tenía registro de entrada hoy.»; la API sigue con un solo registro. Obs.: la hoja de confirmación no lo advierte antes de «Registrar» |
+| CP-ACE-040 | Aceptado | Salida de EST001 → registro 2328 (`salida`) |
+| CP-ACE-041 | Aceptado | Segunda salida → «… ya tenía registro de salida hoy.»; sin duplicado en la API |
+| CP-ACE-042 | Aceptado | Modo avión: «Sin conexión», EST002 queda en cola (la API no lo tiene); al volver la red se sincroniza solo en ~10 s (registro 2329) |
+| CP-ACE-043 | Aceptado | Masivo de Once B (10) con excepciones (Ausente, Tarde, Excusa) → la API tiene exactamente los 10 con esos estados |
+| CP-ACE-044 | Aceptado | Masivo de Once A cortando la red a mitad: «10 registro(s) enviados» (a la cola); llegaron 3 y la pantalla de pendientes muestra el resto en cola con «Sin conexión» |
+| CP-ACE-045 | Aceptado | Con red, «Sincronizar ahora» → 0 en cola, 20 enviados; la API tiene exactamente 10 registros de Once A, **sin duplicados** (uno había llegado justo al cortar la red y su reenvío se resolvió con el 409) |
+| CP-ACE-053 | Aceptado | Padre temporal de un estudiante sin asistencia → «Sin registros · Todavía no hay asistencia registrada.» |
+| CP-ACE-056 | Aceptado | «Guardar notas» sin datos → «No hay cambios por guardar.» |
+| CP-ACE-058 | Aceptado con observación | El docente cambia Matemáticas P1 de Juan de 3.2 a 4.1 → la API actualiza la misma nota (id 4) y el padre ve el promedio general 4.0 (antes 3.7). Se restauró 3.2 por la API. Obs.: la pantalla del padre muestra el valor anterior hasta que se recarga |
+| CP-ACE-060 | No ejecutado | No se puede provocar un error de cálculo desde la app (valida 0.0–5.0 antes de enviar) y el Gherkin del PR-02 no está en el repositorio |
+| CP-ACE-067, 085 | **Rechazado** | La app registra el token del padre en `/dispositivos` al iniciar sesión (verificado en la base de QA) y lo borra al cerrar sesión, pero la notificación de una novedad nueva no llegó en 30 s. El backend envía solo si el App Service tiene `FIREBASE_CREDENTIALS_JSON`; QA no tiene acceso a la configuración de Azure para confirmarlo (**bloqueo de entorno**). La novedad de prueba (14) se borró |
+| CP-ACE-086, 087 | No ejecutado | Necesitan que el envío funcione (mismo bloqueo) |
+| CP-ACE-069 | Aceptado | Novedades del docente: «Pendientes» muestra las 2 pendientes de la API y «Todas», de la más nueva a la más vieja |
+| CP-ACE-070, 081, 084, 095 | Aceptado | Sin red al recargar novedades, clases, horario y reportes: «Sin conexión…» con «Reintentar» |
+| CP-ACE-075, 076 | Aceptado | Rosa ve a Sofía y Santiago con nombre; al elegir a Santiago: promedio 3.5 (= API) y su asistencia |
+| CP-ACE-080 | Aceptado | Docente temporal sin asignaciones → «Sin asignaciones activas · Cuando te asignen cursos y materias aparecerán aquí.» |
+| CP-ACE-083 | Aceptado | Estudiante del curso 8 (sin horario) → «Sin horario publicado» |
+| CP-ACE-088 | Aceptado con observación | Permiso de notificaciones denegado: la app funciona y no registra el dispositivo. Obs.: no avisa que las notificaciones están desactivadas |
+| CP-ACE-089 | Aceptado (con N-29 corregido) | Con el APK de `develop` el diálogo **nunca aparece** (N-29). Con la corrección: «Actualización Disponible · La versión 1.1.0…» → descarga → Android pide permitir la fuente → «Update» → queda instalada la 1.1.0 (`versionCode 3`) encima de la 1.0.9, sin desinstalar |
+| CP-ACE-090 | Aceptado (con N-30 corregido) | Sin red durante la descarga, antes: «Error al descargar la actualización: DioException [unknown]: null…» (N-30). Ahora: «No se pudo descargar la actualización. Revisa tu conexión e inténtalo de nuevo.» |
+| CP-ACE-091 | Aceptado | El PDF abre en el visor y al volver la app sigue en Notas |
+| CP-ACE-092 | Aceptado | Estudiante sin notas → «No hay datos disponibles para generar el boletín.»; la app sigue en Notas |
+| CP-ACE-094 | No ejecutado | No aplica: la app no tiene filtros de reportes (se generan en la web) |
+| CP-ACE-096 | **Rechazado** | La app ya ofrece «Descargar» para los reportes «Generado» (N-22 corregido), pero la API responde «Archivo no encontrado en el servidor» (N-23, backend; el equipo decidió dejarlo así). Obs.: ese aviso se vio solo ~1,5 s |
+| CP-ACE-097 | No ejecutado | QA tiene 4 reportes; vaciarlos exige borrar datos del backend |
+
+**Resumen UAT después de S3 (83 escenarios):** Aceptado 60 · Aceptado con observación 13 · **Rechazado 3** (CP-ACE-067 y 085 por el bloqueo de notificaciones; CP-ACE-096 por N-23) · No ejecutado 7 (016, 034, 060, 086, 087, 094, 097). CP-ACE-009, 089 y 090 se aceptan con las correcciones del PR #31. La aceptación formal la decide el PO.
+
+### 10.3 Sistema y no funcionales
+
+| ID | Resultado | Estado |
+|---|---|---|
+| CP-SIS-067 (app) | Padre temporal, 7 intentos con contraseña errada: intentos 1–5 «Correo o contraseña incorrectos.»; 6 y 7 «Demasiados intentos, espera 15 minutos» · `evidencias/PR-08/app/S3/CP-SIS-067_bloqueo_app.png` | **Aprobado** |
+| CP-NF-019 (app) | Se desactiva la cuenta con la sesión abierta: la app sigue funcionando mientras el token de acceso es válido (igual que la API, S1). Al reabrir: «Cuenta pendiente · Tu cuenta está pendiente de validación…» con «Cerrar sesión»; la API responde 401 «Usuario inactivo» al login | **Aprobado con observación**: el texto no corresponde a una cuenta desactivada (N-31) |
+| CP-NF-007 | 5 arranques en frío (`am start -W`) del APK 1.0.9: 4,38 / 3,25 / 3,28 / 3,32 / 3,44 s → promedio **3,53 s** (S1: 7,2 s) · `evidencias/PR-06/app/S3/CP-NF-007_arranque_API33.txt` | **No concluyente**: un emulador no representa el POCO X7 (meta ≤ 3 s) |
+| CP-NF-004 · MobSF del APK `v1.1.0` publicado | 1 alto (AES/CBC en una clase de `flutter_secure_storage` que la app no usa, `encryptedSharedPreferences: true`), 9 avisos; el hallazgo del certificado de depuración ya no aparece. Puntaje 57 · `evidencias/PR-06/app/mobsf3/` | Igual que S2, sin el de la firma |
+| CP-SIS-093 (OTA) | Ver CP-ACE-089 | **Aprobado** con N-29 corregido |
+
+### 10.4 Defectos nuevos de S3 (detalle en la tabla 7.2)
+
+| ID | Severidad | Corrección (PR #31) | Verificación |
+|---|---|---|---|
+| N-27 | Alta | Ruta `/teacher/qr/pendientes`; el botón del escáner usa la ruta del rol (`pendingRouteFor`) | Emulador: el docente abre «Pendientes» · `N-27_docente_pendientes_corregido.png`. Prueba: `qa_s3_test.dart` |
+| N-28 | Alta | `RestoreSession` cierra la sesión solo si el servidor la rechaza (401/403); cualquier otro fallo se propaga con la sesión intacta y el splash ofrece «Reintentar» y «Cerrar sesión» | Emulador (10.2, CP-ACE-009). Pruebas: `usecases_test.dart` (fallaban antes), `qa_s3_test.dart`, `student_home_resilience_test.dart` |
+| N-29 | Alta (seguridad) | El actualizador usa un Dio propio, sin interceptores; además el `AuthInterceptor` solo pone el token y solo renueva en peticiones al host de la API | Emulador (CP-ACE-089). Pruebas: `qa_s3_test.dart` (antes: el token iba a GitHub y se forzaba una renovación) |
+| N-30 | Baja | Un fallo de red en la descarga se traduce a un mensaje para el usuario | Emulador (CP-ACE-090). Prueba: `update_service_test.dart` |
+| N-31 | Baja | Sin corregir: la API no distingue una cuenta pendiente de una desactivada | — |
+
+**Aviso para el equipo (N-29):** la `v1.1.0` publicada tiene N-29, así que **no ofrecerá por OTA la siguiente versión** a quien tenga la sesión abierta (el diálogo solo se muestra dentro de la app con sesión). La primera versión con la corrección (por ejemplo `v1.1.1`) habrá que instalarla a mano una vez; desde ahí la OTA funciona.
+
+Pruebas automáticas después de las correcciones: **190 de 190**, `flutter analyze` sin problemas, formato al día, cobertura de la lógica 87,8 %.
+
+### 10.5 Datos de QA creados y borrados en S3
+
+| Dato | Destino |
+|---|---|
+| Registros de asistencia de hoy: EST001 entrada y salida (2327, 2328), EST002 entrada (2329), Once B (2330–2339) y Once A (2340–2349) | Se dejan: son los registros del escenario autorizado (escaneo y registro masivo) |
+| Nota 4 de Juan (3.2 → 4.1) | Restaurada a 3.2 |
+| Novedad 14 (prueba de notificación) | Borrada (204) |
+| Padre temporal (usuario 150) y docente temporal (usuario 151, profesor 18) | Borrados (204). Quedan 110 usuarios y ningún `qa.*` |
+| Tokens de dispositivo del emulador (admin y docente) | Borrados por la API (`DELETE /dispositivos/{token}`); la tabla queda vacía |
+
+### 10.6 Registro en Azure Boards
+
+CSV listo para importar: `evidencias/PR-07/defectos_azure_boards_app.csv` (35 bugs: DEF-029 a DEF-035 y N-01 a N-31, sin los solo del backend N-04, N-13 y N-23, que van en GitHub Issues del backend). Lo genera `planeacion/test/GestionDefectos/generar_csv_azure_boards.py` a partir de la tabla 7.2 y de la planeación: si cambian, se vuelve a generar. Azure Boards crea todos los elementos importados en estado **New** (no permite fijar otro estado al importar); los 33 ya corregidos y verificados llevan la etiqueta `cerrar-done` para pasarlos a **Done** en bloque después de importar. Quedan abiertos DEF-029 (falta el `applicationId`) y N-31.

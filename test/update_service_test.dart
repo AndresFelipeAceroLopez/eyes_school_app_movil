@@ -11,7 +11,10 @@
 //
 // Antes de la corrección: FALLA (nombre viejo del repositorio y salida
 // temprana por plataforma). Después de APP-07: pasa.
+import 'dart:io';
+
 import 'package:dio/dio.dart';
+import 'package:eyes_school/core/errors/app_failure.dart';
 import 'package:eyes_school/core/services/update_service.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -80,5 +83,36 @@ void main() {
       final info = await service.checkForUpdates();
       expect(info.hasUpdate, isFalse);
     });
+  });
+
+  // N-30: sin red durante la descarga, el usuario veía el texto de la
+  // excepción («DioException [unknown]: null … HttpException»).
+  test('sin red al descargar → mensaje claro, sin texto técnico', () async {
+    final adapter = ScriptedAdapter(const {});
+    final dio = Dio()..httpClientAdapter = adapter;
+    final tmp = await Directory.systemTemp.createTemp('ota');
+    addTearDown(() => tmp.delete(recursive: true));
+    final service = UpdateService(
+      dio,
+      isAndroid: () => true,
+      tempDir: () async => tmp,
+    );
+
+    await expectLater(
+      service.downloadAndInstallUpdate(
+        downloadUrl: 'https://example.invalid/app-release.apk',
+        onProgress: (_) {},
+      ),
+      throwsA(
+        isA<NetworkFailure>().having(
+          (f) => f.message,
+          'message',
+          allOf(
+            contains('No se pudo descargar la actualización'),
+            isNot(contains('DioException')),
+          ),
+        ),
+      ),
+    );
   });
 }

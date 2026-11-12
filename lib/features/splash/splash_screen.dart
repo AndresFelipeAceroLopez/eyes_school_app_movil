@@ -1,13 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:eyes_school/core/theme/app_colors.dart';
+import 'package:eyes_school/core/widgets/async_states.dart';
 import 'package:eyes_school/core/widgets/eye_logo.dart';
+import 'package:eyes_school/providers/session_provider.dart';
 
-class SplashScreen extends StatelessWidget {
+/// Shown while the stored session is checked on a cold start. If the check
+/// cannot reach the API (N-28) the session is kept and this screen offers a
+/// retry instead of the indicator.
+class SplashScreen extends ConsumerWidget {
   const SplashScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final restoreError = ref.watch(sessionProvider).error;
     return Scaffold(
       body: DecoratedBox(
         decoration: const BoxDecoration(
@@ -49,19 +56,71 @@ class SplashScreen extends StatelessWidget {
                 ),
               ),
               const Spacer(flex: 3),
-              const _DotsIndicator(),
-              const SizedBox(height: 18),
-              Text(
-                'Iniciando sesión...',
-                style: TextStyle(
-                  color: Colors.white.withValues(alpha: 0.65),
-                  fontSize: 14,
+              if (restoreError == null) ...[
+                const _DotsIndicator(),
+                const SizedBox(height: 18),
+                Text(
+                  'Iniciando sesión...',
+                  style: TextStyle(
+                    color: Colors.white.withValues(alpha: 0.65),
+                    fontSize: 14,
+                  ),
                 ),
-              ),
+              ] else
+                _RestoreError(
+                  message: ErrorView.messageOf(restoreError),
+                  onRetry: () =>
+                      ref.read(sessionProvider.notifier).retryRestore(),
+                  onSignOut: () => ref.read(sessionProvider.notifier).logout(),
+                ),
               const SizedBox(height: 40),
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class _RestoreError extends StatelessWidget {
+  const _RestoreError({
+    required this.message,
+    required this.onRetry,
+    required this.onSignOut,
+  });
+
+  final String message;
+  final VoidCallback onRetry;
+  final VoidCallback onSignOut;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 32),
+      child: Column(
+        children: [
+          Text(
+            message,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: Colors.white.withValues(alpha: 0.85),
+              fontSize: 14,
+            ),
+          ),
+          const SizedBox(height: 16),
+          FilledButton(
+            onPressed: onRetry,
+            style: FilledButton.styleFrom(backgroundColor: AppColors.teal),
+            child: const Text('Reintentar'),
+          ),
+          TextButton(
+            onPressed: onSignOut,
+            child: Text(
+              'Cerrar sesión',
+              style: TextStyle(color: Colors.white.withValues(alpha: 0.7)),
+            ),
+          ),
+        ],
       ),
     );
   }

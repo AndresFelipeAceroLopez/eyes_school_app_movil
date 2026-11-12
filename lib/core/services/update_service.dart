@@ -9,10 +9,20 @@ import 'package:pub_semver/pub_semver.dart';
 
 import 'package:eyes_school/core/errors/app_failure.dart';
 import 'package:eyes_school/core/network/api_config.dart';
-import 'package:eyes_school/providers/repository_providers.dart';
 
+/// N-29: GitHub gets a client of its own. The API client's interceptor put
+/// the Eyes School access token on the GitHub request (a third party), GitHub
+/// answered 401 and the interceptor then refreshed the session and sent the
+/// new token again; the update was never offered to a signed-in user.
 final updateServiceProvider = Provider<UpdateService>((ref) {
-  return UpdateService(ref.watch(dioProvider));
+  return UpdateService(
+    Dio(
+      BaseOptions(
+        connectTimeout: ApiConfig.connectTimeout,
+        receiveTimeout: ApiConfig.receiveTimeout,
+      ),
+    ),
+  );
 });
 
 bool _platformIsAndroid() => Platform.isAndroid;
@@ -32,9 +42,16 @@ class UpdateInfo {
 }
 
 class UpdateService {
-  UpdateService(this._dio, {this._isAndroid = _platformIsAndroid});
+  UpdateService(
+    this._dio, {
+    this._isAndroid = _platformIsAndroid,
+    this._tempDir = getTemporaryDirectory,
+  });
 
   final Dio _dio;
+
+  /// Where the APK is downloaded; injected so the download can be tested.
+  final Future<Directory> Function() _tempDir;
 
   /// Injected so the version check can be tested off-device (APP-07).
   final bool Function() _isAndroid;
@@ -105,7 +122,7 @@ class UpdateService {
     required void Function(double progress) onProgress,
   }) async {
     try {
-      final directory = await getTemporaryDirectory();
+      final directory = await _tempDir();
       final savePath = '${directory.path}/update.apk';
 
       await _dio.download(
@@ -124,8 +141,18 @@ class UpdateService {
           'No se pudo abrir el instalador: ${result.message}',
         );
       }
-    } catch (e) {
-      throw UnexpectedFailure('Error al descargar la actualización: $e');
+    } on AppFailure {
+      rethrow;
+    } on DioException {
+      // N-30: the user saw "DioException [unknown]: null ... HttpException".
+      throw const NetworkFailure(
+        'No se pudo descargar la actualización. Revisa tu conexión e '
+        'inténtalo de nuevo.',
+      );
+    } catch (_) {
+      throw const UnexpectedFailure(
+        'No se pudo descargar la actualización. Inténtalo de nuevo.',
+      );
     }
   }
 }
