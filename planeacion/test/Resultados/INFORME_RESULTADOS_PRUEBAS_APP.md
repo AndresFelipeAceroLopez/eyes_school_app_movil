@@ -431,9 +431,10 @@ Datos temporales de QA creados y borrados en S2: padre del estudiante 4 (id 149)
 | Estado | Defectos |
 |---|---|
 | Corregidos en la app (PR #16) | APP-02, APP-03, APP-04, APP-06, APP-07, APP-08, N-01, N-02, N-03, N-05, N-07 (app), N-08, N-09, N-10, N-11, N-12, N-14, N-15, N-16, N-17, N-18, N-19, N-20, N-21, N-22, N-24, N-25 |
-| Corregidos en el backend (PR #45, sin desplegar) | N-04, N-13, N-07 (seed + `scripts/qa/corregir_datos_asistencia.sql`) |
-| Preparados, falta acción del equipo | APP-01: crear la clave de release y los secretos `RELEASE_KEYSTORE_BASE64`, `RELEASE_KEYSTORE_PASSWORD`, `RELEASE_KEY_ALIAS`, `RELEASE_KEY_PASSWORD`, `RELEASE_CERT_SHA256`; el `applicationId` definitivo exige registrar el paquete en Firebase y reemplazar `google-services.json` · APP-INF-1: restringir la API key de Firebase |
-| Necesita decisión | N-23: los reportes del seed apuntan a archivos inexistentes y los subidos se guardan en el disco del App Service, que se reemplaza en cada despliegue |
+| Corregidos en el backend (PR #45, desplegado en QA) | N-04, N-13, N-07 (seed + `scripts/qa/corregir_datos_asistencia.sql`) |
+| Corregido y publicado (release `v1.1.0`, sección 9) | APP-01: firma con clave de release |
+| Preparados, falta acción del equipo | El `applicationId` definitivo exige registrar el paquete en Firebase y reemplazar `google-services.json` · APP-INF-1: restringir la API key de Firebase |
+| Se deja así (decisión del equipo) | N-23: los reportes del seed apuntan a archivos inexistentes y los subidos se guardan en el disco del App Service, que se reemplaza en cada despliegue |
 | No ejecutado aún | Casos con cámara y CP-NF-007 en el POCO X7; registro masivo (requiere autorización); SUS y tareas medidas (participantes); bugs en Azure Boards |
 
 ---
@@ -444,12 +445,16 @@ Datos temporales de QA creados y borrados en S2: padre del estudiante 4 (id 149)
 |---|---|---|
 | Backend → QA | PR [#45](https://github.com/AndresFelipeAceroLopez/backend-Eyes-School/pull/45) fusionado en `developer` (CI, integración PostgreSQL 18, gitleaks y Sonar en verde) → workflow `apieyeschool-q` | Desplegado. Verificado en vivo: `/dashboard/estudiante` 99,94 % (antes 140,6 %), `/dashboard/padre` 100 %, novedad con descripción vacía → 422 |
 | Datos de QA (N-07, estados) | Por la API (`PUT /asistencia/{id}`): `Tardanza` → `Tarde` | 1 registro (id 5) corregido |
-| Datos de QA (N-07, `tipo`) | `scripts/qa/corregir_datos_asistencia.sql` | **Pendiente**: requiere la conexión de la base de QA (la API no permite cambiar `tipo`). El `.env` local apunta a una base de Render que no se pudo confirmar como la de QA, así que no se tocó |
-| Backend → producción | — | **No desplegado**: requiere decisión (fusionar `developer` en `main` lleva también otros cambios) |
+| Datos de QA (N-07, `tipo`) | `scripts/qa/corregir_datos_asistencia.sql` aplicado sobre la base de QA (conexión entregada por el equipo). El `.env` local del backend es de producción y no se tocó | 10 registros `Manual`/`QR` → `tipo` NULL y 1 `Tardanza` de `Asistencia_Aula` → `Tarde`. Verificado por la API: no quedan valores heredados |
+| Backend → producción | — | **No desplegado, por decisión del equipo**: queda en `developer` (QA) |
 | App → `develop` | PR [#16](https://github.com/AndresFelipeAceroLopez/eyes_school_app_movil/pull/16) fusionado (commit `2d04035`) con CI, gitleaks y Quality Gate de SonarQube en verde (seguridad A, cobertura del código nuevo 81,5 %, duplicación 0,6 %) | Fusionado |
 | Contrato app ↔ API | Regrabado tras el despliegue; los 2 `skip` de N-04 se quitaron | 168 de 168 pruebas |
 | Backend · Newman | PR [#46](https://github.com/AndresFelipeAceroLopez/backend-Eyes-School/pull/46): CP-INT-052 busca solo un estudiante sin notas (cambio que estaba sin commit) | Fusionado |
-| App → release APK (OTA) | Clave de release creada fuera del repositorio (`C:\Users\marig\.eyesschool-release\`, huella SHA-256 `7A:E1:AE:3F:…:99:22`) | **Pendiente**: cargar los 5 secretos `RELEASE_*` en GitHub (la sesión no tiene permiso para escribir secretos) y crear la etiqueta `v1.1.0` |
+| App → release APK (OTA) | Clave de release creada fuera del repositorio (`C:\Users\marig\.eyesschool-release\`, huella SHA-256 `7A:E1:AE:3F:…:99:22`) ; el equipo cargó los 5 secretos `RELEASE_*` y publicó el release `v1.1.0` desde la web sobre `develop` (`f3f9cf5`) | Workflow «Release APK» en verde, incluida la verificación de firma, paquete y minSdk. QA verificó el APK descargado: firmado con la clave de release (`CN=Eyes School App`, huella coincide), `versionName 1.1.0`, `versionCode 3`, `minSdk 30`; se instala y abre en el emulador API 33 ([evidencia](evidencias/PR-06/app/S2/v1.1.0_publicado_inicio.png)). La copia firmada con la clave de depuración no se actualiza encima: hay que desinstalarla una vez |
+| N-26 (nuevo) | El release `v1.1.0` publicó también `app-arm64-v8a-release.apk` con `versionCode 2003` (el universal tiene `3`): quien lo instale no recibiría la OTA siguiente (`4`) | PR [#28](https://github.com/AndresFelipeAceroLopez/eyes_school_app_movil/pull/28) fusionado: el release publica solo el APK universal. **Pendiente (equipo)**: borrar `app-arm64-v8a-release.apk` del release `v1.1.0` desde la web |
+| CI endurecido | PR #28: acciones de terceros fijadas por SHA (SonarLint S7637) y `flutter pub get --enforce-lockfile` (S8550) | Fusionado |
+| Firebase | `applicationId` definitivo y restricción de la API key (APP-INF-1) | **Pendiente, por decisión del equipo** |
+| N-23 | Reportes del seed sin archivo y enlace de restablecimiento que abre la web | **Se deja así, por decisión del equipo** |
 
 Ajustes hechos durante el despliegue:
 - El CI usaba Flutter 3.50.0 (nuevo), que depreca `package:flutter/material.dart` (78 avisos de analyze). `ci.yml` y `release_apk.yml` fijan **Flutter 3.47.9**, la versión con la que se verificó todo; migrar a `material_ui` queda como tarea aparte.
