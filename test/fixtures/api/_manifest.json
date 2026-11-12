@@ -46,7 +46,7 @@
   },
   "asistencia_fecha": {
     "ruta": "/asistencia",
-    "consulta": "/asistencia?fecha=2026-11-10&limit=20",
+    "consulta": "/asistencia?fecha=2026-11-12&limit=20",
     "estado": 200
   },
   "dashboard_docente": {

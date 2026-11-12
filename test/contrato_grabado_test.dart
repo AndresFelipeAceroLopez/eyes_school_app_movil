@@ -188,28 +188,16 @@ void main() {
       expect(d.assignedCourses, greaterThanOrEqualTo(0));
     });
 
-    test(
-      '/dashboard/estudiante → StudentDashboard (porcentaje 0–100)',
-      () {
-        final d = DashboardMapper.student(_object('dashboard_estudiante'));
-        expect(d.attendancePercent, isNotNull);
-        expect(d.attendancePercent, inInclusiveRange(0, 100));
-      },
-      skip:
-          'N-04: la API de QA devuelve porcentaje_asistencia > 100. Corregido en backend-Eyes-School PR #45; volver a grabar el contrato '
-          '(tool/grabar_contrato.dart) tras desplegarlo y quitar este skip.',
-    );
+    test('/dashboard/estudiante → StudentDashboard (porcentaje 0–100)', () {
+      final d = DashboardMapper.student(_object('dashboard_estudiante'));
+      expect(d.attendancePercent, isNotNull);
+      expect(d.attendancePercent, inInclusiveRange(0, 100));
+    });
 
-    test(
-      '/dashboard/padre → GuardianDashboard (porcentaje 0–100)',
-      () {
-        final d = DashboardMapper.guardian(_object('dashboard_padre'));
-        expect(d.studentId, isNotNull);
-        expect(d.attendancePercent, inInclusiveRange(0, 100));
-      },
-      skip:
-          'N-04: la API de QA devuelve porcentaje_asistencia > 100. Corregido en backend-Eyes-School PR #45; volver a grabar el contrato '
-          '(tool/grabar_contrato.dart) tras desplegarlo y quitar este skip.',
-    );
+    test('/dashboard/padre → GuardianDashboard (porcentaje 0–100)', () {
+      final d = DashboardMapper.guardian(_object('dashboard_padre'));
+      expect(d.studentId, isNotNull);
+      expect(d.attendancePercent, inInclusiveRange(0, 100));
+    });
   });
 }
