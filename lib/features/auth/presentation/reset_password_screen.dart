@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import 'package:eyes_school/core/errors/app_failure.dart';
 import 'package:eyes_school/core/theme/app_colors.dart';
+import 'package:eyes_school/features/auth/presentation/auth_sheet_scaffold.dart';
 import 'package:eyes_school/core/theme/app_text_styles.dart';
 import 'package:eyes_school/core/utils/validators.dart';
 import 'package:eyes_school/core/widgets/primary_gradient_button.dart';
@@ -18,13 +19,15 @@ class ResetPasswordScreen extends ConsumerStatefulWidget {
   final String? token;
 
   @override
-  ConsumerState<ResetPasswordScreen> createState() => _ResetPasswordScreenState();
+  ConsumerState<ResetPasswordScreen> createState() =>
+      _ResetPasswordScreenState();
 }
 
 class _ResetPasswordScreenState extends ConsumerState<ResetPasswordScreen> {
   final _formKey = GlobalKey<FormState>();
-  late final TextEditingController _tokenController =
-      TextEditingController(text: widget.token ?? '');
+  late final TextEditingController _tokenController = TextEditingController(
+    text: widget.token ?? '',
+  );
   final _passwordController = TextEditingController();
   final _confirmController = TextEditingController();
 
@@ -49,7 +52,9 @@ class _ResetPasswordScreenState extends ConsumerState<ResetPasswordScreen> {
       _errorText = null;
     });
     try {
-      await ref.read(authRepositoryProvider).resetPassword(
+      await ref
+          .read(authRepositoryProvider)
+          .resetPassword(
             token: _tokenController.text.trim(),
             newPassword: _passwordController.text,
           );
@@ -63,41 +68,10 @@ class _ResetPasswordScreenState extends ConsumerState<ResetPasswordScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.headerGradient.first,
-      body: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Padding(
-              padding: const EdgeInsets.fromLTRB(4, 8, 16, 24),
-              child: Row(
-                children: [
-                  IconButton(
-                    icon: const Icon(Icons.arrow_back_rounded, color: Colors.white),
-                    onPressed: () => context.go('/login'),
-                  ),
-                  Text('Nueva contraseña',
-                      style: AppTextStyles.h3.copyWith(color: Colors.white)),
-                ],
-              ),
-            ),
-            Expanded(
-              child: Container(
-                width: double.infinity,
-                padding: const EdgeInsets.fromLTRB(24, 40, 24, 24),
-                decoration: const BoxDecoration(
-                  color: AppColors.surface,
-                  borderRadius: BorderRadius.vertical(top: Radius.circular(32)),
-                ),
-                child: SingleChildScrollView(
-                  child: _done ? _successBody() : _formBody(),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
+    return AuthSheetScaffold(
+      title: 'Nueva contraseña',
+      onBack: () => context.go('/login'),
+      child: SingleChildScrollView(child: _done ? _successBody() : _formBody()),
     );
   }
 
@@ -115,11 +89,17 @@ class _ResetPasswordScreenState extends ConsumerState<ResetPasswordScreen> {
                 color: AppColors.roleTeacherBg,
                 borderRadius: BorderRadius.circular(24),
               ),
-              child: const Icon(Icons.lock_reset_rounded, size: 36, color: AppColors.violet),
+              child: const Icon(
+                Icons.lock_reset_rounded,
+                size: 36,
+                color: AppColors.violet,
+              ),
             ),
           ),
           const SizedBox(height: 20),
-          Center(child: Text('Restablecer contraseña', style: AppTextStyles.h1)),
+          Center(
+            child: Text('Restablecer contraseña', style: AppTextStyles.h1),
+          ),
           const SizedBox(height: 8),
           Text(
             'Pega el código que recibiste por correo y elige tu nueva contraseña.',
@@ -145,8 +125,12 @@ class _ResetPasswordScreenState extends ConsumerState<ResetPasswordScreen> {
             decoration: InputDecoration(
               prefixIcon: const Icon(Icons.lock_outline_rounded),
               suffixIcon: IconButton(
+                tooltip: _obscure ? 'Mostrar contraseña' : 'Ocultar contraseña',
                 icon: Icon(
-                    _obscure ? Icons.visibility_off_outlined : Icons.visibility_outlined),
+                  _obscure
+                      ? Icons.visibility_off_outlined
+                      : Icons.visibility_outlined,
+                ),
                 onPressed: () => setState(() => _obscure = !_obscure),
               ),
             ),
@@ -158,13 +142,19 @@ class _ResetPasswordScreenState extends ConsumerState<ResetPasswordScreen> {
           TextFormField(
             controller: _confirmController,
             obscureText: _obscure,
-            decoration: const InputDecoration(prefixIcon: Icon(Icons.lock_outline_rounded)),
-            validator: (v) =>
-                v == _passwordController.text ? null : 'Las contraseñas no coinciden.',
+            decoration: const InputDecoration(
+              prefixIcon: Icon(Icons.lock_outline_rounded),
+            ),
+            validator: (v) => v == _passwordController.text
+                ? null
+                : 'Las contraseñas no coinciden.',
           ),
           if (_errorText != null) ...[
             const SizedBox(height: 16),
-            Text(_errorText!, style: AppTextStyles.body.copyWith(color: AppColors.pink)),
+            Text(
+              _errorText!,
+              style: AppTextStyles.body.copyWith(color: AppColors.pink),
+            ),
           ],
           const SizedBox(height: 24),
           PrimaryGradientButton(
@@ -187,10 +177,18 @@ class _ResetPasswordScreenState extends ConsumerState<ResetPasswordScreen> {
             color: AppColors.statusActiveBg,
             borderRadius: BorderRadius.circular(24),
           ),
-          child: const Icon(Icons.check_rounded, size: 40, color: AppColors.tealDark),
+          child: const Icon(
+            Icons.check_rounded,
+            size: 40,
+            color: AppColors.tealDark,
+          ),
         ),
         const SizedBox(height: 20),
-        Text('Contraseña actualizada', style: AppTextStyles.h1, textAlign: TextAlign.center),
+        Text(
+          'Contraseña actualizada',
+          style: AppTextStyles.h1,
+          textAlign: TextAlign.center,
+        ),
         const SizedBox(height: 8),
         Text(
           'Ya puedes ingresar con tu nueva contraseña.',

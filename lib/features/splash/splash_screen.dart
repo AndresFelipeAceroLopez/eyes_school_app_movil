@@ -14,11 +14,7 @@ class SplashScreen extends StatelessWidget {
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: [
-              Color(0xFF0A0E3D),
-              Color(0xFF1E1256),
-              Color(0xFF241257),
-            ],
+            colors: [Color(0xFF0A0E3D), Color(0xFF1E1256), Color(0xFF241257)],
           ),
         ),
         child: SafeArea(
@@ -31,8 +27,14 @@ class SplashScreen extends StatelessWidget {
                 text: const TextSpan(
                   style: TextStyle(fontSize: 34, fontWeight: FontWeight.w800),
                   children: [
-                    TextSpan(text: 'Eye', style: TextStyle(color: Colors.white)),
-                    TextSpan(text: 'School', style: TextStyle(color: AppColors.teal)),
+                    TextSpan(
+                      text: 'Eye',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    TextSpan(
+                      text: 'School',
+                      style: TextStyle(color: AppColors.teal),
+                    ),
                   ],
                 ),
               ),
@@ -51,7 +53,10 @@ class SplashScreen extends StatelessWidget {
               const SizedBox(height: 18),
               Text(
                 'Iniciando sesión...',
-                style: TextStyle(color: Colors.white.withValues(alpha: 0.65), fontSize: 14),
+                style: TextStyle(
+                  color: Colors.white.withValues(alpha: 0.65),
+                  fontSize: 14,
+                ),
               ),
               const SizedBox(height: 40),
             ],
@@ -69,9 +74,12 @@ class _DotsIndicator extends StatefulWidget {
   State<_DotsIndicator> createState() => _DotsIndicatorState();
 }
 
-class _DotsIndicatorState extends State<_DotsIndicator> with SingleTickerProviderStateMixin {
-  late final AnimationController _controller =
-      AnimationController(vsync: this, duration: const Duration(milliseconds: 1100))..repeat();
+class _DotsIndicatorState extends State<_DotsIndicator>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _controller = AnimationController(
+    vsync: this,
+    duration: const Duration(milliseconds: 1100),
+  )..repeat();
 
   @override
   void dispose() {
@@ -95,7 +103,9 @@ class _DotsIndicatorState extends State<_DotsIndicator> with SingleTickerProvide
               width: isActive ? 22 : 7,
               height: 7,
               decoration: BoxDecoration(
-                color: isActive ? AppColors.teal : Colors.white.withValues(alpha: 0.3),
+                color: isActive
+                    ? AppColors.teal
+                    : Colors.white.withValues(alpha: 0.3),
                 borderRadius: BorderRadius.circular(4),
               ),
             );

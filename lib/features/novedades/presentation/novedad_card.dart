@@ -45,7 +45,10 @@ class NovedadCard extends StatelessWidget {
                     color: novedad.severity.background,
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  child: Icon(Icons.campaign_rounded, color: novedad.severity.color),
+                  child: Icon(
+                    Icons.campaign_rounded,
+                    color: novedad.severity.color,
+                  ),
                 ),
                 const SizedBox(width: 12),
               ],
@@ -55,12 +58,16 @@ class NovedadCard extends StatelessWidget {
                   children: [
                     Text(
                       showStudent ? novedad.studentName : novedad.title,
-                      style: AppTextStyles.body.copyWith(fontWeight: FontWeight.w700),
+                      style: AppTextStyles.body.copyWith(
+                        fontWeight: FontWeight.w700,
+                      ),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
                     Text(
-                      showStudent ? novedad.title : Formatters.timeAgo(novedad.date),
+                      showStudent
+                          ? novedad.title
+                          : Formatters.timeAgo(novedad.date),
                       style: AppTextStyles.caption,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
@@ -75,7 +82,10 @@ class NovedadCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 10,
+                        vertical: 4,
+                      ),
                       decoration: BoxDecoration(
                         color: novedad.severity.background,
                         borderRadius: BorderRadius.circular(8),
@@ -97,7 +107,8 @@ class NovedadCard extends StatelessWidget {
                 ),
             ],
           ),
-          if (novedad.description != null && novedad.description!.isNotEmpty) ...[
+          if (novedad.description != null &&
+              novedad.description!.isNotEmpty) ...[
             const SizedBox(height: 10),
             Text(
               novedad.description!,
@@ -110,7 +121,11 @@ class NovedadCard extends StatelessWidget {
             const SizedBox(height: 10),
             Row(
               children: [
-                const Icon(Icons.check_circle_rounded, size: 15, color: AppColors.tealDark),
+                const Icon(
+                  Icons.check_circle_rounded,
+                  size: 15,
+                  color: AppColors.tealDark,
+                ),
                 const SizedBox(width: 6),
                 Text(
                   'Completada',

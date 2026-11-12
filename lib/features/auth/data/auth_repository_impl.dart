@@ -1,3 +1,5 @@
+import 'package:eyes_school/core/utils/validators.dart';
+import 'package:eyes_school/features/directory/domain/linked_child.dart';
 import 'package:eyes_school/core/storage/token_storage.dart';
 import 'package:eyes_school/features/auth/domain/app_user.dart';
 import 'package:eyes_school/features/directory/domain/role.dart';
@@ -32,9 +34,18 @@ class AuthRepositoryImpl implements AuthRepository {
 
   /// The tokens land in the Keystore before any authenticated call is made.
   @override
-  Future<AppSession> signIn({required String email, required String password}) async {
-    final pair = await _auth.login(correo: email.trim(), password: password);
-    await _tokens.save(accessToken: pair.accessToken, refreshToken: pair.refreshToken);
+  Future<AppSession> signIn({
+    required String email,
+    required String password,
+  }) async {
+    final pair = await _auth.login(
+      correo: normalizeEmail(email),
+      password: password,
+    );
+    await _tokens.save(
+      accessToken: pair.accessToken,
+      refreshToken: pair.refreshToken,
+    );
     return restoreSession();
   }
 
@@ -79,7 +90,8 @@ class AuthRepositoryImpl implements AuthRepository {
     if (teacher == null) {
       return AppSession(
         user: user,
-        bootstrapWarning: warning ??
+        bootstrapWarning:
+            warning ??
             'Tu cuenta no tiene un perfil de docente asociado. '
                 'Pide a un administrador que lo cree.',
       );
@@ -112,8 +124,9 @@ class AuthRepositoryImpl implements AuthRepository {
     }
 
     final catalogs = await _catalogs.load();
-    final course =
-        student.idCursoActual == null ? null : catalogs.courses[student.idCursoActual];
+    final course = student.idCursoActual == null
+        ? null
+        : catalogs.courses[student.idCursoActual];
 
     // The dashboard is the only place that reports the running period.
     int? period;
@@ -147,46 +160,77 @@ class AuthRepositoryImpl implements AuthRepository {
 
   Future<AppSession> _bootstrapGuardian(MeDto me) async {
     final user = _userFrom(me, Role.parent);
-    PadreDto? link;
-    String? warning;
+
+    // APP-03: every linked child. `/padres/me/hijos` is not deployed in every
+    // environment yet, so a failure falls back to the single `/padres/me`.
+    List<LinkedChild> children;
+    int? parentId;
     try {
-      link = await _people.guardianMe();
-    } on AppFailure catch (e) {
-      warning = e.message;
+      children = (await _people.guardianChildren())
+          .map((h) => h.toEntity())
+          .toList();
+    } on AppFailure {
+      try {
+        final link = await _people.guardianMe();
+        parentId = link.idPadre;
+        children = [
+          LinkedChild(
+            id: link.idEstudiante,
+            name: (link.nombreEstudiante?.trim().isNotEmpty ?? false)
+                ? link.nombreEstudiante!.trim()
+                : 'Estudiante ${link.idEstudiante}',
+            document: link.documentoEstudiante,
+            relationship: link.parentesco,
+          ),
+        ];
+      } on AppFailure {
+        children = const [];
+      }
     }
-    if (link == null) {
+
+    if (children.isEmpty) {
       return AppSession(
         user: user,
         bootstrapWarning:
-            warning ?? 'Tu cuenta de acudiente aún no está vinculada a un estudiante.',
+            'Tu cuenta de acudiente aún no está vinculada a un estudiante.',
       );
     }
 
+    final first = children.first;
     int? period;
     try {
-      period = (await _dashboard.guardian()).currentPeriod;
+      period = (await _dashboard.guardian(studentId: first.id)).currentPeriod;
     } on AppFailure {
       period = null;
     }
 
-    // The child's course drives the schedule tab.
-    int? courseId;
-    try {
-      courseId = (await _people.student(link.idEstudiante)).idCursoActual;
-    } on AppFailure {
-      courseId = null;
+    // The child's course drives the schedule tab; `/padres/me` does not carry
+    // it, so it is looked up only when missing.
+    var withCourses = children;
+    if (first.courseId == null) {
+      try {
+        final courseId = (await _people.student(first.id)).idCursoActual;
+        withCourses = [
+          LinkedChild(
+            id: first.id,
+            name: first.name,
+            document: first.document,
+            relationship: first.relationship,
+            courseId: courseId,
+          ),
+          ...children.skip(1),
+        ];
+      } on AppFailure {
+        // Keep it null: the schedule tab shows its own empty state.
+      }
     }
 
     return AppSession(
       user: user,
-      parentId: link.idPadre,
-      childId: link.idEstudiante,
-      childName: link.nombreEstudiante,
-      childDocument: link.documentoEstudiante,
-      relationship: link.parentesco,
-      courseId: courseId,
+      parentId: parentId,
       currentPeriod: period,
-    );
+      children: withCourses,
+    ).withActiveChild(first.id);
   }
 
   Future<AppSession> _bootstrapAdmin(MeDto me) async {
@@ -198,7 +242,10 @@ class AuthRepositoryImpl implements AuthRepository {
       admin = null;
     }
     return AppSession(
-      user: user.copyWith(subject: admin?.cargo, institution: admin?.nivelAcceso),
+      user: user.copyWith(
+        subject: admin?.cargo,
+        institution: admin?.nivelAcceso,
+      ),
     );
   }
 
@@ -224,12 +271,24 @@ class AuthRepositoryImpl implements AuthRepository {
     String? address,
     String? email,
   }) {
-    return _people.updateUser(userId, phone: phone, address: address, email: email);
+    return _people.updateUser(
+      userId,
+      phone: phone,
+      address: address,
+      email: email,
+    );
   }
 
   @override
-  Future<void> changePassword({required int userId, required String password}) =>
-      _people.updateUser(userId, password: password);
+  Future<void> changePassword({
+    required int userId,
+    required String currentPassword,
+    required String password,
+  }) => _people.updateUser(
+    userId,
+    password: password,
+    currentPassword: currentPassword,
+  );
 
   @override
   Future<void> uploadAvatar(String filePath) => _auth.uploadAvatar(filePath);
@@ -237,7 +296,9 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<List<RoleOption>> availableRoles() async {
     final roles = await _auth.roles();
-    return roles.map((r) => RoleOption(id: r.idRol, name: r.nombreRol)).toList();
+    return roles
+        .map((r) => RoleOption(id: r.idRol, name: r.nombreRol))
+        .toList();
   }
 
   @override
@@ -246,11 +307,14 @@ class AuthRepositoryImpl implements AuthRepository {
 
   /// Neutral by design: the API never reveals whether the address exists.
   @override
-  Future<void> requestPasswordReset(String email) => _auth.forgotPassword(email.trim());
+  Future<void> requestPasswordReset(String email) =>
+      _auth.forgotPassword(normalizeEmail(email));
 
   @override
-  Future<void> resetPassword({required String token, required String newPassword}) =>
-      _auth.resetPassword(token: token, newPassword: newPassword);
+  Future<void> resetPassword({
+    required String token,
+    required String newPassword,
+  }) => _auth.resetPassword(token: token, newPassword: newPassword);
 
   /// Clears local state whatever the server answers — a failed sign-out must
   /// never leave the user stuck in a session they asked to end.

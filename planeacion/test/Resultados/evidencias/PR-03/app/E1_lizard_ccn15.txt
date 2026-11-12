@@ -1,0 +1,5 @@
+lib\core\network\failure_mapper.dart:22: warning: FailureMapper::from has 34 NLOC, 19 CCN, 219 token, 1 PARAM, 37 length, 0 ND
+lib\features\academic\presentation\grade_entry_screen.dart:66: warning: _GradeEntryScreenState::_save has 80 NLOC, 18 CCN, 526 token, 4 PARAM, 98 length, 0 ND
+lib\features\auth\domain\app_user.dart:71: warning: AppUser::copyWith has 42 NLOC, 18 CCN, 215 token, 17 PARAM, 42 length, 0 ND
+lib\features\directory\data\student_catalog.dart:116: warning: StudentCatalog::_candidateKeys has 51 NLOC, 23 CCN, 400 token, 1 PARAM, 56 length, 0 ND
+lib\features\directory\presentation\profile_screen.dart:70: warning: _ProfileScreenState::build has 206 NLOC, 18 CCN, 1227 token, 1 PARAM, 210 length, 0 ND

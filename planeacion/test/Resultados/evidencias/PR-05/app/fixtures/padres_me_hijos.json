@@ -1,0 +1,16 @@
+[
+  {
+    "id_estudiante": 1,
+    "nombre_estudiante": "Sofía Rodríguez",
+    "documento_estudiante": "20000001",
+    "parentesco": "Madre",
+    "id_curso_actual": 1
+  },
+  {
+    "id_estudiante": 3,
+    "nombre_estudiante": "Santiago López",
+    "documento_estudiante": "20000003",
+    "parentesco": "Abuela",
+    "id_curso_actual": 2
+  }
+]

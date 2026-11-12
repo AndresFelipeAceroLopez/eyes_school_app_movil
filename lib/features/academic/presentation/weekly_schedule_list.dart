@@ -11,7 +11,11 @@ const _dayOrder = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes'];
 /// section per day. Shared by the Teacher and Student weekly schedule
 /// screens.
 class WeeklyScheduleList extends StatelessWidget {
-  const WeeklyScheduleList({super.key, required this.sessions, this.onTapSession});
+  const WeeklyScheduleList({
+    super.key,
+    required this.sessions,
+    this.onTapSession,
+  });
 
   final List<ClassSession> sessions;
   final ValueChanged<ClassSession>? onTapSession;
@@ -28,7 +32,12 @@ class WeeklyScheduleList extends StatelessWidget {
     if (sessions.isEmpty) {
       return Padding(
         padding: const EdgeInsets.symmetric(vertical: 40),
-        child: Center(child: Text('Sin clases programadas.', style: AppTextStyles.bodyMuted)),
+        child: Center(
+          child: Text(
+            'Sin clases programadas.',
+            style: AppTextStyles.bodyMuted,
+          ),
+        ),
       );
     }
 
@@ -44,10 +53,17 @@ class WeeklyScheduleList extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Column(
               children: byDay[day]!
-                  .map((s) => Padding(
-                        padding: const EdgeInsets.only(bottom: 12),
-                        child: _ScheduleRow(session: s, onTap: onTapSession == null ? null : () => onTapSession!(s)),
-                      ))
+                  .map(
+                    (s) => Padding(
+                      padding: const EdgeInsets.only(bottom: 12),
+                      child: _ScheduleRow(
+                        session: s,
+                        onTap: onTapSession == null
+                            ? null
+                            : () => onTapSession!(s),
+                      ),
+                    ),
+                  )
                   .toList(),
             ),
           ),
@@ -91,7 +107,11 @@ class _ScheduleRow extends StatelessWidget {
                 ],
               ),
             ),
-            if (onTap != null) const Icon(Icons.chevron_right_rounded, color: AppColors.textSecondary),
+            if (onTap != null)
+              const Icon(
+                Icons.chevron_right_rounded,
+                color: AppColors.textSecondary,
+              ),
           ],
         ),
       ),

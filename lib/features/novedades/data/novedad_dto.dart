@@ -5,13 +5,13 @@ import 'package:eyes_school/features/novedades/domain/severity.dart';
 /// `TipoNovedadOutt` → [NovedadType].
 abstract final class NovedadTypeMapper {
   static NovedadType fromJson(Json json) => NovedadType(
-        id: asInt(json['id_tipo_novedad']),
-        name: asString(json['nombre_tipo']),
-        severity: NovedadSeverity.parse(asStringOrNull(json['nivel_gravedad'])),
-        requiresAction: asBool(json['requiere_accion']),
-        active: asBool(json['activo'], fallback: true),
-        description: asStringOrNull(json['descripcion']),
-      );
+    id: asInt(json['id_tipo_novedad']),
+    name: asString(json['nombre_tipo']),
+    severity: NovedadSeverity.parse(asStringOrNull(json['nivel_gravedad'])),
+    requiresAction: asBool(json['requiere_accion']),
+    active: asBool(json['activo'], fallback: true),
+    description: asStringOrNull(json['descripcion']),
+  );
 }
 
 /// `NovedadOut` → [Novedad].

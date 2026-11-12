@@ -1,0 +1,122 @@
+00:00 +0: loading C:/Users/marig/eyes_school_app_movil/test/app_boot_test.dart
+00:00 +0: C:/Users/marig/eyes_school_app_movil/test/architecture_test.dart: El dominio es puro no depende de Flutter, de Dio ni de ningún paquete externo
+00:00 +1: C:/Users/marig/eyes_school_app_movil/test/architecture_test.dart: El dominio es puro no conoce las capas de datos ni de presentación
+00:00 +2: C:/Users/marig/eyes_school_app_movil/test/architecture_test.dart: La presentación habla el idioma del dominio ninguna pantalla importa un DTO, un API o Dio
+00:00 +3: C:/Users/marig/eyes_school_app_movil/test/architecture_test.dart: La presentación habla el idioma del dominio ninguna pantalla instancia un repositorio concreto
+00:00 +4: C:/Users/marig/eyes_school_app_movil/test/architecture_test.dart: solo la raíz de composición conoce las implementaciones
+00:01 +5: C:/Users/marig/eyes_school_app_movil/test/app_boot_test.dart: sin sesión guardada la app aterriza en el login
+00:02 +6: C:/Users/marig/eyes_school_app_movil/test/app_boot_test.dart: sin sesión guardada la app aterriza en el login
+00:02 +7: C:/Users/marig/eyes_school_app_movil/test/app_boot_test.dart: sin sesión guardada la app aterriza en el login
+00:02 +8: C:/Users/marig/eyes_school_app_movil/test/app_boot_test.dart: sin sesión guardada la app aterriza en el login
+00:02 +9: C:/Users/marig/eyes_school_app_movil/test/app_boot_test.dart: sin sesión guardada la app aterriza en el login
+00:02 +10: C:/Users/marig/eyes_school_app_movil/test/app_boot_test.dart: sin sesión guardada la app aterriza en el login
+00:02 +11: C:/Users/marig/eyes_school_app_movil/test/app_boot_test.dart: sin sesión guardada la app aterriza en el login
+00:02 +12: C:/Users/marig/eyes_school_app_movil/test/app_boot_test.dart: sin sesión guardada la app aterriza en el login
+00:02 +13: C:/Users/marig/eyes_school_app_movil/test/app_boot_test.dart: sin sesión guardada la app aterriza en el login
+00:02 +14: C:/Users/marig/eyes_school_app_movil/test/app_boot_test.dart: sin sesión guardada la app aterriza en el login
+00:02 +15: C:/Users/marig/eyes_school_app_movil/test/app_boot_test.dart: sin sesión guardada la app aterriza en el login
+00:02 +16: C:/Users/marig/eyes_school_app_movil/test/app_boot_test.dart: sin sesión guardada la app aterriza en el login
+00:02 +17: C:/Users/marig/eyes_school_app_movil/test/app_boot_test.dart: sin sesión guardada la app aterriza en el login
+00:02 +18: C:/Users/marig/eyes_school_app_movil/test/app_boot_test.dart: sin sesión guardada la app aterriza en el login
+00:02 +19: C:/Users/marig/eyes_school_app_movil/test/app_boot_test.dart: sin sesión guardada la app aterriza en el login
+00:02 +20: C:/Users/marig/eyes_school_app_movil/test/app_boot_test.dart: sin sesión guardada la app aterriza en el login
+00:02 +21: C:/Users/marig/eyes_school_app_movil/test/app_boot_test.dart: sin sesión guardada la app aterriza en el login
+00:02 +22: C:/Users/marig/eyes_school_app_movil/test/app_boot_test.dart: sin sesión guardada la app aterriza en el login
+00:02 +23: C:/Users/marig/eyes_school_app_movil/test/app_boot_test.dart: sin sesión guardada la app aterriza en el login
+00:02 +24: C:/Users/marig/eyes_school_app_movil/test/app_boot_test.dart: sin sesión guardada la app aterriza en el login
+00:02 +25: C:/Users/marig/eyes_school_app_movil/test/app_boot_test.dart: sin sesión guardada la app aterriza en el login
+00:02 +26: C:/Users/marig/eyes_school_app_movil/test/app_boot_test.dart: sin sesión guardada la app aterriza en el login
+00:02 +27: C:/Users/marig/eyes_school_app_movil/test/app_boot_test.dart: sin sesión guardada la app aterriza en el login
+00:02 +28: C:/Users/marig/eyes_school_app_movil/test/app_boot_test.dart: sin sesión guardada la app aterriza en el login
+00:02 +29: C:/Users/marig/eyes_school_app_movil/test/app_boot_test.dart: sin sesión guardada la app aterriza en el login
+00:02 +30: C:/Users/marig/eyes_school_app_movil/test/app_boot_test.dart: sin sesión guardada la app aterriza en el login
+00:02 +31: C:/Users/marig/eyes_school_app_movil/test/app_boot_test.dart: sin sesión guardada la app aterriza en el login
+00:02 +32: C:/Users/marig/eyes_school_app_movil/test/app_boot_test.dart: sin sesión guardada la app aterriza en el login
+00:02 +33: C:/Users/marig/eyes_school_app_movil/test/app_boot_test.dart: sin sesión guardada la app aterriza en el login
+00:02 +34: C:/Users/marig/eyes_school_app_movil/test/app_boot_test.dart: sin sesión guardada la app aterriza en el login
+00:02 +35: C:/Users/marig/eyes_school_app_movil/test/app_boot_test.dart: sin sesión guardada la app aterriza en el login
+00:02 +36: C:/Users/marig/eyes_school_app_movil/test/app_boot_test.dart: sin sesión guardada la app aterriza en el login
+00:08 +37: C:/Users/marig/eyes_school_app_movil/test/student_home_resilience_test.dart: la API caída no tumba el inicio del estudiante
+00:09 +38: C:/Users/marig/eyes_school_app_movil/test/student_home_resilience_test.dart: la API caída no tumba el inicio del estudiante
+00:14 +39: C:/Users/marig/eyes_school_app_movil/test/student_home_resilience_test.dart: la API caída no tumba el inicio del estudiante
+00:14 +40: C:/Users/marig/eyes_school_app_movil/test/student_home_resilience_test.dart: la API caída no tumba el inicio del estudiante
+00:15 +41: C:/Users/marig/eyes_school_app_movil/test/student_home_resilience_test.dart: la API caída no tumba el inicio del estudiante
+00:15 +42: C:/Users/marig/eyes_school_app_movil/test/student_home_resilience_test.dart: la API caída no tumba el inicio del estudiante
+00:15 +43: C:/Users/marig/eyes_school_app_movil/test/student_home_resilience_test.dart: la API caída no tumba el inicio del estudiante
+00:15 +44: C:/Users/marig/eyes_school_app_movil/test/student_home_resilience_test.dart: la API caída no tumba el inicio del estudiante
+00:15 +45: C:/Users/marig/eyes_school_app_movil/test/student_home_resilience_test.dart: la API caída no tumba el inicio del estudiante
+00:15 +46: C:/Users/marig/eyes_school_app_movil/test/student_home_resilience_test.dart: la API caída no tumba el inicio del estudiante
+00:15 +47: C:/Users/marig/eyes_school_app_movil/test/student_home_resilience_test.dart: la API caída no tumba el inicio del estudiante
+00:15 +48: C:/Users/marig/eyes_school_app_movil/test/student_home_resilience_test.dart: la API caída no tumba el inicio del estudiante
+00:15 +49: C:/Users/marig/eyes_school_app_movil/test/student_home_resilience_test.dart: la API caída no tumba el inicio del estudiante
+00:16 +50: C:/Users/marig/eyes_school_app_movil/test/student_home_resilience_test.dart: la API caída no tumba el inicio del estudiante
+00:16 +51: C:/Users/marig/eyes_school_app_movil/test/student_home_resilience_test.dart: la API caída no tumba el inicio del estudiante
+00:16 +52: C:/Users/marig/eyes_school_app_movil/test/student_home_resilience_test.dart: la API caída no tumba el inicio del estudiante
+00:16 +53: C:/Users/marig/eyes_school_app_movil/test/student_home_resilience_test.dart: la API caída no tumba el inicio del estudiante
+00:16 +54: C:/Users/marig/eyes_school_app_movil/test/student_home_resilience_test.dart: la API caída no tumba el inicio del estudiante
+00:16 +55: C:/Users/marig/eyes_school_app_movil/test/student_home_resilience_test.dart: la API caída no tumba el inicio del estudiante
+00:16 +56: C:/Users/marig/eyes_school_app_movil/test/student_home_resilience_test.dart: la API caída no tumba el inicio del estudiante
+00:16 +57: C:/Users/marig/eyes_school_app_movil/test/student_home_resilience_test.dart: la API caída no tumba el inicio del estudiante
+*** Request ***
+uri: https://apieyeschool-b7fudxavddh9hhah.canadacentral-01.azurewebsites.net/api/v1/auth/me
+data:
+null
+
+*** Response ***
+uri: https://apieyeschool-b7fudxavddh9hhah.canadacentral-01.azurewebsites.net/api/v1/auth/me
+
+*** Request ***
+uri: https://apieyeschool-b7fudxavddh9hhah.canadacentral-01.azurewebsites.net/api/v1/cursos?skip=0&limit=200
+data:
+null
+
+*** Request ***
+uri: https://apieyeschool-b7fudxavddh9hhah.canadacentral-01.azurewebsites.net/api/v1/materias
+data:
+null
+
+*** Request ***
+uri: https://apieyeschool-b7fudxavddh9hhah.canadacentral-01.azurewebsites.net/api/v1/tipos-novedad
+data:
+null
+
+*** Request ***
+uri: https://apieyeschool-b7fudxavddh9hhah.canadacentral-01.azurewebsites.net/api/v1/estudiantes/me
+data:
+null
+
+*** Response ***
+uri: https://apieyeschool-b7fudxavddh9hhah.canadacentral-01.azurewebsites.net/api/v1/estudiantes/me
+
+*** Request ***
+uri: https://apieyeschool-b7fudxavddh9hhah.canadacentral-01.azurewebsites.net/api/v1/dashboard/estudiante
+data:
+null
+
+*** Request ***
+uri: https://apieyeschool-b7fudxavddh9hhah.canadacentral-01.azurewebsites.net/api/v1/dashboard/estudiante
+data:
+null
+
+*** Request ***
+uri: https://apieyeschool-b7fudxavddh9hhah.canadacentral-01.azurewebsites.net/api/v1/cursos/3/horarios
+data:
+null
+
+*** Request ***
+uri: https://apieyeschool-b7fudxavddh9hhah.canadacentral-01.azurewebsites.net/api/v1/estudiantes/7/notas?id_periodo=1
+data:
+null
+
+00:17 +58: C:/Users/marig/eyes_school_app_movil/test/student_home_resilience_test.dart: una API totalmente caída deja al usuario en el login, no en rojo
+*** Request ***
+uri: https://apieyeschool-b7fudxavddh9hhah.canadacentral-01.azurewebsites.net/api/v1/auth/me
+data:
+null
+
+*** Request ***
+uri: https://apieyeschool-b7fudxavddh9hhah.canadacentral-01.azurewebsites.net/api/v1/auth/logout
+data:
+{refresh_token: refresh-de-prueba}
+
+00:22 +59: All tests passed!

@@ -82,6 +82,12 @@ class Report {
   final DateTime? generatedAt;
   final bool hasFile;
 
-  bool get isReady => status.toLowerCase() == 'completado';
+  /// The API reports a finished report as «Generado» (`PATCH /reportes/{id}/estado`);
+  /// «Completado» is kept for older rows (N-22).
+  bool get isReady {
+    final s = status.toLowerCase().trim();
+    return s == 'generado' || s == 'completado';
+  }
+
   bool get isFailed => status.toLowerCase() == 'error';
 }

@@ -1,0 +1,107 @@
+{
+  "auth_me_estudiante": {
+    "ruta": "/auth/me",
+    "consulta": "/auth/me",
+    "estado": 200
+  },
+  "estudiantes_me": {
+    "ruta": "/estudiantes/me",
+    "consulta": "/estudiantes/me",
+    "estado": 200
+  },
+  "estudiantes_id_notas": {
+    "ruta": "/estudiantes/1/notas",
+    "consulta": "/estudiantes/1/notas",
+    "estado": 200
+  },
+  "estudiantes_id_asistencia": {
+    "ruta": "/estudiantes/1/asistencia",
+    "consulta": "/estudiantes/1/asistencia?limit=20",
+    "estado": 200
+  },
+  "estudiantes_id_novedades": {
+    "ruta": "/estudiantes/1/novedades",
+    "consulta": "/estudiantes/1/novedades",
+    "estado": 200
+  },
+  "cursos_id_horarios": {
+    "ruta": "/cursos/1/horarios",
+    "consulta": "/cursos/1/horarios",
+    "estado": 200
+  },
+  "dashboard_estudiante": {
+    "ruta": "/dashboard/estudiante",
+    "consulta": "/dashboard/estudiante",
+    "estado": 200
+  },
+  "auth_me_docente": {
+    "ruta": "/auth/me",
+    "consulta": "/auth/me",
+    "estado": 200
+  },
+  "asignaciones_docente": {
+    "ruta": "/asignaciones",
+    "consulta": "/asignaciones?id_profesor=1&limit=200",
+    "estado": 200
+  },
+  "asistencia_fecha": {
+    "ruta": "/asistencia",
+    "consulta": "/asistencia?fecha=2026-11-12&limit=20",
+    "estado": 200
+  },
+  "dashboard_docente": {
+    "ruta": "/dashboard/docente",
+    "consulta": "/dashboard/docente",
+    "estado": 200
+  },
+  "auth_me_admin": {
+    "ruta": "/auth/me",
+    "consulta": "/auth/me",
+    "estado": 200
+  },
+  "cursos": {
+    "ruta": "/cursos",
+    "consulta": "/cursos?limit=200",
+    "estado": 200
+  },
+  "materias": {
+    "ruta": "/materias",
+    "consulta": "/materias",
+    "estado": 200
+  },
+  "novedades": {
+    "ruta": "/novedades",
+    "consulta": "/novedades?limit=20",
+    "estado": 200
+  },
+  "tipos_novedad": {
+    "ruta": "/tipos-novedad",
+    "consulta": "/tipos-novedad",
+    "estado": 200
+  },
+  "reportes": {
+    "ruta": "/reportes",
+    "consulta": "/reportes?limit=20",
+    "estado": 200
+  },
+  "auth_me_padre": {
+    "ruta": "/auth/me",
+    "consulta": "/auth/me",
+    "estado": 200
+  },
+  "padres_me": {
+    "ruta": "/padres/me",
+    "consulta": "/padres/me",
+    "estado": 200
+  },
+  "padres_me_hijos": {
+    "ruta": "/padres/me/hijos",
+    "consulta": "/padres/me/hijos",
+    "estado": 200
+  },
+  "dashboard_padre": {
+    "ruta": "/dashboard/padre",
+    "consulta": "/dashboard/padre",
+    "estado": 200
+  }
+}

@@ -9,10 +9,16 @@ class ReportRepositoryImpl implements ReportRepository {
   final ReportesApi _api;
 
   @override
-  Future<List<Report>> reports({int skip = 0, int limit = ApiConfig.pageSize}) async {
+  Future<List<Report>> reports({
+    int skip = 0,
+    int limit = ApiConfig.pageSize,
+  }) async {
     final rows = await _api.reports(skip: skip, limit: limit);
-    rows.sort((a, b) => (b.generatedAt ?? DateTime(2000))
-        .compareTo(a.generatedAt ?? DateTime(2000)));
+    rows.sort(
+      (a, b) => (b.generatedAt ?? DateTime(2000)).compareTo(
+        a.generatedAt ?? DateTime(2000),
+      ),
+    );
     return rows;
   }
 

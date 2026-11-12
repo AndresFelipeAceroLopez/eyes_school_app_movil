@@ -1,0 +1,8 @@
+Capa                Lineas Cobertura
+domain             198/358    55.3 %
+data              317/1181    26.8 %
+core               354/796    44.5 %
+presentacion      393/4662     8.4 %
+logica            515/1539    33.5 %
+total            1262/6997    18.0 %
+Cobertura de logica 33.5 % < umbral 75.0 %

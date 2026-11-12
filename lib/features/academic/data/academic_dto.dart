@@ -7,25 +7,25 @@ import 'package:eyes_school/features/novedades/domain/severity.dart';
 /// `CursoOut` → [Course].
 abstract final class CourseMapper {
   static Course fromJson(Json json) => Course(
-        id: asInt(json['id_curso']),
-        name: asString(json['nombre_curso']),
-        grade: asString(json['grado']),
-        // The API stores "mañana" | "manana" | "tarde" | "unica" | "1".."4".
-        shift: SchoolShift.parse(asStringOrNull(json['jornada'])),
-        year: asInt(json['ano']),
-        active: asBool(json['activo'], fallback: true),
-        area: asStringOrNull(json['area']),
-      );
+    id: asInt(json['id_curso']),
+    name: asString(json['nombre_curso']),
+    grade: asString(json['grado']),
+    // The API stores "mañana" | "manana" | "tarde" | "unica" | "1".."4".
+    shift: SchoolShift.parse(asStringOrNull(json['jornada'])),
+    year: asInt(json['ano']),
+    active: asBool(json['activo'], fallback: true),
+    area: asStringOrNull(json['area']),
+  );
 }
 
 /// `MateriaOut` → [CourseSubject].
 abstract final class SubjectMapper {
   static CourseSubject fromJson(Json json) => CourseSubject(
-        id: asInt(json['id_materia']),
-        name: asString(json['nombre_materia']),
-        code: asString(json['codigo_materia']),
-        active: asBool(json['activa'], fallback: true),
-      );
+    id: asInt(json['id_materia']),
+    name: asString(json['nombre_materia']),
+    code: asString(json['codigo_materia']),
+    active: asBool(json['activa'], fallback: true),
+  );
 }
 
 /// `AsignacionOut` — the profesor ↔ curso ↔ materia triple that scopes
@@ -40,12 +40,12 @@ class AssignmentDto {
   });
 
   factory AssignmentDto.fromJson(Json json) => AssignmentDto(
-        id: asInt(json['id_asignacion']),
-        teacherId: asInt(json['id_profesor']),
-        courseId: asInt(json['id_curso']),
-        subjectId: asInt(json['id_materia']),
-        active: asBool(json['activo'], fallback: true),
-      );
+    id: asInt(json['id_asignacion']),
+    teacherId: asInt(json['id_profesor']),
+    courseId: asInt(json['id_curso']),
+    subjectId: asInt(json['id_materia']),
+    active: asBool(json['activo'], fallback: true),
+  );
 
   final int id;
   final int teacherId;
@@ -69,16 +69,16 @@ class ScheduleBlockDto {
   });
 
   factory ScheduleBlockDto.fromJson(Json json) => ScheduleBlockDto(
-        id: asInt(json['id_horario']),
-        courseId: asInt(json['id_curso']),
-        subjectId: asInt(json['id_materia']),
-        day: asString(json['dia']),
-        room: asString(json['salon']),
-        active: asBool(json['activo'], fallback: true),
-        // `format: time` — "07:00:00" is not an ISO datetime.
-        start: ClassTime.tryParse(asStringOrNull(json['hora_inicio'])),
-        end: ClassTime.tryParse(asStringOrNull(json['hora_fin'])),
-      );
+    id: asInt(json['id_horario']),
+    courseId: asInt(json['id_curso']),
+    subjectId: asInt(json['id_materia']),
+    day: asString(json['dia']),
+    room: asString(json['salon']),
+    active: asBool(json['activo'], fallback: true),
+    // `format: time` — "07:00:00" is not an ISO datetime.
+    start: ClassTime.tryParse(asStringOrNull(json['hora_inicio'])),
+    end: ClassTime.tryParse(asStringOrNull(json['hora_fin'])),
+  );
 
   final int id;
   final int courseId;

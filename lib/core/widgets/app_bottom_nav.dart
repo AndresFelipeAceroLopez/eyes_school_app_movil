@@ -37,7 +37,11 @@ class AppBottomNav extends StatelessWidget {
           color: AppColors.surface,
           borderRadius: BorderRadius.circular(26),
           boxShadow: const [
-            BoxShadow(color: AppColors.cardShadow, blurRadius: 24, offset: Offset(0, 8)),
+            BoxShadow(
+              color: AppColors.cardShadow,
+              blurRadius: 24,
+              offset: Offset(0, 8),
+            ),
           ],
         ),
         child: Row(
@@ -63,7 +67,11 @@ class AppBottomNav extends StatelessWidget {
 }
 
 class _NavTab extends StatelessWidget {
-  const _NavTab({required this.item, required this.selected, required this.onTap});
+  const _NavTab({
+    required this.item,
+    required this.selected,
+    required this.onTap,
+  });
 
   final NavItem item;
   final bool selected;
@@ -129,7 +137,11 @@ class _ElevatedItem extends StatelessWidget {
                   gradient: LinearGradient(colors: AppColors.primaryGradient),
                   shape: BoxShape.circle,
                   boxShadow: [
-                    BoxShadow(color: Color(0x555B34D6), blurRadius: 16, offset: Offset(0, 6)),
+                    BoxShadow(
+                      color: Color(0x555B34D6),
+                      blurRadius: 16,
+                      offset: Offset(0, 6),
+                    ),
                   ],
                 ),
                 child: Icon(item.icon, color: Colors.white, size: 26),

@@ -34,25 +34,25 @@ void main() {
 
   /// `/auth/me` and `/estudiantes/me` answer; everything else is unreachable.
   ScriptedAdapter studentWithDeadApi() => ScriptedAdapter({
-        '/auth/me': (_) => {
-              'id_usuario': 42,
-              'primer_nombre': 'Ana',
-              'primer_apellido': 'Gómez',
-              'correo': 'ana@eyesschool.edu.co',
-              'nombre_rol': 'estudiante',
-              'id_rol': 2,
-              'estado': true,
-            },
-        '/estudiantes/me': (_) => {
-              'id_estudiante': 7,
-              'id_usuario': 42,
-              'codigo_estudiante': 'EST007',
-              'fecha_ingreso': '2024-02-01',
-              'estado': 'Activo',
-              'id_curso_actual': 3,
-              'fecha_registro': '2024-02-01T08:00:00',
-            },
-      });
+    '/auth/me': (_) => {
+      'id_usuario': 42,
+      'primer_nombre': 'Ana',
+      'primer_apellido': 'Gómez',
+      'correo': 'ana@eyesschool.edu.co',
+      'nombre_rol': 'estudiante',
+      'id_rol': 2,
+      'estado': true,
+    },
+    '/estudiantes/me': (_) => {
+      'id_estudiante': 7,
+      'id_usuario': 42,
+      'codigo_estudiante': 'EST007',
+      'fecha_ingreso': '2024-02-01',
+      'estado': 'Activo',
+      'id_curso_actual': 3,
+      'fecha_registro': '2024-02-01T08:00:00',
+    },
+  });
 
   Future<void> pumpApp(WidgetTester tester, ScriptedAdapter adapter) async {
     usePhoneViewport(tester);
@@ -88,11 +88,13 @@ void main() {
     expect(find.text('Reintentar'), findsWidgets);
   });
 
-  testWidgets('una API totalmente caída deja al usuario en el login, no en rojo',
-      (tester) async {
-    await pumpApp(tester, ScriptedAdapter(const {}));
+  testWidgets(
+    'una API totalmente caída deja al usuario en el login, no en rojo',
+    (tester) async {
+      await pumpApp(tester, ScriptedAdapter(const {}));
 
-    expect(tester.takeException(), isNull);
-    expect(find.text('Bienvenido'), findsOneWidget);
-  });
+      expect(tester.takeException(), isNull);
+      expect(find.text('Bienvenido'), findsOneWidget);
+    },
+  );
 }

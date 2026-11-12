@@ -15,6 +15,10 @@ import 'package:eyes_school/features/novedades/domain/severity.dart';
 
 /// Signing in, and the invariant that a background concern must never cost
 /// the user their session.
+/// Fields of the login form, named as the API names them, so field errors
+/// from the use case and from a 422 land on the same input.
+enum LoginField { correo, password }
+
 class SignIn {
   const SignIn(this._auth);
 
@@ -22,10 +26,14 @@ class SignIn {
 
   Future<AppSession> call({required String email, required String password}) {
     if (email.trim().isEmpty) {
-      throw const ValidationFailure('Ingresa tu correo.', {'correo': 'Requerido'});
+      throw ValidationFailure('Ingresa tu correo.', {
+        LoginField.correo.name: 'Requerido',
+      });
     }
     if (password.isEmpty) {
-      throw const ValidationFailure('Ingresa tu contraseña.', {'password': 'Requerido'});
+      throw ValidationFailure('Ingresa tu contraseña.', {
+        LoginField.password.name: 'Requerido',
+      });
     }
     return _auth.signIn(email: email, password: password);
   }
@@ -154,7 +162,11 @@ class SaveGradeSheet {
 }
 
 class GradeEntry {
-  const GradeEntry({required this.studentId, required this.score, this.gradeId});
+  const GradeEntry({
+    required this.studentId,
+    required this.score,
+    this.gradeId,
+  });
 
   final int studentId;
   final double score;
@@ -176,7 +188,10 @@ class TodaysClasses {
   List<ClassSession> call(List<ClassSession> weekly, {DateTime? now}) {
     final moment = now ?? DateTime.now();
     final today = Weekdays.labelFor(moment);
-    return weekly.where((s) => s.day == today).map((s) => s.resolvedAt(moment)).toList();
+    return weekly
+        .where((s) => s.day == today)
+        .map((s) => s.resolvedAt(moment))
+        .toList();
   }
 }
 

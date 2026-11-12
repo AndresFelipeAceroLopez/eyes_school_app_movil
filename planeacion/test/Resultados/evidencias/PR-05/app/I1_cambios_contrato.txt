@@ -1,0 +1,23 @@
+ test/fixtures/api/_manifest.json                 | 107 ++++++++++
+ test/fixtures/api/asignaciones_docente.json      |  38 ++++
+ test/fixtures/api/asistencia_fecha.json          | 242 +++++++++++++++++++++++
+ test/fixtures/api/auth_me_admin.json             |   9 +
+ test/fixtures/api/auth_me_docente.json           |   9 +
+ test/fixtures/api/auth_me_estudiante.json        |   9 +
+ test/fixtures/api/auth_me_padre.json             |   9 +
+ test/fixtures/api/cursos.json                    | 122 ++++++++++++
+ test/fixtures/api/cursos_id_horarios.json        |  32 +++
+ test/fixtures/api/dashboard_docente.json         |   6 +
+ test/fixtures/api/dashboard_estudiante.json      |   6 +
+ test/fixtures/api/dashboard_padre.json           |   7 +
+ test/fixtures/api/estudiantes_id_asistencia.json | 242 +++++++++++++++++++++++
+ test/fixtures/api/estudiantes_id_notas.json      |  42 ++++
+ test/fixtures/api/estudiantes_id_novedades.json  |  46 +++++
+ test/fixtures/api/estudiantes_me.json            |  14 ++
+ test/fixtures/api/materias.json                  |  62 ++++++
+ test/fixtures/api/novedades.json                 | 112 +++++++++++
+ test/fixtures/api/padres_me.json                 |   9 +
+ test/fixtures/api/padres_me_hijos.json           |  16 ++
+ test/fixtures/api/reportes.json                  | 122 ++++++++++++
+ test/fixtures/api/tipos_novedad.json             |  82 ++++++++
+ 22 files changed, 1343 insertions(+)

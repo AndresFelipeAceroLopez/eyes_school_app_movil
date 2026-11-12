@@ -11,6 +11,7 @@ import 'package:eyes_school/core/widgets/section_header.dart';
 import 'package:eyes_school/core/widgets/simple_header_scaffold.dart';
 import 'package:eyes_school/features/academic/presentation/weekly_schedule_list.dart';
 import 'package:eyes_school/providers/data_providers.dart';
+import 'package:eyes_school/features/directory/domain/linked_child.dart';
 import 'package:eyes_school/providers/session_provider.dart';
 
 /// Everything about the linked child in one place: their card, their weekly
@@ -33,7 +34,8 @@ class ChildrenScreen extends ConsumerWidget {
         body: EmptyState(
           icon: Icons.family_restroom_rounded,
           title: 'Sin estudiante vinculado',
-          message: session?.bootstrapWarning ??
+          message:
+              session?.bootstrapWarning ??
               'Tu cuenta de acudiente aún no está vinculada a un estudiante.',
         ),
       );
@@ -42,8 +44,9 @@ class ChildrenScreen extends ConsumerWidget {
     final profileAsync = ref.watch(studentProfileProvider(childId));
     final novedadesAsync = ref.watch(novedadesForStudentProvider(childId));
     final courseId = session?.courseId;
-    final scheduleAsync =
-        courseId == null ? null : ref.watch(studentWeeklyScheduleProvider(courseId));
+    final scheduleAsync = courseId == null
+        ? null
+        : ref.watch(studentWeeklyScheduleProvider(courseId));
 
     return SimpleHeaderScaffold(
       title: 'Mi estudiante',
@@ -52,11 +55,20 @@ class ChildrenScreen extends ConsumerWidget {
         onRefresh: () async {
           ref.invalidate(studentProfileProvider(childId));
           ref.invalidate(novedadesForStudentProvider(childId));
-          if (courseId != null) ref.invalidate(studentWeeklyScheduleProvider(courseId));
+          if (courseId != null) {
+            ref.invalidate(studentWeeklyScheduleProvider(courseId));
+          }
         },
         child: ListView(
           padding: const EdgeInsets.only(bottom: 32),
           children: [
+            if (session != null && session.hasSeveralChildren)
+              _ChildSelector(
+                children: session.children,
+                activeId: childId,
+                onSelect: (id) =>
+                    ref.read(sessionProvider.notifier).selectChild(id),
+              ),
             Padding(
               padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
               child: profileAsync.when(
@@ -64,7 +76,8 @@ class ChildrenScreen extends ConsumerWidget {
                 error: (error, _) => ErrorView(
                   error: error,
                   compact: true,
-                  onRetry: () => ref.invalidate(studentProfileProvider(childId)),
+                  onRetry: () =>
+                      ref.invalidate(studentProfileProvider(childId)),
                 ),
                 data: (child) => InkWell(
                   borderRadius: BorderRadius.circular(20),
@@ -73,7 +86,7 @@ class ChildrenScreen extends ConsumerWidget {
                     child: Row(
                       children: [
                         AvatarCircle(
-                          name: child?.name ?? session?.childName ?? 'Estudiante',
+                          name: _displayName(session?.childName, child?.name),
                           radius: 26,
                         ),
                         const SizedBox(width: 14),
@@ -82,22 +95,26 @@ class ChildrenScreen extends ConsumerWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                child?.name ?? session?.childName ?? 'Estudiante',
+                                _displayName(session?.childName, child?.name),
                                 style: AppTextStyles.h3,
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                               ),
                               Text(
-                                [child?.grade, child?.jornada, child?.code]
-                                    .whereType<String>()
-                                    .join(' · '),
+                                [
+                                  child?.grade,
+                                  child?.jornada,
+                                  child?.code,
+                                ].whereType<String>().join(' · '),
                                 style: AppTextStyles.caption,
                               ),
                             ],
                           ),
                         ),
-                        const Icon(Icons.chevron_right_rounded,
-                            color: AppColors.textSecondary),
+                        const Icon(
+                          Icons.chevron_right_rounded,
+                          color: AppColors.textSecondary,
+                        ),
                       ],
                     ),
                   ),
@@ -119,7 +136,8 @@ class ChildrenScreen extends ConsumerWidget {
                 error: (error, _) => ErrorView(
                   error: error,
                   compact: true,
-                  onRetry: () => ref.invalidate(novedadesForStudentProvider(childId)),
+                  onRetry: () =>
+                      ref.invalidate(novedadesForStudentProvider(childId)),
                 ),
                 data: (novedades) => novedades.isEmpty
                     ? const EmptyState(
@@ -129,10 +147,15 @@ class ChildrenScreen extends ConsumerWidget {
                       )
                     : Column(
                         children: novedades
-                            .map((n) => Padding(
-                                  padding: const EdgeInsets.only(bottom: 12),
-                                  child: NovedadCard(novedad: n, showStudent: false),
-                                ))
+                            .map(
+                              (n) => Padding(
+                                padding: const EdgeInsets.only(bottom: 12),
+                                child: NovedadCard(
+                                  novedad: n,
+                                  showStudent: false,
+                                ),
+                              ),
+                            )
                             .toList(),
                       ),
               ),
@@ -165,6 +188,101 @@ class ChildrenScreen extends ConsumerWidget {
               ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+/// N-05: the guardian may not read `/usuarios/{id}` and `/estudiantes/{id}`
+/// carries no names, so the profile name can come back empty. The name the
+/// API resolves for the guardian (`nombre_estudiante`) goes first.
+String _displayName(String? fromLink, String? fromProfile) {
+  for (final candidate in [fromLink, fromProfile]) {
+    final value = candidate?.trim() ?? '';
+    if (value.isNotEmpty) return value;
+  }
+  return 'Estudiante';
+}
+
+/// APP-03: one tappable row per linked child; the active one is highlighted.
+class _ChildSelector extends StatelessWidget {
+  const _ChildSelector({
+    required this.children,
+    required this.activeId,
+    required this.onSelect,
+  });
+
+  final List<LinkedChild> children;
+  final int activeId;
+  final void Function(int id) onSelect;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text('Mis hijos', style: AppTextStyles.h3),
+          const SizedBox(height: 10),
+          for (final c in children)
+            Padding(
+              padding: const EdgeInsets.only(bottom: 10),
+              child: Material(
+                color: c.id == activeId ? AppColors.indigo : AppColors.surface,
+                borderRadius: BorderRadius.circular(18),
+                child: InkWell(
+                  borderRadius: BorderRadius.circular(18),
+                  onTap: () => onSelect(c.id),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 12,
+                    ),
+                    child: Row(
+                      children: [
+                        AvatarCircle(name: c.name, radius: 18),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                c.name,
+                                style: AppTextStyles.body.copyWith(
+                                  fontWeight: FontWeight.w700,
+                                  color: c.id == activeId
+                                      ? Colors.white
+                                      : AppColors.textPrimary,
+                                ),
+                              ),
+                              if (c.relationship != null || c.document != null)
+                                Text(
+                                  [
+                                    c.relationship,
+                                    c.document,
+                                  ].whereType<String>().join(' · '),
+                                  style: AppTextStyles.caption.copyWith(
+                                    color: c.id == activeId
+                                        ? AppColors.textOnDarkMuted
+                                        : AppColors.textSecondary,
+                                  ),
+                                ),
+                            ],
+                          ),
+                        ),
+                        if (c.id == activeId)
+                          const Icon(
+                            Icons.check_circle_rounded,
+                            color: Colors.white,
+                          ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+        ],
       ),
     );
   }

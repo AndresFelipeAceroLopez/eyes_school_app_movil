@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:eyes_school/features/academic/presentation/subject_icon.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -33,7 +34,8 @@ class TeacherClassesScreen extends ConsumerWidget {
         body: EmptyState(
           icon: Icons.badge_outlined,
           title: 'Perfil docente no encontrado',
-          message: session?.bootstrapWarning ??
+          message:
+              session?.bootstrapWarning ??
               'Tu cuenta no tiene un perfil de docente asociado.',
         ),
       );
@@ -63,7 +65,8 @@ class TeacherClassesScreen extends ConsumerWidget {
                     return const EmptyState(
                       icon: Icons.menu_book_rounded,
                       title: 'Sin asignaciones activas',
-                      message: 'Cuando te asignen cursos y materias aparecerán aquí.',
+                      message:
+                          'Cuando te asignen cursos y materias aparecerán aquí.',
                     );
                   }
                   return Column(
@@ -115,15 +118,7 @@ class _ClassCard extends StatelessWidget {
           children: [
             Row(
               children: [
-                Container(
-                  width: 44,
-                  height: 44,
-                  decoration: BoxDecoration(
-                    color: AppColors.roleTeacherBg,
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: const Icon(Icons.menu_book_rounded, color: AppColors.roleTeacher),
-                ),
+                const SubjectIcon(),
                 const SizedBox(width: 14),
                 Expanded(
                   child: Column(
@@ -131,7 +126,10 @@ class _ClassCard extends StatelessWidget {
                     children: [
                       Text(item.subjectName, style: AppTextStyles.h3),
                       Text(
-                        [item.courseName, item.shift].whereType<String>().join(' · '),
+                        [
+                          item.courseName,
+                          item.shift,
+                        ].whereType<String>().join(' · '),
                         style: AppTextStyles.caption,
                       ),
                     ],
@@ -148,8 +146,9 @@ class _ClassCard extends StatelessWidget {
                     label: 'Asistencia',
                     color: AppColors.tealDark,
                     background: AppColors.statusActiveBg,
-                    onTap: () =>
-                        context.push('/teacher/classes/${item.assignmentId}/asistencia'),
+                    onTap: () => context.push(
+                      '/teacher/classes/${item.assignmentId}/asistencia',
+                    ),
                   ),
                 ),
                 const SizedBox(width: 10),
@@ -159,7 +158,9 @@ class _ClassCard extends StatelessWidget {
                     label: 'Notas',
                     color: AppColors.roleTeacher,
                     background: AppColors.roleTeacherBg,
-                    onTap: () => context.push('/teacher/classes/${item.assignmentId}/notas'),
+                    onTap: () => context.push(
+                      '/teacher/classes/${item.assignmentId}/notas',
+                    ),
                   ),
                 ),
               ],
@@ -203,8 +204,10 @@ class _Action extends StatelessWidget {
               const SizedBox(width: 8),
               Text(
                 label,
-                style: AppTextStyles.caption
-                    .copyWith(color: color, fontWeight: FontWeight.w700),
+                style: AppTextStyles.caption.copyWith(
+                  color: color,
+                  fontWeight: FontWeight.w700,
+                ),
               ),
             ],
           ),

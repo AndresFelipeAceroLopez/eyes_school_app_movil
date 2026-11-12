@@ -1,4 +1,8 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
+
+import 'package:eyes_school/core/network/failure_mapper.dart';
 
 import 'package:eyes_school/core/network/dio_client.dart';
 import 'package:eyes_school/core/utils/json_x.dart';
@@ -15,7 +19,10 @@ class ApiClient {
 
   Future<Json> getObject(String path, {Map<String, dynamic>? query}) async {
     try {
-      final response = await _dio.get<dynamic>(path, queryParameters: _clean(query));
+      final response = await _dio.get<dynamic>(
+        path,
+        queryParameters: _clean(query),
+      );
       return _asObject(response.data);
     } catch (e, s) {
       rethrowAsFailure(e, s);
@@ -28,14 +35,21 @@ class ApiClient {
     Map<String, dynamic>? query,
   }) async {
     try {
-      final response = await _dio.get<dynamic>(path, queryParameters: _clean(query));
+      final response = await _dio.get<dynamic>(
+        path,
+        queryParameters: _clean(query),
+      );
       return asList(_asListPayload(response.data), mapper);
     } catch (e, s) {
       rethrowAsFailure(e, s);
     }
   }
 
-  Future<Json> post(String path, {Object? body, Map<String, dynamic>? query}) async {
+  Future<Json> post(
+    String path, {
+    Object? body,
+    Map<String, dynamic>? query,
+  }) async {
     try {
       final response = await _dio.post<dynamic>(
         path,
@@ -74,8 +88,59 @@ class ApiClient {
   }) async {
     try {
       await _dio.download(path, savePath, onReceiveProgress: onProgress);
+    } on DioException catch (e, s) {
+      // A download streams its body, so on an error status the JSON
+      // `{"detail": ...}` arrives unread and the message would be lost
+      // (N-09: «No hay datos disponibles para generar el boletín.»).
+      final response = e.response;
+      if (response != null && (response.statusCode ?? 0) >= 400) {
+        // The error interceptor ran before the body was read; map again from
+        // the body as it finally arrived (a stream, text or decoded JSON).
+        final body = response.data;
+        final decoded = body is ResponseBody
+            ? await _readErrorBody(body)
+            : body is String
+            ? _tryJson(body)
+            : body;
+        Error.throwWithStackTrace(
+          FailureMapper.from(
+            DioException(
+              requestOptions: e.requestOptions,
+              response: Response<dynamic>(
+                requestOptions: e.requestOptions,
+                statusCode: e.response?.statusCode,
+                data: decoded,
+              ),
+              type: e.type,
+            ),
+          ),
+          s,
+        );
+      }
+      rethrowAsFailure(e, s);
     } catch (e, s) {
       rethrowAsFailure(e, s);
+    }
+  }
+
+  static Object? _tryJson(String text) {
+    try {
+      return jsonDecode(text);
+    } catch (_) {
+      return text;
+    }
+  }
+
+  static Future<Object?> _readErrorBody(ResponseBody body) async {
+    try {
+      final bytes = await body.stream.fold<List<int>>(
+        <int>[],
+        (a, b) => a..addAll(b),
+      );
+      final text = utf8.decode(bytes, allowMalformed: true);
+      return text.isEmpty ? null : jsonDecode(text);
+    } catch (_) {
+      return null;
     }
   }
 

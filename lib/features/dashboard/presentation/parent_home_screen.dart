@@ -29,15 +29,18 @@ class ParentHomeScreen extends ConsumerWidget {
     final childId = session.childId;
 
     final dashboardAsync = ref.watch(parentDashboardProvider);
-    final novedadesAsync =
-        childId == null ? null : ref.watch(novedadesForStudentProvider(childId));
+    final novedadesAsync = childId == null
+        ? null
+        : ref.watch(novedadesForStudentProvider(childId));
 
     return Scaffold(
       backgroundColor: AppColors.background,
       body: RefreshIndicator(
         onRefresh: () async {
           ref.invalidate(parentDashboardProvider);
-          if (childId != null) ref.invalidate(novedadesForStudentProvider(childId));
+          if (childId != null) {
+            ref.invalidate(novedadesForStudentProvider(childId));
+          }
         },
         child: ListView(
           padding: EdgeInsets.zero,
@@ -45,14 +48,20 @@ class ParentHomeScreen extends ConsumerWidget {
             Container(
               width: double.infinity,
               padding: EdgeInsets.fromLTRB(
-                  20, MediaQuery.of(context).padding.top + 16, 20, 28),
+                20,
+                MediaQuery.of(context).padding.top + 16,
+                20,
+                28,
+              ),
               decoration: const BoxDecoration(
                 gradient: LinearGradient(
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                   colors: AppColors.headerGradient,
                 ),
-                borderRadius: BorderRadius.vertical(bottom: Radius.circular(28)),
+                borderRadius: BorderRadius.vertical(
+                  bottom: Radius.circular(28),
+                ),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -75,8 +84,10 @@ class ParentHomeScreen extends ConsumerWidget {
                             ),
                             Text(
                               'Hola, ${user.firstName}',
-                              style: AppTextStyles.h1
-                                  .copyWith(color: Colors.white, fontSize: 22),
+                              style: AppTextStyles.h1.copyWith(
+                                color: Colors.white,
+                                fontSize: 22,
+                              ),
                             ),
                           ],
                         ),
@@ -91,8 +102,10 @@ class ParentHomeScreen extends ConsumerWidget {
                             color: Colors.white.withValues(alpha: 0.08),
                             shape: BoxShape.circle,
                           ),
-                          child: const Icon(Icons.notifications_none_rounded,
-                              color: Colors.white),
+                          child: const Icon(
+                            Icons.notifications_none_rounded,
+                            color: Colors.white,
+                          ),
                         ),
                       ),
                     ],
@@ -102,9 +115,13 @@ class ParentHomeScreen extends ConsumerWidget {
                     children: [
                       Container(width: 3, height: 16, color: AppColors.teal),
                       const SizedBox(width: 8),
-                      Text('EYESCHOOL',
-                          style: AppTextStyles.statLabel
-                              .copyWith(letterSpacing: 2, fontWeight: FontWeight.w700)),
+                      Text(
+                        'EYESCHOOL',
+                        style: AppTextStyles.statLabel.copyWith(
+                          letterSpacing: 2,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
                     ],
                   ),
                 ],
@@ -116,7 +133,8 @@ class ParentHomeScreen extends ConsumerWidget {
                 child: EmptyState(
                   icon: Icons.family_restroom_rounded,
                   title: 'Sin estudiante vinculado',
-                  message: session.bootstrapWarning ??
+                  message:
+                      session.bootstrapWarning ??
                       'Tu cuenta de acudiente aún no está vinculada a un estudiante. '
                           'Pide a un administrador que la vincule.',
                 ),
@@ -136,7 +154,8 @@ class ParentHomeScreen extends ConsumerWidget {
                     onRetry: () => ref.invalidate(parentDashboardProvider),
                   ),
                   data: (data) => _ChildCard(
-                    name: data.studentName ??
+                    name:
+                        data.studentName ??
                         session.childName ??
                         'Estudiante $childId',
                     document: session.childDocument,
@@ -151,46 +170,37 @@ class ParentHomeScreen extends ConsumerWidget {
                 padding: const EdgeInsets.fromLTRB(20, 24, 20, 12),
                 child: Text('Acceso rápido', style: AppTextStyles.h2),
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: GridView.count(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  crossAxisCount: 4,
-                  mainAxisSpacing: 12,
-                  crossAxisSpacing: 12,
-                  childAspectRatio: 0.78,
-                  children: [
-                    QuickActionTile(
-                      icon: Icons.bar_chart_rounded,
-                      label: 'Notas',
-                      iconBg: AppColors.roleTeacherBg,
-                      iconColor: AppColors.roleTeacher,
-                      onTap: () => context.go('/parent/notes'),
-                    ),
-                    QuickActionTile(
-                      icon: Icons.fact_check_rounded,
-                      label: 'Asistencia',
-                      iconBg: AppColors.statusActiveBg,
-                      iconColor: AppColors.tealDark,
-                      onTap: () => context.go('/parent/attendance'),
-                    ),
-                    QuickActionTile(
-                      icon: Icons.calendar_month_rounded,
-                      label: 'Horario',
-                      iconBg: AppColors.roleStudentBg,
-                      iconColor: AppColors.roleStudent,
-                      onTap: () => context.go('/parent/children'),
-                    ),
-                    QuickActionTile(
-                      icon: Icons.notifications_rounded,
-                      label: 'Novedades',
-                      iconBg: const Color(0xFFFCE4EE),
-                      iconColor: AppColors.pink,
-                      onTap: () => context.go('/parent/children'),
-                    ),
-                  ],
-                ),
+              QuickActionsGrid(
+                children: [
+                  QuickActionTile(
+                    icon: Icons.bar_chart_rounded,
+                    label: 'Notas',
+                    iconBg: AppColors.roleTeacherBg,
+                    iconColor: AppColors.roleTeacher,
+                    onTap: () => context.go('/parent/notes'),
+                  ),
+                  QuickActionTile(
+                    icon: Icons.fact_check_rounded,
+                    label: 'Asistencia',
+                    iconBg: AppColors.statusActiveBg,
+                    iconColor: AppColors.tealDark,
+                    onTap: () => context.go('/parent/attendance'),
+                  ),
+                  QuickActionTile(
+                    icon: Icons.calendar_month_rounded,
+                    label: 'Horario',
+                    iconBg: AppColors.roleStudentBg,
+                    iconColor: AppColors.roleStudent,
+                    onTap: () => context.go('/parent/children'),
+                  ),
+                  QuickActionTile(
+                    icon: Icons.notifications_rounded,
+                    label: 'Novedades',
+                    iconBg: const Color(0xFFFCE4EE),
+                    iconColor: AppColors.pink,
+                    onTap: () => context.go('/parent/children'),
+                  ),
+                ],
               ),
               Padding(
                 padding: const EdgeInsets.fromLTRB(20, 24, 20, 12),
@@ -207,7 +217,8 @@ class ParentHomeScreen extends ConsumerWidget {
                   error: (error, _) => ErrorView(
                     error: error,
                     compact: true,
-                    onRetry: () => ref.invalidate(novedadesForStudentProvider(childId)),
+                    onRetry: () =>
+                        ref.invalidate(novedadesForStudentProvider(childId)),
                   ),
                   data: (novedades) {
                     if (novedades.isEmpty) {
@@ -220,10 +231,15 @@ class ParentHomeScreen extends ConsumerWidget {
                     return Column(
                       children: novedades
                           .take(3)
-                          .map((n) => Padding(
-                                padding: const EdgeInsets.only(bottom: 12),
-                                child: NovedadCard(novedad: n, showStudent: false),
-                              ))
+                          .map(
+                            (n) => Padding(
+                              padding: const EdgeInsets.only(bottom: 12),
+                              child: NovedadCard(
+                                novedad: n,
+                                showStudent: false,
+                              ),
+                            ),
+                          )
                           .toList(),
                     );
                   },
@@ -271,16 +287,21 @@ class _ChildCard extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(name,
-                          style: AppTextStyles.h3,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis),
+                      Text(
+                        name,
+                        style: AppTextStyles.h3,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
                       if (document != null)
                         Text(document!, style: AppTextStyles.caption),
                     ],
                   ),
                 ),
-                const Icon(Icons.chevron_right_rounded, color: AppColors.textSecondary),
+                const Icon(
+                  Icons.chevron_right_rounded,
+                  color: AppColors.textSecondary,
+                ),
               ],
             ),
             const SizedBox(height: 14),
@@ -288,19 +309,27 @@ class _ChildCard extends StatelessWidget {
               children: [
                 Expanded(
                   child: _MetricChip(
-                      label: 'Promedio', value: average, color: AppColors.tealDark),
+                    label: 'Promedio',
+                    value: average,
+                    color: AppColors.tealDark,
+                  ),
                 ),
                 const SizedBox(width: 10),
                 Expanded(
                   child: _MetricChip(
-                      label: 'Asistencia', value: attendance, color: AppColors.indigo),
+                    label: 'Asistencia',
+                    value: attendance,
+                    color: AppColors.indigo,
+                  ),
                 ),
                 const SizedBox(width: 10),
                 Expanded(
                   child: _MetricChip(
                     label: 'Novedades',
                     value: '$pending',
-                    color: pending > 0 ? AppColors.pink : AppColors.textSecondary,
+                    color: pending > 0
+                        ? AppColors.pink
+                        : AppColors.textSecondary,
                   ),
                 ),
               ],
@@ -313,7 +342,11 @@ class _ChildCard extends StatelessWidget {
 }
 
 class _MetricChip extends StatelessWidget {
-  const _MetricChip({required this.label, required this.value, required this.color});
+  const _MetricChip({
+    required this.label,
+    required this.value,
+    required this.color,
+  });
 
   final String label;
   final String value;
@@ -332,10 +365,12 @@ class _MetricChip extends StatelessWidget {
         children: [
           Text(label, style: AppTextStyles.caption, maxLines: 1),
           const SizedBox(height: 2),
-          Text(value,
-              style: AppTextStyles.h3.copyWith(color: color),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis),
+          Text(
+            value,
+            style: AppTextStyles.h3.copyWith(color: color),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
         ],
       ),
     );

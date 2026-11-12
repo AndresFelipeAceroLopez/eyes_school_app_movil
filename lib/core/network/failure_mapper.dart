@@ -12,8 +12,7 @@ abstract final class FailureMapper {
       DioExceptionType.connectionTimeout ||
       DioExceptionType.sendTimeout ||
       DioExceptionType.receiveTimeout ||
-      DioExceptionType.connectionError =>
-        true,
+      DioExceptionType.connectionError => true,
       DioExceptionType.unknown => err.response == null,
       _ => false,
     };
@@ -27,11 +26,14 @@ abstract final class FailureMapper {
       return const NetworkFailure('No se pudo verificar el servidor.');
     }
     if (isTransportFailure(err)) {
-      final slow = err.type == DioExceptionType.connectionTimeout ||
+      final slow =
+          err.type == DioExceptionType.connectionTimeout ||
           err.type == DioExceptionType.sendTimeout ||
           err.type == DioExceptionType.receiveTimeout;
       return slow
-          ? const NetworkFailure('La conexión tardó demasiado. Intenta de nuevo.')
+          ? const NetworkFailure(
+              'La conexión tardó demasiado. Intenta de nuevo.',
+            )
           : const NetworkFailure();
     }
 
@@ -41,14 +43,29 @@ abstract final class FailureMapper {
     if (status == 422) {
       final fields = _fieldErrors(data);
       return ValidationFailure(
-        fields.values.isEmpty ? 'Revisa los datos ingresados.' : fields.values.first,
+        fields.values.isEmpty
+            ? 'Revisa los datos ingresados.'
+            : fields.values.first,
         fields,
       );
     }
 
     final detail = _detail(data);
     return switch (status) {
-      401 => const UnauthorizedFailure(),
+      // A 400 is a business rule saying no (e.g. «No hay entrada registrada
+      // hoy para este estudiante», BE-08): retrying will never change the
+      // answer, so it travels as a validation failure, not a transient one.
+      400 => ValidationFailure(
+        detail ?? 'Revisa los datos ingresados.',
+        const {},
+      ),
+      // N-25: a 401 from a public auth endpoint carries its own reason
+      // (e.g. «El enlace de recuperación es inválido o expiró»); only a bare
+      // 401 means the session expired.
+      401 =>
+        detail == null
+            ? const UnauthorizedFailure()
+            : UnauthorizedFailure(detail),
       403 => ForbiddenFailure(detail ?? 'No tienes permiso para esta acción.'),
       404 => NotFoundFailure(detail ?? 'No encontramos el recurso solicitado.'),
       409 => ConflictFailure(detail ?? 'El registro ya existe.'),
@@ -59,7 +76,9 @@ abstract final class FailureMapper {
 
   /// FastAPI's `{"detail": "..."}`.
   static String? _detail(Object? data) {
-    if (data is Map && data['detail'] is String) return data['detail'] as String;
+    if (data is Map && data['detail'] is String) {
+      return data['detail'] as String;
+    }
     if (data is String && data.isNotEmpty && data.length < 200) return data;
     return null;
   }
@@ -78,7 +97,9 @@ abstract final class FailureMapper {
     for (final item in detail) {
       if (item is! Map) continue;
       final loc = item['loc'];
-      final message = item['msg']?.toString() ?? 'Valor inválido.';
+      // Pydantic prefixes custom validators with «Value error, ».
+      final message = (item['msg']?.toString() ?? 'Valor inválido.')
+          .replaceFirst(RegExp(r'^Value error,\s*'), '');
       final field = (loc is List && loc.isNotEmpty) ? loc.last.toString() : '_';
       result.putIfAbsent(field, () => message);
     }

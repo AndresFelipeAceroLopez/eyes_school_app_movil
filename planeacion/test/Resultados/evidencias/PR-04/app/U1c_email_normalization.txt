@@ -1,0 +1,26 @@
+00:00 +0: loading C:/Users/marig/eyes_school_app_movil/test/email_normalization_test.dart
+test/email_normalization_test.dart:20:14: Error: Method not found: 'normalizeEmail'.
+      expect(normalizeEmail(' Ana@X.com '), 'ana@x.com');
+             ^^^^^^^^^^^^^^
+test/email_normalization_test.dart:24:14: Error: Method not found: 'normalizeEmail'.
+      expect(normalizeEmail('carlos.jimenez@eyes.edu.co'), 'carlos.jimenez@eyes.edu.co');
+             ^^^^^^^^^^^^^^
+test/email_normalization_test.dart:28:14: Error: Method not found: 'normalizeEmail'.
+      expect(normalizeEmail('  Carlos.Jimenez@Eyes.edu.co  '), 'carlos.jimenez@eyes.edu.co');
+             ^^^^^^^^^^^^^^
+00:00 +0 -1: loading C:/Users/marig/eyes_school_app_movil/test/email_normalization_test.dart [E]
+  Failed to load "C:/Users/marig/eyes_school_app_movil/test/email_normalization_test.dart":
+  Compilation failed for testPath=C:/Users/marig/eyes_school_app_movil/test/email_normalization_test.dart: test/email_normalization_test.dart:20:14: Error: Method not found: 'normalizeEmail'.
+        expect(normalizeEmail(' Ana@X.com '), 'ana@x.com');
+               ^^^^^^^^^^^^^^
+  test/email_normalization_test.dart:24:14: Error: Method not found: 'normalizeEmail'.
+        expect(normalizeEmail('carlos.jimenez@eyes.edu.co'), 'carlos.jimenez@eyes.edu.co');
+               ^^^^^^^^^^^^^^
+  test/email_normalization_test.dart:28:14: Error: Method not found: 'normalizeEmail'.
+        expect(normalizeEmail('  Carlos.Jimenez@Eyes.edu.co  '), 'carlos.jimenez@eyes.edu.co');
+               ^^^^^^^^^^^^^^
+  .
+00:00 +0 -1: Some tests failed.
+
+Failing tests:
+  C:/Users/marig/eyes_school_app_movil/test/email_normalization_test.dart: loading C:/Users/marig/eyes_school_app_movil/test/email_normalization_test.dart

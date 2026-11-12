@@ -1,0 +1,9 @@
+{
+  "id_usuario": 4,
+  "primer_nombre": "Rosa",
+  "primer_apellido": "Pérez",
+  "correo": "rosa.perez@gmail.com",
+  "nombre_rol": "padre",
+  "id_rol": 4,
+  "estado": true
+}

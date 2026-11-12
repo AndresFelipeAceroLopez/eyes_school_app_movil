@@ -1,0 +1,122 @@
+[
+  {
+    "id_reporte": 1,
+    "nombre_reporte": "Reporte de Asistencia Junio",
+    "tipo_reporte": "Asistencia",
+    "fecha_generacion": "2026-06-30",
+    "fecha_inicio": "2026-06-01",
+    "fecha_fin": "2026-06-30",
+    "estado": "Generado",
+    "id_administrador": 1,
+    "parametros": "-",
+    "archivo_generado": "asistencia_junio_2026.pdf"
+  },
+  {
+    "id_reporte": 2,
+    "nombre_reporte": "Reporte de Notas P1",
+    "tipo_reporte": "Notas",
+    "fecha_generacion": "2026-06-30",
+    "fecha_inicio": "2026-03-01",
+    "fecha_fin": "2026-06-30",
+    "estado": "Generado",
+    "id_administrador": 1,
+    "parametros": "-",
+    "archivo_generado": "notas_p1_2026.pdf"
+  },
+  {
+    "id_reporte": 3,
+    "nombre_reporte": "Novedades Mayo",
+    "tipo_reporte": "Novedades",
+    "fecha_generacion": "2026-05-31",
+    "fecha_inicio": "2026-05-01",
+    "fecha_fin": "2026-05-31",
+    "estado": "Generado",
+    "id_administrador": 2,
+    "parametros": "-",
+    "archivo_generado": "novedades_mayo.pdf"
+  },
+  {
+    "id_reporte": 4,
+    "nombre_reporte": "Asistencia Curso 6A",
+    "tipo_reporte": "Asistencia",
+    "fecha_generacion": "2026-06-20",
+    "fecha_inicio": "2026-06-01",
+    "fecha_fin": "2026-06-20",
+    "estado": "Generado",
+    "id_administrador": 1,
+    "parametros": "-",
+    "archivo_generado": "asistencia_6a.pdf"
+  },
+  {
+    "id_reporte": 5,
+    "nombre_reporte": "Rendimiento General",
+    "tipo_reporte": "Notas",
+    "fecha_generacion": "2026-06-28",
+    "fecha_inicio": "2026-01-01",
+    "fecha_fin": "2026-06-28",
+    "estado": "Generado",
+    "id_administrador": 2,
+    "parametros": "-",
+    "archivo_generado": "rendimiento_general.pdf"
+  },
+  {
+    "id_reporte": 6,
+    "nombre_reporte": "Reporte Novedades Graves",
+    "tipo_reporte": "Novedades",
+    "fecha_generacion": "2026-06-25",
+    "fecha_inicio": "2026-06-01",
+    "fecha_fin": "2026-06-25",
+    "estado": "Pendiente",
+    "id_administrador": 1,
+    "parametros": "-",
+    "archivo_generado": null
+  },
+  {
+    "id_reporte": 7,
+    "nombre_reporte": "Asistencia Docentes",
+    "tipo_reporte": "Asistencia",
+    "fecha_generacion": "2026-06-30",
+    "fecha_inicio": "2026-06-01",
+    "fecha_fin": "2026-06-30",
+    "estado": "Generado",
+    "id_administrador": 1,
+    "parametros": "-",
+    "archivo_generado": "asistencia_doc.pdf"
+  },
+  {
+    "id_reporte": 8,
+    "nombre_reporte": "Reporte Matriculas",
+    "tipo_reporte": "Administrativo",
+    "fecha_generacion": "2026-02-15",
+    "fecha_inicio": "2026-01-15",
+    "fecha_fin": "2026-02-15",
+    "estado": "Generado",
+    "id_administrador": 2,
+    "parametros": "-",
+    "archivo_generado": "matriculas_2026.pdf"
+  },
+  {
+    "id_reporte": 9,
+    "nombre_reporte": "Indicadores Convivencia",
+    "tipo_reporte": "Convivencia",
+    "fecha_generacion": "2026-06-30",
+    "fecha_inicio": "2026-01-01",
+    "fecha_fin": "2026-06-30",
+    "estado": "Pendiente",
+    "id_administrador": 1,
+    "parametros": "-",
+    "archivo_generado": null
+  },
+  {
+    "id_reporte": 10,
+    "nombre_reporte": "Reporte Padres de Familia",
+    "tipo_reporte": "Administrativo",
+    "fecha_generacion": "2026-06-01",
+    "fecha_inicio": "2026-01-01",
+    "fecha_fin": "2026-06-01",
+    "estado": "Generado",
+    "id_administrador": 2,
+    "parametros": "-",
+    "archivo_generado": "padres_2026.pdf"
+  }
+]

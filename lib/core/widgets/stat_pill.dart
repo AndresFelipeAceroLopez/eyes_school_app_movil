@@ -56,3 +56,46 @@ class StatPill extends StatelessWidget {
     );
   }
 }
+
+/// Placeholder for a row of header stats while they load; with [empty] it
+/// shows a dash instead (the figures could not be loaded).
+class StatsSkeleton extends StatelessWidget {
+  const StatsSkeleton({
+    super.key,
+    this.count = 3,
+    this.height = 78,
+    this.gap = 10,
+    this.empty = false,
+  });
+
+  final int count;
+  final double height;
+  final double gap;
+  final bool empty;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: List.generate(
+        count,
+        (i) => Expanded(
+          child: Container(
+            height: height,
+            margin: EdgeInsets.only(right: i == count - 1 ? 0 : gap),
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              color: Colors.white.withValues(alpha: 0.06),
+              borderRadius: BorderRadius.circular(18),
+            ),
+            child: empty
+                ? Text(
+                    '—',
+                    style: AppTextStyles.h1.copyWith(color: Colors.white38),
+                  )
+                : null,
+          ),
+        ),
+      ),
+    );
+  }
+}

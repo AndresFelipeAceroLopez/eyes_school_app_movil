@@ -25,13 +25,13 @@ class TeacherClass {
   final int? studentCount;
 
   TeacherClass withStudentCount(int count) => TeacherClass(
-        assignmentId: assignmentId,
-        courseId: courseId,
-        subjectId: subjectId,
-        courseName: courseName,
-        subjectName: subjectName,
-        active: active,
-        shift: shift,
-        studentCount: count,
-      );
+    assignmentId: assignmentId,
+    courseId: courseId,
+    subjectId: subjectId,
+    courseName: courseName,
+    subjectName: subjectName,
+    active: active,
+    shift: shift,
+    studentCount: count,
+  );
 }

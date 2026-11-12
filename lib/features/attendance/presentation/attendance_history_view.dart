@@ -34,7 +34,8 @@ class AttendanceHistoryView extends ConsumerStatefulWidget {
   final Widget? header;
 
   @override
-  ConsumerState<AttendanceHistoryView> createState() => _AttendanceHistoryViewState();
+  ConsumerState<AttendanceHistoryView> createState() =>
+      _AttendanceHistoryViewState();
 }
 
 class _AttendanceHistoryViewState extends ConsumerState<AttendanceHistoryView> {
@@ -102,7 +103,9 @@ class _AttendanceHistoryViewState extends ConsumerState<AttendanceHistoryView> {
     if (_loadingMore || !_hasMore || _loading) return;
     setState(() => _loadingMore = true);
     try {
-      final page = await ref.read(academicRepositoryProvider).attendanceHistory(
+      final page = await ref
+          .read(academicRepositoryProvider)
+          .attendanceHistory(
             widget.studentId,
             skip: _rows.length,
             limit: ApiConfig.pageSize,
@@ -163,7 +166,10 @@ class _AttendanceHistoryViewState extends ConsumerState<AttendanceHistoryView> {
           }
           if (index == 1) {
             return Padding(
-              padding: EdgeInsets.only(top: widget.header == null ? 0 : 16, bottom: 20),
+              padding: EdgeInsets.only(
+                top: widget.header == null ? 0 : 16,
+                bottom: 20,
+              ),
               child: _SummaryCard(summary: summary, sample: _rows.length),
             );
           }
@@ -205,23 +211,35 @@ class _SummaryCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text('Asistencia', style: AppTextStyles.h3),
-                Text('Sobre los últimos $sample registros',
-                    style: AppTextStyles.caption),
+                Text(
+                  'Sobre los últimos $sample registros',
+                  style: AppTextStyles.caption,
+                ),
                 const SizedBox(height: 12),
                 Wrap(
                   spacing: 14,
                   runSpacing: 6,
                   children: [
                     _Legend(
-                        color: AppColors.tealDark,
-                        label: 'Presente',
-                        value: summary.present),
+                      color: AppColors.tealDark,
+                      label: 'Presente',
+                      value: summary.present,
+                    ),
                     _Legend(
-                        color: AppColors.orange, label: 'Tarde', value: summary.late),
+                      color: AppColors.orange,
+                      label: 'Tarde',
+                      value: summary.late,
+                    ),
                     _Legend(
-                        color: AppColors.pink, label: 'Ausente', value: summary.absent),
+                      color: AppColors.pink,
+                      label: 'Ausente',
+                      value: summary.absent,
+                    ),
                     _Legend(
-                        color: AppColors.blue, label: 'Excusa', value: summary.excused),
+                      color: AppColors.blue,
+                      label: 'Excusa',
+                      value: summary.excused,
+                    ),
                   ],
                 ),
               ],
@@ -234,7 +252,11 @@ class _SummaryCard extends StatelessWidget {
 }
 
 class _Legend extends StatelessWidget {
-  const _Legend({required this.color, required this.label, required this.value});
+  const _Legend({
+    required this.color,
+    required this.label,
+    required this.value,
+  });
 
   final Color color;
   final String label;
@@ -263,18 +285,18 @@ class _AttendanceTile extends StatelessWidget {
   final AttendanceRecord row;
 
   Color get _color => switch (row.state) {
-        AttendanceState.present => AppColors.tealDark,
-        AttendanceState.late => AppColors.orange,
-        AttendanceState.excused => AppColors.blue,
-        _ => AppColors.pink,
-      };
+    AttendanceState.present => AppColors.tealDark,
+    AttendanceState.late => AppColors.orange,
+    AttendanceState.excused => AppColors.blue,
+    _ => AppColors.pink,
+  };
 
   IconData get _icon => switch (row.state) {
-        AttendanceState.present => Icons.check_rounded,
-        AttendanceState.late => Icons.schedule_rounded,
-        AttendanceState.excused => Icons.assignment_turned_in_outlined,
-        _ => Icons.close_rounded,
-      };
+    AttendanceState.present => Icons.check_rounded,
+    AttendanceState.late => Icons.schedule_rounded,
+    AttendanceState.excused => Icons.assignment_turned_in_outlined,
+    _ => Icons.close_rounded,
+  };
 
   @override
   Widget build(BuildContext context) {
@@ -300,12 +322,15 @@ class _AttendanceTile extends StatelessWidget {
                 children: [
                   Text(
                     Formatters.todayLong(row.date),
-                    style: AppTextStyles.body.copyWith(fontWeight: FontWeight.w700),
+                    style: AppTextStyles.body.copyWith(
+                      fontWeight: FontWeight.w700,
+                    ),
                   ),
                   Text(
-                    [row.kind?.label, row.observation]
-                        .whereType<String>()
-                        .join(' · '),
+                    [
+                      row.kind?.label,
+                      row.observation,
+                    ].whereType<String>().join(' · '),
                     style: AppTextStyles.caption,
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
@@ -321,8 +346,10 @@ class _AttendanceTile extends StatelessWidget {
               ),
               child: Text(
                 row.state.label,
-                style: AppTextStyles.caption
-                    .copyWith(color: _color, fontWeight: FontWeight.w700),
+                style: AppTextStyles.caption.copyWith(
+                  color: _color,
+                  fontWeight: FontWeight.w700,
+                ),
               ),
             ),
           ],

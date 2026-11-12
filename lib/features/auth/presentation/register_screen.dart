@@ -91,8 +91,11 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
     super.dispose();
   }
 
-  GlobalKey<FormState> get _currentKey =>
-      switch (_step) { 0 => _identityKey, 1 => _contactKey, _ => _roleKey };
+  GlobalKey<FormState> get _currentKey => switch (_step) {
+    0 => _identityKey,
+    1 => _contactKey,
+    _ => _roleKey,
+  };
 
   void _next() {
     if (!_currentKey.currentState!.validate()) return;
@@ -119,43 +122,83 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
       _fieldErrors = const {};
     });
     try {
-      await ref.read(authRepositoryProvider).register(RegistrationRequest(
-            documentType: _tipoDocumento,
-            documentNumber: _numeroDocumento.text.trim(),
-            firstName: _primerNombre.text.trim(),
-            middleName: _blank(_segundoNombre),
-            lastName: _primerApellido.text.trim(),
-            secondLastName: _blank(_segundoApellido),
-            gender: _genero,
-            address: _blank(_direccion),
-            email: _correo.text.trim(),
-            password: _password.text,
-            phone: _blank(_telefono),
-            roleId: _role.apiId,
-            position: _role == Role.admin ? _blank(_cargo) : null,
-            courseId: _role == Role.student ? _cursoId : null,
-            linkedStudentId: _role == Role.parent
-                ? int.tryParse(_idEstudianteVinculado.text.trim())
-                : null,
-            relationship: _role == Role.parent ? _blank(_parentesco) : null,
-            title: _role == Role.teacher ? _blank(_titulo) : null,
-            studyLevel: _role == Role.teacher ? _blank(_nivelEstudios) : null,
-          ));
+      await ref
+          .read(authRepositoryProvider)
+          .register(
+            RegistrationRequest(
+              documentType: _tipoDocumento,
+              documentNumber: _numeroDocumento.text.trim(),
+              firstName: _primerNombre.text.trim(),
+              middleName: _blank(_segundoNombre),
+              lastName: _primerApellido.text.trim(),
+              secondLastName: _blank(_segundoApellido),
+              gender: _genero,
+              address: _blank(_direccion),
+              email: normalizeEmail(_correo.text),
+              password: _password.text,
+              phone: _blank(_telefono),
+              roleId: _role.apiId,
+              position: _role == Role.admin ? _blank(_cargo) : null,
+              courseId: _role == Role.student ? _cursoId : null,
+              linkedStudentId: _role == Role.parent
+                  ? int.tryParse(_idEstudianteVinculado.text.trim())
+                  : null,
+              relationship: _role == Role.parent ? _blank(_parentesco) : null,
+              title: _role == Role.teacher ? _blank(_titulo) : null,
+              studyLevel: _role == Role.teacher ? _blank(_nivelEstudios) : null,
+            ),
+          );
       if (!mounted) return;
       _showSuccess();
     } on ValidationFailure catch (e) {
       if (!mounted) return;
+      // Go back to the first step that holds a rejected field (N-19): an
+      // error on the password, say, cannot be marked from the role step.
+      final fields = Map.of(e.fieldErrors)..remove('_');
+      final step = _stepWithError(fields.keys);
       setState(() {
-        _fieldErrors = e.fieldErrors;
-        _errorText = e.fieldErrors.isEmpty ? e.message : 'Revisa los datos marcados.';
+        _fieldErrors = fields;
+        _errorText = fields.isEmpty
+            ? (e.fieldErrors['_'] ?? e.message)
+            : 'Revisa los datos marcados.';
+        if (step != null) _step = step;
       });
-      _roleKey.currentState?.validate();
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) _currentKey.currentState?.validate();
+      });
     } on AppFailure catch (e) {
       if (mounted) setState(() => _errorText = e.message);
     } finally {
       if (mounted) setState(() => _submitting = false);
     }
   }
+
+  static const _identityFields = {
+    'tipo_documento',
+    'numero_documento',
+    'primer_nombre',
+    'segundo_nombre',
+    'primer_apellido',
+    'segundo_apellido',
+  };
+  static const _contactFields = {
+    'correo',
+    'telefono',
+    'direccion',
+    'genero',
+    'password',
+  };
+
+  int? _stepWithError(Iterable<String> fields) {
+    if (fields.isEmpty) return null;
+    if (fields.any(_identityFields.contains)) return 0;
+    if (fields.any(_contactFields.contains)) return 1;
+    return 2;
+  }
+
+  /// Guardians who register are linked and active at once (decision of the PO,
+  /// 30/10/2026); every other role waits for an administrator (N-11).
+  bool get _activeOnRegister => _role == Role.parent;
 
   String? _blank(TextEditingController c) =>
       c.text.trim().isEmpty ? null : c.text.trim();
@@ -169,8 +212,11 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
         title: Text('Cuenta creada', style: AppTextStyles.h2),
         content: Text(
-          'Tu cuenta quedó registrada y está pendiente de validación por un '
-          'administrador. Te avisaremos cuando puedas ingresar.',
+          _activeOnRegister
+              ? 'Tu cuenta quedó registrada. Ya puedes iniciar sesión con tu '
+                    'correo y contraseña.'
+              : 'Tu cuenta quedó registrada y está pendiente de validación por un '
+                    'administrador. Te avisaremos cuando puedas ingresar.',
           style: AppTextStyles.bodyMuted,
         ),
         actions: [
@@ -199,10 +245,17 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
               child: Row(
                 children: [
                   IconButton(
-                    icon: const Icon(Icons.arrow_back_rounded, color: Colors.white),
+                    tooltip: 'Volver',
+                    icon: const Icon(
+                      Icons.arrow_back_rounded,
+                      color: Colors.white,
+                    ),
                     onPressed: _back,
                   ),
-                  Text('Crear cuenta', style: AppTextStyles.h3.copyWith(color: Colors.white)),
+                  Text(
+                    'Crear cuenta',
+                    style: AppTextStyles.h3.copyWith(color: Colors.white),
+                  ),
                 ],
               ),
             ),
@@ -237,14 +290,11 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        switch (_step) {
-                          0 => 'Tu identidad',
-                          1 => 'Tus datos de contacto',
-                          _ => 'Tu rol en la institución',
-                        },
-                        style: AppTextStyles.h1,
-                      ),
+                      Text(switch (_step) {
+                        0 => 'Tu identidad',
+                        1 => 'Tus datos de contacto',
+                        _ => 'Tu rol en la institución',
+                      }, style: AppTextStyles.h1),
                       const SizedBox(height: 6),
                       Text(
                         'Paso ${_step + 1} de 3',
@@ -260,13 +310,17 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                         const SizedBox(height: 16),
                         Text(
                           _errorText!,
-                          style: AppTextStyles.body.copyWith(color: AppColors.pink),
+                          style: AppTextStyles.body.copyWith(
+                            color: AppColors.pink,
+                          ),
                         ),
                       ],
                       const SizedBox(height: 24),
                       PrimaryGradientButton(
                         label: _step == 2 ? 'Crear cuenta' : 'Continuar',
-                        icon: _step == 2 ? Icons.check_rounded : Icons.arrow_forward_rounded,
+                        icon: _step == 2
+                            ? Icons.check_rounded
+                            : Icons.arrow_forward_rounded,
                         loading: _submitting,
                         onPressed: _next,
                       ),
@@ -274,7 +328,10 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                       Center(
                         child: TextButton(
                           onPressed: () => context.go('/login'),
-                          child: Text('Ya tengo cuenta', style: AppTextStyles.link),
+                          child: Text(
+                            'Ya tengo cuenta',
+                            style: AppTextStyles.link,
+                          ),
                         ),
                       ),
                     ],
@@ -297,9 +354,13 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
           _label('Tipo de documento'),
           DropdownButtonFormField<String>(
             initialValue: _tipoDocumento,
-            decoration: const InputDecoration(prefixIcon: Icon(Icons.badge_outlined)),
+            decoration: const InputDecoration(
+              prefixIcon: Icon(Icons.badge_outlined),
+            ),
             items: _documentTypes.entries
-                .map((e) => DropdownMenuItem(value: e.key, child: Text(e.value)))
+                .map(
+                  (e) => DropdownMenuItem(value: e.key, child: Text(e.value)),
+                )
                 .toList(),
             onChanged: (v) => setState(() => _tipoDocumento = v ?? 'CC'),
           ),
@@ -312,7 +373,8 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
               hintText: '1002003004',
               prefixIcon: Icon(Icons.pin_outlined),
             ),
-            validator: (v) => _fieldErrors['numero_documento'] ??
+            validator: (v) =>
+                _fieldErrors['numero_documento'] ??
                 Validators.required(v, 'el número de documento'),
           ),
           const SizedBox(height: 18),
@@ -320,24 +382,32 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
           TextFormField(
             controller: _primerNombre,
             textCapitalization: TextCapitalization.words,
-            decoration: const InputDecoration(prefixIcon: Icon(Icons.person_outline_rounded)),
+            decoration: const InputDecoration(
+              prefixIcon: Icon(Icons.person_outline_rounded),
+            ),
             validator: (v) =>
-                _fieldErrors['primer_nombre'] ?? Validators.required(v, 'tu primer nombre'),
+                _fieldErrors['primer_nombre'] ??
+                Validators.required(v, 'tu primer nombre'),
           ),
           const SizedBox(height: 18),
           _label('Segundo nombre (opcional)'),
           TextFormField(
             controller: _segundoNombre,
             textCapitalization: TextCapitalization.words,
-            decoration: const InputDecoration(prefixIcon: Icon(Icons.person_outline_rounded)),
+            decoration: const InputDecoration(
+              prefixIcon: Icon(Icons.person_outline_rounded),
+            ),
           ),
           const SizedBox(height: 18),
           _label('Primer apellido'),
           TextFormField(
             controller: _primerApellido,
             textCapitalization: TextCapitalization.words,
-            decoration: const InputDecoration(prefixIcon: Icon(Icons.person_outline_rounded)),
-            validator: (v) => _fieldErrors['primer_apellido'] ??
+            decoration: const InputDecoration(
+              prefixIcon: Icon(Icons.person_outline_rounded),
+            ),
+            validator: (v) =>
+                _fieldErrors['primer_apellido'] ??
                 Validators.required(v, 'tu primer apellido'),
           ),
           const SizedBox(height: 18),
@@ -345,7 +415,9 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
           TextFormField(
             controller: _segundoApellido,
             textCapitalization: TextCapitalization.words,
-            decoration: const InputDecoration(prefixIcon: Icon(Icons.person_outline_rounded)),
+            decoration: const InputDecoration(
+              prefixIcon: Icon(Icons.person_outline_rounded),
+            ),
           ),
         ],
       ),
@@ -373,21 +445,29 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
           TextFormField(
             controller: _telefono,
             keyboardType: TextInputType.phone,
-            decoration: const InputDecoration(prefixIcon: Icon(Icons.phone_outlined)),
+            decoration: const InputDecoration(
+              prefixIcon: Icon(Icons.phone_outlined),
+            ),
           ),
           const SizedBox(height: 18),
           _label('Dirección (opcional)'),
           TextFormField(
             controller: _direccion,
-            decoration: const InputDecoration(prefixIcon: Icon(Icons.home_outlined)),
+            decoration: const InputDecoration(
+              prefixIcon: Icon(Icons.home_outlined),
+            ),
           ),
           const SizedBox(height: 18),
           _label('Género (opcional)'),
           DropdownButtonFormField<String>(
             initialValue: _genero,
-            decoration: const InputDecoration(prefixIcon: Icon(Icons.wc_outlined)),
+            decoration: const InputDecoration(
+              prefixIcon: Icon(Icons.wc_outlined),
+            ),
             items: _genders.entries
-                .map((e) => DropdownMenuItem(value: e.key, child: Text(e.value)))
+                .map(
+                  (e) => DropdownMenuItem(value: e.key, child: Text(e.value)),
+                )
                 .toList(),
             onChanged: (v) => setState(() => _genero = v),
           ),
@@ -399,20 +479,26 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
             decoration: InputDecoration(
               prefixIcon: const Icon(Icons.lock_outline_rounded),
               suffixIcon: IconButton(
-                icon: Icon(_obscure
-                    ? Icons.visibility_off_outlined
-                    : Icons.visibility_outlined),
+                tooltip: _obscure ? 'Mostrar contraseña' : 'Ocultar contraseña',
+                icon: Icon(
+                  _obscure
+                      ? Icons.visibility_off_outlined
+                      : Icons.visibility_outlined,
+                ),
                 onPressed: () => setState(() => _obscure = !_obscure),
               ),
             ),
-            validator: (v) => _fieldErrors['password'] ?? Validators.newPassword(v),
+            validator: (v) =>
+                _fieldErrors['password'] ?? Validators.newPassword(v),
           ),
           const SizedBox(height: 18),
           _label('Confirmar contraseña'),
           TextFormField(
             controller: _confirmPassword,
             obscureText: _obscure,
-            decoration: const InputDecoration(prefixIcon: Icon(Icons.lock_outline_rounded)),
+            decoration: const InputDecoration(
+              prefixIcon: Icon(Icons.lock_outline_rounded),
+            ),
             validator: (v) =>
                 v == _password.text ? null : 'Las contraseñas no coinciden.',
           ),
@@ -439,7 +525,10 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
               return GestureDetector(
                 onTap: () => setState(() => _role = role),
                 child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 12,
+                  ),
                   decoration: BoxDecoration(
                     color: selected ? AppColors.indigo : AppColors.background,
                     borderRadius: BorderRadius.circular(14),
@@ -461,12 +550,16 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
             coursesAsync.when(
               data: (courses) => DropdownButtonFormField<int>(
                 initialValue: _cursoId,
-                decoration: const InputDecoration(prefixIcon: Icon(Icons.class_outlined)),
+                decoration: const InputDecoration(
+                  prefixIcon: Icon(Icons.class_outlined),
+                ),
                 items: courses
-                    .map((c) => DropdownMenuItem(
-                          value: c.id,
-                          child: Text('${c.name} · ${c.shiftLabel}'),
-                        ))
+                    .map(
+                      (c) => DropdownMenuItem(
+                        value: c.id,
+                        child: Text('${c.name} · ${c.shiftLabel}'),
+                      ),
+                    )
                     .toList(),
                 onChanged: (v) => setState(() => _cursoId = v),
                 validator: (v) => v == null ? 'Selecciona tu curso.' : null,
@@ -486,7 +579,8 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                 hintText: 'Licenciado en Matemáticas',
                 prefixIcon: Icon(Icons.school_outlined),
               ),
-              validator: (v) => _fieldErrors['titulo'] ?? Validators.required(v, 'tu título'),
+              validator: (v) =>
+                  _fieldErrors['titulo'] ?? Validators.required(v, 'tu título'),
             ),
             const SizedBox(height: 18),
             _label('Nivel de estudios'),
@@ -496,7 +590,8 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                 hintText: 'Pregrado / Especialización / Maestría',
                 prefixIcon: Icon(Icons.workspace_premium_outlined),
               ),
-              validator: (v) => _fieldErrors['nivel_estudios'] ??
+              validator: (v) =>
+                  _fieldErrors['nivel_estudios'] ??
                   Validators.required(v, 'tu nivel de estudios'),
             ),
           ],
@@ -508,7 +603,8 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
               decoration: const InputDecoration(
                 prefixIcon: Icon(Icons.family_restroom_outlined),
               ),
-              validator: (v) => _fieldErrors['id_estudiante_vinculado'] ??
+              validator: (v) =>
+                  _fieldErrors['id_estudiante_vinculado'] ??
                   Validators.required(v, 'el estudiante vinculado'),
             ),
             const SizedBox(height: 18),
@@ -520,7 +616,8 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                 prefixIcon: Icon(Icons.diversity_3_outlined),
               ),
               validator: (v) =>
-                  _fieldErrors['parentesco'] ?? Validators.required(v, 'el parentesco'),
+                  _fieldErrors['parentesco'] ??
+                  Validators.required(v, 'el parentesco'),
             ),
           ],
           if (_role == Role.admin) ...[
@@ -531,7 +628,8 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                 hintText: 'Coordinador académico',
                 prefixIcon: Icon(Icons.work_outline_rounded),
               ),
-              validator: (v) => _fieldErrors['cargo'] ?? Validators.required(v, 'tu cargo'),
+              validator: (v) =>
+                  _fieldErrors['cargo'] ?? Validators.required(v, 'tu cargo'),
             ),
           ],
           const SizedBox(height: 18),
@@ -543,12 +641,18 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
             ),
             child: Row(
               children: [
-                const Icon(Icons.info_outline_rounded,
-                    size: 18, color: AppColors.textSecondary),
+                const Icon(
+                  Icons.info_outline_rounded,
+                  size: 18,
+                  color: AppColors.textSecondary,
+                ),
                 const SizedBox(width: 10),
                 Expanded(
                   child: Text(
-                    'Tu cuenta quedará pendiente de validación por un administrador.',
+                    _activeOnRegister
+                        ? 'Podrás ingresar apenas crees la cuenta y verás los '
+                              'datos del estudiante que indiques.'
+                        : 'Tu cuenta quedará pendiente de validación por un administrador.',
                     style: AppTextStyles.caption,
                   ),
                 ),
@@ -561,7 +665,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
   }
 
   Widget _label(String text) => Padding(
-        padding: const EdgeInsets.only(bottom: 8),
-        child: Text(text, style: AppTextStyles.caption),
-      );
+    padding: const EdgeInsets.only(bottom: 8),
+    child: Text(text, style: AppTextStyles.caption),
+  );
 }

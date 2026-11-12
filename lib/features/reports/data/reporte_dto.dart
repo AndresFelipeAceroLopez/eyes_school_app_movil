@@ -9,9 +9,12 @@ abstract final class ReportMapper {
       id: asInt(json['id_reporte']),
       type: asString(json['tipo_reporte'], fallback: 'General'),
       status: asString(json['estado'], fallback: 'Pendiente'),
-      title: asStringOrNull(json['titulo']) ?? asStringOrNull(json['nombre_reporte']),
+      title:
+          asStringOrNull(json['titulo']) ??
+          asStringOrNull(json['nombre_reporte']),
       description: asStringOrNull(json['descripcion']),
-      generatedAt: asDate(json['fecha_generacion']) ?? asDate(json['fecha_creacion']),
+      generatedAt:
+          asDate(json['fecha_generacion']) ?? asDate(json['fecha_creacion']),
       hasFile: path != null && path.isNotEmpty,
     );
   }

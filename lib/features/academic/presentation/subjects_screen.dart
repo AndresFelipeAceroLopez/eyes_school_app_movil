@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:eyes_school/features/academic/presentation/subject_icon.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:eyes_school/core/theme/app_colors.dart';
@@ -23,18 +24,25 @@ class SubjectsScreen extends ConsumerWidget {
         onRefresh: () async => ref.invalidate(subjectsProvider),
         child: subjectsAsync.when(
           loading: () => const LoadingView(),
-          error: (error, _) => ListView(children: [
-            ErrorView(error: error, onRetry: () => ref.invalidate(subjectsProvider)),
-          ]),
+          error: (error, _) => ListView(
+            children: [
+              ErrorView(
+                error: error,
+                onRetry: () => ref.invalidate(subjectsProvider),
+              ),
+            ],
+          ),
           data: (subjects) {
             if (subjects.isEmpty) {
-              return ListView(children: const [
-                EmptyState(
-                  icon: Icons.menu_book_rounded,
-                  title: 'Sin materias activas',
-                  message: 'El catálogo académico está vacío.',
-                ),
-              ]);
+              return ListView(
+                children: const [
+                  EmptyState(
+                    icon: Icons.menu_book_rounded,
+                    title: 'Sin materias activas',
+                    message: 'El catálogo académico está vacío.',
+                  ),
+                ],
+              );
             }
             return ListView.separated(
               padding: const EdgeInsets.fromLTRB(20, 20, 20, 32),
@@ -45,16 +53,7 @@ class SubjectsScreen extends ConsumerWidget {
                 return SectionCard(
                   child: Row(
                     children: [
-                      Container(
-                        width: 44,
-                        height: 44,
-                        decoration: BoxDecoration(
-                          color: AppColors.roleTeacherBg,
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: const Icon(Icons.menu_book_rounded,
-                            color: AppColors.roleTeacher),
-                      ),
+                      const SubjectIcon(),
                       const SizedBox(width: 14),
                       Expanded(
                         child: Column(
@@ -63,10 +62,12 @@ class SubjectsScreen extends ConsumerWidget {
                             Text(s.name, style: AppTextStyles.h3),
                             Text(s.teacherName, style: AppTextStyles.caption),
                             const SizedBox(height: 2),
-                            Text(s.groups,
-                                style: AppTextStyles.caption,
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis),
+                            Text(
+                              s.groups,
+                              style: AppTextStyles.caption,
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                            ),
                           ],
                         ),
                       ),
@@ -74,9 +75,12 @@ class SubjectsScreen extends ConsumerWidget {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
-                          Text('${s.studentCount}',
-                              style:
-                                  AppTextStyles.h3.copyWith(color: AppColors.tealDark)),
+                          Text(
+                            '${s.studentCount}',
+                            style: AppTextStyles.h3.copyWith(
+                              color: AppColors.tealDark,
+                            ),
+                          ),
                           Text('cursos', style: AppTextStyles.caption),
                         ],
                       ),

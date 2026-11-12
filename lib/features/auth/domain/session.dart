@@ -1,3 +1,4 @@
+import 'package:eyes_school/features/directory/domain/linked_child.dart';
 import 'package:eyes_school/features/directory/domain/role.dart';
 import 'app_user.dart';
 
@@ -18,6 +19,7 @@ class AppSession {
     this.relationship,
     this.currentPeriod,
     this.bootstrapWarning,
+    this.children = const [],
   });
 
   final AppUser user;
@@ -50,21 +52,56 @@ class AppSession {
   /// screens that need the id show it instead of failing silently.
   final String? bootstrapWarning;
 
+  /// Padre: every linked student (`/padres/me/hijos`, APP-03). The `child*`
+  /// fields above describe the active one, which is the first by default.
+  final List<LinkedChild> children;
+
+  bool get hasSeveralChildren => children.length > 1;
+
+  /// The active child as a [LinkedChild], when the guardian has any.
+  LinkedChild? get activeChild {
+    for (final c in children) {
+      if (c.id == childId) return c;
+    }
+    return null;
+  }
+
+  /// Same session with another linked child active. Every parent screen reads
+  /// [childId], so they all follow the switch.
+  AppSession withActiveChild(int id) {
+    LinkedChild? child;
+    for (final c in children) {
+      if (c.id == id) child = c;
+    }
+    if (child == null) return this;
+    return AppSession(
+      user: user,
+      teacherId: teacherId,
+      studentId: studentId,
+      studentCode: studentCode,
+      courseId: child.courseId,
+      parentId: parentId,
+      childId: child.id,
+      childName: child.name,
+      childDocument: child.document,
+      relationship: child.relationship,
+      currentPeriod: currentPeriod,
+      bootstrapWarning: bootstrapWarning,
+      children: children,
+    );
+  }
+
   Role get role => user.role;
 
   /// The student every query in this session is about: the student themself,
   /// or the guardian's child.
   int? get subjectStudentId => switch (role) {
-        Role.student => studentId,
-        Role.parent => childId,
-        _ => null,
-      };
+    Role.student => studentId,
+    Role.parent => childId,
+    _ => null,
+  };
 
-  AppSession copyWith({
-    AppUser? user,
-    int? currentPeriod,
-    String? childName,
-  }) {
+  AppSession copyWith({AppUser? user, int? currentPeriod, String? childName}) {
     return AppSession(
       user: user ?? this.user,
       teacherId: teacherId,
@@ -78,6 +115,7 @@ class AppSession {
       relationship: relationship,
       currentPeriod: currentPeriod ?? this.currentPeriod,
       bootstrapWarning: bootstrapWarning,
+      children: children,
     );
   }
 }

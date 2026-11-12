@@ -46,9 +46,11 @@ class NoAccessScreen extends ConsumerWidget {
                 Text(
                   pendingValidation
                       ? 'Tu cuenta está pendiente de validación por un administrador. '
-                          'Podrás ingresar en cuanto sea aprobada.'
+                            'Podrás ingresar en cuanto sea aprobada.'
                       : 'Esta sección no está disponible para tu rol.',
-                  style: AppTextStyles.body.copyWith(color: AppColors.textOnDarkMuted),
+                  style: AppTextStyles.body.copyWith(
+                    color: AppColors.textOnDarkMuted,
+                  ),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 36),
@@ -64,7 +66,11 @@ class NoAccessScreen extends ConsumerWidget {
                 const SizedBox(height: 12),
                 TextButton.icon(
                   onPressed: () => ref.read(sessionProvider.notifier).logout(),
-                  icon: const Icon(Icons.logout_rounded, color: Colors.white70, size: 18),
+                  icon: const Icon(
+                    Icons.logout_rounded,
+                    color: Colors.white70,
+                    size: 18,
+                  ),
                   label: Text(
                     'Cerrar sesión',
                     style: AppTextStyles.body.copyWith(color: Colors.white70),

@@ -1,0 +1,630 @@
+{
+ "paquetes": 125,
+ "resultados": [
+  {
+   "paquete": "_flutterfire_internals",
+   "version": "1.3.77",
+   "vulns": []
+  },
+  {
+   "paquete": "archive",
+   "version": "4.3.0",
+   "vulns": []
+  },
+  {
+   "paquete": "args",
+   "version": "2.7.0",
+   "vulns": []
+  },
+  {
+   "paquete": "async",
+   "version": "2.13.1",
+   "vulns": []
+  },
+  {
+   "paquete": "boolean_selector",
+   "version": "2.1.2",
+   "vulns": []
+  },
+  {
+   "paquete": "characters",
+   "version": "1.4.1",
+   "vulns": []
+  },
+  {
+   "paquete": "clock",
+   "version": "1.1.2",
+   "vulns": []
+  },
+  {
+   "paquete": "code_assets",
+   "version": "1.2.1",
+   "vulns": []
+  },
+  {
+   "paquete": "collection",
+   "version": "1.19.1",
+   "vulns": []
+  },
+  {
+   "paquete": "connectivity_plus",
+   "version": "6.1.5",
+   "vulns": []
+  },
+  {
+   "paquete": "connectivity_plus_platform_interface",
+   "version": "2.1.0",
+   "vulns": []
+  },
+  {
+   "paquete": "cross_file",
+   "version": "0.3.5+5",
+   "vulns": []
+  },
+  {
+   "paquete": "crypto",
+   "version": "3.0.7",
+   "vulns": []
+  },
+  {
+   "paquete": "dbus",
+   "version": "0.7.15",
+   "vulns": []
+  },
+  {
+   "paquete": "dio",
+   "version": "5.11.1",
+   "vulns": []
+  },
+  {
+   "paquete": "dio_web_adapter",
+   "version": "2.2.2",
+   "vulns": []
+  },
+  {
+   "paquete": "fake_async",
+   "version": "1.3.3",
+   "vulns": []
+  },
+  {
+   "paquete": "ffi",
+   "version": "2.2.0",
+   "vulns": []
+  },
+  {
+   "paquete": "file",
+   "version": "7.0.1",
+   "vulns": []
+  },
+  {
+   "paquete": "file_selector_linux",
+   "version": "0.9.4+1",
+   "vulns": []
+  },
+  {
+   "paquete": "file_selector_macos",
+   "version": "0.9.5+1",
+   "vulns": []
+  },
+  {
+   "paquete": "file_selector_platform_interface",
+   "version": "2.7.0",
+   "vulns": []
+  },
+  {
+   "paquete": "file_selector_windows",
+   "version": "0.9.3+6",
+   "vulns": []
+  },
+  {
+   "paquete": "firebase_core",
+   "version": "4.15.0",
+   "vulns": []
+  },
+  {
+   "paquete": "firebase_core_platform_interface",
+   "version": "8.1.1",
+   "vulns": []
+  },
+  {
+   "paquete": "firebase_core_web",
+   "version": "3.12.0",
+   "vulns": []
+  },
+  {
+   "paquete": "firebase_messaging",
+   "version": "16.7.0",
+   "vulns": []
+  },
+  {
+   "paquete": "firebase_messaging_platform_interface",
+   "version": "4.10.0",
+   "vulns": []
+  },
+  {
+   "paquete": "firebase_messaging_web",
+   "version": "4.2.5",
+   "vulns": []
+  },
+  {
+   "paquete": "fixnum",
+   "version": "1.1.1",
+   "vulns": []
+  },
+  {
+   "paquete": "flutter_lints",
+   "version": "6.0.0",
+   "vulns": []
+  },
+  {
+   "paquete": "flutter_local_notifications",
+   "version": "22.3.1",
+   "vulns": []
+  },
+  {
+   "paquete": "flutter_local_notifications_linux",
+   "version": "8.0.1",
+   "vulns": []
+  },
+  {
+   "paquete": "flutter_local_notifications_platform_interface",
+   "version": "12.2.0",
+   "vulns": []
+  },
+  {
+   "paquete": "flutter_local_notifications_web",
+   "version": "1.0.0",
+   "vulns": []
+  },
+  {
+   "paquete": "flutter_local_notifications_windows",
+   "version": "3.1.1",
+   "vulns": []
+  },
+  {
+   "paquete": "flutter_plugin_android_lifecycle",
+   "version": "2.0.35",
+   "vulns": []
+  },
+  {
+   "paquete": "flutter_riverpod",
+   "version": "2.6.1",
+   "vulns": []
+  },
+  {
+   "paquete": "flutter_secure_storage",
+   "version": "9.2.4",
+   "vulns": []
+  },
+  {
+   "paquete": "flutter_secure_storage_linux",
+   "version": "1.2.3",
+   "vulns": []
+  },
+  {
+   "paquete": "flutter_secure_storage_macos",
+   "version": "3.1.3",
+   "vulns": []
+  },
+  {
+   "paquete": "flutter_secure_storage_platform_interface",
+   "version": "1.1.2",
+   "vulns": []
+  },
+  {
+   "paquete": "flutter_secure_storage_web",
+   "version": "1.2.1",
+   "vulns": []
+  },
+  {
+   "paquete": "flutter_secure_storage_windows",
+   "version": "3.1.2",
+   "vulns": []
+  },
+  {
+   "paquete": "go_router",
+   "version": "14.8.1",
+   "vulns": []
+  },
+  {
+   "paquete": "google_fonts",
+   "version": "6.3.3",
+   "vulns": []
+  },
+  {
+   "paquete": "hooks",
+   "version": "2.0.2",
+   "vulns": []
+  },
+  {
+   "paquete": "http",
+   "version": "1.6.0",
+   "vulns": []
+  },
+  {
+   "paquete": "http_parser",
+   "version": "4.1.2",
+   "vulns": []
+  },
+  {
+   "paquete": "image",
+   "version": "4.10.1",
+   "vulns": []
+  },
+  {
+   "paquete": "image_picker",
+   "version": "1.2.3",
+   "vulns": []
+  },
+  {
+   "paquete": "image_picker_android",
+   "version": "0.8.13+23",
+   "vulns": []
+  },
+  {
+   "paquete": "image_picker_for_web",
+   "version": "3.1.1",
+   "vulns": []
+  },
+  {
+   "paquete": "image_picker_ios",
+   "version": "0.8.13+7",
+   "vulns": []
+  },
+  {
+   "paquete": "image_picker_linux",
+   "version": "0.2.2",
+   "vulns": []
+  },
+  {
+   "paquete": "image_picker_macos",
+   "version": "0.2.2+1",
+   "vulns": []
+  },
+  {
+   "paquete": "image_picker_platform_interface",
+   "version": "2.11.1",
+   "vulns": []
+  },
+  {
+   "paquete": "image_picker_windows",
+   "version": "0.2.2",
+   "vulns": []
+  },
+  {
+   "paquete": "intl",
+   "version": "0.19.0",
+   "vulns": []
+  },
+  {
+   "paquete": "jni",
+   "version": "1.0.3",
+   "vulns": []
+  },
+  {
+   "paquete": "jni_flutter",
+   "version": "1.0.3",
+   "vulns": []
+  },
+  {
+   "paquete": "jni_util",
+   "version": "1.0.0",
+   "vulns": []
+  },
+  {
+   "paquete": "js",
+   "version": "0.6.7",
+   "vulns": []
+  },
+  {
+   "paquete": "leak_tracker",
+   "version": "11.0.2",
+   "vulns": []
+  },
+  {
+   "paquete": "leak_tracker_flutter_testing",
+   "version": "3.0.10",
+   "vulns": []
+  },
+  {
+   "paquete": "leak_tracker_testing",
+   "version": "3.0.2",
+   "vulns": []
+  },
+  {
+   "paquete": "lints",
+   "version": "6.1.0",
+   "vulns": []
+  },
+  {
+   "paquete": "logging",
+   "version": "1.3.0",
+   "vulns": []
+  },
+  {
+   "paquete": "matcher",
+   "version": "0.12.19",
+   "vulns": []
+  },
+  {
+   "paquete": "material_color_utilities",
+   "version": "0.13.0",
+   "vulns": []
+  },
+  {
+   "paquete": "meta",
+   "version": "1.18.0",
+   "vulns": []
+  },
+  {
+   "paquete": "mime",
+   "version": "2.1.0",
+   "vulns": []
+  },
+  {
+   "paquete": "mobile_scanner",
+   "version": "6.0.11",
+   "vulns": []
+  },
+  {
+   "paquete": "nm",
+   "version": "0.5.0",
+   "vulns": []
+  },
+  {
+   "paquete": "objective_c",
+   "version": "9.5.0",
+   "vulns": []
+  },
+  {
+   "paquete": "open_filex",
+   "version": "4.7.0",
+   "vulns": []
+  },
+  {
+   "paquete": "package_config",
+   "version": "3.0.0",
+   "vulns": []
+  },
+  {
+   "paquete": "package_info_plus",
+   "version": "9.0.1",
+   "vulns": []
+  },
+  {
+   "paquete": "package_info_plus_platform_interface",
+   "version": "3.2.1",
+   "vulns": []
+  },
+  {
+   "paquete": "path",
+   "version": "1.9.1",
+   "vulns": []
+  },
+  {
+   "paquete": "path_provider",
+   "version": "2.1.6",
+   "vulns": []
+  },
+  {
+   "paquete": "path_provider_android",
+   "version": "2.3.1",
+   "vulns": []
+  },
+  {
+   "paquete": "path_provider_foundation",
+   "version": "2.6.0",
+   "vulns": []
+  },
+  {
+   "paquete": "path_provider_linux",
+   "version": "2.2.2",
+   "vulns": []
+  },
+  {
+   "paquete": "path_provider_platform_interface",
+   "version": "2.1.3",
+   "vulns": []
+  },
+  {
+   "paquete": "path_provider_windows",
+   "version": "2.3.0",
+   "vulns": []
+  },
+  {
+   "paquete": "petitparser",
+   "version": "7.0.2",
+   "vulns": []
+  },
+  {
+   "paquete": "platform",
+   "version": "3.2.0",
+   "vulns": []
+  },
+  {
+   "paquete": "plugin_platform_interface",
+   "version": "2.1.8",
+   "vulns": []
+  },
+  {
+   "paquete": "posix",
+   "version": "6.5.2",
+   "vulns": []
+  },
+  {
+   "paquete": "pub_semver",
+   "version": "2.2.1",
+   "vulns": []
+  },
+  {
+   "paquete": "qr",
+   "version": "3.0.2",
+   "vulns": []
+  },
+  {
+   "paquete": "qr_flutter",
+   "version": "4.1.0",
+   "vulns": []
+  },
+  {
+   "paquete": "record_use",
+   "version": "0.6.0",
+   "vulns": []
+  },
+  {
+   "paquete": "riverpod",
+   "version": "2.6.1",
+   "vulns": []
+  },
+  {
+   "paquete": "share_plus",
+   "version": "10.1.4",
+   "vulns": []
+  },
+  {
+   "paquete": "share_plus_platform_interface",
+   "version": "5.0.2",
+   "vulns": []
+  },
+  {
+   "paquete": "shared_preferences",
+   "version": "2.5.5",
+   "vulns": []
+  },
+  {
+   "paquete": "shared_preferences_android",
+   "version": "2.4.28",
+   "vulns": []
+  },
+  {
+   "paquete": "shared_preferences_foundation",
+   "version": "2.5.7",
+   "vulns": []
+  },
+  {
+   "paquete": "shared_preferences_linux",
+   "version": "2.4.1",
+   "vulns": []
+  },
+  {
+   "paquete": "shared_preferences_platform_interface",
+   "version": "2.4.2",
+   "vulns": []
+  },
+  {
+   "paquete": "shared_preferences_web",
+   "version": "2.4.3",
+   "vulns": []
+  },
+  {
+   "paquete": "shared_preferences_windows",
+   "version": "2.4.1",
+   "vulns": []
+  },
+  {
+   "paquete": "source_span",
+   "version": "1.10.2",
+   "vulns": []
+  },
+  {
+   "paquete": "stack_trace",
+   "version": "1.12.1",
+   "vulns": []
+  },
+  {
+   "paquete": "state_notifier",
+   "version": "1.0.0",
+   "vulns": []
+  },
+  {
+   "paquete": "stream_channel",
+   "version": "2.1.4",
+   "vulns": []
+  },
+  {
+   "paquete": "string_scanner",
+   "version": "1.4.1",
+   "vulns": []
+  },
+  {
+   "paquete": "term_glyph",
+   "version": "1.2.2",
+   "vulns": []
+  },
+  {
+   "paquete": "test_api",
+   "version": "0.7.11",
+   "vulns": []
+  },
+  {
+   "paquete": "timezone",
+   "version": "0.11.1",
+   "vulns": []
+  },
+  {
+   "paquete": "typed_data",
+   "version": "1.4.0",
+   "vulns": []
+  },
+  {
+   "paquete": "url_launcher_linux",
+   "version": "3.2.3",
+   "vulns": []
+  },
+  {
+   "paquete": "url_launcher_platform_interface",
+   "version": "2.3.2",
+   "vulns": []
+  },
+  {
+   "paquete": "url_launcher_web",
+   "version": "2.4.3",
+   "vulns": []
+  },
+  {
+   "paquete": "url_launcher_windows",
+   "version": "3.1.6",
+   "vulns": []
+  },
+  {
+   "paquete": "uuid",
+   "version": "4.6.0",
+   "vulns": []
+  },
+  {
+   "paquete": "vector_math",
+   "version": "2.2.0",
+   "vulns": []
+  },
+  {
+   "paquete": "vm_service",
+   "version": "15.3.0",
+   "vulns": []
+  },
+  {
+   "paquete": "web",
+   "version": "1.1.1",
+   "vulns": []
+  },
+  {
+   "paquete": "win32",
+   "version": "5.15.0",
+   "vulns": []
+  },
+  {
+   "paquete": "xdg_directories",
+   "version": "1.1.0",
+   "vulns": []
+  },
+  {
+   "paquete": "xml",
+   "version": "7.0.1",
+   "vulns": []
+  },
+  {
+   "paquete": "yaml",
+   "version": "3.1.4",
+   "vulns": []
+  }
+ ]
+}

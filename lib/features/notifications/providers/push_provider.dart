@@ -1,50 +1,51 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:eyes_school/core/router/app_router.dart';
+import 'package:eyes_school/features/directory/domain/role.dart';
 import 'package:eyes_school/features/notifications/data/push_notification_service.dart';
+import 'package:eyes_school/providers/repository_providers.dart';
+import 'package:eyes_school/providers/session_provider.dart';
 
-/// Riverpod provider that initialises push notifications and wires
-/// tap-navigation into go_router.
+/// Push notifications for the app session (APP-08).
 ///
-/// Watch this provider from the root widget (or call `ref.read` once after
-/// login) so the service is initialised exactly once per app session.
+/// Reading it requires Firebase to be initialised; [SessionNotifier] reads it
+/// inside a try/catch so a missing Firebase setup never costs the session.
 final pushNotificationProvider = Provider<PushNotificationService>((ref) {
-  final service = PushNotificationService.instance;
+  final service = PushNotificationService(
+    messaging: FirebaseMessaging.instance,
+    deviceTokens: ref.watch(deviceTokenRepositoryProvider),
+  );
 
-  // Wire the tap callback to go_router navigation.
-  service.onNotificationTapped = (data) {
-    _navigateFromNotification(data, ref);
-  };
-
+  service.onNotificationTapped = (data) => _navigateFromNotification(data, ref);
   return service;
 });
 
-/// Translates the FCM `data` payload into a go_router navigation.
+/// Translates the FCM `data` payload into a route of the signed-in user's own
+/// role (the router blocks any other prefix).
 ///
-/// The backend should send a `type` key to indicate the category:
-///   • `novedad`     → /student/news  or  /admin/news
-///   • `attendance`  → /student (home shows attendance)
-///   • `grades`      → /student/notes or /parent/notes
-///   • `message`     → /student/news  (fallback to novedades)
-///
-/// If no type is recognised, the app simply foregrounds.
+///   • `novedad` → padre: novedades del hijo (`/parent/children`)
+///                 estudiante: `/student/news` · admin: `/admin/news`
+///   • `attendance` / `grades` → the role's attendance or grades screen
 void _navigateFromNotification(Map<String, dynamic> data, Ref ref) {
   try {
     final router = ref.read(routerProvider);
-    final type = data['type'] as String? ?? '';
+    final role = ref.read(currentSessionProvider)?.role;
+    final type = data['type'] as String? ?? 'novedad';
 
-    switch (type) {
-      case 'novedad':
-        router.go('/student/news');
-      case 'attendance':
-        router.go('/student');
-      case 'grades':
-        router.go('/student/notes');
-      default:
-        debugPrint('[FCM] Unknown notification type "$type", ignoring navigation.');
-    }
+    final route = switch ((type, role)) {
+      ('novedad', Role.parent) => '/parent/children',
+      ('novedad', Role.student) => '/student/news',
+      ('novedad', Role.admin) => '/admin/news',
+      ('attendance', Role.parent) => '/parent/attendance',
+      ('attendance', Role.student) => '/student',
+      ('grades', Role.parent) => '/parent/notes',
+      ('grades', Role.student) => '/student/notes',
+      _ => null,
+    };
+    if (route != null) router.go(route);
   } catch (e) {
-    debugPrint('[FCM] Navigation error: $e');
+    if (kDebugMode) debugPrint('[FCM] Navigation error: $e');
   }
 }

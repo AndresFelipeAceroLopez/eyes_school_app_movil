@@ -1,4 +1,5 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
     <!-- The app talks to the Eyes School API over HTTPS. Required in release
          builds; Flutter only injects it automatically for debug. -->
     <uses-permission android:name="android.permission.INTERNET"/>
@@ -9,9 +10,14 @@
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
     <!-- Required to prompt the user to install the downloaded APK (OTA updates). -->
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES"/>
+    <!-- MobSF (CP-NF-004): un plugin agrega estos permisos, pero la app no maneja video ni audio. -->
+    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" tools:node="remove"/>
+    <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" tools:node="remove"/>
     <uses-feature android:name="android.hardware.camera" android:required="false"/>
     <application
         android:label="eyes_school"
+        android:allowBackup="false"
+        android:fullBackupContent="false"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

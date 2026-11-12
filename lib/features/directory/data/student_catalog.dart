@@ -38,12 +38,15 @@ class StudentCatalog {
 
   bool get isStale {
     final at = _refreshedAt;
-    return at == null || DateTime.now().difference(at) > AppConstants.studentCacheTtl;
+    return at == null ||
+        DateTime.now().difference(at) > AppConstants.studentCacheTtl;
   }
 
   /// Loads from disk (fast) and refreshes from the API when missing or stale.
   Future<void> ensureReady({bool force = false}) {
-    return _inFlight ??= _ensureReady(force: force).whenComplete(() => _inFlight = null);
+    return _inFlight ??= _ensureReady(
+      force: force,
+    ).whenComplete(() => _inFlight = null);
   }
 
   Future<void> _ensureReady({required bool force}) async {
@@ -64,7 +67,8 @@ class StudentCatalog {
 
   bool get _forcedRefreshAllowed {
     final last = _lastForcedAt;
-    return last == null || DateTime.now().difference(last) > _forcedRefreshCooldown;
+    return last == null ||
+        DateTime.now().difference(last) > _forcedRefreshCooldown;
   }
 
   Future<void> _loadFromDisk() async {
@@ -80,8 +84,11 @@ class StudentCatalog {
 
   Future<void> _refreshFromApi() async {
     final all = <StudentIdentity>[];
-    for (var skip = 0;; skip += ApiConfig.catalogPageSize) {
-      final page = await _api.students(skip: skip, limit: ApiConfig.catalogPageSize);
+    for (var skip = 0; ; skip += ApiConfig.catalogPageSize) {
+      final page = await _api.students(
+        skip: skip,
+        limit: ApiConfig.catalogPageSize,
+      );
       all.addAll(page.map((e) => e.toIdentity()));
       if (page.length < ApiConfig.catalogPageSize) break;
       // Hard stop so a misbehaving endpoint cannot page forever.
@@ -96,8 +103,13 @@ class StudentCatalog {
     }
     _refreshedAt = DateTime.now();
 
-    await _store.write(_dataKey, all.map(StudentIdentityMapper.toJson).toList());
-    await _store.write(_metaKey, {'refreshed_at': _refreshedAt!.toIso8601String()});
+    await _store.write(
+      _dataKey,
+      all.map(StudentIdentityMapper.toJson).toList(),
+    );
+    await _store.write(_metaKey, {
+      'refreshed_at': _refreshedAt!.toIso8601String(),
+    });
   }
 
   void _index(StudentIdentity student) {
@@ -138,7 +150,7 @@ class StudentCatalog {
             'id_usuario',
             'id',
             'documento',
-            'numero_documento'
+            'numero_documento',
           ]) {
             final val = map[k]?.toString().trim();
             if (val != null && val.isNotEmpty) {
@@ -157,7 +169,13 @@ class StudentCatalog {
           final last = uri.pathSegments.last.trim();
           if (last.isNotEmpty) candidates.add(last.toUpperCase());
         }
-        for (final p in ['code', 'codigo', 'codigo_estudiante', 'id', 'id_estudiante']) {
+        for (final p in [
+          'code',
+          'codigo',
+          'codigo_estudiante',
+          'id',
+          'id_estudiante',
+        ]) {
           final val = uri.queryParameters[p]?.trim();
           if (val != null && val.isNotEmpty) candidates.add(val.toUpperCase());
         }

@@ -1,0 +1,23 @@
+[
+ {
+  "RuleID": "gcp-api-key",
+  "Description": "Uncovered a GCP API key, which could lead to unauthorized access to Google Cloud services and data breaches.",
+  "StartLine": 18,
+  "EndLine": 18,
+  "StartColumn": 28,
+  "EndColumn": 67,
+  "Match": "REDACTED\"",
+  "Secret": "REDACTED",
+  "File": "android/app/google-services.json",
+  "SymlinkFile": "",
+  "Commit": "dcc9939fc6fd496883fdacb03525d04e59c5c44f",
+  "Link": "https://github.com/AndresFelipeAceroLopez/eyes_school_app_movil/blob/dcc9939fc6fd496883fdacb03525d04e59c5c44f/android/app/google-services.json#L18",
+  "Entropy": 4.8364334,
+  "Author": "NoaTakeshi",
+  "Email": "pipepaipei2014@gmail.com",
+  "Date": "2026-09-15T00:54:34Z",
+  "Message": "feat(notifications): implement push notifications with FCM and refactor to feature-first architecture - Migrate codebase to modular Feature-First architecture - Add Push Notifications module with Firebase Cloud Messaging \u0026 Flutter Local Notifications - Configure Android Java desugaring 2.1.4 for flutter_local_notifications support - Update session provider to handle FCM initialization on user login",
+  "Tags": [],
+  "Fingerprint": "dcc9939fc6fd496883fdacb03525d04e59c5c44f:android/app/google-services.json:gcp-api-key:18"
+ }
+]

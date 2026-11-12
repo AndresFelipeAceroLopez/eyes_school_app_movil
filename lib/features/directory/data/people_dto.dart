@@ -1,4 +1,5 @@
 import 'package:eyes_school/core/utils/json_x.dart';
+import 'package:eyes_school/features/directory/domain/linked_child.dart';
 import 'package:eyes_school/features/attendance/domain/attendance_record.dart';
 
 /// `UsuarioOut`.
@@ -64,12 +65,8 @@ class UsuarioDto {
   final DateTime? fechaRegistro;
   final DateTime? ultimoAcceso;
 
-  String get nombreCompleto => joinNames([
-        primerNombre,
-        segundoNombre,
-        primerApellido,
-        segundoApellido,
-      ]);
+  String get nombreCompleto =>
+      joinNames([primerNombre, segundoNombre, primerApellido, segundoApellido]);
 }
 
 /// `EstudianteOut`.
@@ -88,32 +85,34 @@ class EstudianteDto {
   });
 
   factory EstudianteDto.fromJson(Json json) => EstudianteDto(
-        idEstudiante: asInt(json['id_estudiante']),
-        idUsuario: asInt(json['id_usuario']),
-        codigoEstudiante: asString(json['codigo_estudiante']),
-        estado: asString(json['estado'], fallback: 'Activo'),
-        idCursoActual: asIntOrNull(json['id_curso_actual']),
-        fechaIngreso: asDate(json['fecha_ingreso']),
-        primerNombre: asStringOrNull(json['primer_nombre']),
-        segundoNombre: asStringOrNull(json['segundo_nombre']),
-        primerApellido: asStringOrNull(json['primer_apellido']),
-        segundoApellido: asStringOrNull(json['segundo_apellido']),
-      );
+    idEstudiante: asInt(json['id_estudiante']),
+    idUsuario: asInt(json['id_usuario']),
+    codigoEstudiante: asString(json['codigo_estudiante']),
+    estado: asString(json['estado'], fallback: 'Activo'),
+    idCursoActual: asIntOrNull(json['id_curso_actual']),
+    fechaIngreso: asDate(json['fecha_ingreso']),
+    primerNombre: asStringOrNull(json['primer_nombre']),
+    segundoNombre: asStringOrNull(json['segundo_nombre']),
+    primerApellido: asStringOrNull(json['primer_apellido']),
+    segundoApellido: asStringOrNull(json['segundo_apellido']),
+  );
 
   /// The identity the QR catalog stores and a scan resolves against.
   StudentIdentity toIdentity() => StudentIdentity(
-        studentId: idEstudiante,
-        userId: idUsuario,
-        code: codigoEstudiante,
-        status: estado,
-        courseId: idCursoActual,
-        firstName: [primerNombre, segundoNombre]
-            .where((p) => p != null && p.isNotEmpty)
-            .join(' '),
-        lastName: [primerApellido, segundoApellido]
-            .where((p) => p != null && p.isNotEmpty)
-            .join(' '),
-      );
+    studentId: idEstudiante,
+    userId: idUsuario,
+    code: codigoEstudiante,
+    status: estado,
+    courseId: idCursoActual,
+    firstName: [
+      primerNombre,
+      segundoNombre,
+    ].where((p) => p != null && p.isNotEmpty).join(' '),
+    lastName: [
+      primerApellido,
+      segundoApellido,
+    ].where((p) => p != null && p.isNotEmpty).join(' '),
+  );
 
   final int idEstudiante;
   final int idUsuario;
@@ -128,39 +127,34 @@ class EstudianteDto {
 
   /// `EstudianteOut` carries the names only on some endpoints; when it does
   /// not, the caller joins against `/usuarios/{id}`.
-  String get nombreCompleto => joinNames([
-        primerNombre,
-        segundoNombre,
-        primerApellido,
-        segundoApellido,
-      ]);
+  String get nombreCompleto =>
+      joinNames([primerNombre, segundoNombre, primerApellido, segundoApellido]);
 
   bool get activo => estado.toLowerCase() == 'activo';
-
 }
 
 /// [StudentIdentity] ⇄ the compact rows the on-disk QR catalog keeps. Short
 /// keys keep a thousand-student cache small enough to parse instantly.
 abstract final class StudentIdentityMapper {
   static Json toJson(StudentIdentity student) => <String, dynamic>{
-        'id': student.studentId,
-        'u': student.userId,
-        'c': student.code,
-        'e': student.status,
-        if (student.courseId != null) 'k': student.courseId,
-        if (student.firstName != null) 'n': student.firstName,
-        if (student.lastName != null) 'a': student.lastName,
-      };
+    'id': student.studentId,
+    'u': student.userId,
+    'c': student.code,
+    'e': student.status,
+    if (student.courseId != null) 'k': student.courseId,
+    if (student.firstName != null) 'n': student.firstName,
+    if (student.lastName != null) 'a': student.lastName,
+  };
 
   static StudentIdentity fromJson(Json json) => StudentIdentity(
-        studentId: asInt(json['id']),
-        userId: asInt(json['u']),
-        code: asString(json['c']),
-        status: asString(json['e'], fallback: 'Activo'),
-        courseId: asIntOrNull(json['k']),
-        firstName: asStringOrNull(json['n']),
-        lastName: asStringOrNull(json['a']),
-      );
+    studentId: asInt(json['id']),
+    userId: asInt(json['u']),
+    code: asString(json['c']),
+    status: asString(json['e'], fallback: 'Activo'),
+    courseId: asIntOrNull(json['k']),
+    firstName: asStringOrNull(json['n']),
+    lastName: asStringOrNull(json['a']),
+  );
 }
 
 /// `ProfesorOut`.
@@ -177,15 +171,15 @@ class ProfesorDto {
   });
 
   factory ProfesorDto.fromJson(Json json) => ProfesorDto(
-        idProfesor: asInt(json['id_profesor']),
-        idUsuario: asInt(json['id_usuario']),
-        codigoProfesor: asString(json['codigo_profesor']),
-        titulo: asString(json['titulo']),
-        nivelEstudios: asString(json['nivel_estudios']),
-        estado: asString(json['estado'], fallback: 'Activo'),
-        primerNombre: asStringOrNull(json['primer_nombre']),
-        primerApellido: asStringOrNull(json['primer_apellido']),
-      );
+    idProfesor: asInt(json['id_profesor']),
+    idUsuario: asInt(json['id_usuario']),
+    codigoProfesor: asString(json['codigo_profesor']),
+    titulo: asString(json['titulo']),
+    nivelEstudios: asString(json['nivel_estudios']),
+    estado: asString(json['estado'], fallback: 'Activo'),
+    primerNombre: asStringOrNull(json['primer_nombre']),
+    primerApellido: asStringOrNull(json['primer_apellido']),
+  );
 
   final int idProfesor;
   final int idUsuario;
@@ -197,6 +191,42 @@ class ProfesorDto {
   final String? primerApellido;
 
   String get nombreCompleto => joinNames([primerNombre, primerApellido]);
+}
+
+/// `HijoOut` — one of the students linked to the signed-in guardian
+/// (`GET /padres/me/hijos`, APP-03).
+class HijoDto {
+  const HijoDto({
+    required this.idEstudiante,
+    required this.parentesco,
+    this.nombreEstudiante,
+    this.documentoEstudiante,
+    this.idCursoActual,
+  });
+
+  factory HijoDto.fromJson(Json json) => HijoDto(
+    idEstudiante: asInt(json['id_estudiante']),
+    parentesco: asString(json['parentesco']),
+    nombreEstudiante: asStringOrNull(json['nombre_estudiante']),
+    documentoEstudiante: asStringOrNull(json['documento_estudiante']),
+    idCursoActual: asIntOrNull(json['id_curso_actual']),
+  );
+
+  final int idEstudiante;
+  final String parentesco;
+  final String? nombreEstudiante;
+  final String? documentoEstudiante;
+  final int? idCursoActual;
+
+  LinkedChild toEntity() => LinkedChild(
+    id: idEstudiante,
+    name: (nombreEstudiante?.trim().isNotEmpty ?? false)
+        ? nombreEstudiante!.trim()
+        : 'Estudiante $idEstudiante',
+    document: documentoEstudiante,
+    relationship: parentesco.isEmpty ? null : parentesco,
+    courseId: idCursoActual,
+  );
 }
 
 /// `PadreOut` — a 1:1 link between a guardian account and one student.
@@ -212,14 +242,14 @@ class PadreDto {
   });
 
   factory PadreDto.fromJson(Json json) => PadreDto(
-        idPadre: asInt(json['id_padre']),
-        idUsuario: asInt(json['id_usuario']),
-        idEstudiante: asInt(json['id_estudiante']),
-        parentesco: asString(json['parentesco']),
-        ocupacion: asStringOrNull(json['ocupacion']),
-        nombreEstudiante: asStringOrNull(json['nombre_estudiante']),
-        documentoEstudiante: asStringOrNull(json['documento_estudiante']),
-      );
+    idPadre: asInt(json['id_padre']),
+    idUsuario: asInt(json['id_usuario']),
+    idEstudiante: asInt(json['id_estudiante']),
+    parentesco: asString(json['parentesco']),
+    ocupacion: asStringOrNull(json['ocupacion']),
+    nombreEstudiante: asStringOrNull(json['nombre_estudiante']),
+    documentoEstudiante: asStringOrNull(json['documento_estudiante']),
+  );
 
   final int idPadre;
   final int idUsuario;
@@ -241,12 +271,12 @@ class AdministradorDto {
   });
 
   factory AdministradorDto.fromJson(Json json) => AdministradorDto(
-        idAdministrador: asInt(json['id_administrador']),
-        idUsuario: asInt(json['id_usuario']),
-        cargo: asString(json['cargo']),
-        nivelAcceso: asString(json['nivel_acceso']),
-        estado: asString(json['estado'], fallback: 'Activo'),
-      );
+    idAdministrador: asInt(json['id_administrador']),
+    idUsuario: asInt(json['id_usuario']),
+    cargo: asString(json['cargo']),
+    nivelAcceso: asString(json['nivel_acceso']),
+    estado: asString(json['estado'], fallback: 'Activo'),
+  );
 
   final int idAdministrador;
   final int idUsuario;
@@ -257,17 +287,22 @@ class AdministradorDto {
 
 /// `EspecializacionOut`.
 class EspecializacionDto {
-  const EspecializacionDto({required this.idEspecializacion, required this.nombre});
+  const EspecializacionDto({
+    required this.idEspecializacion,
+    required this.nombre,
+  });
 
   factory EspecializacionDto.fromJson(Json json) => EspecializacionDto(
-        idEspecializacion: asInt(json['id_especializacion']),
-        nombre: asString(json['nombre_especializacion']),
-      );
+    idEspecializacion: asInt(json['id_especializacion']),
+    nombre: asString(json['nombre_especializacion']),
+  );
 
   final int idEspecializacion;
   final String nombre;
 }
 
 /// Joins the name parts the API splits across four nullable columns.
-String joinNames(List<String?> parts) =>
-    parts.where((p) => p != null && p.trim().isNotEmpty).map((p) => p!.trim()).join(' ');
+String joinNames(List<String?> parts) => parts
+    .where((p) => p != null && p.trim().isNotEmpty)
+    .map((p) => p!.trim())
+    .join(' ');

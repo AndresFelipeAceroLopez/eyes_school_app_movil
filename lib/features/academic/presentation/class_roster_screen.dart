@@ -45,13 +45,10 @@ class _ClassRosterScreenState extends ConsumerState<ClassRosterScreen> {
     }
   }
 
-  
-
   Future<void> _save(List<RosterStudent> roster) async {
-    
     // ref.read (no watch) porque estamos dentro de un callback, no en build:
     // solo se necesita el valor actual, no reconstruir el widget si cambia.
-    
+
     final session = ref.read(currentSessionProvider);
     if (session == null) return;
 
@@ -64,7 +61,9 @@ class _ClassRosterScreenState extends ConsumerState<ClassRosterScreen> {
       // HTTP; recordBulk además reporta progreso (onProgress), que es lo que
       // alimenta el contador "X/Y enviados" en pantalla.
 
-      final result = await ref.read(attendanceRepositoryProvider).recordBulk(
+      final result = await ref
+          .read(attendanceRepositoryProvider)
+          .recordBulk(
             marks: _marks,
             names: {for (final s in roster) s.id: s.name},
             kind: AttendanceKind.classroom,
@@ -77,20 +76,30 @@ class _ClassRosterScreenState extends ConsumerState<ClassRosterScreen> {
           );
       if (!mounted) return;
 
-      final present = _marks.values.where((m) => m == AttendanceMark.present).length;
-      final absent = _marks.values.where((m) => m == AttendanceMark.absent).length;
+      final present = _marks.values
+          .where((m) => m == AttendanceMark.present)
+          .length;
+      final absent = _marks.values
+          .where((m) => m == AttendanceMark.absent)
+          .length;
       final late = _marks.values.where((m) => m == AttendanceMark.late).length;
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text(result.duplicates > 0
-            ? 'Asistencia registrada. ${result.duplicates} ya estaban tomadas hoy.'
-            : 'Asistencia guardada: $present presentes, $absent ausentes, $late tardanzas.'),
-        backgroundColor: AppColors.tealDark,
-      ));
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            result.duplicates > 0
+                ? 'Asistencia registrada. ${result.duplicates} ya estaban tomadas hoy.'
+                : 'Asistencia guardada: $present presentes, $absent ausentes, $late tardanzas.',
+          ),
+          backgroundColor: AppColors.tealDark,
+        ),
+      );
       ref.invalidate(teacherDashboardProvider);
       Navigator.of(context).pop();
     } on AppFailure catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.message)));
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(e.message)));
       }
     } finally {
       if (mounted) setState(() => _saving = false);
@@ -99,18 +108,19 @@ class _ClassRosterScreenState extends ConsumerState<ClassRosterScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     // teacherClassProvider es un provider "family": Riverpod crea y cachea
     // una instancia distinta por cada assignmentId.
     final classAsync = ref.watch(teacherClassProvider(widget.assignmentId));
 
     return classAsync.when(
-      loading: () => const SimpleHeaderScaffold(title: 'Asistencia', body: LoadingView()),
+      loading: () =>
+          const SimpleHeaderScaffold(title: 'Asistencia', body: LoadingView()),
       error: (error, _) => SimpleHeaderScaffold(
         title: 'Asistencia',
         body: ErrorView(
           error: error,
-          onRetry: () => ref.invalidate(teacherClassProvider(widget.assignmentId)),
+          onRetry: () =>
+              ref.invalidate(teacherClassProvider(widget.assignmentId)),
         ),
       ),
       data: (teacherClass) {
@@ -149,7 +159,9 @@ class _ClassRosterScreenState extends ConsumerState<ClassRosterScreen> {
             );
           }
           _ensureDefaults(roster);
-          final present = _marks.values.where((m) => m == AttendanceMark.present).length;
+          final present = _marks.values
+              .where((m) => m == AttendanceMark.present)
+              .length;
 
           return Column(
             children: [
@@ -161,10 +173,14 @@ class _ClassRosterScreenState extends ConsumerState<ClassRosterScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(Formatters.todayLong(DateTime.now()),
-                              style: AppTextStyles.h3),
-                          Text('$present de ${roster.length} presentes',
-                              style: AppTextStyles.caption),
+                          Text(
+                            Formatters.todayLong(DateTime.now()),
+                            style: AppTextStyles.h3,
+                          ),
+                          Text(
+                            '$present de ${roster.length} presentes',
+                            style: AppTextStyles.caption,
+                          ),
                         ],
                       ),
                     ),
@@ -190,7 +206,8 @@ class _ClassRosterScreenState extends ConsumerState<ClassRosterScreen> {
                       student: student,
                       mark: _marks[student.id]!,
                       observation: _observations[student.id],
-                      onChanged: (mark) => setState(() => _marks[student.id] = mark),
+                      onChanged: (mark) =>
+                          setState(() => _marks[student.id] = mark),
                       onObservation: (text) => setState(() {
                         if (text == null || text.isEmpty) {
                           _observations.remove(student.id);
@@ -209,8 +226,10 @@ class _ClassRosterScreenState extends ConsumerState<ClassRosterScreen> {
                     if (_saving && _progress > 0)
                       Padding(
                         padding: const EdgeInsets.only(bottom: 10),
-                        child: Text('$_progress/${_marks.length} enviados',
-                            style: AppTextStyles.caption),
+                        child: Text(
+                          '$_progress/${_marks.length} enviados',
+                          style: AppTextStyles.caption,
+                        ),
                       ),
                     PrimaryGradientButton(
                       label: 'Guardar asistencia',
@@ -251,7 +270,11 @@ class _RosterRow extends StatelessWidget {
         color: AppColors.surface,
         borderRadius: BorderRadius.circular(18),
         boxShadow: const [
-          BoxShadow(color: AppColors.cardShadow, blurRadius: 16, offset: Offset(0, 4)),
+          BoxShadow(
+            color: AppColors.cardShadow,
+            blurRadius: 16,
+            offset: Offset(0, 4),
+          ),
         ],
       ),
       child: Column(
@@ -264,10 +287,14 @@ class _RosterRow extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(student.name,
-                        style: AppTextStyles.body.copyWith(fontWeight: FontWeight.w700),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis),
+                    Text(
+                      student.name,
+                      style: AppTextStyles.body.copyWith(
+                        fontWeight: FontWeight.w700,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                     if (student.code != null)
                       Text(student.code!, style: AppTextStyles.caption),
                   ],
@@ -311,7 +338,10 @@ class _RosterRow extends StatelessWidget {
               decoration: const InputDecoration(
                 hintText: 'Observación (opcional)',
                 isDense: true,
-                contentPadding: EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+                contentPadding: EdgeInsets.symmetric(
+                  horizontal: 14,
+                  vertical: 10,
+                ),
               ),
             ),
           ],
@@ -346,7 +376,11 @@ class _MarkButton extends StatelessWidget {
           color: selected ? color : AppColors.background,
           shape: BoxShape.circle,
         ),
-        child: Icon(icon, size: 18, color: selected ? Colors.white : AppColors.textSecondary),
+        child: Icon(
+          icon,
+          size: 18,
+          color: selected ? Colors.white : AppColors.textSecondary,
+        ),
       ),
     );
   }

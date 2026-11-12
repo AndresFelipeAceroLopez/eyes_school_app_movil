@@ -66,7 +66,9 @@ class ManagementScreen extends ConsumerWidget {
             ),
             _MenuTile(
               icon: Icons.cloud_sync_rounded,
-              iconBg: pending > 0 ? const Color(0xFFFFE7EC) : const Color(0xFFF1F1F6),
+              iconBg: pending > 0
+                  ? const Color(0xFFFFE7EC)
+                  : const Color(0xFFF1F1F6),
               iconColor: pending > 0 ? AppColors.pink : AppColors.textSecondary,
               title: 'Pendientes por sincronizar',
               subtitle: pending == 0
@@ -81,7 +83,9 @@ class ManagementScreen extends ConsumerWidget {
               title: 'Novedades',
               subtitle: 'Incidencias registradas en todo el colegio',
               onTap: () => Navigator.of(context).push(
-                MaterialPageRoute<void>(builder: (_) => const AdminNovedadesScreen()),
+                MaterialPageRoute<void>(
+                  builder: (_) => const AdminNovedadesScreen(),
+                ),
               ),
             ),
             _MenuTile(
@@ -93,7 +97,9 @@ class ManagementScreen extends ConsumerWidget {
                   ? 'Calendario de clases por curso'
                   : '$courseCount cursos activos',
               onTap: () => Navigator.of(context).push(
-                MaterialPageRoute<void>(builder: (_) => const SchedulesScreen()),
+                MaterialPageRoute<void>(
+                  builder: (_) => const SchedulesScreen(),
+                ),
               ),
             ),
             _MenuTile(
@@ -174,7 +180,9 @@ class _MenuTile extends StatelessWidget {
                   width: 48,
                   height: 48,
                   decoration: BoxDecoration(
-                      color: iconBg, borderRadius: BorderRadius.circular(14)),
+                    color: iconBg,
+                    borderRadius: BorderRadius.circular(14),
+                  ),
                   child: Icon(icon, color: iconColor, size: 24),
                 ),
                 const SizedBox(width: 14),
@@ -188,7 +196,10 @@ class _MenuTile extends StatelessWidget {
                     ],
                   ),
                 ),
-                const Icon(Icons.chevron_right_rounded, color: AppColors.textSecondary),
+                const Icon(
+                  Icons.chevron_right_rounded,
+                  color: AppColors.textSecondary,
+                ),
               ],
             ),
           ),

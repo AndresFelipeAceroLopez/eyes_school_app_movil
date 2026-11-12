@@ -72,7 +72,10 @@ TimeOfDay? asTime(Object? value) {
 /// `[{...}, {...}]` → typed list, skipping anything that is not an object.
 List<T> asList<T>(Object? value, T Function(Json json) mapper) {
   if (value is! List) return const [];
-  return value.whereType<Map>().map((e) => mapper(e.cast<String, dynamic>())).toList();
+  return value
+      .whereType<Map>()
+      .map((e) => mapper(e.cast<String, dynamic>()))
+      .toList();
 }
 
 /// `yyyy-MM-dd`, the only date format the API accepts on writes.

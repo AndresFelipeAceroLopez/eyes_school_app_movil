@@ -38,8 +38,9 @@ void main(List<String> args) {
   final input = positional.isNotEmpty
       ? positional[0]
       : 'planeacion/text.md/Blue_monster_jumping_with_book_202609072242.gif';
-  final output =
-      positional.length > 1 ? positional[1] : 'assets/images/monster_reading.gif';
+  final output = positional.length > 1
+      ? positional[1]
+      : 'assets/images/monster_reading.gif';
   final maxWidth = _intFlag(args, '--max-width');
   final frameStep = _intFlag(args, '--frame-step') ?? 1;
   final defringe = !args.contains('--no-defringe');
@@ -58,8 +59,10 @@ void main(List<String> args) {
     return;
   }
 
-  stdout.writeln('Entrada: $input (${animation.width}x${animation.height}, '
-      '${animation.numFrames} fotogramas)');
+  stdout.writeln(
+    'Entrada: $input (${animation.width}x${animation.height}, '
+    '${animation.numFrames} fotogramas)',
+  );
 
   // Paso 1: quedarse con los fotogramas elegidos y reescalarlos si hace falta.
   final frames = <img.Image>[];
@@ -103,7 +106,9 @@ void main(List<String> args) {
   }
 
   if (maxX < 0) {
-    stderr.writeln('El GIF quedo completamente transparente; revisa el umbral.');
+    stderr.writeln(
+      'El GIF quedo completamente transparente; revisa el umbral.',
+    );
     exitCode = 1;
     return;
   }
@@ -129,13 +134,18 @@ void main(List<String> args) {
 
   final target = File(output)..parent.createSync(recursive: true);
   target.writeAsBytesSync(bytes);
-  stdout.writeln('Salida: $output - ${frames.length} fotogramas, '
-      '${(bytes.length / 1024).toStringAsFixed(0)} KB '
-      '(antes ${(source.lengthSync() / 1024).toStringAsFixed(0)} KB)');
+  stdout.writeln(
+    'Salida: $output - ${frames.length} fotogramas, '
+    '${(bytes.length / 1024).toStringAsFixed(0)} KB '
+    '(antes ${(source.lengthSync() / 1024).toStringAsFixed(0)} KB)',
+  );
 }
 
 int? _intFlag(List<String> args, String name) {
-  final match = args.firstWhere((a) => a.startsWith('$name='), orElse: () => '');
+  final match = args.firstWhere(
+    (a) => a.startsWith('$name='),
+    orElse: () => '',
+  );
   if (match.isEmpty) return null;
   return int.tryParse(match.split('=')[1]);
 }
@@ -238,7 +248,8 @@ void _trimFringe(img.Image frame, Uint8List mask) {
     for (var x = 0; x < w; x++) {
       final i = y * w + x;
       if (mask[i] == 1) continue;
-      final touchesBackground = (x > 0 && mask[i - 1] == 1) ||
+      final touchesBackground =
+          (x > 0 && mask[i - 1] == 1) ||
           (x < w - 1 && mask[i + 1] == 1) ||
           (y > 0 && mask[i - w] == 1) ||
           (y < h - 1 && mask[i + w] == 1);
@@ -312,15 +323,21 @@ img.Image _cutOut(
         if (mask[sy * frame.width + sx] == 1) continue;
         final p = frame.getPixel(sx, sy);
         indices[y * width + x] =
-            quantizer.getColorIndexRgb(p.r.toInt(), p.g.toInt(), p.b.toInt()) + 1;
+            quantizer.getColorIndexRgb(p.r.toInt(), p.g.toInt(), p.b.toInt()) +
+            1;
       }
     }
     final source = quantizer.palette;
     final built = img.PaletteUint8(source.numColors + 1, 4);
     built.setRgba(0, 0, 0, 0, 0);
     for (var i = 0; i < source.numColors; i++) {
-      built.setRgba(i + 1, source.getRed(i).toInt(), source.getGreen(i).toInt(),
-          source.getBlue(i).toInt(), 255);
+      built.setRgba(
+        i + 1,
+        source.getRed(i).toInt(),
+        source.getGreen(i).toInt(),
+        source.getBlue(i).toInt(),
+        255,
+      );
     }
     palette = built;
   }

@@ -62,7 +62,9 @@ class AttendanceQueue extends ChangeNotifier {
     _loaded = true;
     final rows = await _store.readList(_key);
     for (final row in rows) {
-      final item = PendingAttendanceMapper.fromJson(row.cast<String, dynamic>());
+      final item = PendingAttendanceMapper.fromJson(
+        row.cast<String, dynamic>(),
+      );
       _items.add(item);
       if (item.localId >= _nextLocalId) _nextLocalId = item.localId + 1;
     }
@@ -103,7 +105,8 @@ class AttendanceQueue extends ChangeNotifier {
     );
 
     final clash = _items.any(
-      (i) => i.dedupeKey == candidate.dedupeKey && i.sync != SyncState.duplicate,
+      (i) =>
+          i.dedupeKey == candidate.dedupeKey && i.sync != SyncState.duplicate,
     );
     if (clash) return EnqueueOutcome.duplicate;
 
@@ -168,12 +171,14 @@ class AttendanceQueue extends ChangeNotifier {
         kind: item.kind,
         observation: item.observation,
       );
-      _replace(item.copyWith(
-        sync: SyncState.sent,
-        remoteId: created.id,
-        clearError: true,
-        clearNextAttempt: true,
-      ));
+      _replace(
+        item.copyWith(
+          sync: SyncState.sent,
+          remoteId: created.id,
+          clearError: true,
+          clearNextAttempt: true,
+        ),
+      );
     } on ConflictFailure catch (e) {
       // The server already has it. That is success, not failure.
       _replace(item.copyWith(sync: SyncState.sent, lastError: e.message));
@@ -182,28 +187,38 @@ class AttendanceQueue extends ChangeNotifier {
       // 409; that still means the server has it. Anything else is a payload
       // problem that will never succeed on retry, so a human has to see it.
       final alreadyThere = _duplicateHint(e.message);
-      _replace(item.copyWith(
-        sync: alreadyThere ? SyncState.sent : SyncState.failed,
-        attempts: item.attempts + 1,
-        lastError: alreadyThere ? 'Ya estaba registrado en el servidor.' : e.message,
-      ));
+      _replace(
+        item.copyWith(
+          sync: alreadyThere ? SyncState.sent : SyncState.failed,
+          attempts: item.attempts + 1,
+          lastError: alreadyThere
+              ? 'Ya estaba registrado en el servidor.'
+              : e.message,
+        ),
+      );
     } on AppFailure catch (e) {
       final attempts = item.attempts + 1;
       final exhausted = attempts >= maxAttempts;
-      _replace(item.copyWith(
-        sync: exhausted ? SyncState.failed : SyncState.pending,
-        attempts: attempts,
-        lastError: e.message,
-        nextAttemptAt: exhausted
-            ? null
-            : DateTime.now().add(_backoff[(attempts - 1).clamp(0, _backoff.length - 1)]),
-      ));
+      _replace(
+        item.copyWith(
+          sync: exhausted ? SyncState.failed : SyncState.pending,
+          attempts: attempts,
+          lastError: e.message,
+          nextAttemptAt: exhausted
+              ? null
+              : DateTime.now().add(
+                  _backoff[(attempts - 1).clamp(0, _backoff.length - 1)],
+                ),
+        ),
+      );
     }
   }
 
   bool _duplicateHint(String message) {
     final m = message.toLowerCase();
-    return m.contains('duplic') || m.contains('ya existe') || m.contains('already');
+    return m.contains('duplic') ||
+        m.contains('ya existe') ||
+        m.contains('already');
   }
 
   PendingAttendance? _byId(int localId) {
@@ -224,24 +239,28 @@ class AttendanceQueue extends ChangeNotifier {
   Future<void> retry(int localId) async {
     final item = _byId(localId);
     if (item == null) return;
-    _replace(item.copyWith(
-      sync: SyncState.pending,
-      attempts: 0,
-      clearError: true,
-      clearNextAttempt: true,
-    ));
+    _replace(
+      item.copyWith(
+        sync: SyncState.pending,
+        attempts: 0,
+        clearError: true,
+        clearNextAttempt: true,
+      ),
+    );
     await _persist();
     await flush(force: true);
   }
 
   Future<void> retryAll() async {
     for (final item in failed) {
-      _replace(item.copyWith(
-        sync: SyncState.pending,
-        attempts: 0,
-        clearError: true,
-        clearNextAttempt: true,
-      ));
+      _replace(
+        item.copyWith(
+          sync: SyncState.pending,
+          attempts: 0,
+          clearError: true,
+          clearNextAttempt: true,
+        ),
+      );
     }
     await _persist();
     await flush(force: true);
@@ -256,15 +275,17 @@ class AttendanceQueue extends ChangeNotifier {
   }) async {
     final item = _byId(localId);
     if (item == null || item.isSettled) return;
-    _replace(item.copyWith(
-      state: state,
-      kind: kind,
-      observation: observation,
-      sync: SyncState.pending,
-      attempts: 0,
-      clearError: true,
-      clearNextAttempt: true,
-    ));
+    _replace(
+      item.copyWith(
+        state: state,
+        kind: kind,
+        observation: observation,
+        sync: SyncState.pending,
+        attempts: 0,
+        clearError: true,
+        clearNextAttempt: true,
+      ),
+    );
     await _persist();
   }
 

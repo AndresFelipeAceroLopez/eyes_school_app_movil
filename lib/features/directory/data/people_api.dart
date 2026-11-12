@@ -21,13 +21,19 @@ class PeopleApi {
     bool? active,
     String? search,
   }) {
-    return _client.getList('/usuarios', UsuarioDto.fromJson, query: {
-      'skip': skip,
-      'limit': limit,
-      'id_rol': roleId,
-      'estado': active,
-      'search': (search != null && search.trim().isNotEmpty) ? search.trim() : null,
-    });
+    return _client.getList(
+      '/usuarios',
+      UsuarioDto.fromJson,
+      query: {
+        'skip': skip,
+        'limit': limit,
+        'id_rol': roleId,
+        'estado': active,
+        'search': (search != null && search.trim().isNotEmpty)
+            ? search.trim()
+            : null,
+      },
+    );
   }
 
   Future<UsuarioDto> user(int userId) async =>
@@ -41,14 +47,18 @@ class PeopleApi {
     String? email,
     String? phone,
     String? password,
+    String? currentPassword,
   }) async {
     final body = <String, dynamic>{
       'direccion': ?address,
       'correo': ?email,
       'telefono': ?phone,
       'password': ?password,
+      'password_actual': ?currentPassword,
     };
-    return UsuarioDto.fromJson(await _client.put('/usuarios/$userId', body: body));
+    return UsuarioDto.fromJson(
+      await _client.put('/usuarios/$userId', body: body),
+    );
   }
 
   // ── Estudiantes ─────────────────────────────────────────────────────────
@@ -62,35 +72,46 @@ class PeopleApi {
     int? courseId,
     String? status,
   }) {
-    return _client.getList('/estudiantes', EstudianteDto.fromJson, query: {
-      'skip': skip,
-      'limit': limit,
-      'id_curso': courseId,
-      'estado': status,
-    });
+    return _client.getList(
+      '/estudiantes',
+      EstudianteDto.fromJson,
+      query: {
+        'skip': skip,
+        'limit': limit,
+        'id_curso': courseId,
+        'estado': status,
+      },
+    );
   }
 
-  Future<EstudianteDto> student(int studentId) async =>
-      EstudianteDto.fromJson(await _client.getObject('/estudiantes/$studentId'));
+  Future<EstudianteDto> student(int studentId) async => EstudianteDto.fromJson(
+    await _client.getObject('/estudiantes/$studentId'),
+  );
 
   /// Raw rows: the repository joins them against the subject catalog.
-  Future<List<Json>> gradesOfStudent(int studentId, {int? period, int? subjectId}) {
-    return _client.getList('/estudiantes/$studentId/notas', (json) => json, query: {
-      'id_periodo': period,
-      'id_materia': subjectId,
-    });
+  Future<List<Json>> gradesOfStudent(
+    int studentId, {
+    int? period,
+    int? subjectId,
+  }) {
+    return _client.getList(
+      '/estudiantes/$studentId/notas',
+      (json) => json,
+      query: {'id_periodo': period, 'id_materia': subjectId},
+    );
   }
 
   Future<List<AttendanceRecord>> attendanceOfStudent(
     int studentId, {
     int skip = 0,
     int limit = ApiConfig.pageSize,
-  }) {
-    return _client.getList(
+  }) async {
+    final rows = await _client.getList(
       '/estudiantes/$studentId/asistencia',
-      AttendanceMapper.fromJson,
+      (json) => json,
       query: {'skip': skip, 'limit': limit},
     );
+    return AttendanceMapper.activeOnly(rows);
   }
 
   Future<List<Json>> novedadesOfStudent(int studentId) =>
@@ -131,27 +152,39 @@ class PeopleApi {
     int limit = ApiConfig.pageSize,
     String? status,
   }) {
-    return _client.getList('/profesores', ProfesorDto.fromJson, query: {
-      'skip': skip,
-      'limit': limit,
-      'estado': status,
-    });
+    return _client.getList(
+      '/profesores',
+      ProfesorDto.fromJson,
+      query: {'skip': skip, 'limit': limit, 'estado': status},
+    );
   }
 
   Future<ProfesorDto> teacher(int teacherId) async =>
       ProfesorDto.fromJson(await _client.getObject('/profesores/$teacherId'));
 
-  Future<List<EspecializacionDto>> specialitiesOfTeacher(int teacherId) => _client
-      .getList('/profesores/$teacherId/especializaciones', EspecializacionDto.fromJson);
+  Future<List<EspecializacionDto>> specialitiesOfTeacher(int teacherId) =>
+      _client.getList(
+        '/profesores/$teacherId/especializaciones',
+        EspecializacionDto.fromJson,
+      );
 
   // ── Padres ──────────────────────────────────────────────────────────────
+
+  /// Every student linked to the signed-in guardian (APP-03, BE-07).
+  Future<List<HijoDto>> guardianChildren() =>
+      _client.getList('/padres/me/hijos', HijoDto.fromJson);
 
   Future<PadreDto> guardianMe() async =>
       PadreDto.fromJson(await _client.getObject('/padres/me'));
 
-  Future<List<PadreDto>> guardians({int skip = 0, int limit = ApiConfig.pageSize}) =>
-      _client.getList('/padres', PadreDto.fromJson,
-          query: {'skip': skip, 'limit': limit});
+  Future<List<PadreDto>> guardians({
+    int skip = 0,
+    int limit = ApiConfig.pageSize,
+  }) => _client.getList(
+    '/padres',
+    PadreDto.fromJson,
+    query: {'skip': skip, 'limit': limit},
+  );
 
   // ── Administradores ─────────────────────────────────────────────────────
 

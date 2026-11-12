@@ -1,0 +1,38 @@
+[
+  {
+    "id_asignacion": 1,
+    "id_profesor": 1,
+    "id_curso": 1,
+    "id_materia": 1,
+    "fecha_asignacion": "2026-11-03T03:03:37.192536",
+    "fecha_finalizacion": null,
+    "activo": true
+  },
+  {
+    "id_asignacion": 2,
+    "id_profesor": 1,
+    "id_curso": 2,
+    "id_materia": 1,
+    "fecha_asignacion": "2026-11-03T03:03:37.192536",
+    "fecha_finalizacion": null,
+    "activo": true
+  },
+  {
+    "id_asignacion": 7,
+    "id_profesor": 1,
+    "id_curso": 5,
+    "id_materia": 1,
+    "fecha_asignacion": "2026-11-03T03:03:37.192536",
+    "fecha_finalizacion": null,
+    "activo": true
+  },
+  {
+    "id_asignacion": 10,
+    "id_profesor": 1,
+    "id_curso": 6,
+    "id_materia": 1,
+    "fecha_asignacion": "2026-11-03T03:03:37.192536",
+    "fecha_finalizacion": null,
+    "activo": true
+  }
+]

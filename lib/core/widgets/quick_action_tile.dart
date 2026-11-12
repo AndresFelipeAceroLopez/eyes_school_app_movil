@@ -35,7 +35,10 @@ class QuickActionTile extends StatelessWidget {
               Container(
                 width: 44,
                 height: 44,
-                decoration: BoxDecoration(color: iconBg, borderRadius: BorderRadius.circular(14)),
+                decoration: BoxDecoration(
+                  color: iconBg,
+                  borderRadius: BorderRadius.circular(14),
+                ),
                 child: Icon(icon, color: iconColor, size: 22),
               ),
               const SizedBox(height: 8),
@@ -55,6 +58,29 @@ class QuickActionTile extends StatelessWidget {
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+/// The four-column «Acciones rápidas» grid of every role's home.
+class QuickActionsGrid extends StatelessWidget {
+  const QuickActionsGrid({super.key, required this.children});
+
+  final List<Widget> children;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: GridView.count(
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        crossAxisCount: 4,
+        mainAxisSpacing: 12,
+        crossAxisSpacing: 12,
+        childAspectRatio: 0.78,
+        children: children,
       ),
     );
   }

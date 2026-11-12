@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:eyes_school/core/theme/app_colors.dart';
+import 'package:eyes_school/features/attendance/presentation/attendance_record_tile.dart';
 import 'package:eyes_school/core/theme/app_text_styles.dart';
 import 'package:eyes_school/core/utils/formatters.dart';
 import 'package:eyes_school/core/widgets/async_states.dart';
@@ -33,6 +34,8 @@ class AdminHomeScreen extends ConsumerWidget {
     final queue = ref.watch(attendanceQueueProvider);
     final online = ref.watch(connectivityProvider).valueOrNull ?? true;
     final catalog = ref.watch(studentCatalogProvider);
+    // Rebuild with real names once the catalog has loaded (N-16).
+    ref.watch(studentCatalogReadyProvider);
 
     return Scaffold(
       backgroundColor: AppColors.background,
@@ -64,8 +67,10 @@ class AdminHomeScreen extends ConsumerWidget {
                             ),
                             Text(
                               'Hola, ${user?.firstName ?? ''}',
-                              style: AppTextStyles.h1
-                                  .copyWith(color: Colors.white, fontSize: 22),
+                              style: AppTextStyles.h1.copyWith(
+                                color: Colors.white,
+                                fontSize: 22,
+                              ),
                             ),
                           ],
                         ),
@@ -81,19 +86,26 @@ class AdminHomeScreen extends ConsumerWidget {
                     children: [
                       Container(width: 3, height: 16, color: AppColors.teal),
                       const SizedBox(width: 8),
-                      Text('EYESCHOOL',
-                          style: AppTextStyles.statLabel
-                              .copyWith(letterSpacing: 2, fontWeight: FontWeight.w700)),
+                      Text(
+                        'EYESCHOOL',
+                        style: AppTextStyles.statLabel.copyWith(
+                          letterSpacing: 2,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
                     ],
                   ),
                   const SizedBox(height: 18),
                   // Today's counters are computed from `GET /asistencia?fecha=hoy`;
                   // there is no institutional dashboard endpoint to ask.
                   todayAsync.when(
-                    loading: () => const _StatsSkeleton(),
+                    loading: () => const StatsSkeleton(),
                     error: (_, _) => Row(
                       children: [
-                        StatPill(value: '${catalog.size}', label: 'Estudiantes'),
+                        StatPill(
+                          value: '${catalog.size}',
+                          label: 'Estudiantes',
+                        ),
                         const SizedBox(width: 10),
                         StatPill(
                           value: '${queue.pendingCount}',
@@ -106,18 +118,24 @@ class AdminHomeScreen extends ConsumerWidget {
                       final entries = rows
                           .where((r) => r.kind == AttendanceKind.entry)
                           .length;
-                      final late =
-                          rows.where((r) => r.state == AttendanceState.late).length;
+                      final late = rows
+                          .where((r) => r.state == AttendanceState.late)
+                          .length;
                       return Row(
                         children: [
-                          StatPill(value: '${rows.length}', label: 'Registros hoy'),
+                          StatPill(
+                            value: '${rows.length}',
+                            label: 'Registros hoy',
+                          ),
                           const SizedBox(width: 10),
                           StatPill(value: '$entries', label: 'Entradas'),
                           const SizedBox(width: 10),
                           StatPill(
                             value: '$late',
                             label: 'Tardanzas',
-                            valueColor: late > 0 ? AppColors.orange : AppColors.teal,
+                            valueColor: late > 0
+                                ? AppColors.orange
+                                : AppColors.teal,
                           ),
                         ],
                       );
@@ -144,46 +162,37 @@ class AdminHomeScreen extends ConsumerWidget {
               padding: const EdgeInsets.fromLTRB(20, 24, 20, 12),
               child: Text('Acciones rápidas', style: AppTextStyles.h2),
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: GridView.count(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                crossAxisCount: 4,
-                mainAxisSpacing: 12,
-                crossAxisSpacing: 12,
-                childAspectRatio: 0.78,
-                children: [
-                  QuickActionTile(
-                    icon: Icons.qr_code_scanner_rounded,
-                    label: 'Escanear',
-                    iconBg: AppColors.statusActiveBg,
-                    iconColor: AppColors.tealDark,
-                    onTap: () => context.go('/admin/qr'),
-                  ),
-                  QuickActionTile(
-                    icon: Icons.groups_rounded,
-                    label: 'Masivo',
-                    iconBg: AppColors.roleTeacherBg,
-                    iconColor: AppColors.roleTeacher,
-                    onTap: () => context.push('/admin/masivo'),
-                  ),
-                  QuickActionTile(
-                    icon: Icons.fact_check_rounded,
-                    label: 'Registro',
-                    iconBg: AppColors.roleStudentBg,
-                    iconColor: AppColors.roleStudent,
-                    onTap: () => context.push('/admin/dia'),
-                  ),
-                  QuickActionTile(
-                    icon: Icons.widgets_rounded,
-                    label: 'Más opciones',
-                    iconBg: const Color(0xFFFCEEDD),
-                    iconColor: AppColors.orange,
-                    onTap: () => context.push('/admin/management'),
-                  ),
-                ],
-              ),
+            QuickActionsGrid(
+              children: [
+                QuickActionTile(
+                  icon: Icons.qr_code_scanner_rounded,
+                  label: 'Escanear',
+                  iconBg: AppColors.statusActiveBg,
+                  iconColor: AppColors.tealDark,
+                  onTap: () => context.go('/admin/qr'),
+                ),
+                QuickActionTile(
+                  icon: Icons.groups_rounded,
+                  label: 'Masivo',
+                  iconBg: AppColors.roleTeacherBg,
+                  iconColor: AppColors.roleTeacher,
+                  onTap: () => context.push('/admin/masivo'),
+                ),
+                QuickActionTile(
+                  icon: Icons.fact_check_rounded,
+                  label: 'Registro',
+                  iconBg: AppColors.roleStudentBg,
+                  iconColor: AppColors.roleStudent,
+                  onTap: () => context.push('/admin/dia'),
+                ),
+                QuickActionTile(
+                  icon: Icons.widgets_rounded,
+                  label: 'Más opciones',
+                  iconBg: const Color(0xFFFCEEDD),
+                  iconColor: AppColors.orange,
+                  onTap: () => context.push('/admin/management'),
+                ),
+              ],
             ),
             Padding(
               padding: const EdgeInsets.fromLTRB(20, 24, 20, 12),
@@ -207,7 +216,8 @@ class AdminHomeScreen extends ConsumerWidget {
                     return const EmptyState(
                       icon: Icons.qr_code_scanner_rounded,
                       title: 'Sin registros hoy',
-                      message: 'Empieza a escanear para registrar la asistencia.',
+                      message:
+                          'Empieza a escanear para registrar la asistencia.',
                     );
                   }
                   final recent = rows.reversed.take(5).toList();
@@ -218,7 +228,9 @@ class AdminHomeScreen extends ConsumerWidget {
                         for (var i = 0; i < recent.length; i++)
                           _ScanRow(
                             row: recent[i],
-                            name: catalog.byId(recent[i].studentId)?.displayName,
+                            name: catalog
+                                .byId(recent[i].studentId)
+                                ?.displayName,
                             showDivider: i != recent.length - 1,
                           ),
                       ],
@@ -317,8 +329,13 @@ class _PendingBanner extends StatelessWidget {
         ),
         child: Row(
           children: [
-            Icon(hasErrors ? Icons.error_outline_rounded : Icons.cloud_upload_rounded,
-                size: 20, color: color),
+            Icon(
+              hasErrors
+                  ? Icons.error_outline_rounded
+                  : Icons.cloud_upload_rounded,
+              size: 20,
+              color: color,
+            ),
             const SizedBox(width: 10),
             Expanded(
               child: Text(
@@ -331,7 +348,10 @@ class _PendingBanner extends StatelessWidget {
                 ),
               ),
             ),
-            const Icon(Icons.chevron_right_rounded, color: AppColors.textSecondary),
+            const Icon(
+              Icons.chevron_right_rounded,
+              color: AppColors.textSecondary,
+            ),
           ],
         ),
       ),
@@ -352,83 +372,20 @@ class _ScanRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final label = (name == null || name!.isEmpty)
-        ? 'Estudiante ${row.studentId}'
-        : name!;
-    final color = switch (row.state) {
-      AttendanceState.present => AppColors.tealDark,
-      AttendanceState.late => AppColors.orange,
-      AttendanceState.excused => AppColors.blue,
-      _ => AppColors.pink,
-    };
     return Column(
       children: [
         Padding(
           padding: const EdgeInsets.all(16),
-          child: Row(
-            children: [
-              AvatarCircle(name: label, radius: 20),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(label,
-                        style: AppTextStyles.body.copyWith(fontWeight: FontWeight.w700),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis),
-                    Text(
-                      [
-                        row.kind?.label,
-                        if (row.registeredAt != null)
-                          TimeOfDay.fromDateTime(row.registeredAt!).format(context),
-                      ].whereType<String>().join(' · '),
-                      style: AppTextStyles.caption,
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                decoration: BoxDecoration(
-                  color: color.withValues(alpha: 0.12),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Text(
-                  row.state.label,
-                  style: AppTextStyles.caption
-                      .copyWith(color: color, fontWeight: FontWeight.w700),
-                ),
-              ),
-            ],
-          ),
+          child: AttendanceRecordTile(row: row, name: name),
         ),
         if (showDivider)
-          const Divider(height: 1, color: AppColors.divider, indent: 16, endIndent: 16),
-      ],
-    );
-  }
-}
-
-class _StatsSkeleton extends StatelessWidget {
-  const _StatsSkeleton();
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: List.generate(
-        3,
-        (i) => Expanded(
-          child: Container(
-            height: 78,
-            margin: EdgeInsets.only(right: i == 2 ? 0 : 10),
-            decoration: BoxDecoration(
-              color: Colors.white.withValues(alpha: 0.06),
-              borderRadius: BorderRadius.circular(18),
-            ),
+          const Divider(
+            height: 1,
+            color: AppColors.divider,
+            indent: 16,
+            endIndent: 16,
           ),
-        ),
-      ),
+      ],
     );
   }
 }

@@ -1,0 +1,82 @@
+[
+  {
+    "id_tipo_novedad": 1,
+    "nombre_tipo": "Inasistencia Reiterada",
+    "descripcion": "Ausencias frecuentes sin justificación",
+    "nivel_gravedad": "Alto",
+    "requiere_accion": true,
+    "activo": true
+  },
+  {
+    "id_tipo_novedad": 2,
+    "nombre_tipo": "Bajo Rendimiento",
+    "descripcion": "Notas por debajo del mínimo aprobatorio",
+    "nivel_gravedad": "Medio",
+    "requiere_accion": true,
+    "activo": true
+  },
+  {
+    "id_tipo_novedad": 3,
+    "nombre_tipo": "Conflicto entre pares",
+    "descripcion": "Problemas de convivencia entre estudiantes",
+    "nivel_gravedad": "Alto",
+    "requiere_accion": true,
+    "activo": true
+  },
+  {
+    "id_tipo_novedad": 4,
+    "nombre_tipo": "Incumplimiento de tareas",
+    "descripcion": "No entrega de trabajos asignados",
+    "nivel_gravedad": "Bajo",
+    "requiere_accion": false,
+    "activo": true
+  },
+  {
+    "id_tipo_novedad": 5,
+    "nombre_tipo": "Problemas de salud",
+    "descripcion": "Enfermedad o malestar reportado",
+    "nivel_gravedad": "Medio",
+    "requiere_accion": true,
+    "activo": true
+  },
+  {
+    "id_tipo_novedad": 6,
+    "nombre_tipo": "Dificultad de aprendizaje",
+    "descripcion": "Posible necesidad de apoyo pedagógico",
+    "nivel_gravedad": "Medio",
+    "requiere_accion": true,
+    "activo": true
+  },
+  {
+    "id_tipo_novedad": 7,
+    "nombre_tipo": "Violencia escolar",
+    "descripcion": "Agresión física o verbal",
+    "nivel_gravedad": "Alto",
+    "requiere_accion": true,
+    "activo": true
+  },
+  {
+    "id_tipo_novedad": 8,
+    "nombre_tipo": "Uso de dispositivos",
+    "descripcion": "Uso no autorizado de celular u otros",
+    "nivel_gravedad": "Bajo",
+    "requiere_accion": false,
+    "activo": true
+  },
+  {
+    "id_tipo_novedad": 9,
+    "nombre_tipo": "Daño a bienes",
+    "descripcion": "Daño o pérdida de material escolar",
+    "nivel_gravedad": "Medio",
+    "requiere_accion": true,
+    "activo": true
+  },
+  {
+    "id_tipo_novedad": 10,
+    "nombre_tipo": "Situación familiar",
+    "descripcion": "Problemas en el entorno familiar",
+    "nivel_gravedad": "Alto",
+    "requiere_accion": true,
+    "activo": true
+  }
+]

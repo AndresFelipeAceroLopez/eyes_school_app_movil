@@ -26,7 +26,8 @@ class ParentAttendanceScreen extends ConsumerWidget {
         body: EmptyState(
           icon: Icons.family_restroom_rounded,
           title: 'Sin estudiante vinculado',
-          message: session?.bootstrapWarning ??
+          message:
+              session?.bootstrapWarning ??
               'Tu cuenta de acudiente aún no está vinculada a un estudiante.',
         ),
       );
@@ -49,12 +50,19 @@ class ParentAttendanceScreen extends ConsumerWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(name,
-                        style: AppTextStyles.body.copyWith(fontWeight: FontWeight.w700),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis),
+                    Text(
+                      name,
+                      style: AppTextStyles.body.copyWith(
+                        fontWeight: FontWeight.w700,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                     if (session?.childDocument != null)
-                      Text(session!.childDocument!, style: AppTextStyles.caption),
+                      Text(
+                        session!.childDocument!,
+                        style: AppTextStyles.caption,
+                      ),
                   ],
                 ),
               ),

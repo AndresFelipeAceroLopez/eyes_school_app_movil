@@ -1,0 +1,655 @@
+00:00 +0: loading C:/Users/marig/eyes_school_app_movil/integration_test/login_roles_test.dart
+Running Gradle task 'assembleDebug'...                          
+WARNING: Your app uses the following plugins that apply Kotlin Gradle Plugin (KGP): firebase_core, mobile_scanner, package_info_plus, share_plus
+Future versions of Flutter will fail to build if your app uses plugins that apply KGP.
+
+Please check the changelogs of these plugins and upgrade to a version that supports Built-in Kotlin.
+If no such version exists, report the issue to the plugin. If necessary, here is a guide on filing
+an issue against a plugin: https://docs.flutter.dev/release/breaking-changes/migrate-to-built-in-kotlin/for-app-developers#report-incompatible-kotlin-gradle-plugin-usage-to-plugin-authors
+
+If you are a plugin author, please migrate your plugin to Built-in Kotlin using this guide: https://docs.flutter.dev/release/breaking-changes/migrate-to-built-in-kotlin/for-plugin-authors
+Warning: SDK processing. This version only understands SDK XML versions up to 3 but an SDK XML file of version 4 was encountered. This can happen if you use versions of Android Studio and the command-line tools that were released at different times.
+warning: [options] source value 8 is obsolete and will be removed in a future release
+warning: [options] target value 8 is obsolete and will be removed in a future release
+warning: [options] To suppress warnings about obsolete options, use -Xlint:-options.
+3 warnings
+Note: Some input files use or override a deprecated API.
+Note: Recompile with -Xlint:deprecation for details.
+Running Gradle task 'assembleDebug'...                           1015,0s
+✓ Built build\app\outputs\flutter-apk\app-debug.apk
+Installing build\app\outputs\flutter-apk\app-debug.apk...          15,0s
+Error: ADB exited with exit code 1
+Performing Streamed Install
+
+adb.exe: failed to install C:\Users\marig\eyes_school_app_movil\build\app\outputs\flutter-apk\app-debug.apk: Failure [INSTALL_FAILED_VERSION_DOWNGRADE: Downgrade detected: Update version code 1 is older than current 4001]
+Uninstalling old version...
+Installing build\app\outputs\flutter-apk\app-debug.apk...          20,2s
+00:00 +0: C:/Users/marig/eyes_school_app_movil/integration_test/login_roles_test.dart: CP-SIS-066 · administrador llega a su inicio con los datos cargados
+*** Request ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/auth/login
+data:
+{correo: admin@eyesschool.edu.co, password: ***REDACTADO***}
+
+*** Response ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/auth/login
+
+*** Request ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/auth/me
+data:
+null
+
+*** Response ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/auth/me
+
+*** Request ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/cursos?skip=0&limit=200
+data:
+null
+
+*** Request ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/materias
+data:
+null
+
+*** Request ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/tipos-novedad
+data:
+null
+
+*** Response ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/cursos?skip=0&limit=200
+
+*** Response ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/materias
+
+*** Response ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/tipos-novedad
+
+*** Request ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/administradores?skip=0&limit=200
+data:
+null
+
+*** Response ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/administradores?skip=0&limit=200
+
+*** Request ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/asistencia?fecha=2026-11-11&skip=0&limit=500
+data:
+null
+
+*** Request ***
+uri: https://api.github.com/repos/AndresFelipeAceroLopez/eyes_school/releases/latest
+data:
+null
+
+*** Response ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/asistencia?fecha=2026-11-11&skip=0&limit=500
+
+00:39 +1: C:/Users/marig/eyes_school_app_movil/integration_test/login_roles_test.dart: CP-SIS-066 · docente llega a su inicio con los datos cargados
+*** Request ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/auth/login
+data:
+{correo: carlos.jimenez@eyes.edu.co, password: ***REDACTADO***}
+
+*** Response ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/auth/login
+
+*** Request ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/auth/me
+data:
+null
+
+*** Response ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/auth/me
+
+*** Request ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/cursos?skip=0&limit=200
+data:
+null
+
+*** Request ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/materias
+data:
+null
+
+*** Request ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/tipos-novedad
+data:
+null
+
+*** Response ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/cursos?skip=0&limit=200
+
+*** Response ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/materias
+
+*** Response ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/tipos-novedad
+
+*** Request ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/profesores/me
+data:
+null
+
+*** Request ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/profesores?skip=0&limit=200
+data:
+null
+
+*** Response ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/profesores?skip=0&limit=200
+
+00:52 +1: C:/Users/marig/eyes_school_app_movil/integration_test/login_roles_test.dart: CP-SIS-066 · administrador llega a su inicio con los datos cargados
+*** Request ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/dashboard/docente
+data:
+null
+
+*** Request ***
+uri: https://api.github.com/repos/AndresFelipeAceroLopez/eyes_school/releases/latest
+data:
+null
+
+*** Request ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/asignaciones?id_profesor=1&activo=true&skip=0&limit=200
+data:
+null
+
+*** Request ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/novedades?estado=Pendiente&skip=0&limit=50
+data:
+null
+
+*** Request ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/asignaciones?id_profesor=1&activo=true&skip=0&limit=200
+data:
+null
+
+*** Response ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/novedades?estado=Pendiente&skip=0&limit=50
+
+*** Request ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/estudiantes?skip=0&limit=200
+data:
+null
+
+*** Response ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/asignaciones?id_profesor=1&activo=true&skip=0&limit=200
+
+*** Request ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/cursos/1/horarios
+data:
+null
+
+*** Response ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/dashboard/docente
+
+*** Response ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/asignaciones?id_profesor=1&activo=true&skip=0&limit=200
+
+*** Response ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/cursos/1/horarios
+
+*** Request ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/cursos/2/horarios
+data:
+null
+
+*** Response ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/estudiantes?skip=0&limit=200
+
+*** Response ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/cursos/2/horarios
+
+*** Request ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/cursos/5/horarios
+data:
+null
+
+*** Response ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/cursos/5/horarios
+
+*** Request ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/cursos/6/horarios
+data:
+null
+
+*** Response ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/cursos/6/horarios
+
+01:01 +2: C:/Users/marig/eyes_school_app_movil/integration_test/login_roles_test.dart: CP-SIS-066 · estudiante llega a su inicio con los datos cargados
+*** Request ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/auth/login
+data:
+{correo: sofia.rodriguez@student.eyes.co, password: ***REDACTADO***}
+
+*** Response ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/auth/login
+
+*** Request ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/auth/me
+data:
+null
+
+*** Response ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/auth/me
+
+*** Request ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/cursos?skip=0&limit=200
+data:
+null
+
+*** Request ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/materias
+data:
+null
+
+*** Request ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/tipos-novedad
+data:
+null
+
+*** Response ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/cursos?skip=0&limit=200
+
+*** Response ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/materias
+
+*** Response ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/tipos-novedad
+
+*** Request ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/estudiantes/me
+data:
+null
+
+*** Response ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/estudiantes/me
+
+*** Request ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/dashboard/estudiante
+data:
+null
+
+*** Response ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/dashboard/estudiante
+
+01:18 +2: C:/Users/marig/eyes_school_app_movil/integration_test/login_roles_test.dart: CP-SIS-066 · administrador llega a su inicio con los datos cargados
+*** Request ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/dashboard/estudiante
+data:
+null
+
+*** Request ***
+uri: https://api.github.com/repos/AndresFelipeAceroLopez/eyes_school/releases/latest
+data:
+null
+
+*** Request ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/cursos/1/horarios
+data:
+null
+
+*** Request ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/estudiantes/1/notas?id_periodo=1
+data:
+null
+
+01:23 +2: C:/Users/marig/eyes_school_app_movil/integration_test/login_roles_test.dart: CP-SIS-066 · estudiante llega a su inicio con los datos cargados
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following TestFailure was thrown running a test:
+Expected: exactly one matching candidate
+  Actual: _TextWidgetFinder:<Found 2 widgets with text "Horario": [
+            Text("Horario", inherit: true, color: Color(alpha: 1.0000, red: 0.1020, green: 0.1059,
+blue: 0.2000, colorSpace: ColorSpace.sRGB), family: PlusJakartaSans_regular, familyFallback:
+[PlusJakartaSans], size: 12.5, weight: 600, height: 1.1x, textAlign: center, overflow: ellipsis,
+maxLines: 2, dependencies: [DefaultSelectionStyle, DefaultTextStyle, MediaQuery]),
+            Text("Horario", inherit: true, color: Color(alpha: 1.0000, red: 0.4863, green: 0.4980,
+blue: 0.5765, colorSpace: ColorSpace.sRGB), family: PlusJakartaSans_regular, familyFallback:
+[PlusJakartaSans], size: 12.5, weight: 500, softWrap: no wrapping except at line break characters,
+overflow: ellipsis, maxLines: 1, dependencies: [DefaultSelectionStyle, DefaultTextStyle,
+MediaQuery]),
+          ]>
+   Which: is too many
+
+When the exception was thrown, this was the stack:
+#4      main.<anonymous closure>.<anonymous closure> (file:///C:/Users/marig/eyes_school_app_movil/integration_test/login_roles_test.dart:31:7)
+<asynchronous suspension>
+#5      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
+<asynchronous suspension>
+#6      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1953:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+This was caught by the test expectation on the following line:
+  file:///C:/Users/marig/eyes_school_app_movil/integration_test/login_roles_test.dart line 31
+The test description was:
+  CP-SIS-066 · estudiante llega a su inicio con los datos cargados
+════════════════════════════════════════════════════════════════════════════════════════════════════
+01:23 +2 -1: C:/Users/marig/eyes_school_app_movil/integration_test/login_roles_test.dart: CP-SIS-066 · estudiante llega a su inicio con los datos cargados [E]
+  Test failed. See exception logs above.
+  The test description was: CP-SIS-066 · estudiante llega a su inicio con los datos cargados
+  
+01:23 +2 -1: C:/Users/marig/eyes_school_app_movil/integration_test/login_roles_test.dart: CP-SIS-066 · padre llega a su inicio con los datos cargados
+01:24 +2 -1: C:/Users/marig/eyes_school_app_movil/integration_test/login_roles_test.dart: CP-SIS-066 · administrador llega a su inicio con los datos cargados
+*** Response ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/dashboard/estudiante
+
+01:27 +2 -1: C:/Users/marig/eyes_school_app_movil/integration_test/login_roles_test.dart: CP-SIS-066 · padre llega a su inicio con los datos cargados
+*** Request ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/auth/login
+data:
+{correo: roberto.diaz@gmail.com, password: ***REDACTADO***}
+
+01:28 +2 -1: C:/Users/marig/eyes_school_app_movil/integration_test/login_roles_test.dart: CP-SIS-066 · administrador llega a su inicio con los datos cargados
+*** Response ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/cursos/1/horarios
+
+*** Response ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/estudiantes/1/notas?id_periodo=1
+
+01:33 +2 -1: C:/Users/marig/eyes_school_app_movil/integration_test/login_roles_test.dart: CP-SIS-066 · padre llega a su inicio con los datos cargados
+*** Response ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/auth/login
+
+*** Request ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/auth/me
+data:
+null
+
+*** Response ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/auth/me
+
+*** Request ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/cursos?skip=0&limit=200
+data:
+null
+
+*** Request ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/materias
+data:
+null
+
+*** Request ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/tipos-novedad
+data:
+null
+
+*** Response ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/cursos?skip=0&limit=200
+
+*** Response ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/materias
+
+*** Response ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/tipos-novedad
+
+*** Request ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/padres/me
+data:
+null
+
+*** Response ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/padres/me
+
+*** Request ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/dashboard/padre
+data:
+null
+
+*** Response ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/dashboard/padre
+
+*** Request ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/estudiantes/2
+data:
+null
+
+*** Response ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/estudiantes/2
+
+01:44 +2 -1: C:/Users/marig/eyes_school_app_movil/integration_test/login_roles_test.dart: CP-SIS-066 · administrador llega a su inicio con los datos cargados
+*** Request ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/dashboard/padre
+data:
+null
+
+*** Request ***
+uri: https://api.github.com/repos/AndresFelipeAceroLopez/eyes_school/releases/latest
+data:
+null
+
+*** Request ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/estudiantes/2/novedades
+data:
+null
+
+*** Response ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/dashboard/padre
+
+*** Response ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/estudiantes/2/novedades
+
+01:52 +3 -1: C:/Users/marig/eyes_school_app_movil/integration_test/login_roles_test.dart: (tearDownAll)
+01:55 +3 -1: loading C:/Users/marig/eyes_school_app_movil/integration_test/padre_dos_hijos_test.dart
+Running Gradle task 'assembleDebug'...                          
+WARNING: Your app uses the following plugins that apply Kotlin Gradle Plugin (KGP): firebase_core, mobile_scanner, package_info_plus, share_plus
+Future versions of Flutter will fail to build if your app uses plugins that apply KGP.
+
+Please check the changelogs of these plugins and upgrade to a version that supports Built-in Kotlin.
+If no such version exists, report the issue to the plugin. If necessary, here is a guide on filing
+an issue against a plugin: https://docs.flutter.dev/release/breaking-changes/migrate-to-built-in-kotlin/for-app-developers#report-incompatible-kotlin-gradle-plugin-usage-to-plugin-authors
+
+If you are a plugin author, please migrate your plugin to Built-in Kotlin using this guide: https://docs.flutter.dev/release/breaking-changes/migrate-to-built-in-kotlin/for-plugin-authors
+Running Gradle task 'assembleDebug'...                            222,6s
+✓ Built build\app\outputs\flutter-apk\app-debug.apk
+Installing build\app\outputs\flutter-apk\app-debug.apk...        2.830ms
+05:54 +3 -1: C:/Users/marig/eyes_school_app_movil/integration_test/padre_dos_hijos_test.dart: CP-SIS-092 · el padre de DS-03 ve a sus dos hijos
+*** Request ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/auth/login
+data:
+{correo: rosa.perez@gmail.com, password: ***REDACTADO***}
+
+*** Response ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/auth/login
+
+*** Request ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/auth/me
+data:
+null
+
+*** Response ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/auth/me
+
+*** Request ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/cursos?skip=0&limit=200
+data:
+null
+
+*** Request ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/materias
+data:
+null
+
+*** Request ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/tipos-novedad
+data:
+null
+
+*** Response ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/cursos?skip=0&limit=200
+
+*** Response ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/tipos-novedad
+
+*** Response ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/materias
+
+*** Request ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/padres/me
+data:
+null
+
+*** Response ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/padres/me
+
+*** Request ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/dashboard/padre
+data:
+null
+
+*** Response ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/dashboard/padre
+
+*** Request ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/estudiantes/1
+data:
+null
+
+*** Response ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/estudiantes/1
+
+*** Request ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/dashboard/padre
+data:
+null
+
+*** Request ***
+uri: https://api.github.com/repos/AndresFelipeAceroLopez/eyes_school/releases/latest
+data:
+null
+
+*** Request ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/estudiantes/1/novedades
+data:
+null
+
+*** Request ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/estudiantes/1
+data:
+null
+
+*** Request ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/cursos/1/horarios
+data:
+null
+
+*** Response ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/estudiantes/1
+
+*** Request ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/usuarios/3
+data:
+null
+
+*** Response ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/cursos/1/horarios
+
+*** Request ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/padres?skip=0&limit=200
+data:
+null
+
+*** Response ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/dashboard/padre
+
+*** Response ***
+uri: https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1/estudiantes/1/novedades
+
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following TestFailure was thrown running a test:
+Expected: at least one matching candidate
+  Actual: _TextContainingWidgetFinder:<Found 0 widgets with text containing Sofía Rodríguez: []>
+   Which: means none were found but some were expected
+
+When the exception was thrown, this was the stack:
+#4      main.<anonymous closure> (file:///C:/Users/marig/eyes_school_app_movil/integration_test/padre_dos_hijos_test.dart:22:5)
+<asynchronous suspension>
+#5      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
+<asynchronous suspension>
+#6      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1953:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+This was caught by the test expectation on the following line:
+  file:///C:/Users/marig/eyes_school_app_movil/integration_test/padre_dos_hijos_test.dart line 22
+The test description was:
+  CP-SIS-092 · el padre de DS-03 ve a sus dos hijos
+════════════════════════════════════════════════════════════════════════════════════════════════════
+06:25 +3 -2: C:/Users/marig/eyes_school_app_movil/integration_test/padre_dos_hijos_test.dart: CP-SIS-092 · el padre de DS-03 ve a sus dos hijos [E]
+  Test failed. See exception logs above.
+  The test description was: CP-SIS-092 · el padre de DS-03 ve a sus dos hijos
+  
+06:25 +3 -2: C:/Users/marig/eyes_school_app_movil/integration_test/padre_dos_hijos_test.dart: (tearDownAll)
+06:26 +3 -2: loading C:/Users/marig/eyes_school_app_movil/integration_test/registro_padre_test.dart
+Running Gradle task 'assembleDebug'...                          
+WARNING: Your app uses the following plugins that apply Kotlin Gradle Plugin (KGP): firebase_core, mobile_scanner, package_info_plus, share_plus
+Future versions of Flutter will fail to build if your app uses plugins that apply KGP.
+
+Please check the changelogs of these plugins and upgrade to a version that supports Built-in Kotlin.
+If no such version exists, report the issue to the plugin. If necessary, here is a guide on filing
+an issue against a plugin: https://docs.flutter.dev/release/breaking-changes/migrate-to-built-in-kotlin/for-app-developers#report-incompatible-kotlin-gradle-plugin-usage-to-plugin-authors
+
+If you are a plugin author, please migrate your plugin to Built-in Kotlin using this guide: https://docs.flutter.dev/release/breaking-changes/migrate-to-built-in-kotlin/for-plugin-authors
+Running Gradle task 'assembleDebug'...                             52,0s
+✓ Built build\app\outputs\flutter-apk\app-debug.apk
+Installing build\app\outputs\flutter-apk\app-debug.apk...        2.109ms
+07:32 +3 -2: C:/Users/marig/eyes_school_app_movil/integration_test/registro_padre_test.dart: CP-SIS-097 · el padre registrado en la app ve a su hijo vinculado
+CP-SIS-097 correo creado: qa.cpsis097.1794421548875@example.com
+
+Warning: A call to tap() with finder "Found 1 widget with text "Continuar": [
+  Text("Continuar", inherit: true, color: Color(alpha: 1.0000, red: 1.0000, green: 1.0000, blue: 1.0000, colorSpace: ColorSpace.sRGB), family: PlusJakartaSans_regular, familyFallback: [PlusJakartaSans], size: 15.5, weight: 700, overflow: ellipsis, maxLines: 1, dependencies: [DefaultSelectionStyle, DefaultTextStyle, MediaQuery]),
+]" derived an Offset (Offset(182.4, 881.5)) that would not hit test on the specified widget.
+Maybe the widget is actually off-screen, or another widget is obscuring it, or the widget cannot receive pointer events.
+Indeed, Offset(182.4, 881.5) is outside the bounds of the root of the render tree, Size(392.7, 826.9).
+The finder corresponds to this RenderBox: RenderParagraph#8ee25 relayoutBoundary=up15
+The hit test result at that offset is: HitTestResult(HitTestEntry<HitTestTarget>#7fb33(_ReusableRenderView#e4c01), HitTestEntry<HitTestTarget>#79476(<IntegrationTestWidgetsFlutterBinding>))
+#0      WidgetController._getElementPoint (package:flutter_test/src/controller.dart:2165:25)
+#1      WidgetController.getCenter (package:flutter_test/src/controller.dart:1947:12)
+#2      WidgetController.tap (package:flutter_test/src/controller.dart:1080:7)
+#3      main.<anonymous closure> (file:///C:/Users/marig/eyes_school_app_movil/integration_test/registro_padre_test.dart:37:18)
+<asynchronous suspension>
+#4      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
+<asynchronous suspension>
+#5      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1953:5)
+<asynchronous suspension>
+#6      StackZoneSpecification._registerCallback.<anonymous closure> (package:stack_trace/src/stack_zone_specification.dart:114:42)
+<asynchronous suspension>
+To silence this warning, pass "warnIfMissed: false" to "tap()".
+To make this warning fatal, set WidgetController.hitTestWarningShouldBeFatal to true.
+
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following assertion was thrown running a test:
+The finder "Found 0 widgets with text "Padre / Acudiente": []" (used in a call to "tap()") could not
+find any matching widgets.
+
+When the exception was thrown, this was the stack:
+#0      WidgetController._getElementPoint (package:flutter_test/src/controller.dart:2095:7)
+#1      WidgetController.getCenter (package:flutter_test/src/controller.dart:1947:12)
+#2      WidgetController.tap (package:flutter_test/src/controller.dart:1080:7)
+#3      main.<anonymous closure> (file:///C:/Users/marig/eyes_school_app_movil/integration_test/registro_padre_test.dart:52:18)
+<asynchronous suspension>
+#4      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
+<asynchronous suspension>
+#5      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1953:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+The test description was:
+  CP-SIS-097 · el padre registrado en la app ve a su hijo vinculado
+════════════════════════════════════════════════════════════════════════════════════════════════════
+07:59 +3 -3: C:/Users/marig/eyes_school_app_movil/integration_test/registro_padre_test.dart: CP-SIS-097 · el padre registrado en la app ve a su hijo vinculado [E]
+  Test failed. See exception logs above.
+  The test description was: CP-SIS-097 · el padre registrado en la app ve a su hijo vinculado
+  
+07:59 +3 -3: C:/Users/marig/eyes_school_app_movil/integration_test/registro_padre_test.dart: (tearDownAll)
+08:01 +3 -3: Some tests failed.
+
+Failing tests:
+  C:/Users/marig/eyes_school_app_movil/integration_test/login_roles_test.dart: CP-SIS-066 · estudiante llega a su inicio con los datos cargados
+  C:/Users/marig/eyes_school_app_movil/integration_test/padre_dos_hijos_test.dart: CP-SIS-092 · el padre de DS-03 ve a sus dos hijos
+  C:/Users/marig/eyes_school_app_movil/integration_test/registro_padre_test.dart: CP-SIS-097 · el padre registrado en la app ve a su hijo vinculado

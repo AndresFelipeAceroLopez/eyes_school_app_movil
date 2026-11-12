@@ -38,7 +38,10 @@ class PendingAttendanceScreen extends ConsumerWidget {
             child: SizedBox(
               width: 20,
               height: 20,
-              child: CircularProgressIndicator(strokeWidth: 2.2, color: Colors.white),
+              child: CircularProgressIndicator(
+                strokeWidth: 2.2,
+                color: Colors.white,
+              ),
             ),
           )
         else
@@ -53,11 +56,12 @@ class PendingAttendanceScreen extends ConsumerWidget {
         child: ListView(
           padding: const EdgeInsets.fromLTRB(20, 20, 20, 40),
           children: [
-            if (!online) ...[
-              const OfflineBanner(),
-              const SizedBox(height: 16),
-            ],
-            _Summary(waiting: waiting.length, failed: failed.length, sent: sent.length),
+            if (!online) ...[const OfflineBanner(), const SizedBox(height: 16)],
+            _Summary(
+              waiting: waiting.length,
+              failed: failed.length,
+              sent: sent.length,
+            ),
             if (failed.isNotEmpty) ...[
               const SizedBox(height: 24),
               SectionHeader(
@@ -66,14 +70,14 @@ class PendingAttendanceScreen extends ConsumerWidget {
                 onTrailingTap: queue.retryAll,
               ),
               const SizedBox(height: 12),
-              for (final item in failed)
-                _PendingTile(item: item, queue: queue),
+              for (final item in failed) _PendingTile(item: item, queue: queue),
             ],
             if (waiting.isNotEmpty) ...[
               const SizedBox(height: 24),
               SectionHeader(title: 'En cola (${waiting.length})'),
               const SizedBox(height: 12),
-              for (final item in waiting) _PendingTile(item: item, queue: queue),
+              for (final item in waiting)
+                _PendingTile(item: item, queue: queue),
             ],
             if (sent.isNotEmpty) ...[
               const SizedBox(height: 24),
@@ -83,7 +87,8 @@ class PendingAttendanceScreen extends ConsumerWidget {
                 onTrailingTap: queue.pruneSettled,
               ),
               const SizedBox(height: 12),
-              for (final item in sent.take(20)) _PendingTile(item: item, queue: queue),
+              for (final item in sent.take(20))
+                _PendingTile(item: item, queue: queue),
             ],
             if (queue.items.isEmpty)
               const EmptyState(
@@ -99,7 +104,11 @@ class PendingAttendanceScreen extends ConsumerWidget {
 }
 
 class _Summary extends StatelessWidget {
-  const _Summary({required this.waiting, required this.failed, required this.sent});
+  const _Summary({
+    required this.waiting,
+    required this.failed,
+    required this.sent,
+  });
 
   final int waiting;
   final int failed;
@@ -120,7 +129,11 @@ class _Summary extends StatelessWidget {
 }
 
 class _Metric extends StatelessWidget {
-  const _Metric({required this.value, required this.label, required this.color});
+  const _Metric({
+    required this.value,
+    required this.label,
+    required this.color,
+  });
 
   final int value;
   final String label;
@@ -147,12 +160,12 @@ class _PendingTile extends StatelessWidget {
   final AttendanceQueue queue;
 
   (Color, String) get _badge => switch (item.sync) {
-        SyncState.sent => (AppColors.tealDark, 'Enviado'),
-        SyncState.failed => (AppColors.pink, 'Error'),
-        SyncState.sending => (AppColors.blue, 'Enviando'),
-        SyncState.duplicate => (AppColors.orange, 'Duplicado'),
-        SyncState.pending => (AppColors.textSecondary, 'En cola'),
-      };
+    SyncState.sent => (AppColors.tealDark, 'Enviado'),
+    SyncState.failed => (AppColors.pink, 'Error'),
+    SyncState.sending => (AppColors.blue, 'Enviando'),
+    SyncState.duplicate => (AppColors.orange, 'Duplicado'),
+    SyncState.pending => (AppColors.textSecondary, 'En cola'),
+  };
 
   @override
   Widget build(BuildContext context) {
@@ -168,22 +181,29 @@ class _PendingTile extends StatelessWidget {
               children: [
                 Expanded(
                   child: Text(
-                    item.studentName.isEmpty ? 'Estudiante ${item.studentId}' : item.studentName,
+                    item.studentName.isEmpty
+                        ? 'Estudiante ${item.studentId}'
+                        : item.studentName,
                     style: AppTextStyles.h3,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 4,
+                  ),
                   decoration: BoxDecoration(
                     color: color.withValues(alpha: 0.12),
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Text(
                     label,
-                    style: AppTextStyles.caption
-                        .copyWith(color: color, fontWeight: FontWeight.w700),
+                    style: AppTextStyles.caption.copyWith(
+                      color: color,
+                      fontWeight: FontWeight.w700,
+                    ),
                   ),
                 ),
               ],
@@ -227,8 +247,11 @@ class _PendingTile extends StatelessWidget {
                   IconButton(
                     tooltip: 'Descartar',
                     onPressed: () => _confirmDiscard(context),
-                    icon: const Icon(Icons.delete_outline_rounded,
-                        size: 20, color: AppColors.pink),
+                    icon: const Icon(
+                      Icons.delete_outline_rounded,
+                      size: 20,
+                      color: AppColors.pink,
+                    ),
                   ),
                 ],
               ),
@@ -289,8 +312,10 @@ class _PendingTile extends StatelessWidget {
           ),
           TextButton(
             onPressed: () => Navigator.of(context).pop(true),
-            child: Text('Descartar',
-                style: AppTextStyles.link.copyWith(color: AppColors.pink)),
+            child: Text(
+              'Descartar',
+              style: AppTextStyles.link.copyWith(color: AppColors.pink),
+            ),
           ),
         ],
       ),

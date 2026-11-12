@@ -1,0 +1,62 @@
+[
+  {
+    "id_materia": 1,
+    "nombre_materia": "Matemáticas",
+    "codigo_materia": "MAT001",
+    "activa": true
+  },
+  {
+    "id_materia": 2,
+    "nombre_materia": "Español",
+    "codigo_materia": "ESP001",
+    "activa": true
+  },
+  {
+    "id_materia": 3,
+    "nombre_materia": "Ciencias Naturales",
+    "codigo_materia": "CNA001",
+    "activa": true
+  },
+  {
+    "id_materia": 4,
+    "nombre_materia": "Ciencias Sociales",
+    "codigo_materia": "CSO001",
+    "activa": true
+  },
+  {
+    "id_materia": 5,
+    "nombre_materia": "Inglés",
+    "codigo_materia": "ING001",
+    "activa": true
+  },
+  {
+    "id_materia": 6,
+    "nombre_materia": "Educación Física",
+    "codigo_materia": "EDF001",
+    "activa": true
+  },
+  {
+    "id_materia": 7,
+    "nombre_materia": "Artes",
+    "codigo_materia": "ART001",
+    "activa": true
+  },
+  {
+    "id_materia": 8,
+    "nombre_materia": "Música",
+    "codigo_materia": "MUS001",
+    "activa": true
+  },
+  {
+    "id_materia": 9,
+    "nombre_materia": "Informática",
+    "codigo_materia": "INF001",
+    "activa": true
+  },
+  {
+    "id_materia": 10,
+    "nombre_materia": "Ética y Valores",
+    "codigo_materia": "ETI001",
+    "activa": true
+  }
+]

@@ -64,7 +64,8 @@ class AppUser {
   /// String form used by the router's path params.
   String get id => userId.toString();
 
-  String get firstName => name.trim().isEmpty ? '' : name.trim().split(' ').first;
+  String get firstName =>
+      name.trim().isEmpty ? '' : name.trim().split(' ').first;
 
   bool get isActive => status == AccountStatus.active;
 

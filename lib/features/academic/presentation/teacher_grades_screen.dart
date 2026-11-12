@@ -24,32 +24,43 @@ class TeacherGradesScreen extends ConsumerWidget {
         onRefresh: () async => ref.invalidate(teacherClassesProvider),
         child: classesAsync.when(
           loading: () => const LoadingView(),
-          error: (error, _) => ListView(children: [
-            ErrorView(error: error, onRetry: () => ref.invalidate(teacherClassesProvider)),
-          ]),
+          error: (error, _) => ListView(
+            children: [
+              ErrorView(
+                error: error,
+                onRetry: () => ref.invalidate(teacherClassesProvider),
+              ),
+            ],
+          ),
           data: (classes) {
             if (classes.isEmpty) {
-              return ListView(children: const [
-                EmptyState(
-                  icon: Icons.bar_chart_rounded,
-                  title: 'Sin materias asignadas',
-                  message: 'Cuando te asignen una materia podrás registrar sus notas.',
-                ),
-              ]);
+              return ListView(
+                children: const [
+                  EmptyState(
+                    icon: Icons.bar_chart_rounded,
+                    title: 'Sin materias asignadas',
+                    message:
+                        'Cuando te asignen una materia podrás registrar sus notas.',
+                  ),
+                ],
+              );
             }
             return ListView(
               padding: const EdgeInsets.fromLTRB(20, 20, 20, 32),
               children: [
-                Text('Selecciona una clase para registrar notas.',
-                    style: AppTextStyles.bodyMuted),
+                Text(
+                  'Selecciona una clase para registrar notas.',
+                  style: AppTextStyles.bodyMuted,
+                ),
                 const SizedBox(height: 16),
                 for (final item in classes)
                   Padding(
                     padding: const EdgeInsets.only(bottom: 12),
                     child: InkWell(
                       borderRadius: BorderRadius.circular(18),
-                      onTap: () =>
-                          context.push('/teacher/classes/${item.assignmentId}/notas'),
+                      onTap: () => context.push(
+                        '/teacher/classes/${item.assignmentId}/notas',
+                      ),
                       child: SectionCard(
                         child: Row(
                           children: [
@@ -60,26 +71,34 @@ class TeacherGradesScreen extends ConsumerWidget {
                                 color: AppColors.roleTeacherBg,
                                 borderRadius: BorderRadius.circular(12),
                               ),
-                              child: const Icon(Icons.bar_chart_rounded,
-                                  color: AppColors.roleTeacher),
+                              child: const Icon(
+                                Icons.bar_chart_rounded,
+                                color: AppColors.roleTeacher,
+                              ),
                             ),
                             const SizedBox(width: 14),
                             Expanded(
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(item.subjectName, style: AppTextStyles.h3),
                                   Text(
-                                    [item.courseName, item.shift]
-                                        .whereType<String>()
-                                        .join(' · '),
+                                    item.subjectName,
+                                    style: AppTextStyles.h3,
+                                  ),
+                                  Text(
+                                    [
+                                      item.courseName,
+                                      item.shift,
+                                    ].whereType<String>().join(' · '),
                                     style: AppTextStyles.caption,
                                   ),
                                 ],
                               ),
                             ),
-                            const Icon(Icons.chevron_right_rounded,
-                                color: AppColors.textSecondary),
+                            const Icon(
+                              Icons.chevron_right_rounded,
+                              color: AppColors.textSecondary,
+                            ),
                           ],
                         ),
                       ),

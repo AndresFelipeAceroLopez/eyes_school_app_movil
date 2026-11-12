@@ -1,4 +1,9 @@
 {
     "java.compile.nullAnalysis.mode": "disabled",
-    "java.configuration.updateBuildConfiguration": "interactive"
+    "java.configuration.updateBuildConfiguration": "interactive",
+    "cmake.sourceDirectory": "C:/Users/marig/eyes_school_app_movil/windows",
+    "sonarlint.connectedMode.project": {
+        "connectionId": "andresfelipeacerolopez",
+        "projectKey": "AndresFelipeAceroLopez_eyes_school_app_movil"
+    }
 }

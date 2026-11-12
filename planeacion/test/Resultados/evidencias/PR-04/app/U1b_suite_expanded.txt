@@ -1,0 +1,534 @@
+00:00 +0: loading C:/Users/marig/eyes_school_app_movil/test/app_boot_test.dart
+00:00 +0: C:/Users/marig/eyes_school_app_movil/test/app_boot_test.dart: sin sesión guardada la app aterriza en el login
+00:02 +1: C:/Users/marig/eyes_school_app_movil/test/app_boot_test.dart: sin sesión guardada la app aterriza en el login
+00:02 +2: C:/Users/marig/eyes_school_app_movil/test/app_boot_test.dart: sin sesión guardada la app aterriza en el login
+00:03 +3: C:/Users/marig/eyes_school_app_movil/test/app_boot_test.dart: sin sesión guardada la app aterriza en el login
+00:03 +4: C:/Users/marig/eyes_school_app_movil/test/app_boot_test.dart: sin sesión guardada la app aterriza en el login
+00:03 +5: C:/Users/marig/eyes_school_app_movil/test/app_boot_test.dart: sin sesión guardada la app aterriza en el login
+00:05 +6: C:/Users/marig/eyes_school_app_movil/test/app_boot_test.dart: sin sesión guardada la app aterriza en el login
+00:06 +7: C:/Users/marig/eyes_school_app_movil/test/app_boot_test.dart: sin sesión guardada la app aterriza en el login
+00:06 +8: C:/Users/marig/eyes_school_app_movil/test/app_boot_test.dart: sin sesión guardada la app aterriza en el login
+00:06 +9: C:/Users/marig/eyes_school_app_movil/test/app_boot_test.dart: sin sesión guardada la app aterriza en el login
+00:06 +10: C:/Users/marig/eyes_school_app_movil/test/app_boot_test.dart: sin sesión guardada la app aterriza en el login
+00:06 +11: C:/Users/marig/eyes_school_app_movil/test/app_boot_test.dart: sin sesión guardada la app aterriza en el login
+00:07 +12: C:/Users/marig/eyes_school_app_movil/test/app_boot_test.dart: sin sesión guardada la app aterriza en el login
+00:07 +13: C:/Users/marig/eyes_school_app_movil/test/app_boot_test.dart: sin sesión guardada la app aterriza en el login
+00:07 +14: C:/Users/marig/eyes_school_app_movil/test/app_boot_test.dart: sin sesión guardada la app aterriza en el login
+00:07 +15: C:/Users/marig/eyes_school_app_movil/test/app_boot_test.dart: sin sesión guardada la app aterriza en el login
+00:07 +16: C:/Users/marig/eyes_school_app_movil/test/app_boot_test.dart: sin sesión guardada la app aterriza en el login
+test/email_normalization_test.dart:20:14: Error: Method not found: 'normalizeEmail'.
+      expect(normalizeEmail(' Ana@X.com '), 'ana@x.com');
+             ^^^^^^^^^^^^^^
+test/email_normalization_test.dart:24:14: Error: Method not found: 'normalizeEmail'.
+      expect(normalizeEmail('carlos.jimenez@eyes.edu.co'), 'carlos.jimenez@eyes.edu.co');
+             ^^^^^^^^^^^^^^
+test/email_normalization_test.dart:28:14: Error: Method not found: 'normalizeEmail'.
+      expect(normalizeEmail('  Carlos.Jimenez@Eyes.edu.co  '), 'carlos.jimenez@eyes.edu.co');
+             ^^^^^^^^^^^^^^
+00:07 +16 -1: loading C:/Users/marig/eyes_school_app_movil/test/email_normalization_test.dart [E]
+  Failed to load "C:/Users/marig/eyes_school_app_movil/test/email_normalization_test.dart":
+  Compilation failed for testPath=C:/Users/marig/eyes_school_app_movil/test/email_normalization_test.dart: test/email_normalization_test.dart:20:14: Error: Method not found: 'normalizeEmail'.
+        expect(normalizeEmail(' Ana@X.com '), 'ana@x.com');
+               ^^^^^^^^^^^^^^
+  test/email_normalization_test.dart:24:14: Error: Method not found: 'normalizeEmail'.
+        expect(normalizeEmail('carlos.jimenez@eyes.edu.co'), 'carlos.jimenez@eyes.edu.co');
+               ^^^^^^^^^^^^^^
+  test/email_normalization_test.dart:28:14: Error: Method not found: 'normalizeEmail'.
+        expect(normalizeEmail('  Carlos.Jimenez@Eyes.edu.co  '), 'carlos.jimenez@eyes.edu.co');
+               ^^^^^^^^^^^^^^
+  .
+00:08 +16 -2: loading C:/Users/marig/eyes_school_app_movil/test/app_boot_test.dart [E]
+  Error: The Dart compiler exited unexpectedly.
+  package:flutter_tools/src/base/common.dart 34:3  throwToolExit
+  package:flutter_tools/src/compile.dart 1024:11   DefaultResidentCompiler._compile.<fn>
+  dart:async/zone_root.dart 48:47                  _rootRunUnary
+  dart:async/zone.dart 816:35                      _CustomZone.runUnary
+  dart:async/future_impl.dart 948:45               Future._propagateToListeners.handleValueCallback
+  dart:async/future_impl.dart 977:13               Future._propagateToListeners
+  dart:async/future_impl.dart 862:9                Future._propagateToListeners
+  dart:async/future_impl.dart 720:5                Future._completeWithValue
+  dart:async/future_impl.dart 804:7                Future._asyncCompleteWithValue.<fn>
+  dart:async/zone_root.dart 35:13                  _rootRun
+  dart:async/zone.dart 810:35                      _CustomZone.run
+  dart:async/zone.dart 702:7                       _CustomZone.runGuarded
+  dart:async/zone.dart 743:23                      _CustomZone.bindCallbackGuarded.<fn>
+  dart:async/schedule_microtask.dart 40:35         _microtaskLoop
+  dart:async/schedule_microtask.dart 49:5          _startMicrotaskLoop
+  dart:isolate-patch/isolate_patch.dart 127:13     _runPendingImmediateCallback
+  dart:isolate-patch/isolate_patch.dart 193:5      _RawReceivePort._handleMessage
+  
+00:08 +16 -2: C:/Users/marig/eyes_school_app_movil/test/children_screen_test.dart: UT-APP-05 · con 2 hijos se listan y al elegir el segundo se piden sus notas
+*** Request ***
+uri: https://apieyeschool-b7fudxavddh9hhah.canadacentral-01.azurewebsites.net/api/v1/auth/me
+data:
+null
+00:08 +17 -2: C:/Users/marig/eyes_school_app_movil/test/app_boot_test.dart: sin sesión guardada la app aterriza en el login
+00:08 +17 -2: C:/Users/marig/eyes_school_app_movil/test/children_screen_test.dart: UT-APP-05 · con 2 hijos se listan y al elegir el segundo se piden sus notas
+
+*** Response ***
+00:08 +18 -2: C:/Users/marig/eyes_school_app_movil/test/app_boot_test.dart: sin sesión guardada la app aterriza en el login
+00:08 +19 -2: C:/Users/marig/eyes_school_app_movil/test/app_boot_test.dart: sin sesión guardada la app aterriza en el login
+00:08 +19 -2: C:/Users/marig/eyes_school_app_movil/test/children_screen_test.dart: UT-APP-05 · con 2 hijos se listan y al elegir el segundo se piden sus notas
+uri: https://apieyeschool-b7fudxavddh9hhah.canadacentral-01.azurewebsites.net/api/v1/auth/me
+
+00:08 +20 -2: C:/Users/marig/eyes_school_app_movil/test/app_boot_test.dart: sin sesión guardada la app aterriza en el login
+00:08 +20 -2: C:/Users/marig/eyes_school_app_movil/test/children_screen_test.dart: UT-APP-05 · con 2 hijos se listan y al elegir el segundo se piden sus notas
+*** Request ***
+uri: https://apieyeschool-b7fudxavddh9hhah.canadacentral-01.azurewebsites.net/api/v1/cursos?skip=0&limit=200
+data:
+00:08 +21 -2: C:/Users/marig/eyes_school_app_movil/test/app_boot_test.dart: sin sesión guardada la app aterriza en el login
+00:08 +21 -2: C:/Users/marig/eyes_school_app_movil/test/children_screen_test.dart: UT-APP-05 · con 2 hijos se listan y al elegir el segundo se piden sus notas
+null
+
+*** Request ***
+00:08 +22 -2: C:/Users/marig/eyes_school_app_movil/test/app_boot_test.dart: sin sesión guardada la app aterriza en el login
+00:08 +22 -2: C:/Users/marig/eyes_school_app_movil/test/children_screen_test.dart: UT-APP-05 · con 2 hijos se listan y al elegir el segundo se piden sus notas
+uri: https://apieyeschool-b7fudxavddh9hhah.canadacentral-01.azurewebsites.net/api/v1/materias
+data:
+null
+
+00:09 +23 -2: C:/Users/marig/eyes_school_app_movil/test/app_boot_test.dart: sin sesión guardada la app aterriza en el login
+00:09 +23 -2: C:/Users/marig/eyes_school_app_movil/test/children_screen_test.dart: UT-APP-05 · con 2 hijos se listan y al elegir el segundo se piden sus notas
+*** Request ***
+uri: https://apieyeschool-b7fudxavddh9hhah.canadacentral-01.azurewebsites.net/api/v1/tipos-novedad
+00:09 +24 -2: C:/Users/marig/eyes_school_app_movil/test/app_boot_test.dart: sin sesión guardada la app aterriza en el login
+00:09 +24 -2: C:/Users/marig/eyes_school_app_movil/test/children_screen_test.dart: UT-APP-05 · con 2 hijos se listan y al elegir el segundo se piden sus notas
+data:
+null
+00:09 +25 -2: C:/Users/marig/eyes_school_app_movil/test/app_boot_test.dart: sin sesión guardada la app aterriza en el login
+00:09 +25 -2: C:/Users/marig/eyes_school_app_movil/test/children_screen_test.dart: UT-APP-05 · con 2 hijos se listan y al elegir el segundo se piden sus notas
+
+*** Response ***
+uri: https://apieyeschool-b7fudxavddh9hhah.canadacentral-01.azurewebsites.net/api/v1/cursos?skip=0&limit=200
+
+*** Response ***
+00:09 +26 -2: C:/Users/marig/eyes_school_app_movil/test/app_boot_test.dart: sin sesión guardada la app aterriza en el login
+00:09 +26 -2: C:/Users/marig/eyes_school_app_movil/test/children_screen_test.dart: UT-APP-05 · con 2 hijos se listan y al elegir el segundo se piden sus notas
+uri: https://apieyeschool-b7fudxavddh9hhah.canadacentral-01.azurewebsites.net/api/v1/materias
+
+00:09 +27 -2: C:/Users/marig/eyes_school_app_movil/test/app_boot_test.dart: sin sesión guardada la app aterriza en el login
+00:09 +28 -2: C:/Users/marig/eyes_school_app_movil/test/app_boot_test.dart: sin sesión guardada la app aterriza en el login
+00:09 +29 -2: C:/Users/marig/eyes_school_app_movil/test/app_boot_test.dart: sin sesión guardada la app aterriza en el login
+00:09 +30 -2: C:/Users/marig/eyes_school_app_movil/test/app_boot_test.dart: sin sesión guardada la app aterriza en el login
+00:09 +31 -2: C:/Users/marig/eyes_school_app_movil/test/app_boot_test.dart: sin sesión guardada la app aterriza en el login
+00:09 +32 -2: C:/Users/marig/eyes_school_app_movil/test/app_boot_test.dart: sin sesión guardada la app aterriza en el login
+00:09 +33 -2: C:/Users/marig/eyes_school_app_movil/test/app_boot_test.dart: sin sesión guardada la app aterriza en el login
+00:09 +34 -2: C:/Users/marig/eyes_school_app_movil/test/app_boot_test.dart: sin sesión guardada la app aterriza en el login
+00:09 +35 -2: C:/Users/marig/eyes_school_app_movil/test/app_boot_test.dart: sin sesión guardada la app aterriza en el login
+00:09 +36 -2: C:/Users/marig/eyes_school_app_movil/test/app_boot_test.dart: sin sesión guardada la app aterriza en el login
+00:09 +36 -2: C:/Users/marig/eyes_school_app_movil/test/children_screen_test.dart: UT-APP-05 · con 2 hijos se listan y al elegir el segundo se piden sus notas
+*** Request ***
+uri: https://apieyeschool-b7fudxavddh9hhah.canadacentral-01.azurewebsites.net/api/v1/padres/me
+data:
+null
+
+*** Response ***
+uri: https://apieyeschool-b7fudxavddh9hhah.canadacentral-01.azurewebsites.net/api/v1/padres/me
+
+*** Request ***
+uri: https://apieyeschool-b7fudxavddh9hhah.canadacentral-01.azurewebsites.net/api/v1/dashboard/padre
+data:
+00:11 +37 -2: C:/Users/marig/eyes_school_app_movil/test/children_screen_test.dart: UT-APP-05 · con 2 hijos se listan y al elegir el segundo se piden sus notas
+00:11 +38 -2: C:/Users/marig/eyes_school_app_movil/test/children_screen_test.dart: UT-APP-05 · con 2 hijos se listan y al elegir el segundo se piden sus notas
+null
+
+*** Response ***
+uri: https://apieyeschool-b7fudxavddh9hhah.canadacentral-01.azurewebsites.net/api/v1/dashboard/padre
+
+*** Request ***
+uri: https://apieyeschool-b7fudxavddh9hhah.canadacentral-01.azurewebsites.net/api/v1/estudiantes/1
+data:
+null
+
+*** Response ***
+uri: https://apieyeschool-b7fudxavddh9hhah.canadacentral-01.azurewebsites.net/api/v1/estudiantes/1
+
+*** Request ***
+uri: https://apieyeschool-b7fudxavddh9hhah.canadacentral-01.azurewebsites.net/api/v1/estudiantes/1
+data:
+null
+
+*** Request ***
+uri: https://apieyeschool-b7fudxavddh9hhah.canadacentral-01.azurewebsites.net/api/v1/estudiantes/1/novedades
+data:
+null
+
+*** Request ***
+uri: https://apieyeschool-b7fudxavddh9hhah.canadacentral-01.azurewebsites.net/api/v1/cursos/1/horarios
+data:
+null
+
+*** Response ***
+uri: https://apieyeschool-b7fudxavddh9hhah.canadacentral-01.azurewebsites.net/api/v1/estudiantes/1
+
+*** Response ***
+uri: https://apieyeschool-b7fudxavddh9hhah.canadacentral-01.azurewebsites.net/api/v1/estudiantes/1/novedades
+
+*** Response ***
+uri: https://apieyeschool-b7fudxavddh9hhah.canadacentral-01.azurewebsites.net/api/v1/cursos/1/horarios
+
+*** Request ***
+uri: https://apieyeschool-b7fudxavddh9hhah.canadacentral-01.azurewebsites.net/api/v1/usuarios/101
+data:
+null
+
+*** Request ***
+uri: https://apieyeschool-b7fudxavddh9hhah.canadacentral-01.azurewebsites.net/api/v1/padres?skip=0&limit=200
+data:
+null
+
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following TestFailure was thrown running a test:
+Expected: at least one matching candidate
+  Actual: _TextContainingWidgetFinder:<Found 0 widgets with text containing Sofía Rodríguez: []>
+   Which: means none were found but some were expected
+
+When the exception was thrown, this was the stack:
+#4      main.<anonymous closure> (file:///C:/Users/marig/eyes_school_app_movil/test/children_screen_test.dart:185:5)
+<asynchronous suspension>
+#5      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
+<asynchronous suspension>
+#6      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1953:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+This was caught by the test expectation on the following line:
+  file:///C:/Users/marig/eyes_school_app_movil/test/children_screen_test.dart line 185
+The test description was:
+  UT-APP-05 · con 2 hijos se listan y al elegir el segundo se piden sus notas
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:13 +38 -3: C:/Users/marig/eyes_school_app_movil/test/children_screen_test.dart: UT-APP-05 · con 2 hijos se listan y al elegir el segundo se piden sus notas [E]
+  Test failed. See exception logs above.
+  The test description was: UT-APP-05 · con 2 hijos se listan y al elegir el segundo se piden sus notas
+  
+00:13 +38 -3: C:/Users/marig/eyes_school_app_movil/test/children_screen_test.dart: UT-APP-05 · con 1 hijo no aparece ningún otro estudiante
+*** Request ***
+uri: https://apieyeschool-b7fudxavddh9hhah.canadacentral-01.azurewebsites.net/api/v1/auth/me
+data:
+null
+
+*** Response ***
+uri: https://apieyeschool-b7fudxavddh9hhah.canadacentral-01.azurewebsites.net/api/v1/auth/me
+
+*** Request ***
+uri: https://apieyeschool-b7fudxavddh9hhah.canadacentral-01.azurewebsites.net/api/v1/cursos?skip=0&limit=200
+data:
+null
+
+*** Request ***
+uri: https://apieyeschool-b7fudxavddh9hhah.canadacentral-01.azurewebsites.net/api/v1/materias
+data:
+null
+
+*** Request ***
+uri: https://apieyeschool-b7fudxavddh9hhah.canadacentral-01.azurewebsites.net/api/v1/tipos-novedad
+data:
+null
+
+*** Response ***
+uri: https://apieyeschool-b7fudxavddh9hhah.canadacentral-01.azurewebsites.net/api/v1/cursos?skip=0&limit=200
+
+*** Response ***
+uri: https://apieyeschool-b7fudxavddh9hhah.canadacentral-01.azurewebsites.net/api/v1/materias
+
+*** Request ***
+uri: https://apieyeschool-b7fudxavddh9hhah.canadacentral-01.azurewebsites.net/api/v1/padres/me
+data:
+null
+
+*** Response ***
+uri: https://apieyeschool-b7fudxavddh9hhah.canadacentral-01.azurewebsites.net/api/v1/padres/me
+
+*** Request ***
+uri: https://apieyeschool-b7fudxavddh9hhah.canadacentral-01.azurewebsites.net/api/v1/dashboard/padre
+data:
+null
+
+*** Response ***
+uri: https://apieyeschool-b7fudxavddh9hhah.canadacentral-01.azurewebsites.net/api/v1/dashboard/padre
+
+*** Request ***
+uri: https://apieyeschool-b7fudxavddh9hhah.canadacentral-01.azurewebsites.net/api/v1/estudiantes/2
+data:
+null
+
+*** Response ***
+uri: https://apieyeschool-b7fudxavddh9hhah.canadacentral-01.azurewebsites.net/api/v1/estudiantes/2
+
+*** Request ***
+uri: https://apieyeschool-b7fudxavddh9hhah.canadacentral-01.azurewebsites.net/api/v1/estudiantes/2
+data:
+null
+
+*** Request ***
+uri: https://apieyeschool-b7fudxavddh9hhah.canadacentral-01.azurewebsites.net/api/v1/estudiantes/2/novedades
+data:
+null
+
+*** Request ***
+uri: https://apieyeschool-b7fudxavddh9hhah.canadacentral-01.azurewebsites.net/api/v1/cursos/1/horarios
+data:
+null
+
+*** Response ***
+uri: https://apieyeschool-b7fudxavddh9hhah.canadacentral-01.azurewebsites.net/api/v1/estudiantes/2
+
+*** Response ***
+uri: https://apieyeschool-b7fudxavddh9hhah.canadacentral-01.azurewebsites.net/api/v1/estudiantes/2/novedades
+
+*** Response ***
+uri: https://apieyeschool-b7fudxavddh9hhah.canadacentral-01.azurewebsites.net/api/v1/cursos/1/horarios
+
+*** Request ***
+uri: https://apieyeschool-b7fudxavddh9hhah.canadacentral-01.azurewebsites.net/api/v1/usuarios/102
+data:
+null
+
+*** Request ***
+uri: https://apieyeschool-b7fudxavddh9hhah.canadacentral-01.azurewebsites.net/api/v1/padres?skip=0&limit=200
+data:
+null
+
+test/password_policy_test.dart:9:8: Error: Error when reading 'lib/core/domain/password_policy.dart': El sistema no puede encontrar el archivo especificado
+import 'package:eyes_school/core/domain/password_policy.dart';
+       ^
+test/password_policy_test.dart:15:14: Error: Undefined name 'PasswordPolicy'.
+      expect(PasswordPolicy.isValid('Colegio#2026'), isTrue);
+             ^^^^^^^^^^^^^^
+test/password_policy_test.dart:29:16: Error: Undefined name 'PasswordPolicy'.
+        expect(PasswordPolicy.isValid(valor), isFalse);
+               ^^^^^^^^^^^^^^
+00:16 +39 -4: loading C:/Users/marig/eyes_school_app_movil/test/password_policy_test.dart [E]
+  Failed to load "C:/Users/marig/eyes_school_app_movil/test/password_policy_test.dart":
+  Compilation failed for testPath=C:/Users/marig/eyes_school_app_movil/test/password_policy_test.dart: test/password_policy_test.dart:9:8: Error: Error when reading 'lib/core/domain/password_policy.dart': El sistema no puede encontrar el archivo especificado
+  import 'package:eyes_school/core/domain/password_policy.dart';
+         ^
+  test/password_policy_test.dart:15:14: Error: Undefined name 'PasswordPolicy'.
+        expect(PasswordPolicy.isValid('Colegio#2026'), isTrue);
+               ^^^^^^^^^^^^^^
+  test/password_policy_test.dart:29:16: Error: Undefined name 'PasswordPolicy'.
+          expect(PasswordPolicy.isValid(valor), isFalse);
+                 ^^^^^^^^^^^^^^
+  .
+test/push_notification_service_test.dart:22:8: Error: Error when reading 'lib/features/notifications/domain/device_token_repository.dart': El sistema no puede encontrar la ruta especificada
+import 'package:eyes_school/features/notifications/domain/device_token_repository.dart';
+       ^
+test/push_notification_service_test.dart:62:35: Error: Type 'DeviceTokenRepository' not found.
+class _RecordingTokens implements DeviceTokenRepository {
+                                  ^^^^^^^^^^^^^^^^^^^^^
+test/push_notification_service_test.dart:53:19: Error: The method '_FakeMessaging.getToken' has fewer named arguments than those of overridden method 'FirebaseMessaging.getToken'.
+  Future<String?> getToken({String? vapidKey}) async => token;
+                  ^
+../AppData/Local/Pub/Cache/hosted/pub.dev/firebase_messaging-16.7.0/lib/src/messaging.dart:121:19: Context: This is the overridden method ('getToken').
+  Future<String?> getToken({
+                  ^
+test/push_notification_service_test.dart:53:19: Error: The method '_FakeMessaging.getToken' doesn't have the named parameter 'serviceWorkerScriptPath' of overridden method 'FirebaseMessaging.getToken'.
+  Future<String?> getToken({String? vapidKey}) async => token;
+                  ^
+../AppData/Local/Pub/Cache/hosted/pub.dev/firebase_messaging-16.7.0/lib/src/messaging.dart:121:19: Context: This is the overridden method ('getToken').
+  Future<String?> getToken({
+                  ^
+test/push_notification_service_test.dart:78:11: Error: Couldn't find constructor 'PushNotificationService'.
+          PushNotificationService(messaging: _FakeMessaging(), deviceTokens: tokens);
+          ^^^^^^^^^^^^^^^^^^^^^^^
+test/push_notification_service_test.dart:88:23: Error: Couldn't find constructor 'PushNotificationService'.
+      final service = PushNotificationService(messaging: messaging, deviceTokens: tokens);
+                      ^^^^^^^^^^^^^^^^^^^^^^^
+test/push_notification_service_test.dart:99:23: Error: Couldn't find constructor 'PushNotificationService'.
+      final service = PushNotificationService(
+                      ^^^^^^^^^^^^^^^^^^^^^^^
+test/push_notification_service_test.dart:111:11: Error: Couldn't find constructor 'PushNotificationService'.
+          PushNotificationService(messaging: _FakeMessaging(), deviceTokens: tokens);
+          ^^^^^^^^^^^^^^^^^^^^^^^
+00:23 +39 -5: loading C:/Users/marig/eyes_school_app_movil/test/push_notification_service_test.dart [E]
+  Failed to load "C:/Users/marig/eyes_school_app_movil/test/push_notification_service_test.dart":
+  Compilation failed for testPath=C:/Users/marig/eyes_school_app_movil/test/push_notification_service_test.dart: test/push_notification_service_test.dart:22:8: Error: Error when reading 'lib/features/notifications/domain/device_token_repository.dart': El sistema no puede encontrar la ruta especificada
+  import 'package:eyes_school/features/notifications/domain/device_token_repository.dart';
+         ^
+  test/push_notification_service_test.dart:62:35: Error: Type 'DeviceTokenRepository' not found.
+  class _RecordingTokens implements DeviceTokenRepository {
+                                    ^^^^^^^^^^^^^^^^^^^^^
+  test/push_notification_service_test.dart:53:19: Error: The method '_FakeMessaging.getToken' has fewer named arguments than those of overridden method 'FirebaseMessaging.getToken'.
+    Future<String?> getToken({String? vapidKey}) async => token;
+                    ^
+  ../AppData/Local/Pub/Cache/hosted/pub.dev/firebase_messaging-16.7.0/lib/src/messaging.dart:121:19: Context: This is the overridden method ('getToken').
+    Future<String?> getToken({
+                    ^
+  test/push_notification_service_test.dart:53:19: Error: The method '_FakeMessaging.getToken' doesn't have the named parameter 'serviceWorkerScriptPath' of overridden method 'FirebaseMessaging.getToken'.
+    Future<String?> getToken({String? vapidKey}) async => token;
+                    ^
+  ../AppData/Local/Pub/Cache/hosted/pub.dev/firebase_messaging-16.7.0/lib/src/messaging.dart:121:19: Context: This is the overridden method ('getToken').
+    Future<String?> getToken({
+                    ^
+  test/push_notification_service_test.dart:78:11: Error: Couldn't find constructor 'PushNotificationService'.
+            PushNotificationService(messaging: _FakeMessaging(), deviceTokens: tokens);
+            ^^^^^^^^^^^^^^^^^^^^^^^
+  test/push_notification_service_test.dart:88:23: Error: Couldn't find constructor 'PushNotificationService'.
+        final service = PushNotificationService(messaging: messaging, deviceTokens: tokens);
+                        ^^^^^^^^^^^^^^^^^^^^^^^
+  test/push_notification_service_test.dart:99:23: Error: Couldn't find constructor 'PushNotificationService'.
+        final service = PushNotificationService(
+                        ^^^^^^^^^^^^^^^^^^^^^^^
+  test/push_notification_service_test.dart:111:11: Error: Couldn't find constructor 'PushNotificationService'.
+            PushNotificationService(messaging: _FakeMessaging(), deviceTokens: tokens);
+            ^^^^^^^^^^^^^^^^^^^^^^^
+  .
+00:33 +39 -5: C:/Users/marig/eyes_school_app_movil/test/reset_password_screen_test.dart: UT-APP-03 · «Colegio2026» no llega al repositorio
+00:37 +39 -6: C:/Users/marig/eyes_school_app_movil/test/reset_password_screen_test.dart: UT-APP-03 · «Colegio2026» no llega al repositorio
+00:38 +39 -6: C:/Users/marig/eyes_school_app_movil/test/update_service_test.dart: UpdateService (UT-APP-08) consulta el repositorio eyes_school_app_movil [E]
+  Expected: contains a string ending with '/repos/AndresFelipeAceroLopez/eyes_school_app_movil/releases/latest'
+    Actual: []
+     Which: does not contain a string ending with '/repos/AndresFelipeAceroLopez/eyes_school_app_movil/releases/latest'
+  
+  package:matcher                                     expect
+  package:flutter_test/src/widget_tester.dart 473:18  expect
+  test\update_service_test.dart 61:7                  main.<fn>.<fn>
+  
+00:38 +39 -7: C:/Users/marig/eyes_school_app_movil/test/reset_password_screen_test.dart: UT-APP-03 · «Colegio2026» no llega al repositorio
+00:38 +39 -7: C:/Users/marig/eyes_school_app_movil/test/update_service_test.dart: UpdateService (UT-APP-08) versión publicada mayor → hasUpdate [E]
+  Expected: true
+    Actual: <false>
+  
+  package:matcher                                     expect
+  package:flutter_test/src/widget_tester.dart 473:18  expect
+  test\update_service_test.dart 67:7                  main.<fn>.<fn>
+  
+00:38 +40 -7: C:/Users/marig/eyes_school_app_movil/test/reset_password_screen_test.dart: UT-APP-03 · «Colegio2026» no llega al repositorio
+00:38 +41 -7: C:/Users/marig/eyes_school_app_movil/test/reset_password_screen_test.dart: UT-APP-03 · «Colegio2026» no llega al repositorio
+00:38 +42 -7: C:/Users/marig/eyes_school_app_movil/test/reset_password_screen_test.dart: UT-APP-03 · «Colegio2026» no llega al repositorio
+00:38 +43 -7: C:/Users/marig/eyes_school_app_movil/test/reset_password_screen_test.dart: UT-APP-03 · «Colegio2026» no llega al repositorio
+00:38 +44 -7: C:/Users/marig/eyes_school_app_movil/test/reset_password_screen_test.dart: UT-APP-03 · «Colegio2026» no llega al repositorio
+00:38 +45 -7: C:/Users/marig/eyes_school_app_movil/test/reset_password_screen_test.dart: UT-APP-03 · «Colegio2026» no llega al repositorio
+00:38 +46 -7: C:/Users/marig/eyes_school_app_movil/test/reset_password_screen_test.dart: UT-APP-03 · «Colegio2026» no llega al repositorio
+00:38 +47 -7: C:/Users/marig/eyes_school_app_movil/test/reset_password_screen_test.dart: UT-APP-03 · «Colegio2026» no llega al repositorio
+00:38 +48 -7: C:/Users/marig/eyes_school_app_movil/test/reset_password_screen_test.dart: UT-APP-03 · «Colegio2026» no llega al repositorio
+00:38 +49 -7: C:/Users/marig/eyes_school_app_movil/test/reset_password_screen_test.dart: UT-APP-03 · «Colegio2026» no llega al repositorio
+00:38 +50 -7: C:/Users/marig/eyes_school_app_movil/test/reset_password_screen_test.dart: UT-APP-03 · «Colegio2026» no llega al repositorio
+00:38 +51 -7: C:/Users/marig/eyes_school_app_movil/test/reset_password_screen_test.dart: UT-APP-03 · «Colegio2026» no llega al repositorio
+00:38 +52 -7: C:/Users/marig/eyes_school_app_movil/test/reset_password_screen_test.dart: UT-APP-03 · «Colegio2026» no llega al repositorio
+00:40 +53 -7: C:/Users/marig/eyes_school_app_movil/test/reset_password_screen_test.dart: UT-APP-03 · «Colegio2026» no llega al repositorio
+00:40 +54 -7: C:/Users/marig/eyes_school_app_movil/test/reset_password_screen_test.dart: UT-APP-03 · «Colegio2026» no llega al repositorio
+00:40 +55 -7: C:/Users/marig/eyes_school_app_movil/test/reset_password_screen_test.dart: UT-APP-03 · «Colegio2026» no llega al repositorio
+00:40 +56 -7: C:/Users/marig/eyes_school_app_movil/test/reset_password_screen_test.dart: UT-APP-03 · «Colegio2026» no llega al repositorio
+00:40 +57 -7: C:/Users/marig/eyes_school_app_movil/test/reset_password_screen_test.dart: UT-APP-03 · «Colegio2026» no llega al repositorio
+00:40 +58 -7: C:/Users/marig/eyes_school_app_movil/test/reset_password_screen_test.dart: UT-APP-03 · «Colegio2026» no llega al repositorio
+00:40 +59 -7: C:/Users/marig/eyes_school_app_movil/test/reset_password_screen_test.dart: UT-APP-03 · «Colegio2026» no llega al repositorio
+00:40 +60 -7: C:/Users/marig/eyes_school_app_movil/test/reset_password_screen_test.dart: UT-APP-03 · «Colegio2026» no llega al repositorio
+00:40 +60 -8: C:/Users/marig/eyes_school_app_movil/test/reset_password_screen_test.dart: UT-APP-03 · «Colegio2026» no llega al repositorio
+00:40 +60 -8: C:/Users/marig/eyes_school_app_movil/test/validators_test.dart: Validators.newPassword con la política completa (UT-APP-02) «Colegio2026» se rechaza por no tener carácter especial [E]
+  Expected: not null
+    Actual: <null>
+  
+  package:matcher                                     expect
+  package:flutter_test/src/widget_tester.dart 473:18  expect
+  test\validators_test.dart 76:7                      main.<fn>.<fn>
+  
+00:40 +61 -8: C:/Users/marig/eyes_school_app_movil/test/reset_password_screen_test.dart: UT-APP-03 · «Colegio2026» no llega al repositorio
+00:40 +61 -9: C:/Users/marig/eyes_school_app_movil/test/reset_password_screen_test.dart: UT-APP-03 · «Colegio2026» no llega al repositorio
+00:40 +61 -9: C:/Users/marig/eyes_school_app_movil/test/validators_test.dart: Validators.newPassword con la política completa (UT-APP-02) cada regla incumplida da un mensaje distinto [E]
+  Expected: every element(not null)
+    Actual: ['Usa al menos 8 caracteres.', null, null, null, null]
+     Which: has value <null> which doesn't match not null at index 1
+  
+  package:matcher                                     expect
+  package:flutter_test/src/widget_tester.dart 473:18  expect
+  test\validators_test.dart 94:7                      main.<fn>.<fn>
+  
+00:43 +61 -9: C:/Users/marig/eyes_school_app_movil/test/student_home_resilience_test.dart: la API caída no tumba el inicio del estudiante
+*** Request ***
+uri: https://apieyeschool-b7fudxavddh9hhah.canadacentral-01.azurewebsites.net/api/v1/auth/me
+data:
+null
+
+*** Response ***
+uri: https://apieyeschool-b7fudxavddh9hhah.canadacentral-01.azurewebsites.net/api/v1/auth/me
+
+*** Request ***
+uri: https://apieyeschool-b7fudxavddh9hhah.canadacentral-01.azurewebsites.net/api/v1/cursos?skip=0&limit=200
+data:
+null
+
+*** Request ***
+uri: https://apieyeschool-b7fudxavddh9hhah.canadacentral-01.azurewebsites.net/api/v1/materias
+data:
+null
+
+*** Request ***
+uri: https://apieyeschool-b7fudxavddh9hhah.canadacentral-01.azurewebsites.net/api/v1/tipos-novedad
+data:
+null
+
+*** Request ***
+uri: https://apieyeschool-b7fudxavddh9hhah.canadacentral-01.azurewebsites.net/api/v1/estudiantes/me
+data:
+null
+
+*** Response ***
+uri: https://apieyeschool-b7fudxavddh9hhah.canadacentral-01.azurewebsites.net/api/v1/estudiantes/me
+
+*** Request ***
+uri: https://apieyeschool-b7fudxavddh9hhah.canadacentral-01.azurewebsites.net/api/v1/dashboard/estudiante
+data:
+null
+
+*** Request ***
+uri: https://apieyeschool-b7fudxavddh9hhah.canadacentral-01.azurewebsites.net/api/v1/dashboard/estudiante
+data:
+null
+
+*** Request ***
+uri: https://apieyeschool-b7fudxavddh9hhah.canadacentral-01.azurewebsites.net/api/v1/cursos/3/horarios
+data:
+null
+
+*** Request ***
+uri: https://apieyeschool-b7fudxavddh9hhah.canadacentral-01.azurewebsites.net/api/v1/estudiantes/7/notas?id_periodo=1
+data:
+null
+
+00:43 +62 -9: C:/Users/marig/eyes_school_app_movil/test/reset_password_screen_test.dart: UT-APP-03 · «Colegio2026» no llega al repositorio
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following TestFailure was thrown running a test:
+Expected: <0>
+  Actual: <1>
+
+When the exception was thrown, this was the stack:
+#4      main.<anonymous closure> (file:///C:/Users/marig/eyes_school_app_movil/test/reset_password_screen_test.dart:53:5)
+<asynchronous suspension>
+#5      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
+<asynchronous suspension>
+#6      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1953:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+This was caught by the test expectation on the following line:
+  file:///C:/Users/marig/eyes_school_app_movil/test/reset_password_screen_test.dart line 53
+The test description was:
+  UT-APP-03 · «Colegio2026» no llega al repositorio
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:43 +62 -10: C:/Users/marig/eyes_school_app_movil/test/student_home_resilience_test.dart: una API totalmente caída deja al usuario en el login, no en rojo
+00:43 +62 -10: C:/Users/marig/eyes_school_app_movil/test/reset_password_screen_test.dart: UT-APP-03 · «Colegio2026» no llega al repositorio [E]
+  Test failed. See exception logs above.
+  The test description was: UT-APP-03 · «Colegio2026» no llega al repositorio
+  
+00:44 +63 -10: C:/Users/marig/eyes_school_app_movil/test/student_home_resilience_test.dart: una API totalmente caída deja al usuario en el login, no en rojo
+*** Request ***
+uri: https://apieyeschool-b7fudxavddh9hhah.canadacentral-01.azurewebsites.net/api/v1/auth/me
+data:
+null
+
+*** Request ***
+uri: https://apieyeschool-b7fudxavddh9hhah.canadacentral-01.azurewebsites.net/api/v1/auth/logout
+data:
+{refresh_token: refresh-de-prueba}
+
+00:44 +64 -10: Some tests failed.
+
+Failing tests:
+  C:/Users/marig/eyes_school_app_movil/test/app_boot_test.dart: loading C:/Users/marig/eyes_school_app_movil/test/app_boot_test.dart
+  C:/Users/marig/eyes_school_app_movil/test/children_screen_test.dart: UT-APP-05 · con 2 hijos se listan y al elegir el segundo se piden sus notas
+  C:/Users/marig/eyes_school_app_movil/test/email_normalization_test.dart: loading C:/Users/marig/eyes_school_app_movil/test/email_normalization_test.dart
+  C:/Users/marig/eyes_school_app_movil/test/password_policy_test.dart: loading C:/Users/marig/eyes_school_app_movil/test/password_policy_test.dart
+  ... and 6 more

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import 'package:eyes_school/core/domain/usecases.dart';
 import 'package:eyes_school/core/errors/app_failure.dart';
 import 'package:eyes_school/core/theme/app_colors.dart';
 import 'package:eyes_school/core/theme/app_text_styles.dart';
@@ -44,7 +45,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       _fieldErrors = const {};
     });
     try {
-      await ref.read(sessionProvider.notifier).login(
+      await ref
+          .read(sessionProvider.notifier)
+          .login(
             email: _emailController.text,
             password: _passwordController.text,
           );
@@ -59,7 +62,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
         _formKey.currentState!.validate();
       }
     } on UnauthorizedFailure {
-      if (mounted) setState(() => _errorText = 'Correo o contraseña incorrectos.');
+      if (mounted) {
+        setState(() => _errorText = 'Correo o contraseña incorrectos.');
+      }
     } on AppFailure catch (e) {
       if (mounted) setState(() => _errorText = e.message);
     } finally {
@@ -91,10 +96,19 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     const SizedBox(height: 8),
                     RichText(
                       text: const TextSpan(
-                        style: TextStyle(fontSize: 28, fontWeight: FontWeight.w800),
+                        style: TextStyle(
+                          fontSize: 28,
+                          fontWeight: FontWeight.w800,
+                        ),
                         children: [
-                          TextSpan(text: 'Eye', style: TextStyle(color: Colors.white)),
-                          TextSpan(text: 'School', style: TextStyle(color: AppColors.teal)),
+                          TextSpan(
+                            text: 'Eye',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          TextSpan(
+                            text: 'School',
+                            style: TextStyle(color: AppColors.teal),
+                          ),
                         ],
                       ),
                     ),
@@ -115,7 +129,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     children: [
                       Text('Bienvenido', style: AppTextStyles.h1),
                       const SizedBox(height: 6),
-                      Text('Ingresa a tu cuenta para continuar', style: AppTextStyles.bodyMuted),
+                      Text(
+                        'Ingresa a tu cuenta para continuar',
+                        style: AppTextStyles.bodyMuted,
+                      ),
                       const SizedBox(height: 28),
                       Text('Correo electrónico', style: AppTextStyles.caption),
                       const SizedBox(height: 8),
@@ -129,7 +146,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                           prefixIcon: Icon(Icons.mail_outline_rounded),
                         ),
                         validator: (value) =>
-                            _fieldErrors['correo'] ?? Validators.email(value),
+                            _fieldErrors[LoginField.correo.name] ??
+                            Validators.email(value),
                       ),
                       const SizedBox(height: 18),
                       Text('Contraseña', style: AppTextStyles.caption),
@@ -144,27 +162,39 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                           hintText: '••••••••',
                           prefixIcon: const Icon(Icons.lock_outline_rounded),
                           suffixIcon: IconButton(
-                            icon: Icon(_obscure
-                                ? Icons.visibility_off_outlined
-                                : Icons.visibility_outlined),
-                            onPressed: () => setState(() => _obscure = !_obscure),
+                            tooltip: _obscure
+                                ? 'Mostrar contraseña'
+                                : 'Ocultar contraseña',
+                            icon: Icon(
+                              _obscure
+                                  ? Icons.visibility_off_outlined
+                                  : Icons.visibility_outlined,
+                            ),
+                            onPressed: () =>
+                                setState(() => _obscure = !_obscure),
                           ),
                         ),
                         validator: (value) =>
-                            _fieldErrors['password'] ?? Validators.password(value),
+                            _fieldErrors[LoginField.password.name] ??
+                            Validators.password(value),
                       ),
                       if (_errorText != null) ...[
                         const SizedBox(height: 12),
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Icon(Icons.error_outline_rounded,
-                                size: 18, color: AppColors.pink),
+                            const Icon(
+                              Icons.error_outline_rounded,
+                              size: 18,
+                              color: AppColors.pink,
+                            ),
                             const SizedBox(width: 8),
                             Expanded(
                               child: Text(
                                 _errorText!,
-                                style: AppTextStyles.body.copyWith(color: AppColors.pink),
+                                style: AppTextStyles.body.copyWith(
+                                  color: AppColors.pink,
+                                ),
                               ),
                             ),
                           ],
@@ -175,7 +205,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         alignment: Alignment.centerRight,
                         child: TextButton(
                           onPressed: () => context.push('/forgot-password'),
-                          child: Text('¿Olvidaste tu contraseña?', style: AppTextStyles.link),
+                          child: Text(
+                            '¿Olvidaste tu contraseña?',
+                            style: AppTextStyles.link,
+                          ),
                         ),
                       ),
                       const SizedBox(height: 8),
@@ -188,12 +221,16 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       const SizedBox(height: 20),
                       Row(
                         children: [
-                          const Expanded(child: Divider(color: AppColors.divider)),
+                          const Expanded(
+                            child: Divider(color: AppColors.divider),
+                          ),
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 12),
                             child: Text('o', style: AppTextStyles.caption),
                           ),
-                          const Expanded(child: Divider(color: AppColors.divider)),
+                          const Expanded(
+                            child: Divider(color: AppColors.divider),
+                          ),
                         ],
                       ),
                       const SizedBox(height: 20),
@@ -203,10 +240,16 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         alignment: WrapAlignment.center,
                         crossAxisAlignment: WrapCrossAlignment.center,
                         children: [
-                          Text('¿No tienes cuenta? ', style: AppTextStyles.body),
+                          Text(
+                            '¿No tienes cuenta? ',
+                            style: AppTextStyles.body,
+                          ),
                           GestureDetector(
                             onTap: () => context.push('/registro'),
-                            child: Text('Regístrate', style: AppTextStyles.link),
+                            child: Text(
+                              'Regístrate',
+                              style: AppTextStyles.link,
+                            ),
                           ),
                         ],
                       ),

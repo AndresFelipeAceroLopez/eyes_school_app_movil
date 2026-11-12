@@ -23,7 +23,8 @@ class AttendanceRepositoryImpl implements AttendanceRepository {
   final AttendanceQueue _queue;
 
   @override
-  Future<void> warmUp({bool force = false}) => _catalog.ensureReady(force: force);
+  Future<void> warmUp({bool force = false}) =>
+      _catalog.ensureReady(force: force);
 
   /// Resolves a scanned QR. The code is plain text: it is the
   /// `codigo_estudiante`, exactly as the web panel encodes it.
@@ -57,7 +58,9 @@ class AttendanceRepositoryImpl implements AttendanceRepository {
   /// A late arrival is only late on the way *in*.
   @override
   AttendanceState suggestedState({AttendanceKind? kind, DateTime? now}) {
-    if (kind != null && kind != AttendanceKind.entry) return AttendanceState.present;
+    if (kind != null && kind != AttendanceKind.entry) {
+      return AttendanceState.present;
+    }
     final minutes = ClassTime.fromDateTime(now ?? DateTime.now()).minutesOfDay;
     return minutes > AppConstants.entryCutoff.minutesOfDay
         ? AttendanceState.late
@@ -127,7 +130,10 @@ class AttendanceRepositoryImpl implements AttendanceRepository {
   /// Records already stored on the server for a date. Course and shift are
   /// filtered by the caller because the endpoint accepts neither.
   @override
-  Future<List<AttendanceRecord>> registeredOn(DateTime date, {AttendanceKind? kind}) {
+  Future<List<AttendanceRecord>> registeredOn(
+    DateTime date, {
+    AttendanceKind? kind,
+  }) {
     return _api.list(date: date, kind: kind, limit: 500);
   }
 
@@ -147,8 +153,11 @@ class AttendanceRepositoryImpl implements AttendanceRepository {
   StudentIdentity? studentById(int studentId) => _catalog.byId(studentId);
 
   @override
-  List<StudentIdentity> searchStudents(String query, {int? courseId, int limit = 30}) =>
-      _catalog.search(query, courseId: courseId, limit: limit);
+  List<StudentIdentity> searchStudents(
+    String query, {
+    int? courseId,
+    int limit = 30,
+  }) => _catalog.search(query, courseId: courseId, limit: limit);
 
   @override
   int get cachedStudentCount => _catalog.size;

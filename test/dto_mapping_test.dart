@@ -106,13 +106,13 @@ void main() {
 
   group('NotaOut', () {
     Grade grade(Object nota) => GradeMapper.fromJson({
-          'id_nota': 1,
-          'id_estudiante': 1,
-          'id_materia': 1,
-          'id_periodo': 2,
-          'nota': nota,
-          'registrado_por': 9,
-        }, (_) => 'Matemáticas');
+      'id_nota': 1,
+      'id_estudiante': 1,
+      'id_materia': 1,
+      'id_periodo': 2,
+      'nota': nota,
+      'registrado_por': 9,
+    }, (_) => 'Matemáticas');
 
     test('acepta la nota como entero o como decimal', () {
       expect(grade(4).score, 4.0);
@@ -126,13 +126,13 @@ void main() {
 
   group('CursoOut.jornada', () {
     Course course(String jornada) => CourseMapper.fromJson({
-          'id_curso': 1,
-          'nombre_curso': '10-A',
-          'grado': '10',
-          'jornada': jornada,
-          'ano': 2026,
-          'activo': true,
-        });
+      'id_curso': 1,
+      'nombre_curso': '10-A',
+      'grado': '10',
+      'jornada': jornada,
+      'ano': 2026,
+      'activo': true,
+    });
 
     test('normaliza las variantes que acepta la API', () {
       expect(course('mañana').shiftLabel, 'Mañana');
@@ -144,28 +144,32 @@ void main() {
   });
 
   group('EstudianteOut', () {
-    test('el ida y vuelta por el caché conserva lo que resuelve un escaneo', () {
-      final original = EstudianteDto.fromJson(const {
-        'id_estudiante': 41,
-        'id_usuario': 88,
-        'codigo_estudiante': 'EST001',
-        'fecha_ingreso': '2024-02-01',
-        'estado': 'Activo',
-        'id_curso_actual': 7,
-        'fecha_registro': '2024-02-01T10:00:00',
-        'primer_nombre': 'Ana',
-        'primer_apellido': 'Gómez',
-      }).toIdentity();
+    test(
+      'el ida y vuelta por el caché conserva lo que resuelve un escaneo',
+      () {
+        final original = EstudianteDto.fromJson(const {
+          'id_estudiante': 41,
+          'id_usuario': 88,
+          'codigo_estudiante': 'EST001',
+          'fecha_ingreso': '2024-02-01',
+          'estado': 'Activo',
+          'id_curso_actual': 7,
+          'fecha_registro': '2024-02-01T10:00:00',
+          'primer_nombre': 'Ana',
+          'primer_apellido': 'Gómez',
+        }).toIdentity();
 
-      final restored =
-          StudentIdentityMapper.fromJson(StudentIdentityMapper.toJson(original));
+        final restored = StudentIdentityMapper.fromJson(
+          StudentIdentityMapper.toJson(original),
+        );
 
-      expect(restored.studentId, 41);
-      expect(restored.code, 'EST001');
-      expect(restored.courseId, 7);
-      expect(restored.fullName, 'Ana Gómez');
-      expect(restored.active, isTrue);
-    });
+        expect(restored.studentId, 41);
+        expect(restored.code, 'EST001');
+        expect(restored.courseId, 7);
+        expect(restored.fullName, 'Ana Gómez');
+        expect(restored.active, isTrue);
+      },
+    );
 
     test('sin nombres, el carné cae al código en vez de quedar vacío', () {
       final student = EstudianteDto.fromJson(const {
@@ -233,9 +237,21 @@ void main() {
 
   group('Escala de notas', () {
     test('la barra de progreso usa 0.0–5.0, no 0–10', () {
-      const perfect = Grade(subject: 'Matemáticas', score: 5, period: 'Periodo 1');
-      const passing = Grade(subject: 'Matemáticas', score: 3, period: 'Periodo 1');
-      const failing = Grade(subject: 'Matemáticas', score: 2.5, period: 'Periodo 1');
+      const perfect = Grade(
+        subject: 'Matemáticas',
+        score: 5,
+        period: 'Periodo 1',
+      );
+      const passing = Grade(
+        subject: 'Matemáticas',
+        score: 3,
+        period: 'Periodo 1',
+      );
+      const failing = Grade(
+        subject: 'Matemáticas',
+        score: 2.5,
+        period: 'Periodo 1',
+      );
 
       expect(perfect.progress, 1.0);
       expect(passing.progress, closeTo(0.6, 0.001));

@@ -1,11 +1,18 @@
+import 'package:eyes_school/core/domain/password_policy.dart';
 import 'package:eyes_school/features/novedades/domain/severity.dart';
+
+/// Canonical form of an e-mail address (APP-06): the API, the web panel and
+/// the app treat `Ana@X.com` and `ana@x.com` as the same account, so the
+/// client sends it trimmed and in lower case on login, sign-up and recovery.
+String normalizeEmail(String email) => email.trim().toLowerCase();
 
 abstract final class Validators {
   /// Accepts multi-label domains: the institution uses `@eyesschool.edu.co`,
   /// and a pattern that allows a single dot after the `@` rejects every
   /// `.edu.co` / `.com.co` address there is.
-  static final _emailRegex =
-      RegExp(r'^[\w.+-]+@[\w-]+(?:\.[\w-]+)*\.[a-zA-Z]{2,}$');
+  static final _emailRegex = RegExp(
+    r'^[\w.+-]+@[\w-]+(?:\.[\w-]+)*\.[a-zA-Z]{2,}$',
+  );
 
   static String? email(String? value) {
     final v = value?.trim() ?? '';
@@ -23,8 +30,7 @@ abstract final class Validators {
   /// than merely typed back.
   static String? newPassword(String? value) {
     if (value == null || value.isEmpty) return 'Ingresa una contraseña.';
-    if (value.length < 8) return 'Usa al menos 8 caracteres.';
-    return null;
+    return PasswordPolicy.firstFailure(value)?.message;
   }
 
   static String? required(String? value, String what) {

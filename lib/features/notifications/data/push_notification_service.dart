@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
@@ -6,31 +7,43 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
+import 'package:eyes_school/features/notifications/domain/device_token_repository.dart';
+
 /// Top-level function required by FCM for background/terminated messages.
 /// Must be a top-level function (not a method or closure).
 @pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
-  debugPrint('[FCM] Background message: ${message.messageId}');
+  if (kDebugMode) debugPrint('[FCM] Background message: ${message.messageId}');
 }
 
-/// Manages the full lifecycle of push notifications:
-///   1. Firebase init & permission request
-///   2. FCM token retrieval (stored locally, ready for backend)
-///   3. Foreground notification display via flutter_local_notifications
+/// Manages the full lifecycle of push notifications (APP-08):
+///   1. Message handlers and foreground display ([initialize])
+///   2. Permission + device token registered with the API after sign-in, and
+///      again on every token refresh ([onSignedIn])
+///   3. Token unregistered on sign-out ([onSignedOut])
 ///   4. Tap handling for navigation
+///
+/// Its collaborators arrive through the constructor so the token flow can be
+/// tested with doubles. The token itself is never written to the log, not even
+/// in debug builds (APP-07).
 class PushNotificationService {
-  PushNotificationService._();
-  static final PushNotificationService _instance = PushNotificationService._();
-  static PushNotificationService get instance => _instance;
+  PushNotificationService({
+    required this._messaging,
+    required this._deviceTokens,
+    FlutterLocalNotificationsPlugin? localNotifications,
+  }) : _localNotificationsOverride = localNotifications;
 
-  final FirebaseMessaging _messaging = FirebaseMessaging.instance;
-  final FlutterLocalNotificationsPlugin _localNotifications =
-      FlutterLocalNotificationsPlugin();
+  final FirebaseMessaging _messaging;
+  final DeviceTokenRepository _deviceTokens;
+  final FlutterLocalNotificationsPlugin? _localNotificationsOverride;
+  late final FlutterLocalNotificationsPlugin _localNotifications =
+      _localNotificationsOverride ?? FlutterLocalNotificationsPlugin();
 
   bool _initialized = false;
+  StreamSubscription<String>? _refreshSubscription;
 
-  /// The FCM device token. Available after [initialize] completes.
+  /// The token registered for the current session, if any.
   String? _fcmToken;
   String? get fcmToken => _fcmToken;
 
@@ -54,25 +67,29 @@ class PushNotificationService {
     _initialized = true;
 
     if (Firebase.apps.isEmpty) {
-      debugPrint('[FCM] Firebase no se inicializó previamente (¿falta google-services.json en Android o firebase_options.dart en Web?). Notificaciones omitidas.');
+      if (kDebugMode) {
+        debugPrint(
+          '[FCM] Firebase no se inicializó previamente (¿falta google-services.json en Android o firebase_options.dart en Web?). Notificaciones omitidas.',
+        );
+      }
       return;
     }
 
     try {
       // Register the background handler (only supported on mobile / non-web).
       if (!kIsWeb) {
-        FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+        FirebaseMessaging.onBackgroundMessage(
+          _firebaseMessagingBackgroundHandler,
+        );
       }
-
-      // Request permission (shows the OS dialog on Android 13+ and iOS).
-      await _requestPermission();
 
       // Setup local notifications for mobile (foreground alerts).
       if (!kIsWeb) {
         if (Platform.isAndroid) {
           await _localNotifications
               .resolvePlatformSpecificImplementation<
-                  AndroidFlutterLocalNotificationsPlugin>()
+                AndroidFlutterLocalNotificationsPlugin
+              >()
               ?.createNotificationChannel(_channel);
         }
 
@@ -89,21 +106,8 @@ class PushNotificationService {
         );
       }
 
-      // Get the FCM token.
-      try {
-        _fcmToken = await _messaging.getToken();
-        debugPrint('\n==================================================');
-        debugPrint('[FCM TOKEN]: $_fcmToken');
-        debugPrint('==================================================\n');
-      } catch (e) {
-        debugPrint('[FCM] Error obteniendo el token FCM: $e');
-      }
-
-      // Listen for token refreshes.
-      _messaging.onTokenRefresh.listen((newToken) {
-        _fcmToken = newToken;
-        debugPrint('[FCM] Token re-generado: $newToken');
-      });
+      // The token is requested and registered in [onSignedIn], after the
+      // permission prompt; it is never written to the log (APP-07).
 
       // ── Message handlers ──────────────────────────────────────────────
 
@@ -119,20 +123,67 @@ class PushNotificationService {
         _handleNotificationTap(initialMessage);
       }
     } catch (e) {
-      debugPrint('[FCM] Error inicializando FCM: $e');
+      if (kDebugMode) debugPrint('[FCM] Error inicializando FCM: $e');
+    }
+  }
+
+  /// After sign-in: asks for permission (Android 13+ shows the OS dialog) and,
+  /// if granted, registers this device's token with the API. A denied
+  /// permission is not an error: the app keeps working and novedades are
+  /// still visible in their screen (CA-US027.4). Never throws.
+  Future<void> onSignedIn() async {
+    try {
+      final settings = await _messaging.requestPermission(
+        alert: true,
+        badge: true,
+        sound: true,
+        provisional: false,
+      );
+      final status = settings.authorizationStatus;
+      if (status != AuthorizationStatus.authorized &&
+          status != AuthorizationStatus.provisional) {
+        return;
+      }
+
+      final token = await _messaging.getToken();
+      if (token != null && token.isNotEmpty) await _register(token);
+
+      await _refreshSubscription?.cancel();
+      _refreshSubscription = _messaging.onTokenRefresh.listen(_register);
+    } catch (e) {
+      if (kDebugMode) {
+        debugPrint('[FCM] No se pudo registrar el dispositivo: $e');
+      }
+    }
+  }
+
+  /// Before sign-out, while the session can still authenticate the call:
+  /// unlinks this device so the next user of the phone gets nothing meant for
+  /// the previous one. Never throws.
+  Future<void> onSignedOut() async {
+    await _refreshSubscription?.cancel();
+    _refreshSubscription = null;
+    final token = _fcmToken;
+    _fcmToken = null;
+    if (token == null) return;
+    try {
+      await _deviceTokens.unregister(token);
+    } catch (e) {
+      if (kDebugMode) {
+        debugPrint('[FCM] No se pudo dar de baja el dispositivo: $e');
+      }
     }
   }
 
   // ─── Private helpers ────────────────────────────────────────────────
 
-  Future<void> _requestPermission() async {
-    final settings = await _messaging.requestPermission(
-      alert: true,
-      badge: true,
-      sound: true,
-      provisional: false,
-    );
-    debugPrint('[FCM] Permission status: ${settings.authorizationStatus}');
+  Future<void> _register(String token) async {
+    try {
+      await _deviceTokens.register(token);
+      _fcmToken = token;
+    } catch (e) {
+      if (kDebugMode) debugPrint('[FCM] No se pudo registrar el token: $e');
+    }
   }
 
   /// Shows a local notification when the app is in the foreground.
@@ -161,7 +212,6 @@ class PushNotificationService {
 
   /// Called when the user taps a notification (background open).
   void _handleNotificationTap(RemoteMessage message) {
-    debugPrint('[FCM] Notification tapped: ${message.data}');
     onNotificationTapped?.call(message.data);
   }
 
@@ -170,7 +220,6 @@ class PushNotificationService {
     if (response.payload == null) return;
     try {
       final data = jsonDecode(response.payload!) as Map<String, dynamic>;
-      debugPrint('[FCM] Local notification tapped: $data');
       onNotificationTapped?.call(data);
     } catch (_) {
       // Malformed payload – nothing to navigate to.

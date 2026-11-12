@@ -43,7 +43,12 @@ import 'package:eyes_school/core/widgets/role_shell_scaffold.dart';
 const _shellPrefixes = ['/teacher', '/student', '/parent', '/admin'];
 
 /// Routes reachable without a session.
-const _publicRoutes = {'/login', '/forgot-password', '/registro', '/reset-password'};
+const _publicRoutes = {
+  '/login',
+  '/forgot-password',
+  '/registro',
+  '/reset-password',
+};
 
 /// Translates `eyesschool://<host>` links into an in-app location. Returns
 /// `null` for ordinary navigation, which is everything that already has a path.
@@ -58,7 +63,10 @@ String? _deepLinkTarget(Uri uri) {
 /// rebuild.
 class _RouterRefreshNotifier extends ChangeNotifier {
   _RouterRefreshNotifier(Ref ref) {
-    ref.listen<AsyncValue<AppSession?>>(sessionProvider, (_, _) => notifyListeners());
+    ref.listen<AsyncValue<AppSession?>>(
+      sessionProvider,
+      (_, _) => notifyListeners(),
+    );
   }
 }
 
@@ -81,8 +89,10 @@ final routerProvider = Provider<GoRouter>((ref) {
       final session = ref.read(sessionProvider);
 
       return session.when(
-        // Still restoring the stored tokens.
-        loading: () => onSplash ? null : '/splash',
+        // Still restoring the stored tokens. Public routes stay put (N-24): a
+        // cold start from the reset e-mail must land on the reset form, not
+        // be swallowed by the splash.
+        loading: () => onSplash || onPublic ? null : '/splash',
         error: (_, _) => onPublic ? null : '/login',
         data: (session) {
           if (session == null) {
@@ -96,22 +106,31 @@ final routerProvider = Provider<GoRouter>((ref) {
           }
 
           final ownPrefix = session.role.homePath;
+          // The reset link works even with a session open on this phone.
+          if (loc == '/reset-password') return null;
           if (onSplash || onPublic) return ownPrefix;
 
           // Namespace guard: a deep link or a restored process can never land
           // a student inside a teacher screen.
           final onOwnShell = loc == ownPrefix || loc.startsWith('$ownPrefix/');
-          final onAnyShell =
-              _shellPrefixes.any((p) => loc == p || loc.startsWith('$p/'));
+          final onAnyShell = _shellPrefixes.any(
+            (p) => loc == p || loc.startsWith('$p/'),
+          );
           if (onAnyShell && !onOwnShell) return '/error/sin-permiso';
           return null;
         },
       );
     },
     routes: [
-      GoRoute(path: '/splash', builder: (context, state) => const SplashScreen()),
+      GoRoute(
+        path: '/splash',
+        builder: (context, state) => const SplashScreen(),
+      ),
       GoRoute(path: '/login', builder: (context, state) => const LoginScreen()),
-      GoRoute(path: '/registro', builder: (context, state) => const RegisterScreen()),
+      GoRoute(
+        path: '/registro',
+        builder: (context, state) => const RegisterScreen(),
+      ),
       GoRoute(
         path: '/forgot-password',
         builder: (context, state) => const ForgotPasswordScreen(),
@@ -119,8 +138,11 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         // Deep link: eyesschool://reset?token=…
         path: '/reset-password',
-        builder: (context, state) =>
-            ResetPasswordScreen(token: state.uri.queryParameters['token']),
+        builder: (context, state) {
+          final token = state.uri.queryParameters['token'];
+          // A new link while the form is open rebuilds it with its code.
+          return ResetPasswordScreen(key: ValueKey(token), token: token);
+        },
       ),
       GoRoute(
         path: '/error/sin-permiso',
@@ -160,49 +182,68 @@ final routerProvider = Provider<GoRouter>((ref) {
           ],
         ),
         branches: [
-          StatefulShellBranch(routes: [
-            GoRoute(
-              path: '/teacher',
-              builder: (context, state) => const TeacherHomeScreen(),
-            ),
-          ]),
-          StatefulShellBranch(routes: [
-            GoRoute(
-              path: '/teacher/classes',
-              builder: (context, state) => const TeacherClassesScreen(),
-              routes: [
-                GoRoute(
-                  path: ':idAsignacion/asistencia',
-                  builder: (context, state) => ClassRosterScreen(
-                    assignmentId:
-                        int.tryParse(state.pathParameters['idAsignacion'] ?? '') ?? 0,
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: '/teacher',
+                builder: (context, state) => const TeacherHomeScreen(),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: '/teacher/classes',
+                builder: (context, state) => const TeacherClassesScreen(),
+                routes: [
+                  GoRoute(
+                    path: ':idAsignacion/asistencia',
+                    builder: (context, state) => ClassRosterScreen(
+                      assignmentId:
+                          int.tryParse(
+                            state.pathParameters['idAsignacion'] ?? '',
+                          ) ??
+                          0,
+                    ),
                   ),
-                ),
-                GoRoute(
-                  path: ':idAsignacion/notas',
-                  builder: (context, state) => GradeEntryScreen(
-                    assignmentId:
-                        int.tryParse(state.pathParameters['idAsignacion'] ?? '') ?? 0,
+                  GoRoute(
+                    path: ':idAsignacion/notas',
+                    builder: (context, state) => GradeEntryScreen(
+                      assignmentId:
+                          int.tryParse(
+                            state.pathParameters['idAsignacion'] ?? '',
+                          ) ??
+                          0,
+                    ),
                   ),
-                ),
-              ],
-            ),
-          ]),
-          StatefulShellBranch(routes: [
-            GoRoute(path: '/teacher/qr', builder: (context, state) => const QrScanScreen()),
-          ]),
-          StatefulShellBranch(routes: [
-            GoRoute(
-              path: '/teacher/notes',
-              builder: (context, state) => const TeacherGradesScreen(),
-            ),
-          ]),
-          StatefulShellBranch(routes: [
-            GoRoute(
-              path: '/teacher/profile',
-              builder: (context, state) => const ProfileScreen(),
-            ),
-          ]),
+                ],
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: '/teacher/qr',
+                builder: (context, state) => const QrScanScreen(),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: '/teacher/notes',
+                builder: (context, state) => const TeacherGradesScreen(),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: '/teacher/profile',
+                builder: (context, state) => const ProfileScreen(),
+              ),
+            ],
+          ),
         ],
       ),
 
@@ -219,42 +260,53 @@ final routerProvider = Provider<GoRouter>((ref) {
           ],
         ),
         branches: [
-          StatefulShellBranch(routes: [
-            GoRoute(
-              path: '/student',
-              builder: (context, state) => const StudentHomeScreen(),
-              routes: [
-                GoRoute(
-                  path: 'asistencia',
-                  builder: (context, state) => const StudentAttendanceScreen(),
-                ),
-              ],
-            ),
-          ]),
-          StatefulShellBranch(routes: [
-            GoRoute(
-              path: '/student/notes',
-              builder: (context, state) => const StudentGradesScreen(),
-            ),
-          ]),
-          StatefulShellBranch(routes: [
-            GoRoute(
-              path: '/student/schedule',
-              builder: (context, state) => const StudentScheduleScreen(),
-            ),
-          ]),
-          StatefulShellBranch(routes: [
-            GoRoute(
-              path: '/student/news',
-              builder: (context, state) => const StudentNovedadesScreen(),
-            ),
-          ]),
-          StatefulShellBranch(routes: [
-            GoRoute(
-              path: '/student/profile',
-              builder: (context, state) => const ProfileScreen(),
-            ),
-          ]),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: '/student',
+                builder: (context, state) => const StudentHomeScreen(),
+                routes: [
+                  GoRoute(
+                    path: 'asistencia',
+                    builder: (context, state) =>
+                        const StudentAttendanceScreen(),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: '/student/notes',
+                builder: (context, state) => const StudentGradesScreen(),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: '/student/schedule',
+                builder: (context, state) => const StudentScheduleScreen(),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: '/student/news',
+                builder: (context, state) => const StudentNovedadesScreen(),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: '/student/profile',
+                builder: (context, state) => const ProfileScreen(),
+              ),
+            ],
+          ),
         ],
       ),
 
@@ -271,33 +323,46 @@ final routerProvider = Provider<GoRouter>((ref) {
           ],
         ),
         branches: [
-          StatefulShellBranch(routes: [
-            GoRoute(path: '/parent', builder: (context, state) => const ParentHomeScreen()),
-          ]),
-          StatefulShellBranch(routes: [
-            GoRoute(
-              path: '/parent/children',
-              builder: (context, state) => const ChildrenScreen(),
-            ),
-          ]),
-          StatefulShellBranch(routes: [
-            GoRoute(
-              path: '/parent/attendance',
-              builder: (context, state) => const ParentAttendanceScreen(),
-            ),
-          ]),
-          StatefulShellBranch(routes: [
-            GoRoute(
-              path: '/parent/notes',
-              builder: (context, state) => const ParentGradesScreen(),
-            ),
-          ]),
-          StatefulShellBranch(routes: [
-            GoRoute(
-              path: '/parent/more',
-              builder: (context, state) => const ProfileScreen(),
-            ),
-          ]),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: '/parent',
+                builder: (context, state) => const ParentHomeScreen(),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: '/parent/children',
+                builder: (context, state) => const ChildrenScreen(),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: '/parent/attendance',
+                builder: (context, state) => const ParentAttendanceScreen(),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: '/parent/notes',
+                builder: (context, state) => const ParentGradesScreen(),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: '/parent/more',
+                builder: (context, state) => const ProfileScreen(),
+              ),
+            ],
+          ),
         ],
       ),
 
@@ -315,52 +380,63 @@ final routerProvider = Provider<GoRouter>((ref) {
           ],
         ),
         branches: [
-          StatefulShellBranch(routes: [
-            GoRoute(
-              path: '/admin',
-              builder: (context, state) => const AdminHomeScreen(),
-              routes: [
-                GoRoute(
-                  path: 'masivo',
-                  builder: (context, state) => const BulkAttendanceScreen(),
-                ),
-                GoRoute(
-                  path: 'dia',
-                  builder: (context, state) => const TodayAttendanceScreen(),
-                ),
-              ],
-            ),
-          ]),
-          StatefulShellBranch(routes: [
-            GoRoute(
-              path: '/admin/management',
-              builder: (context, state) => const ManagementScreen(),
-            ),
-          ]),
-          StatefulShellBranch(routes: [
-            GoRoute(
-              path: '/admin/qr',
-              builder: (context, state) => const QrScanScreen(),
-              routes: [
-                GoRoute(
-                  path: 'pendientes',
-                  builder: (context, state) => const PendingAttendanceScreen(),
-                ),
-              ],
-            ),
-          ]),
-          StatefulShellBranch(routes: [
-            GoRoute(
-              path: '/admin/news',
-              builder: (context, state) => const AdminNovedadesScreen(),
-            ),
-          ]),
-          StatefulShellBranch(routes: [
-            GoRoute(
-              path: '/admin/profile',
-              builder: (context, state) => const ProfileScreen(),
-            ),
-          ]),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: '/admin',
+                builder: (context, state) => const AdminHomeScreen(),
+                routes: [
+                  GoRoute(
+                    path: 'masivo',
+                    builder: (context, state) => const BulkAttendanceScreen(),
+                  ),
+                  GoRoute(
+                    path: 'dia',
+                    builder: (context, state) => const TodayAttendanceScreen(),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: '/admin/management',
+                builder: (context, state) => const ManagementScreen(),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: '/admin/qr',
+                builder: (context, state) => const QrScanScreen(),
+                routes: [
+                  GoRoute(
+                    path: 'pendientes',
+                    builder: (context, state) =>
+                        const PendingAttendanceScreen(),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: '/admin/news',
+                builder: (context, state) => const AdminNovedadesScreen(),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: '/admin/profile',
+                builder: (context, state) => const ProfileScreen(),
+              ),
+            ],
+          ),
         ],
       ),
     ],

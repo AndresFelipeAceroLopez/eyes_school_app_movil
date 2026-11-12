@@ -15,11 +15,11 @@ class AcademicApi {
     int limit = ApiConfig.catalogPageSize,
     bool? active,
   }) {
-    return _client.getList('/cursos', CourseMapper.fromJson, query: {
-      'skip': skip,
-      'limit': limit,
-      'activo': active,
-    });
+    return _client.getList(
+      '/cursos',
+      CourseMapper.fromJson,
+      query: {'skip': skip, 'limit': limit, 'activo': active},
+    );
   }
 
   Future<Course> course(int courseId) async =>
@@ -43,18 +43,24 @@ class AcademicApi {
     int skip = 0,
     int limit = ApiConfig.catalogPageSize,
   }) {
-    return _client.getList('/asignaciones', AssignmentDto.fromJson, query: {
-      'id_profesor': teacherId,
-      'id_curso': courseId,
-      'id_materia': subjectId,
-      'activo': active,
-      'skip': skip,
-      'limit': limit,
-    });
+    return _client.getList(
+      '/asignaciones',
+      AssignmentDto.fromJson,
+      query: {
+        'id_profesor': teacherId,
+        'id_curso': courseId,
+        'id_materia': subjectId,
+        'activo': active,
+        'skip': skip,
+        'limit': limit,
+      },
+    );
   }
 
   Future<AssignmentDto> assignment(int assignmentId) async =>
-      AssignmentDto.fromJson(await _client.getObject('/asignaciones/$assignmentId'));
+      AssignmentDto.fromJson(
+        await _client.getObject('/asignaciones/$assignmentId'),
+      );
 
   Future<List<Map<String, dynamic>>> rawGrades({
     int? studentId,
@@ -63,23 +69,27 @@ class AcademicApi {
     int skip = 0,
     int limit = ApiConfig.catalogPageSize,
   }) {
-    return _client.getList('/notas', (json) => json, query: {
-      'id_estudiante': studentId,
-      'id_materia': subjectId,
-      'id_periodo': period,
-      'skip': skip,
-      'limit': limit,
-    });
+    return _client.getList(
+      '/notas',
+      (json) => json,
+      query: {
+        'id_estudiante': studentId,
+        'id_materia': subjectId,
+        'id_periodo': period,
+        'skip': skip,
+        'limit': limit,
+      },
+    );
   }
 
   Future<void> createGrade(Map<String, dynamic> payload) =>
       _client.post('/notas', body: payload);
 
   Future<void> updateGrade(int gradeId, {double? score, String? observation}) {
-    return _client.put('/notas/$gradeId', body: <String, dynamic>{
-      'nota': ?score,
-      'observacion': ?observation,
-    });
+    return _client.put(
+      '/notas/$gradeId',
+      body: <String, dynamic>{'nota': ?score, 'observacion': ?observation},
+    );
   }
 
   Future<void> deleteGrade(int gradeId) => _client.delete('/notas/$gradeId');

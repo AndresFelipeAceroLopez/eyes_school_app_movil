@@ -37,8 +37,11 @@ void main() {
           }
         }
       }
-      expect(offenders, isEmpty,
-          reason: 'El dominio debe ser Dart puro:\n${offenders.join('\n')}');
+      expect(
+        offenders,
+        isEmpty,
+        reason: 'El dominio debe ser Dart puro:\n${offenders.join('\n')}',
+      );
     });
 
     test('no conoce las capas de datos ni de presentación', () {
@@ -53,8 +56,11 @@ void main() {
           }
         }
       }
-      expect(offenders, isEmpty,
-          reason: 'La dependencia apunta hacia adentro:\n${offenders.join('\n')}');
+      expect(
+        offenders,
+        isEmpty,
+        reason: 'La dependencia apunta hacia adentro:\n${offenders.join('\n')}',
+      );
     });
   });
 
@@ -71,8 +77,11 @@ void main() {
           }
         }
       }
-      expect(offenders, isEmpty,
-          reason: 'Las pantallas solo ven entidades:\n${offenders.join('\n')}');
+      expect(
+        offenders,
+        isEmpty,
+        reason: 'Las pantallas solo ven entidades:\n${offenders.join('\n')}',
+      );
     });
 
     test('ninguna pantalla instancia un repositorio concreto', () {
@@ -84,9 +93,13 @@ void main() {
           }
         }
       }
-      expect(offenders, isEmpty,
-          reason: 'Se depende del contrato, no de la implementación:\n'
-              '${offenders.join('\n')}');
+      expect(
+        offenders,
+        isEmpty,
+        reason:
+            'Se depende del contrato, no de la implementación:\n'
+            '${offenders.join('\n')}',
+      );
     });
   });
 
@@ -102,8 +115,12 @@ void main() {
         }
       }
     }
-    expect(offenders, isEmpty,
-        reason: 'Las implementaciones se cablean en un solo lugar:\n'
-            '${offenders.join('\n')}');
+    expect(
+      offenders,
+      isEmpty,
+      reason:
+          'Las implementaciones se cablean en un solo lugar:\n'
+          '${offenders.join('\n')}',
+    );
   });
 }

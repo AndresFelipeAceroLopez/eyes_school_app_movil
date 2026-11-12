@@ -7,10 +7,7 @@ import 'package:eyes_school/core/theme/app_colors.dart';
 import 'package:eyes_school/core/theme/app_text_styles.dart';
 
 class UpdateDialog extends ConsumerStatefulWidget {
-  const UpdateDialog({
-    super.key,
-    required this.updateInfo,
-  });
+  const UpdateDialog({super.key, required this.updateInfo});
 
   final UpdateInfo updateInfo;
 
@@ -47,7 +44,7 @@ class _UpdateDialogState extends ConsumerState<UpdateDialog> {
           });
         },
       );
-      
+
       if (mounted) {
         context.pop(); // Close dialog on success
       }
@@ -71,10 +68,7 @@ class _UpdateDialogState extends ConsumerState<UpdateDialog> {
           const Icon(Icons.system_update_rounded, color: AppColors.teal),
           const SizedBox(width: 12),
           Expanded(
-            child: Text(
-              'Actualización Disponible',
-              style: AppTextStyles.h2,
-            ),
+            child: Text('Actualización Disponible', style: AppTextStyles.h2),
           ),
         ],
       ),
@@ -86,7 +80,8 @@ class _UpdateDialogState extends ConsumerState<UpdateDialog> {
             'La versión ${widget.updateInfo.latestVersion} ya está lista para instalar.',
             style: AppTextStyles.body,
           ),
-          if (widget.updateInfo.releaseNotes != null && widget.updateInfo.releaseNotes!.isNotEmpty) ...[
+          if (widget.updateInfo.releaseNotes != null &&
+              widget.updateInfo.releaseNotes!.isNotEmpty) ...[
             const SizedBox(height: 12),
             Container(
               padding: const EdgeInsets.all(12),
@@ -134,7 +129,9 @@ class _UpdateDialogState extends ConsumerState<UpdateDialog> {
             onPressed: () => context.pop(),
             child: Text(
               'Más tarde',
-              style: AppTextStyles.body.copyWith(color: AppColors.textSecondary),
+              style: AppTextStyles.body.copyWith(
+                color: AppColors.textSecondary,
+              ),
             ),
           ),
           ElevatedButton(
@@ -142,7 +139,9 @@ class _UpdateDialogState extends ConsumerState<UpdateDialog> {
             style: ElevatedButton.styleFrom(
               backgroundColor: AppColors.teal,
               foregroundColor: Colors.white,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
             ),
             child: const Text('Descargar e Instalar'),
           ),

@@ -61,8 +61,9 @@ class DirectoryRepositoryImpl implements DirectoryRepository {
     }
 
     final catalogs = await _catalogs.load();
-    final course =
-        student.idCursoActual == null ? null : catalogs.courses[student.idCursoActual];
+    final course = student.idCursoActual == null
+        ? null
+        : catalogs.courses[student.idCursoActual];
 
     UsuarioDto? user;
     try {
@@ -83,8 +84,9 @@ class DirectoryRepositoryImpl implements DirectoryRepository {
       grade: course?.name,
       jornada: course?.shiftLabel,
       code: student.codigoEstudiante,
-      document:
-          user == null ? null : '${user.tipoDocumento} ${user.numeroDocumento}',
+      document: user == null
+          ? null
+          : '${user.tipoDocumento} ${user.numeroDocumento}',
       phone: user?.telefono,
       address: user?.direccion,
       guardians: await guardiansOf(studentId),
@@ -100,8 +102,10 @@ class DirectoryRepositoryImpl implements DirectoryRepository {
     try {
       final result = <Guardian>[];
       for (var skip = 0; skip < 2000; skip += ApiConfig.catalogPageSize) {
-        final page =
-            await _people.guardians(skip: skip, limit: ApiConfig.catalogPageSize);
+        final page = await _people.guardians(
+          skip: skip,
+          limit: ApiConfig.catalogPageSize,
+        );
         for (final link in page) {
           if (link.idEstudiante != studentId) continue;
           UsuarioDto? user;
@@ -110,11 +114,13 @@ class DirectoryRepositoryImpl implements DirectoryRepository {
           } on AppFailure {
             user = null;
           }
-          result.add(Guardian(
-            name: user?.nombreCompleto ?? 'Acudiente ${link.idPadre}',
-            relation: link.parentesco,
-            phone: user?.telefono ?? '—',
-          ));
+          result.add(
+            Guardian(
+              name: user?.nombreCompleto ?? 'Acudiente ${link.idPadre}',
+              relation: link.parentesco,
+              phone: user?.telefono ?? '—',
+            ),
+          );
         }
         if (page.length < ApiConfig.catalogPageSize) break;
       }
@@ -164,8 +170,9 @@ class DirectoryRepositoryImpl implements DirectoryRepository {
           ? teacher.titulo
           : specialities.map((e) => e.nombre).join(' · '),
       institution: teacher.nivelEstudios,
-      document:
-          user == null ? null : '${user.tipoDocumento} ${user.numeroDocumento}',
+      document: user == null
+          ? null
+          : '${user.tipoDocumento} ${user.numeroDocumento}',
       phone: user?.telefono,
       address: user?.direccion,
       teacherId: teacher.idProfesor,
@@ -175,10 +182,15 @@ class DirectoryRepositoryImpl implements DirectoryRepository {
   @override
   Future<List<String>> coursesOfTeacher(int teacherId) async {
     final catalogs = await _catalogs.load();
-    final assignments = await _academic.assignments(teacherId: teacherId, active: true);
+    final assignments = await _academic.assignments(
+      teacherId: teacherId,
+      active: true,
+    );
     final names = assignments
-        .map((a) =>
-            '${catalogs.subjectName(a.subjectId)} · ${catalogs.courseName(a.courseId)}')
+        .map(
+          (a) =>
+              '${catalogs.subjectName(a.subjectId)} · ${catalogs.courseName(a.courseId)}',
+        )
         .toSet()
         .toList();
     names.sort();
@@ -215,18 +227,22 @@ class DirectoryRepositoryImpl implements DirectoryRepository {
   }) async {
     final rows = await _people.teachers(skip: skip, limit: limit);
     final result = rows
-        .map((t) => AppUser(
-              userId: t.idUsuario,
-              name: t.nombreCompleto.isEmpty ? t.codigoProfesor : t.nombreCompleto,
-              email: '',
-              role: Role.teacher,
-              status: t.estado.toLowerCase() == 'activo'
-                  ? AccountStatus.active
-                  : AccountStatus.inactive,
-              code: t.codigoProfesor,
-              subject: t.titulo,
-              teacherId: t.idProfesor,
-            ))
+        .map(
+          (t) => AppUser(
+            userId: t.idUsuario,
+            name: t.nombreCompleto.isEmpty
+                ? t.codigoProfesor
+                : t.nombreCompleto,
+            email: '',
+            role: Role.teacher,
+            status: t.estado.toLowerCase() == 'activo'
+                ? AccountStatus.active
+                : AccountStatus.inactive,
+            code: t.codigoProfesor,
+            subject: t.titulo,
+            teacherId: t.idProfesor,
+          ),
+        )
         .toList();
     result.sort((a, b) => a.name.compareTo(b.name));
     return result;
@@ -247,18 +263,22 @@ class DirectoryRepositoryImpl implements DirectoryRepository {
       } on AppFailure {
         user = null;
       }
-      result.add(AppUser(
-        userId: link.idUsuario,
-        name: user?.nombreCompleto ?? 'Acudiente ${link.idPadre}',
-        email: user?.correo ?? '',
-        role: Role.parent,
-        status: (user?.estado ?? true) ? AccountStatus.active : AccountStatus.inactive,
-        phone: user?.telefono,
-        subject: link.nombreEstudiante == null
-            ? link.parentesco
-            : '${link.parentesco} de ${link.nombreEstudiante}',
-        studentId: link.idEstudiante,
-      ));
+      result.add(
+        AppUser(
+          userId: link.idUsuario,
+          name: user?.nombreCompleto ?? 'Acudiente ${link.idPadre}',
+          email: user?.correo ?? '',
+          role: Role.parent,
+          status: (user?.estado ?? true)
+              ? AccountStatus.active
+              : AccountStatus.inactive,
+          phone: user?.telefono,
+          subject: link.nombreEstudiante == null
+              ? link.parentesco
+              : '${link.parentesco} de ${link.nombreEstudiante}',
+          studentId: link.idEstudiante,
+        ),
+      );
     }
     result.sort((a, b) => a.name.compareTo(b.name));
     return result;

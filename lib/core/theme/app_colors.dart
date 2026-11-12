@@ -10,10 +10,7 @@ abstract final class AppColors {
   ];
 
   // Primary action gradient (buttons, FAB, center nav button)
-  static const primaryGradient = [
-    Color(0xFF4B2AAE),
-    Color(0xFF7C4FE0),
-  ];
+  static const primaryGradient = [Color(0xFF4B2AAE), Color(0xFF7C4FE0)];
 
   static const background = Color(0xFFF4F5F9);
   static const surface = Colors.white;
@@ -29,7 +26,8 @@ abstract final class AppColors {
   static const green = Color(0xFF22C55E);
 
   static const textPrimary = Color(0xFF1A1B33);
-  static const textSecondary = Color(0xFF7C7F93);
+  // 5.0:1 sobre blanco y 4.6:1 sobre `background`: cumple WCAG AA (4.5:1).
+  static const textSecondary = Color(0xFF6B6E82);
   static const textOnDark = Colors.white;
   static const textOnDarkMuted = Color(0xFFB7B9D6);
 

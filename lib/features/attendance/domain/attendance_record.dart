@@ -107,7 +107,9 @@ class PendingAttendance {
       lastError: clearError ? null : (lastError ?? this.lastError),
       sync: sync ?? this.sync,
       remoteId: remoteId ?? this.remoteId,
-      nextAttemptAt: clearNextAttempt ? null : (nextAttemptAt ?? this.nextAttemptAt),
+      nextAttemptAt: clearNextAttempt
+          ? null
+          : (nextAttemptAt ?? this.nextAttemptAt),
     );
   }
 }
