@@ -99,6 +99,17 @@ void main() {
     expect((await scan(offline)).alreadyRecorded, isTrue);
   });
 
+  test('sin red y sin registro en la cola → sin aviso, sin bloquear', () async {
+    final (online, _) = build({
+      '/estudiantes': (_) => [_ana()],
+      '/asistencia': (_) => <Object>[],
+    });
+    await online.warmUp();
+    final (offline, _) = build(const {});
+
+    expect((await scan(offline)).alreadyRecorded, isFalse);
+  });
+
   test('una salida no se confunde con la entrada del día', () async {
     final (repo, _) = build({
       '/estudiantes': (_) => [_ana()],
