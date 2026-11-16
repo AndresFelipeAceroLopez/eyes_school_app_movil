@@ -1,0 +1,28 @@
+00:00 +0: loading c:/Users/marig/eyes_school_app_movil/integration_test/login_roles_test.dart
+00:00 +0: c:/Users/marig/eyes_school_app_movil/integration_test/login_roles_test.dart: CP-SIS-066 · administrador llega a su inicio con los datos cargados
+00:36 +1: c:/Users/marig/eyes_school_app_movil/integration_test/login_roles_test.dart: CP-SIS-066 · docente llega a su inicio con los datos cargados
+00:51 +1: c:/Users/marig/eyes_school_app_movil/integration_test/login_roles_test.dart: CP-SIS-066 · administrador llega a su inicio con los datos cargados
+00:51 +1: c:/Users/marig/eyes_school_app_movil/integration_test/login_roles_test.dart: CP-SIS-066 · docente llega a su inicio con los datos cargados
+00:52 +1: c:/Users/marig/eyes_school_app_movil/integration_test/login_roles_test.dart: CP-SIS-066 · administrador llega a su inicio con los datos cargados
+00:53 +1: c:/Users/marig/eyes_school_app_movil/integration_test/login_roles_test.dart: CP-SIS-066 · docente llega a su inicio con los datos cargados
+00:53 +1: c:/Users/marig/eyes_school_app_movil/integration_test/login_roles_test.dart: CP-SIS-066 · administrador llega a su inicio con los datos cargados
+00:59 +2: c:/Users/marig/eyes_school_app_movil/integration_test/login_roles_test.dart: CP-SIS-066 · estudiante llega a su inicio con los datos cargados
+01:14 +2: c:/Users/marig/eyes_school_app_movil/integration_test/login_roles_test.dart: CP-SIS-066 · administrador llega a su inicio con los datos cargados
+01:15 +2: c:/Users/marig/eyes_school_app_movil/integration_test/login_roles_test.dart: CP-SIS-066 · estudiante llega a su inicio con los datos cargados
+01:16 +2: c:/Users/marig/eyes_school_app_movil/integration_test/login_roles_test.dart: CP-SIS-066 · administrador llega a su inicio con los datos cargados
+01:23 +3: c:/Users/marig/eyes_school_app_movil/integration_test/login_roles_test.dart: CP-SIS-066 · padre llega a su inicio con los datos cargados
+01:36 +3: c:/Users/marig/eyes_school_app_movil/integration_test/login_roles_test.dart: CP-SIS-066 · administrador llega a su inicio con los datos cargados
+01:36 +3: c:/Users/marig/eyes_school_app_movil/integration_test/login_roles_test.dart: CP-SIS-066 · padre llega a su inicio con los datos cargados
+01:38 +3: c:/Users/marig/eyes_school_app_movil/integration_test/login_roles_test.dart: CP-SIS-066 · administrador llega a su inicio con los datos cargados
+01:44 +4: c:/Users/marig/eyes_school_app_movil/integration_test/login_roles_test.dart: (tearDownAll)
+01:45 +4: loading c:/Users/marig/eyes_school_app_movil/integration_test/padre_dos_hijos_test.dart
+03:33 +4: c:/Users/marig/eyes_school_app_movil/integration_test/padre_dos_hijos_test.dart: CP-SIS-092 · el padre de DS-03 ve a sus dos hijos
+Expected: at least one matching candidate
+  Actual: _TextContainingWidgetFinder:<Found 0 widgets with text containing Sofía Rodríguez: []>
+04:05 +4 -1: c:/Users/marig/eyes_school_app_movil/integration_test/padre_dos_hijos_test.dart: CP-SIS-092 · el padre de DS-03 ve a sus dos hijos [E]
+04:05 +4 -1: c:/Users/marig/eyes_school_app_movil/integration_test/padre_dos_hijos_test.dart: (tearDownAll)
+04:06 +4 -1: loading c:/Users/marig/eyes_school_app_movil/integration_test/registro_padre_test.dart
+05:55 +4 -1: c:/Users/marig/eyes_school_app_movil/integration_test/registro_padre_test.dart: CP-SIS-097 · el padre registrado en la app ve a su hijo vinculado
+CP-SIS-097 correo creado: qa.cpsis097.1794872303320@example.com
+06:37 +5 -1: c:/Users/marig/eyes_school_app_movil/integration_test/registro_padre_test.dart: (tearDownAll)
+06:39 +5 -1: Some tests failed.
