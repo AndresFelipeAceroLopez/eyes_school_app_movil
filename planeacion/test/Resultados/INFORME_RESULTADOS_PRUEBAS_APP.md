@@ -630,3 +630,55 @@ El CSV se importó en este orden y Azure Boards asignó los números consecutivo
 | AB#122 | N-31 | Una cuenta desactivada ve «Tu cuenta está pendiente de validación» | Abierto (New) |
 
 AB#88 (DEF-029) y AB#122 (N-31) deben quedar abiertos: el primero espera el `applicationId` definitivo y el segundo no se puede corregir solo en la app.
+
+---
+
+## 11. Cierre: datos y verificaciones del 16/11/2026
+
+### 11.1 Pruebas por archivo y cobertura por capa (`develop` con el PR #31)
+
+**190 pruebas en 28 archivos; 0 fallos, 0 omitidas.**
+
+| Archivo | Pruebas | Archivo | Pruebas |
+|---|---|---|---|
+| contrato_grabado_test | 22 | auth_repository_test | 3 |
+| dto_mapping_test | 20 | email_normalization_test | 3 |
+| academic_repository_impl_test | 18 | children_screen_test | 2 |
+| usecases_test | 15 | accessibility_test | 2 |
+| attendance_queue_test | 11 | app_boot_test | 2 |
+| attendance_repository_impl_test | 11 | device_token_repository_test | 2 |
+| auth_repository_impl_test | 11 | qa_regresion_s2_test | 2 |
+| validators_test | 11 | reset_password_screen_test | 2 |
+| directory_repository_impl_test | 9 | student_home_resilience_test | 2 |
+| qa_s3_test | 8 | academic_repository_test | 1 |
+| qa_dominio_s2_test | 7 | attendance_repository_test | 1 |
+| password_policy_test | 6 | dto_hijos_test | 1 |
+| architecture_test | 5 | | |
+| update_service_test | 5 | | |
+| push_notification_service_test | 4 | | |
+| qa_tableros_s2_test | 4 | | |
+
+| Capa | Líneas | Cobertura |
+|---|---|---|
+| domain | 351 / 413 | 85,0 % |
+| data | 1189 / 1340 | 88,7 % |
+| core | 525 / 920 | 57,1 % |
+| presentación | 745 / 4905 | 15,2 % |
+| **Lógica (domain + data + core)** | **1540 / 1753** | **87,8 %** (umbral del CI: 75 %) |
+| Total | 2810 / 7578 | 37,1 % |
+
+### 11.2 Complejidad (lizard 1.25.0, CCN > 15)
+
+6 funciones, una más que en S1: `FailureMapper.from` (22), `StudentCatalog._candidateKeys` (23), `_GradeEntryScreenState._save` (18), `AppUser.copyWith` (18), `_ProfileScreenState.build` (18) y `_RegisterScreenState._submit` (17). Quedan como deuda técnica hasta que el equipo apruebe refactorizarlas.
+
+### 11.3 MobSF: el hallazgo alto (MC-07)
+
+- La app guarda los tokens con `FlutterSecureStorage(aOptions: AndroidOptions(encryptedSharedPreferences: true))` desde el primer commit de `token_storage.dart` (06/09/2026), así que nunca escribió datos con el almacenamiento antiguo en CBC.
+- Actualizar la dependencia no es un arreglo menor: `flutter_secure_storage` está en 9.2.4 y la última es 11.2.0 (dos versiones mayores). Un cambio de formato de almacenamiento puede cerrar la sesión de todos los usuarios, así que no se hizo sin pruebas en dispositivo.
+- Propuesta: **«Aceptado con riesgo»** (líder de pruebas y PO), con este motivo. QA no puede probar con certeza que el código CBC no se cargue nunca; lo que se probó es que la app no tiene datos que lo requieran.
+
+### 11.4 Otros datos
+
+- **Responsable de cada N-xx:** el historial de Git solo distingue a dos autores (10 commits de corrección de Mariana Valentina y 2 de Andres Developer); no permite asignar cada defecto. El campo «Assigned To» no se incluyó en el CSV: se asigna en Azure Boards.
+- **Versión:** `pubspec.yaml` pasa a `1.1.1+4`. El workflow «Release APK» toma el nombre de la etiqueta y el número de la ejecución, así que lo que manda es la etiqueta `v1.1.1`.
+- **POCO X7:** al 16/11 `adb devices` no lo lista; Windows solo ve un dispositivo USB genérico (`VID_3277`, no Xiaomi) sin interfaz ADB. No se ejecutó ninguna prueba en el teléfono.
