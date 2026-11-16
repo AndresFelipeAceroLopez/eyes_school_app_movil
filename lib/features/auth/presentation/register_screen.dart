@@ -18,6 +18,15 @@ import 'package:eyes_school/core/domain/repositories.dart';
 ///
 /// The web panel does this in a single tall modal; on a phone that fights the
 /// keyboard, so it is split into three steps: identity, contact, role.
+/// The form field a registration 409 refers to (`UsuarioService`: «El correo
+/// ya está registrado» / «El documento ya está registrado»), or `null`.
+String? registrationConflictField(String message) {
+  final text = message.toLowerCase();
+  if (text.contains('correo')) return 'correo';
+  if (text.contains('documento')) return 'numero_documento';
+  return null;
+}
+
 class RegisterScreen extends ConsumerStatefulWidget {
   const RegisterScreen({super.key});
 
@@ -98,6 +107,10 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
   };
 
   void _next() {
+    // N-32: the API's verdict on a field is stale once the user moves on; if
+    // it still holds, the next submit marks it again. Keeping it blocked the
+    // step even after the field was fixed.
+    if (_fieldErrors.isNotEmpty) _fieldErrors = const {};
     if (!_currentKey.currentState!.validate()) return;
     FocusScope.of(context).unfocus();
     if (_step < 2) {
@@ -152,25 +165,33 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
       _showSuccess();
     } on ValidationFailure catch (e) {
       if (!mounted) return;
-      // Go back to the first step that holds a rejected field (N-19): an
-      // error on the password, say, cannot be marked from the role step.
       final fields = Map.of(e.fieldErrors)..remove('_');
-      final step = _stepWithError(fields.keys);
-      setState(() {
-        _fieldErrors = fields;
-        _errorText = fields.isEmpty
-            ? (e.fieldErrors['_'] ?? e.message)
-            : 'Revisa los datos marcados.';
-        if (step != null) _step = step;
-      });
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (mounted) _currentKey.currentState?.validate();
-      });
+      _showFieldErrors(fields, e.fieldErrors['_'] ?? e.message);
+    } on ConflictFailure catch (e) {
+      if (!mounted) return;
+      // CP-ACE-011: a 409 for a used e-mail or document belongs to that
+      // field, so it is marked there and not only on the role step.
+      final field = registrationConflictField(e.message);
+      _showFieldErrors(field == null ? {} : {field: e.message}, e.message);
     } on AppFailure catch (e) {
       if (mounted) setState(() => _errorText = e.message);
     } finally {
       if (mounted) setState(() => _submitting = false);
     }
+  }
+
+  /// Goes back to the first step that holds a rejected field (N-19): an
+  /// error on the password, say, cannot be marked from the role step.
+  void _showFieldErrors(Map<String, String> fields, String fallback) {
+    final step = _stepWithError(fields.keys);
+    setState(() {
+      _fieldErrors = fields;
+      _errorText = fields.isEmpty ? fallback : 'Revisa los datos marcados.';
+      if (step != null) _step = step;
+    });
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) _currentKey.currentState?.validate();
+    });
   }
 
   static const _identityFields = {

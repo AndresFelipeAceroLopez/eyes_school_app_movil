@@ -21,6 +21,12 @@ import 'session_provider.dart';
 /// Every one of these returns a **domain entity**: no screen ever sees a DTO,
 /// a status code or a JSON map.
 
+/// Bumped when the user switches tab with a connection (CP-ACE-058): the
+/// screens that show a student's live data fetch again, so a grade changed by
+/// the teacher shows up without a manual pull-to-refresh. While refetching,
+/// the previous data stays on screen.
+final dataRefreshProvider = StateProvider<int>((ref) => 0);
+
 // ── Catálogos ─────────────────────────────────────────────────────────────
 
 final coursesProvider = FutureProvider<List<Course>>(
@@ -37,9 +43,10 @@ final subjectsProvider = FutureProvider<List<Subject>>(
 
 // ── Docente ───────────────────────────────────────────────────────────────
 
-final teacherDashboardProvider = FutureProvider<TeacherDashboard>(
-  (ref) => ref.watch(academicRepositoryProvider).teacherDashboard(),
-);
+final teacherDashboardProvider = FutureProvider<TeacherDashboard>((ref) {
+  ref.watch(dataRefreshProvider);
+  return ref.watch(academicRepositoryProvider).teacherDashboard();
+});
 
 final teacherClassesProvider = FutureProvider<List<TeacherClass>>((ref) async {
   final teacherId = ref.watch(currentSessionProvider)?.teacherId;
@@ -65,6 +72,7 @@ final teacherTodayClassesProvider = FutureProvider<List<ClassSession>>((
 
 final teacherNovedadesProvider =
     FutureProvider.family<List<Novedad>, NovedadStatus?>((ref, status) async {
+      ref.watch(dataRefreshProvider);
       final novedades = await ref
           .watch(academicRepositoryProvider)
           .novedades(status: status, limit: 50);
@@ -91,35 +99,46 @@ final teacherClassProvider = FutureProvider.family<TeacherClass?, int>(
 
 // ── Estudiante y acudiente ────────────────────────────────────────────────
 
-final studentDashboardProvider = FutureProvider<StudentDashboard>(
-  (ref) => ref.watch(academicRepositoryProvider).studentDashboard(),
-);
+final studentDashboardProvider = FutureProvider<StudentDashboard>((ref) {
+  ref.watch(dataRefreshProvider);
+  return ref.watch(academicRepositoryProvider).studentDashboard();
+});
 
-final parentDashboardProvider = FutureProvider<GuardianDashboard>(
-  (ref) => ref
+final parentDashboardProvider = FutureProvider<GuardianDashboard>((ref) {
+  ref.watch(dataRefreshProvider);
+  return ref
       .watch(academicRepositoryProvider)
       .guardianDashboard(
         studentId: ref.watch(currentSessionProvider.select((s) => s?.childId)),
-      ),
-);
+      );
+});
 
 /// Grades of a student for a period. `period: null` means "every period".
 final gradesForStudentProvider =
-    FutureProvider.family<List<Grade>, ({int studentId, int? period})>(
-      (ref, args) => ref
+    FutureProvider.family<List<Grade>, ({int studentId, int? period})>((
+      ref,
+      args,
+    ) {
+      ref.watch(dataRefreshProvider);
+      return ref
           .watch(academicRepositoryProvider)
-          .gradesForStudent(args.studentId, period: args.period),
-    );
+          .gradesForStudent(args.studentId, period: args.period);
+    });
 
 final attendanceSummaryProvider = FutureProvider.family<AttendanceSummary, int>(
-  (ref, studentId) =>
-      ref.watch(academicRepositoryProvider).attendanceSummary(studentId),
+  (ref, studentId) {
+    ref.watch(dataRefreshProvider);
+    return ref.watch(academicRepositoryProvider).attendanceSummary(studentId);
+  },
 );
 
-final novedadesForStudentProvider = FutureProvider.family<List<Novedad>, int>(
-  (ref, studentId) =>
-      ref.watch(academicRepositoryProvider).novedadesForStudent(studentId),
-);
+final novedadesForStudentProvider = FutureProvider.family<List<Novedad>, int>((
+  ref,
+  studentId,
+) {
+  ref.watch(dataRefreshProvider);
+  return ref.watch(academicRepositoryProvider).novedadesForStudent(studentId);
+});
 
 final studentWeeklyScheduleProvider =
     FutureProvider.family<List<ClassSession>, int>(
@@ -201,14 +220,16 @@ final studentCatalogReadyProvider = FutureProvider<void>((ref) async {
 });
 
 final todayAttendanceProvider =
-    FutureProvider.family<List<AttendanceRecord>, AttendanceKind?>(
-      (ref, kind) => ref
+    FutureProvider.family<List<AttendanceRecord>, AttendanceKind?>((ref, kind) {
+      ref.watch(dataRefreshProvider);
+      return ref
           .watch(attendanceRepositoryProvider)
-          .registeredOn(DateTime.now(), kind: kind),
-    );
+          .registeredOn(DateTime.now(), kind: kind);
+    });
 
 /// All novedades, newest first — the admin news tab.
 final adminNovedadesProvider = FutureProvider<List<Novedad>>((ref) async {
+  ref.watch(dataRefreshProvider);
   final novedades = await ref
       .watch(academicRepositoryProvider)
       .novedades(limit: 50);

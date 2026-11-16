@@ -410,6 +410,7 @@ La respuesta real de `/padres/me` sin vínculo (404) confirma la suposición de 
 | N-29 | El token de la sesión se envía a GitHub y la OTA nunca se ofrece a un usuario con sesión | S3, CP-ACE-089: `UpdateService` usaba el Dio de la API; el interceptor agregaba `Authorization: Bearer <token de Eyes School>` a `api.github.com`, GitHub respondía 401, el interceptor renovaba la sesión y repetía la petición con el token nuevo. Con 1.0.9 instalada y v1.1.0 publicada, no apareció el diálogo de actualización | Alta (seguridad) | App |
 | N-30 | Un fallo de red al descargar la actualización muestra el texto de la excepción | S3, CP-ACE-090: «Error al descargar la actualización: DioException [unknown]: null … HttpException» | Baja | App |
 | N-31 | Una cuenta desactivada ve «Tu cuenta está pendiente de validación» | S3, CP-NF-019: tras desactivar la cuenta, al reabrir la app muestra «Cuenta pendiente · Tu cuenta está pendiente de validación por un administrador». La API solo entrega `estado: false`, así que la app no distingue «pendiente» de «desactivada» | Baja | App + API |
+| N-32 | Tras un error de la API en un campo del registro, corregir el campo no deja avanzar | Revisión de código del 16/11: el error del servidor quedaba guardado y la validación de «Continuar» lo volvía a mostrar aunque el campo ya estuviera corregido | Media | App |
 
 ---
 
@@ -682,3 +683,65 @@ AB#88 (DEF-029) y AB#122 (N-31) deben quedar abiertos: el primero espera el `app
 - **Responsable de cada N-xx:** el historial de Git solo distingue a dos autores (10 commits de corrección de Mariana Valentina y 2 de Andres Developer); no permite asignar cada defecto. El campo «Assigned To» no se incluyó en el CSV: se asigna en Azure Boards.
 - **Versión:** `pubspec.yaml` pasa a `1.1.1+4`. El workflow «Release APK» toma el nombre de la etiqueta y el número de la ejecución, así que lo que manda es la etiqueta `v1.1.1`.
 - **POCO X7:** al 16/11 `adb devices` no lo lista; Windows solo ve un dispositivo USB genérico (`VID_3277`, no Xiaomi) sin interfaz ADB. No se ejecutó ninguna prueba en el teléfono.
+
+---
+
+## 12. Planeación de cierre: ejecución del 16/11/2026
+
+Entorno: emulador `EyesQA_API33` con el APK nuevo del flavor **qa** (`com.eyesschoolqa.qa2`, 1.1.1) firmado con la clave de release; API y Firebase de QA. Evidencias: `evidencias/PR-08/app/MC03/`, `MC04/`, `MC06/` y `evidencias/PR-06/app/MC08/`.
+
+### 12.1 MC-02 · Firebase de QA y de producción (flavors)
+
+| Cambio | Detalle |
+|---|---|
+| Flavor `prod` | Igual que antes: `com.example.eyes_school`, `android/app/google-services.json` (proyecto `eyes-school`), API de producción. Es el que compila el workflow de release (`--flavor prod`) y se publica como `app-release.apk` |
+| Flavor `qa` | App aparte: `com.eyesschoolqa.qa2`, nombre «Eyes School QA», `android/app/src/qa/google-services.json` (proyecto `qa-eyes-school`) y API de QA sin `--dart-define`. La OTA está desactivada: los releases publicados son la app de producción, otro paquete |
+| Verificado | `aapt2`: el APK qa trae `project_id qa-eyes-school` y el prod `eyes-school`; los dos compilan y se instalan; la app qa se conecta a la API de QA |
+| Sigue pendiente | **DEF-029 (AB#88):** el `applicationId` de producción (opción A o B de la planeación de cierre) es decisión del equipo. **APP-INF-1:** restringir las dos claves de Firebase en Google Cloud Console (tarea de consola) |
+
+### 12.2 MC-04 · Notificaciones: **bloqueado en el backend de QA**
+
+- La app hace su parte: al iniciar sesión, Roberto (usuario 8) quedó registrado en `/dispositivos` con un token del proyecto `qa-eyes-school` (verificado en la base de QA), y se borra al cerrar sesión.
+- El docente registró por la API dos novedades de Juan, una con la app abierta (CP-ACE-085) y otra con la app en segundo plano (CP-ACE-067). **No llegó ninguna notificación** (se esperó 43 s y 94 s), y el logcat no muestra mensajes de FCM. El emulador tiene Google Play Services.
+- Conclusión: el backend de QA no está enviando al proyecto `qa-eyes-school`. Hay que revisar en el App Service `apieyeschool-q` que `FIREBASE_CREDENTIALS_JSON` sea la cuenta de servicio de **`qa-eyes-school`**, que el servicio se haya reiniciado, y el log «No se pudo notificar la novedad…». QA no tiene acceso a Azure.
+- Las dos novedades de prueba (14 y 15) se borraron. CP-ACE-067, 085, 086 y 087 siguen pendientes de esto.
+
+### 12.3 MC-03 · N-31, N-32 y observaciones de la UAT
+
+| Escenario / defecto | Corrección | Verificación |
+|---|---|---|
+| **N-31 (AB#122)** cuenta desactivada ve «pendiente de validación» | La API manda el mismo `estado: false` para los dos casos; el texto ahora vale para ambos: «Cuenta inactiva · Tu cuenta no está activa. Si te registraste hace poco, un administrador debe aprobarla; si ya la usabas, comunícate con la institución.» | `no_access_screen_test.dart` |
+| **N-32 (nuevo, revisión de código)** tras un error de la API en un campo del registro, corregir el campo no dejaba avanzar | El error del servidor se descarta al pulsar «Continuar»; si sigue, la API lo vuelve a marcar | `register_conflict_test.dart` |
+| CP-ACE-011 · el correo duplicado salía en el paso 3 | El 409 «El correo ya está registrado» (o «El documento…») se marca en su campo y la app vuelve a ese paso | `register_conflict_test.dart` |
+| CP-ACE-039 · la hoja no advertía el registro repetido | Al leer el QR se consulta el registro del día (cola del teléfono y API, sin bloquear si no hay red) y la hoja avisa «Ya tiene registro de entrada hoy. Registrar de nuevo no crea otro.» | Emulador con EST003: 1.ª lectura sin aviso (registro 3373), 2.ª con aviso · `MC03/CP-ACE-039_*`. Prueba: `scan_duplicate_warning_test.dart` |
+| CP-ACE-052 · sin red, datos viejos sin avisar | Franja «Sin conexión · estás viendo los últimos datos cargados» sobre la barra de pestañas (contraste 8,8:1) | Emulador: aparece en modo avión y se va con red · `MC03/CP-ACE-052_*` |
+| CP-ACE-058 · el padre veía la nota vieja hasta recargar | Al cambiar de pestaña con conexión, las pantallas de datos vuelven a consultar la API (sin perder lo que mostraban) | Emulador: nota 4 de Juan 3.2 → 4.1 por la API; al pasar de Inicio a Notas, promedio 3.7 → 4.0. Restaurada a 3.2 · `MC03/CP-ACE-058_*`. Prueba: `data_refresh_test.dart` |
+| CP-ACE-077 · texto técnico «Perfil padre no encontrado» | Ya estaba resuelto desde el PR #16 (APP-03) | Emulador con un padre temporal sin vínculo: «Tu cuenta de acudiente aún no está vinculada a un estudiante.» · `MC03/CP-ACE-077_*` |
+| CP-ACE-088 · no avisaba que las notificaciones estaban desactivadas | Aviso en el perfil del padre con «Activar», que abre los ajustes de notificaciones de la app; al volver con el permiso concedido, el dispositivo se registra | Emulador: aviso → «Activar» abre los ajustes de «Eyes School QA» → al conceder y volver, el aviso desaparece y el usuario queda en `/dispositivos` · `MC03/CP-ACE-088_*`. Prueba: `notifications_off_notice_test.dart` |
+
+### 12.4 MC-06 · Escenarios de UAT sin ejecutar
+
+| Escenario | Estado al 16/11 |
+|---|---|
+| CP-ACE-016 | **En curso.** Cuenta temporal de padre con el correo de QA (`marigenerosita@gmail.com`, usuario 168); el restablecimiento se pidió desde la app a las 22:49 UTC («Enlace enviado»). Falta el enlace que llegue al correo para completar el cambio en la app |
+| CP-ACE-034 | Pendiente: falta la URL de la web de QA (sale del enlace del correo de CP-ACE-016) y leer su QR con la cámara |
+| CP-ACE-060 | Pendiente de decisión del PO: el Gherkin del PR-02 no está en el repositorio y la app no permite provocar un error de cálculo |
+| CP-ACE-094 | Propuesto **«No aplica»** al canal app (los reportes se filtran y generan en la web); necesita la firma del PO |
+| CP-ACE-097 | Ejecutado con una prueba de widget (lista vacía → «Sin reportes generados», sin «Descargar»): `reports_empty_test.dart`. No se borraron los reportes de QA |
+
+### 12.5 MC-08 · CP-SIS-074 en el emulador
+
+Escaneo de la **salida** de EST002 sin entrada del día → en «Pendientes» queda **«Con error · No hay entrada registrada hoy»**, 0 en cola (no se reintenta) y el docente puede verlo (N-27). Se descartó desde la pantalla. **Aprobado** · `evidencias/PR-06/app/MC08/CP-SIS-074_salida_sin_entrada.png`.
+
+### 12.6 MC-05 · POCO X7
+
+- `adb` ya lo ve: modelo `24095PCADG`, **Android 16 con HyperOS 3.0** (la planeación decía Android 15).
+- Tiene instalada la app vieja `com.example.eyes_school` **0.1.0** (versionCode 1, firmada con la clave de depuración).
+- Instalar por USB falla con `INSTALL_FAILED_USER_RESTRICTED`: HyperOS exige activar «Instalar por USB» en las opciones de desarrollador (pide la cuenta Xiaomi) y aceptar el aviso en el teléfono. No se ejecutó ninguna prueba en el teléfono.
+
+### 12.7 Datos de QA
+
+- **EST001 (Sofía) está «Inactivo» en QA** desde después del 12/11 (cambio ajeno a QA; no se tocó). La app lo rechaza al escanear: «Sofía Valentina Rodríguez Torres no está activo (Inactivo).» Para el escaneo se usaron EST002 y EST003.
+- Quedan los registros de asistencia de hoy del escaneo (EST003 entrada, 3373). Usuario temporal 169 borrado; el 168 (correo de QA) sigue hasta cerrar CP-ACE-016. Tabla `/dispositivos` vacía.
+
+**Pruebas automáticas:** 205 de 205; `flutter analyze` sin problemas.

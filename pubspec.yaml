@@ -41,6 +41,8 @@ dev_dependencies:
   image: ^4.9.2
 
 flutter:
+  # MC-02: sin --flavor se compila el de producción.
+  default-flavor: prod
   uses-material-design: true
 
   assets:

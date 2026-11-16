@@ -22,6 +22,9 @@ final updateServiceProvider = Provider<UpdateService>((ref) {
         receiveTimeout: ApiConfig.receiveTimeout,
       ),
     ),
+    // The published releases are the production app (another package): the
+    // QA flavor must never offer to install it over itself.
+    isAndroid: ApiConfig.isQaBuild ? () => false : _platformIsAndroid,
   );
 });
 

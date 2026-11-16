@@ -15,6 +15,7 @@ import 'package:eyes_school/core/widgets/section_header.dart';
 import 'package:eyes_school/core/widgets/status_badge.dart';
 import 'package:eyes_school/features/directory/domain/role.dart';
 import 'package:eyes_school/features/auth/domain/app_user.dart';
+import 'package:eyes_school/features/notifications/presentation/notifications_off_notice.dart';
 import 'package:eyes_school/providers/repository_providers.dart';
 import 'package:eyes_school/providers/session_provider.dart';
 
@@ -110,6 +111,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                 ],
               ),
               const SizedBox(height: 20),
+              if (user.role == Role.parent) const NotificationsOffNotice(),
               SectionCard(
                 child: Column(
                   children: [

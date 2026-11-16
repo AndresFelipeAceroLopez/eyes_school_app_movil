@@ -48,11 +48,11 @@ ORIGEN = {
     "N-18": "pruebas-sistema", "N-19": "pruebas-sistema", "N-20": "pruebas-sistema",
     "N-21": "pruebas-sistema", "N-22": "pruebas-sistema", "N-24": "pruebas-sistema",
     "N-25": "pruebas-sistema", "N-26": "pruebas-sistema", "N-27": "uat", "N-28": "uat",
-    "N-29": "uat", "N-30": "uat", "N-31": "pruebas-sistema",
+    "N-29": "uat", "N-30": "uat", "N-31": "pruebas-sistema", "N-32": "revision-codigo",
 }
 
 # Ronda en que se encontró: S1 (11/11, develop f253eb0), S2 (regresión 12/11), S3 (12/11).
-RONDA = {"N-25": "S2", "N-26": "S2", "N-27": "S3", "N-28": "S3", "N-29": "S3", "N-30": "S3", "N-31": "S3"}
+RONDA = {"N-25": "S2", "N-26": "S2", "N-27": "S3", "N-28": "S3", "N-29": "S3", "N-30": "S3", "N-31": "S3", "N-32": "S4"}
 
 CORREGIDO_S2 = "Corregido en develop (PR #16) y verificado en la regresión S2 (sección 8.2 del informe)."
 CORREGIDO_S3 = "Corregido en develop (PR #31) con su prueba; verificado en el emulador con el APK de QA (sección 10)."
@@ -69,7 +69,9 @@ ESTADO: dict[str, tuple[str, bool]] = {
     "N-10": ("Resuelto antes de llegar a un commit: la URL quedó con https (verificado el 11/11).", True),
     "N-26": ("Corregido en el workflow (PR #28) y APK arm64 retirado del release v1.1.0 (verificado).", True),
     **{n: (CORREGIDO_S3, True) for n in ("N-27", "N-28", "N-29", "N-30")},
-    "N-31": ("Abierto: la API no distingue una cuenta pendiente de una desactivada (solo envía estado).", False),
+    "N-31": ("Corregido en develop (PR #34): el texto vale para una cuenta pendiente y para una desactivada; "
+             "prueba no_access_screen_test.dart.", True),
+    "N-32": ("Corregido en develop (PR #34) con su prueba (register_conflict_test.dart).", True),
 }
 
 
@@ -127,14 +129,20 @@ def defectos() -> list[dict[str, str]]:
 
 
 def main() -> None:
+    import sys
     filas = defectos()
+    solo = sys.argv[sys.argv.index("--solo") + 1].split(",") if "--solo" in sys.argv else None
+    destino = DESTINO
+    if solo:
+        filas = [d for d in filas if d["id"] in solo]
+        destino = DESTINO.with_name("defectos_azure_boards_app_nuevos.csv")
     faltan = [d["id"] for d in filas if d["id"] not in ESTADO or d["id"] not in ORIGEN]
     if faltan:
         raise SystemExit(f"Sin estado u origen definido: {faltan}")
 
     DESTINO.parent.mkdir(parents=True, exist_ok=True)
     columnas = ["Work Item Type", "Title", "Severity", "Priority", "Tags", "Repro Steps", "System Info"]
-    with DESTINO.open("w", encoding="utf-8-sig", newline="") as f:
+    with destino.open("w", encoding="utf-8-sig", newline="") as f:
         w = csv.writer(f)
         w.writerow(columnas)
         for d in filas:
@@ -156,13 +164,14 @@ def main() -> None:
                 "S1": "Android 13 (emulador API 33) · APK de QA de develop f253eb0 · 11/11/2026",
                 "S2": "Android 13 (emulador API 33) · develop tras PR #16 · 12/11/2026",
                 "S3": "Android 13 (emulador API 33) · APK de QA 1.0.9 (develop + PR #31) · 12/11/2026",
+                "S4": "Android 13 (emulador API 33) · APK del flavor qa 1.1.1 (develop + PR #34) · 16/11/2026",
             }[d["ronda"]]
             w.writerow([
                 "Bug", f"[{d['id']}] {d['titulo']}", SEVERIDAD[d["sev"]], PRIORIDAD[d["sev"]],
                 "; ".join(etiquetas), repro, info,
             ])
     cerrar = sum(1 for d in filas if ESTADO[d["id"]][1])
-    print(f"{len(filas)} defectos en {DESTINO.relative_to(RAIZ)} ({cerrar} con la etiqueta cerrar-done)")
+    print(f"{len(filas)} defectos en {destino.relative_to(RAIZ)} ({cerrar} con la etiqueta cerrar-done)")
 
 
 if __name__ == "__main__":

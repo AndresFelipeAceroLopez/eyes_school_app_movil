@@ -59,6 +59,16 @@ class _FakeMessaging extends Fake implements FirebaseMessaging {
 
   @override
   Future<void> deleteToken() async {}
+
+  /// `null` simulates a platform without Firebase (the call throws).
+  AuthorizationStatus? current = AuthorizationStatus.authorized;
+
+  @override
+  Future<NotificationSettings> getNotificationSettings() async {
+    final status = current;
+    if (status == null) throw StateError('sin Firebase');
+    return _Settings(status);
+  }
 }
 
 class _RecordingTokens implements DeviceTokenRepository {
@@ -110,6 +120,24 @@ void main() {
 
       await expectLater(service.onSignedIn(), completes);
       expect(tokens.registered, isEmpty);
+    });
+
+    // CP-ACE-088: el perfil avisa solo si las notificaciones están bloqueadas.
+    test('notificationsAllowed refleja el permiso del sistema', () async {
+      final messaging = _FakeMessaging();
+      final service = PushNotificationService(
+        messaging: messaging,
+        deviceTokens: _RecordingTokens(),
+      );
+
+      expect(await service.notificationsAllowed(), isTrue);
+      messaging.current = AuthorizationStatus.provisional;
+      expect(await service.notificationsAllowed(), isTrue);
+      messaging.current = AuthorizationStatus.denied;
+      expect(await service.notificationsAllowed(), isFalse);
+      // Sin Firebase no se sabe: no se molesta al usuario con el aviso.
+      messaging.current = null;
+      expect(await service.notificationsAllowed(), isTrue);
     });
 
     test('da de baja el token al cerrar sesión', () async {

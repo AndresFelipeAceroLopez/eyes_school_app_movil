@@ -15,7 +15,7 @@
     <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" tools:node="remove"/>
     <uses-feature android:name="android.hardware.camera" android:required="false"/>
     <application
-        android:label="eyes_school"
+        android:label="${appLabel}"
         android:allowBackup="false"
         android:fullBackupContent="false"
         android:name="${applicationName}"

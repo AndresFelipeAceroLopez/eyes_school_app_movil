@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "351821657337",
+    "project_id": "qa-eyes-school",
+    "storage_bucket": "qa-eyes-school.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:351821657337:android:cc828b2963633768f61e28",
+        "android_client_info": {
+          "package_name": "com.eyesschoolqa.qa2"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBqaXV1Cs-obZRyDIQilHWhYltVQpC1xw4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

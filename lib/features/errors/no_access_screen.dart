@@ -10,15 +10,16 @@ import 'package:eyes_school/features/directory/domain/role.dart';
 import 'package:eyes_school/providers/session_provider.dart';
 
 /// Reached in two situations: a route that belongs to another role, and an
-/// account that an administrator has not validated yet (`MeResponse.estado`
-/// is false — the web panel's "Validación pendiente" tray).
+/// inactive account (`MeResponse.estado` is false). The API sends the same
+/// `false` for an account still awaiting validation and for one an admin
+/// deactivated (N-31), so the text has to be true for both.
 class NoAccessScreen extends ConsumerWidget {
   const NoAccessScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final session = ref.watch(currentSessionProvider);
-    final pendingValidation = session != null && !session.user.isActive;
+    final inactive = session != null && !session.user.isActive;
 
     return Scaffold(
       body: DecoratedBox(
@@ -38,15 +39,16 @@ class NoAccessScreen extends ConsumerWidget {
                 const EyeLogo(size: 84),
                 const SizedBox(height: 28),
                 Text(
-                  pendingValidation ? 'Cuenta pendiente' : 'Sin acceso',
+                  inactive ? 'Cuenta inactiva' : 'Sin acceso',
                   style: AppTextStyles.h1.copyWith(color: Colors.white),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 12),
                 Text(
-                  pendingValidation
-                      ? 'Tu cuenta está pendiente de validación por un administrador. '
-                            'Podrás ingresar en cuanto sea aprobada.'
+                  inactive
+                      ? 'Tu cuenta no está activa. Si te registraste hace poco, '
+                            'un administrador debe aprobarla; si ya la usabas, '
+                            'comunícate con la institución.'
                       : 'Esta sección no está disponible para tu rol.',
                   style: AppTextStyles.body.copyWith(
                     color: AppColors.textOnDarkMuted,
@@ -54,7 +56,7 @@ class NoAccessScreen extends ConsumerWidget {
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 36),
-                if (!pendingValidation && session != null)
+                if (!inactive && session != null)
                   SizedBox(
                     width: double.infinity,
                     child: PrimaryGradientButton(

@@ -279,10 +279,18 @@ sealed class ScanResult {
 }
 
 class ScanResolved extends ScanResult {
-  const ScanResolved(this.student, this.suggested);
+  const ScanResolved(
+    this.student,
+    this.suggested, {
+    this.alreadyRecorded = false,
+  });
 
   final StudentIdentity student;
   final AttendanceState suggested;
+
+  /// The student already has a record of this kind today (this phone's queue
+  /// or the API). The confirmation sheet warns before «Registrar» (CP-ACE-039).
+  final bool alreadyRecorded;
 }
 
 class ScanUnknownCode extends ScanResult {
