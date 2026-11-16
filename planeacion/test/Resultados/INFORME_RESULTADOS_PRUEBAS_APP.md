@@ -744,4 +744,16 @@ Escaneo de la **salida** de EST002 sin entrada del día → en «Pendientes» qu
 - **EST001 (Sofía) está «Inactivo» en QA** desde después del 12/11 (cambio ajeno a QA; no se tocó). La app lo rechaza al escanear: «Sofía Valentina Rodríguez Torres no está activo (Inactivo).» Para el escaneo se usaron EST002 y EST003.
 - Quedan los registros de asistencia de hoy del escaneo (EST003 entrada, 3373). Usuario temporal 169 borrado; el 168 (correo de QA) sigue hasta cerrar CP-ACE-016. Tabla `/dispositivos` vacía.
 
-**Pruebas automáticas:** 205 de 205; `flutter analyze` sin problemas.
+### 12.8 MC-05 · Emulador API 30 (Android 11)
+
+`integration_test` con el flavor qa contra la API de QA (`evidencias/PR-06/app/API30/integration_test_API30.txt`, contraseña tachada):
+
+| Flujo | Resultado |
+|---|---|
+| CP-SIS-066 · login de administrador, docente, estudiante y padre | **4 de 4 pasan**, igual que en API 33 |
+| CP-SIS-097 · registro de padre y ver al hijo vinculado | **Pasa** (usuario de prueba 170 borrado) |
+| CP-SIS-092 · padre de dos hijos (Rosa) | **Falla por los datos de QA, no por la app**: `/padres/me/hijos` de Rosa devuelve hoy solo a Santiago porque EST001 (Sofía) quedó «Inactivo» después del 12/11. El conjunto DS-03 ya no se cumple; hace falta que el equipo reactive a Sofía o defina otro padre con dos hijos activos |
+
+En API 30 no hay permiso de notificaciones en tiempo de ejecución (solo desde API 33), así que el login no muestra ese diálogo. Al terminar se borró el token que dejó el padre en `/dispositivos`.
+
+**Pruebas automáticas:** 208 de 208 en el CI del PR #34; `flutter analyze` sin problemas; cobertura del código nuevo en SonarCloud 97,7 %.
