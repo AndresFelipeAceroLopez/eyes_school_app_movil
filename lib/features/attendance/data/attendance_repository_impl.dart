@@ -52,7 +52,38 @@ class AttendanceRepositoryImpl implements AttendanceRepository {
     if (student == null) return ScanUnknownCode(code);
     if (!student.active) return ScanInactiveStudent(student);
 
-    return ScanResolved(student, suggestedState(kind: kind, now: now));
+    return ScanResolved(
+      student,
+      suggestedState(kind: kind, now: now),
+      alreadyRecorded:
+          kind != null &&
+          await _alreadyRecorded(
+            student.studentId,
+            kind,
+            now ?? DateTime.now(),
+          ),
+    );
+  }
+
+  /// This phone's queue first (works offline), then the API, which also knows
+  /// about records made from the web or another phone. A slow or missing
+  /// network never holds the scan up: the API's 409 still prevents duplicates.
+  Future<bool> _alreadyRecorded(
+    int studentId,
+    AttendanceKind kind,
+    DateTime day,
+  ) async {
+    if (await _queue.hasRecord(studentId: studentId, date: day, kind: kind)) {
+      return true;
+    }
+    try {
+      final today = await _api
+          .list(studentId: studentId, date: day, kind: kind)
+          .timeout(const Duration(seconds: 3));
+      return today.any((r) => r.kind == kind);
+    } catch (_) {
+      return false;
+    }
   }
 
   /// A late arrival is only late on the way *in*.

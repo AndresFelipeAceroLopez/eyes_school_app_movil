@@ -10,6 +10,8 @@ description = "Clave de cliente de Firebase de la app Android"
 # Console al paquete Android y a la huella SHA-256 de la clave de release.
 paths = [
   '''android/app/google-services\.json''',
+  # Flavor qa (proyecto de Firebase de QA, MC-02): misma naturaleza de clave.
+  '''android/app/src/qa/google-services\.json''',
   # Reportes de MobSF (CP-NF-004): citan la misma clave de cliente de Firebase
   # que extraen del APK; no contienen otros secretos (revisado el 12/11/2026).
   '''planeacion/test/Resultados/evidencias/PR-06/app/mobsf[0-9]*/mobsf_.*\.json''',

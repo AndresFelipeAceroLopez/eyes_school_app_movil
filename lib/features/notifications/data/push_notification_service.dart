@@ -127,6 +127,20 @@ class PushNotificationService {
     }
   }
 
+  /// Whether this app may show notifications (CP-ACE-088). An unknown state
+  /// (no Firebase on this platform) counts as allowed, so nobody is nagged
+  /// about a setting they cannot change.
+  Future<bool> notificationsAllowed() async {
+    try {
+      final status =
+          (await _messaging.getNotificationSettings()).authorizationStatus;
+      return status == AuthorizationStatus.authorized ||
+          status == AuthorizationStatus.provisional;
+    } catch (_) {
+      return true;
+    }
+  }
+
   /// After sign-in: asks for permission (Android 13+ shows the OS dialog) and,
   /// if granted, registers this device's token with the API. A denied
   /// permission is not an error: the app keeps working and novedades are

@@ -66,8 +66,12 @@ jobs:
       - name: Build APK
         run: |
           VERSION="${GITHUB_REF_NAME#v}"
-          flutter build apk --release \
+          # MC-02: flavor prod (paquete publicado y Firebase de produccion).
+          flutter build apk --release --flavor prod \
             --build-name="$VERSION" --build-number="${{ github.run_number }}"
+          # La OTA busca exactamente app-release.apk en el release.
+          cp build/app/outputs/flutter-apk/app-prod-release.apk \
+             build/app/outputs/flutter-apk/app-release.apk
 
       - name: Verify signature, package and minSdk
         run: |

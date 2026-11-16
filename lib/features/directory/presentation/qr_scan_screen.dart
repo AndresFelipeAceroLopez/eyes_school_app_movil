@@ -129,6 +129,7 @@ class _QrScanScreenState extends ConsumerState<QrScanScreen> {
             .firstOrNull,
         initialState: result.suggested,
         kind: _tipo,
+        alreadyRecorded: result.alreadyRecorded,
         onSubmit: (state, observacion) async {
           final outcome = await ref
               .read(attendanceRepositoryProvider)
@@ -415,6 +416,7 @@ class _ConfirmSheet extends StatefulWidget {
     required this.initialState,
     required this.kind,
     required this.onSubmit,
+    this.alreadyRecorded = false,
   });
 
   final String studentName;
@@ -422,6 +424,7 @@ class _ConfirmSheet extends StatefulWidget {
   final String? courseName;
   final AttendanceState initialState;
   final AttendanceKind kind;
+  final bool alreadyRecorded;
   final Future<bool> Function(AttendanceState estado, String? observacion)
   onSubmit;
 
@@ -549,6 +552,35 @@ class _ConfirmSheetState extends State<_ConfirmSheet> {
               ),
             ],
           ),
+          if (widget.alreadyRecorded) ...[
+            const SizedBox(height: 14),
+            // CP-ACE-039: said before «Registrar», not only after it.
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: AppColors.orange.withValues(alpha: 0.12),
+                borderRadius: BorderRadius.circular(14),
+              ),
+              child: Row(
+                children: [
+                  const Icon(
+                    Icons.warning_amber_rounded,
+                    color: AppColors.orange,
+                  ),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: Text(
+                      'Ya tiene registro de '
+                      '${widget.kind.label.toLowerCase()} hoy. '
+                      'Registrar de nuevo no crea otro.',
+                      style: AppTextStyles.caption,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
           const SizedBox(height: 20),
           Text('Estado', style: AppTextStyles.caption),
           const SizedBox(height: 10),

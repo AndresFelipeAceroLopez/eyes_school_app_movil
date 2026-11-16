@@ -77,6 +77,21 @@ class AttendanceQueue extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// Whether this phone already holds a record of [kind] for [studentId] on
+  /// [date] (CP-ACE-039).
+  Future<bool> hasRecord({
+    required int studentId,
+    required DateTime date,
+    required AttendanceKind kind,
+  }) async {
+    await load();
+    final key =
+        '$studentId|${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}|${kind.wire}';
+    return _items.any(
+      (i) => i.dedupeKey == key && i.sync != SyncState.duplicate,
+    );
+  }
+
   /// Records one scan. Returns [EnqueueOutcome.duplicate] when this student
   /// already has a record for the same day and kind.
   Future<EnqueueOutcome> enqueue({

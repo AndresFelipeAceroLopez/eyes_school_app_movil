@@ -42,6 +42,23 @@ android {
         versionName = flutter.versionName
     }
 
+    // Two Firebase projects (MC-02): `prod` keeps the published package and
+    // android/app/google-services.json; `qa` is a separate app registered in
+    // the QA Firebase project (android/app/src/qa/google-services.json), so
+    // the QA API's push credentials and the app's FCM tokens match.
+    flavorDimensions += "entorno"
+    productFlavors {
+        create("prod") {
+            dimension = "entorno"
+            manifestPlaceholders["appLabel"] = "eyes_school"
+        }
+        create("qa") {
+            dimension = "entorno"
+            applicationId = "com.eyesschoolqa.qa2"
+            manifestPlaceholders["appLabel"] = "Eyes School QA"
+        }
+    }
+
     signingConfigs {
         if (hasReleaseKey) {
             create("release") {
