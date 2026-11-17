@@ -1,0 +1,11 @@
+CP-NF-007 · POCO X7 (24095PCADG, Android 16, HyperOS OS3.0) · APK flavor qa 1.1.1 (release) · 2026-11-17T00:05:23Z
+TotalTime: 467
+WaitTime: 472
+TotalTime: 428
+WaitTime: 432
+TotalTime: 410
+WaitTime: 442
+TotalTime: 423
+WaitTime: 426
+TotalTime: 424
+WaitTime: 429
