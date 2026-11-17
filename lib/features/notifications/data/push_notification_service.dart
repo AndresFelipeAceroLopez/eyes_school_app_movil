@@ -50,6 +50,10 @@ class PushNotificationService {
   /// Optional callback the app can set to navigate when a notification is tapped.
   void Function(Map<String, dynamic> data)? onNotificationTapped;
 
+  /// Called when a push arrives with the app open (N-33), so the screens can
+  /// fetch the novedad it announces.
+  void Function()? onMessageReceived;
+
   // ─── Android notification channel ───────────────────────────────────
   static const _channel = AndroidNotificationChannel(
     'eyes_school_notifications', // Must match AndroidManifest meta-data
@@ -202,6 +206,7 @@ class PushNotificationService {
 
   /// Shows a local notification when the app is in the foreground.
   void _handleForegroundMessage(RemoteMessage message) {
+    onMessageReceived?.call();
     final notification = message.notification;
     if (notification == null) return;
 

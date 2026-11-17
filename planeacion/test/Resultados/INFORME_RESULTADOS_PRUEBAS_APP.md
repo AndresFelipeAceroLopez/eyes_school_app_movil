@@ -411,6 +411,7 @@ La respuesta real de `/padres/me` sin vínculo (404) confirma la suposición de 
 | N-30 | Un fallo de red al descargar la actualización muestra el texto de la excepción | S3, CP-ACE-090: «Error al descargar la actualización: DioException [unknown]: null … HttpException» | Baja | App |
 | N-31 | Una cuenta desactivada ve «Tu cuenta está pendiente de validación» | S3, CP-NF-019: tras desactivar la cuenta, al reabrir la app muestra «Cuenta pendiente · Tu cuenta está pendiente de validación por un administrador». La API solo entrega `estado: false`, así que la app no distingue «pendiente» de «desactivada» | Baja | App + API |
 | N-32 | Tras un error de la API en un campo del registro, corregir el campo no deja avanzar | Revisión de código del 16/11: el error del servidor quedaba guardado y la validación de «Continuar» lo volvía a mostrar aunque el campo ya estuviera corregido | Media | App |
+| N-33 | Al tocar la notificación, la novedad nueva no aparece en la lista | 16/11, CP-ACE-087: la notificación abre las novedades del hijo, pero con la lista anterior; la novedad nueva solo sale al recargar a mano | Media | App |
 
 ---
 
@@ -773,3 +774,23 @@ Teléfono: POCO X7 `24095PCADG`, **Android 16, HyperOS 3.0**. La instalación po
 | CP-NF-006 · Accessibility Scanner | No ejecutado: hay que instalar la app de Google desde Play Store en el teléfono | Pendiente |
 
 Al terminar se borraron por la API los tokens del teléfono en `/dispositivos` (la tabla queda vacía).
+
+### 12.10 MC-04 · Notificaciones: funcionan (16/11/2026, tarde)
+
+El equipo encontró la causa: en el App Service la variable se llamaba `FIREBASE_CREDENTIALS` y el backend lee `FIREBASE_CREDENTIALS_JSON`. Con el nombre corregido, en el emulador con el APK del flavor qa:
+
+| Caso | Resultado | Estado |
+|---|---|---|
+| CP-ACE-067 · CP-SIS-062 · app en segundo plano | Novedad de Juan registrada por el docente → «Nueva novedad de Juan Pérez» en **13 s** (criterio ≤ 30 s) · `MC04/CP-ACE-067_*` | **Aceptado / Aprobado** |
+| CP-ACE-085 · app abierta | Llega y se muestra en **10 s** · `MC04/CP-ACE-085_*` | **Aceptado** |
+| CP-ACE-086 · novedad de otro estudiante | Novedad del estudiante 4: Roberto **no** la recibe (72 s) | **Aceptado** |
+| CP-ACE-087 · tocar la notificación | Abre «Mi estudiante» del hijo, en Novedades. Encontró **N-33** (la novedad nueva no estaba en la lista); con la corrección aparece al instante · `MC04/CP-ACE-087_N-33_*` | **Aceptado** (con N-33 corregido) |
+| CP-ACE-087 · dos hijos (P-07) | Rosa con Sofía activa; una novedad de Santiago abría a **Sofía** y su novedad no se veía. Ahora la app cambia al hijo de la novedad (`id_estudiante` de la notificación) y la muestra · `MC04/CP-ACE-087_P-07_*` | **Aceptado**, con P-07 implementado como propuesta: **el PO debe confirmarlo** |
+| CP-ACE-088 · permiso denegado | Ver 12.3 | **Aceptado** |
+
+Correcciones (PR #37): N-33 (al tocar o recibir una notificación con la app abierta, las pantallas de datos se recargan) y P-07 (selección del hijo de la novedad), con `push_refresh_test.dart`. Las novedades de prueba (16 a 24) se borraron y la tabla `/dispositivos` quedó vacía.
+
+### 12.11 Datos de QA y correo
+
+- **DS-03 restaurado:** EST001 (Sofía) vuelve a «Activo» y se recreó el vínculo de Rosa como «Madre» (`POST /padres`, id 33), que también se había borrado. `/padres/me/hijos` de Rosa vuelve a dar Santiago y Sofía.
+- **CP-ACE-016 · el correo no llegó:** la API responde «Enlace enviado» aunque no envíe nada. `send_email` solo envía si el App Service tiene `RESEND_API_KEY`, y el remitente por defecto es `onboarding@resend.dev`, la dirección de pruebas de Resend, que **solo entrega al correo del dueño de la cuenta de Resend**. Hay que revisar en `apieyeschool-q` `RESEND_API_KEY`, `MAIL_FROM` (con un dominio verificado, o que la cuenta de Resend sea `marigenerosita@gmail.com`) y `FRONTEND_URL`. El enlace vence a los `RESET_TOKEN_EXPIRE_MINUTES`, así que después de corregirlo hay que pedirlo de nuevo.
