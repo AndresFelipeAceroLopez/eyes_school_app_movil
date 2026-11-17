@@ -195,8 +195,9 @@ class _Action extends StatelessWidget {
       child: InkWell(
         borderRadius: BorderRadius.circular(14),
         onTap: onTap,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 12),
+        // CP-NF-006: 48 dp minimum touch target (it measured ~42 dp).
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(minHeight: 48),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [

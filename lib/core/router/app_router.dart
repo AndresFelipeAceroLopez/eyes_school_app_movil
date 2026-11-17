@@ -178,7 +178,11 @@ final routerProvider = Provider<GoRouter>((ref) {
           items: const [
             NavItem(icon: Icons.grid_view_rounded, label: 'Inicio'),
             NavItem(icon: Icons.menu_book_rounded, label: 'Clases'),
-            NavItem(icon: Icons.qr_code_scanner_rounded, label: 'QR'),
+            NavItem(
+              icon: Icons.qr_code_scanner_rounded,
+              label: 'QR',
+              semanticLabel: 'Escanear código QR',
+            ),
             NavItem(icon: Icons.bar_chart_rounded, label: 'Notas'),
             NavItem(icon: Icons.person_rounded, label: 'Perfil'),
           ],
@@ -385,7 +389,11 @@ final routerProvider = Provider<GoRouter>((ref) {
           items: const [
             NavItem(icon: Icons.grid_view_rounded, label: 'Inicio'),
             NavItem(icon: Icons.school_rounded, label: 'Gestión'),
-            NavItem(icon: Icons.qr_code_scanner_rounded, label: 'QR'),
+            NavItem(
+              icon: Icons.qr_code_scanner_rounded,
+              label: 'QR',
+              semanticLabel: 'Escanear código QR',
+            ),
             NavItem(icon: Icons.notifications_rounded, label: 'Novedades'),
             NavItem(icon: Icons.person_rounded, label: 'Perfil'),
           ],
