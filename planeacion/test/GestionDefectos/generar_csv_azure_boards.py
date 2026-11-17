@@ -48,11 +48,11 @@ ORIGEN = {
     "N-18": "pruebas-sistema", "N-19": "pruebas-sistema", "N-20": "pruebas-sistema",
     "N-21": "pruebas-sistema", "N-22": "pruebas-sistema", "N-24": "pruebas-sistema",
     "N-25": "pruebas-sistema", "N-26": "pruebas-sistema", "N-27": "uat", "N-28": "uat",
-    "N-29": "uat", "N-30": "uat", "N-31": "pruebas-sistema", "N-32": "revision-codigo",
+    "N-29": "uat", "N-30": "uat", "N-31": "pruebas-sistema", "N-32": "revision-codigo", "N-33": "uat",
 }
 
 # Ronda en que se encontró: S1 (11/11, develop f253eb0), S2 (regresión 12/11), S3 (12/11).
-RONDA = {"N-25": "S2", "N-26": "S2", "N-27": "S3", "N-28": "S3", "N-29": "S3", "N-30": "S3", "N-31": "S3", "N-32": "S4"}
+RONDA = {"N-25": "S2", "N-26": "S2", "N-27": "S3", "N-28": "S3", "N-29": "S3", "N-30": "S3", "N-31": "S3", "N-32": "S4", "N-33": "S4"}
 
 CORREGIDO_S2 = "Corregido en develop (PR #16) y verificado en la regresión S2 (sección 8.2 del informe)."
 CORREGIDO_S3 = "Corregido en develop (PR #31) con su prueba; verificado en el emulador con el APK de QA (sección 10)."
@@ -72,6 +72,7 @@ ESTADO: dict[str, tuple[str, bool]] = {
     "N-31": ("Corregido en develop (PR #34): el texto vale para una cuenta pendiente y para una desactivada; "
              "prueba no_access_screen_test.dart.", True),
     "N-32": ("Corregido en develop (PR #34) con su prueba (register_conflict_test.dart).", True),
+    "N-33": ("Corregido en develop (PR #37) con su prueba (push_refresh_test.dart); verificado en el emulador.", True),
 }
 
 

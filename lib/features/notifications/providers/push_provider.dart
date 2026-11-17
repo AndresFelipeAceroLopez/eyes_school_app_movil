@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:eyes_school/core/router/app_router.dart';
 import 'package:eyes_school/features/directory/domain/role.dart';
 import 'package:eyes_school/features/notifications/data/push_notification_service.dart';
+import 'package:eyes_school/providers/data_providers.dart';
 import 'package:eyes_school/providers/repository_providers.dart';
 import 'package:eyes_school/providers/session_provider.dart';
 
@@ -18,9 +19,22 @@ final pushNotificationProvider = Provider<PushNotificationService>((ref) {
     deviceTokens: ref.watch(deviceTokenRepositoryProvider),
   );
 
-  service.onNotificationTapped = (data) => _navigateFromNotification(data, ref);
+  service.onNotificationTapped = (data) => openFromNotification(data, ref);
+  service.onMessageReceived = () => refreshAfterPush(ref);
   return service;
 });
+
+/// N-33: a push announces new data. Without this, tapping the notification
+/// opened the novedades list as it was before the push arrived.
+void refreshAfterPush(Ref ref) {
+  ref.read(dataRefreshProvider.notifier).state++;
+}
+
+/// The tap on a notification: fresh data first, then the screen.
+void openFromNotification(Map<String, dynamic> data, Ref ref) {
+  refreshAfterPush(ref);
+  _navigateFromNotification(data, ref);
+}
 
 /// Translates the FCM `data` payload into a route of the signed-in user's own
 /// role (the router blocks any other prefix).
@@ -30,9 +44,20 @@ final pushNotificationProvider = Provider<PushNotificationService>((ref) {
 ///   • `attendance` / `grades` → the role's attendance or grades screen
 void _navigateFromNotification(Map<String, dynamic> data, Ref ref) {
   try {
-    final router = ref.read(routerProvider);
-    final role = ref.read(currentSessionProvider)?.role;
+    final session = ref.read(currentSessionProvider);
+    final role = session?.role;
     final type = data['type'] as String? ?? 'novedad';
+
+    // P-07 (propuesta, a confirmar por el PO): a guardian with several
+    // children sees the child the notification is about, not whoever was
+    // active. The API sends `id_estudiante` in the payload.
+    final studentId = int.tryParse('${data['id_estudiante'] ?? ''}');
+    if (role == Role.parent &&
+        studentId != null &&
+        session!.children.any((c) => c.id == studentId)) {
+      ref.read(sessionProvider.notifier).selectChild(studentId);
+    }
+    final router = ref.read(routerProvider);
 
     final route = switch ((type, role)) {
       ('novedad', Role.parent) => '/parent/children',
