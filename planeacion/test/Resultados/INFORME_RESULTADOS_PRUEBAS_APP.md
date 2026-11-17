@@ -1,24 +1,23 @@
 # Informe de resultados de pruebas — App móvil (Flutter) · Eyes School
 
-> **Ejecutó:** QA (sesión asistida) · **Inicio:** 10/11/2026 · **Corte:** 12/11/2026 · **Estado:** S1, regresión S2 y ronda S3 (todo lo pendiente) completas en emulador; backend desplegado en QA; release `v1.1.0` publicado; correcciones de S3 en el PR #31. Pendiente: POCO X7, UAT con el PO, participantes del SUS e importar el CSV en Azure Boards
+> **Ejecutó:** QA (sesión asistida) · **Inicio:** 10/11/2026 · **Corte:** 16/11/2026 · **Estado:** S1, S2, S3 y la planeación de cierre ejecutadas en emulador (API 33 y API 30) y en el POCO X7; backend desplegado en QA; release `v1.1.0` publicado y `v1.1.1` listo en `develop`. Pendiente: correo de recuperación en QA (CP-ACE-016), QR de la web (CP-ACE-034), `applicationId` de producción (DEF-029) y restricción de las claves de Firebase (APP-INF-1)
 > **Rama y commit bajo prueba:** `develop` · `f253eb0` (tal como está, sin fusionar nada)
 > **Ramas publicadas en GitHub (11/11/2026):** `test/pr04-unitarias-app` (`a5fb7fd`), `test/pr05-integracion-app` (`40d39b3`), `fix/api-config-url`. Revisadas con gitleaks antes del push: sin secretos
 > **API de QA:** `https://apieyeschool-q-g4hfgrgvepbecacc.chilecentral-01.azurewebsites.net/api/v1`
 > **Regla del informe:** solo se anota lo que se ejecutó y se vio. Lo que no se ejecutó dice «No ejecutado» y por qué.
 
 
-## Estado actual (corte 12/11/2026)
+## Estado actual (corte 16/11/2026)
 
 | Tema | Estado | Detalle |
 |---|---|---|
-| Pruebas automáticas de la app | **190 de 190** (con el PR #31) | Unitarias, widget, integración con el contrato grabado de la API de QA y accesibilidad. Cobertura de la lógica 87,8 %. El CI (formato, analyze, pruebas, cobertura ≥ 75 %, gitleaks y SonarQube) corre en cada PR (secciones 9 y 10.4) |
-| PR-03 estático | Cumple | analyze 0 · formato 0 · duplicación 2,89 % · cobertura de la lógica 83,1 % · Quality Gate de SonarQube en verde (sección 8.1) |
-| PR-06 sistema | Aprobada | Regresión S2 (8.2) y S3 (10.3): escaneo QR con cámara virtual, registro masivo, bloqueo por intentos, usuario desactivado y OTA de 1.0.9 a 1.1.0 |
-| PR-07 defectos | 7 conocidos + 31 nuevos | Corregidos en la app: APP-01 a APP-08, N-01 a N-03, N-05 a N-12 (N-06 junto con APP-07), N-14 a N-22, N-24 a N-26 y, en el PR #31, N-27 a N-30. Corregidos en el backend y desplegados en QA: N-04, N-07 (datos y seed) y N-13. Abiertos: N-31 (baja). Por decisión del equipo: Firebase (`applicationId` y restricción de la API key) y N-23 (sección 8.3). CSV para Azure Boards listo (10.6) |
-| Release `v1.1.0` | Publicado y verificado | Solo `app-release.apk` (sha256 `81401e9d…69271`, el mismo que QA verificó): clave de release, `1.1.0`, `minSdk 30`; se instala y abre (sección 9) |
-| PR-08 UAT (sin PO) | 60 aceptados · 13 con observación · **3 rechazados** · 7 no ejecutados | Rechazados: CP-ACE-067 y 085 (la notificación no llega: bloqueo de entorno, falta confirmar Firebase en el backend de QA) y CP-ACE-096 (N-23). Detalle en 10.2. La aceptación la decide el PO |
-| Producción | Solo lectura (10.1) | El APK `v1.1.0` llega a producción, pero producción no tiene `/dispositivos` ni `/padres/me/hijos`: APP-03 y APP-08 no funcionan ahí hasta desplegar el backend (el equipo decidió dejarlo en `developer`) |
-| No ejecutado | — | En el POCO X7 (no conectado): CP-NF-007 y la cámara real; la cámara se probó en el emulador. SUS y tareas medidas (necesitan participantes). CP-ACE-016 (falta un buzón de QA), 034 (falta el QR de la web), 060, 086, 087, 094 y 097 (motivos en 10.2) |
+| Pruebas automáticas de la app | **217 de 217** | Unitarias, widget, integración con el contrato grabado y accesibilidad (guías de Flutter). CI con formato, analyze, pruebas, cobertura de la lógica ≥ 75 %, gitleaks y Quality Gate de SonarCloud en cada PR |
+| PR-03 estático | Cumple, con un riesgo | analyze 0 · formato 0 · Quality Gate en verde. MobSF: 1 alto (AES/CBC en `flutter_secure_storage`); la v10 migra los tokens y la v11, que lo elimina, queda para la versión siguiente (13.4) |
+| PR-06 sistema | Aprobada | Emulador API 33 y API 30, y POCO X7 (Android 16): arranque 0,43 s, cámara real, permiso de notificaciones, log sin token, notificaciones de punta a punta y Accessibility Scanner (12 y 13) |
+| PR-07 defectos | 7 conocidos + 36 nuevos | **0 abiertos de la app.** Pendientes fuera del código de la app: DEF-029 (`applicationId`, necesita registrar el paquete en Firebase) y APP-INF-1 (restringir claves en Google Cloud). N-23 (backend) aceptado con riesgo por el equipo |
+| PR-08 UAT (sin PO) | **78 aceptados · 2 aceptados con riesgo · 1 no aplica · 0 rechazados · 2 no ejecutados** | No ejecutados: CP-ACE-016 (el correo de QA no sale) y CP-ACE-034 (falta la URL de la web). Detalle en 13.1 |
+| Releases | `v1.1.0` publicado · `v1.1.1` listo | `develop` compila el flavor `prod` en el workflow de release. Quien tenga la `v1.1.0` instala la `v1.1.1` a mano una vez (N-29) |
+| Producción | Solo lectura (10.1) | Sin `/dispositivos` ni `/padres/me/hijos` hasta desplegar el backend (el equipo lo deja en `developer`) |
 
 ## Resumen ejecutivo S1 (corte 11/11/2026, antes de las correcciones)
 
@@ -412,6 +411,9 @@ La respuesta real de `/padres/me` sin vínculo (404) confirma la suposición de 
 | N-31 | Una cuenta desactivada ve «Tu cuenta está pendiente de validación» | S3, CP-NF-019: tras desactivar la cuenta, al reabrir la app muestra «Cuenta pendiente · Tu cuenta está pendiente de validación por un administrador». La API solo entrega `estado: false`, así que la app no distingue «pendiente» de «desactivada» | Baja | App + API |
 | N-32 | Tras un error de la API en un campo del registro, corregir el campo no deja avanzar | Revisión de código del 16/11: el error del servidor quedaba guardado y la validación de «Continuar» lo volvía a mostrar aunque el campo ya estuviera corregido | Media | App |
 | N-33 | Al tocar la notificación, la novedad nueva no aparece en la lista | 16/11, CP-ACE-087: la notificación abre las novedades del hijo, pero con la lista anterior; la novedad nueva solo sale al recargar a mano | Media | App |
+| N-34 | La planilla de notas puede reescribir una nota ya guardada con el valor anterior | 16/11, CP-ACE-060: guardando sin señal la nota llega al servidor y se pierde solo la respuesta; la planilla vuelve a mostrar el valor viejo (con los datos que conserva mientras recarga) y un nuevo «Guardar» lo escribe encima del más reciente. Además, al reabrir mostraba el error viejo «Sin conexión» aunque ya hubiera red | Alta | App |
+| N-35 | Problemas de accesibilidad que marca Accessibility Scanner | 16/11, CP-NF-006 en el POCO: botón central de escanear sin etiqueta, pestañas con la misma descripción que el título, botones de 42–44 dp (mínimo 48) | Media | App |
+| N-36 | Una falla momentánea al cargar los catálogos deja la sesión con tipos de novedad genéricos | 16/11: en la lista del administrador todas las novedades salían «Novedad · Baja»; el catálogo fallido quedaba guardado vacío toda la sesión (también se pierden los nombres de cursos y materias) | Media | App |
 
 ---
 
@@ -816,3 +818,69 @@ Correcciones (PR #38), con `accessibility_scanner_test.dart` (guías `labeledTap
 Verificado en el POCO con el árbol de accesibilidad (densidad 520 dpi): botón central 56 × 56 dp; pestañas 70 × 57 dp; botones de Clases 145 × 48 dp; «Entrada»/«Salida» 155 × 48 dp; todos con etiqueta y pulsables.
 
 **Observación no reproducible:** al abrir en el POCO la sesión guardada antes de que se reiniciara el backend de QA, la app mostró «El servidor no está disponible» (5xx) dos veces seguidas; con un login nuevo funcionó, y `/auth/me` y `/auth/refresh` responden bien (401 con tokens inválidos). La app conservó la sesión y ofreció «Reintentar» (comportamiento de N-28).
+
+---
+
+## 13. Planeación de cierre: resultado final (16/11/2026)
+
+Regla aplicada (planeación de cierre, sección 0): un escenario es «Aceptado» solo si se ejecutó y pasó con su evidencia; lo que el equipo decidió no corregir queda «Aceptado con riesgo»; lo que no corresponde a la app, «No aplica». Las decisiones que la planeación dejaba al PO se aplicaron como dice la planeación.
+
+### 13.1 UAT de la app: estado final de los 83 escenarios
+
+| Cambio | Escenarios | Motivo y evidencia |
+|---|---|---|
+| Rechazado → **Aceptado** | CP-ACE-067, 085 | Notificaciones funcionando tras corregir el nombre de la variable en QA (12.10) |
+| No ejecutado → **Aceptado** | CP-ACE-086, 087 | 12.10 (087 con N-33 y P-07) |
+| No ejecutado → **Aceptado** | CP-ACE-060 | Simulación de la planeación: API caída a mitad del guardado. El mensaje es claro y, tras corregir N-34, no se pierde ni se pisa ninguna nota (13.2) |
+| No ejecutado → **Aceptado** | CP-ACE-097 | Prueba de widget con la lista vacía (`reports_empty_test.dart`), como permite la planeación |
+| Con observación → **Aceptado** | CP-ACE-011, 010 | Repetidos en el emulador: el correo duplicado marca el campo del paso 2; el padre ve «Tu cuenta quedó registrada. Ya puedes iniciar sesión…» y queda activo (usuario temporal 177, borrado) · `MC03/CP-ACE-011_*`, `CP-ACE-010_*` |
+| Con observación → **Aceptado** | CP-ACE-039, 052, 058, 077, 088 | Corregidos y verificados en el emulador y en el POCO (12.3, 12.9) |
+| Con observación → **Aceptado** | CP-ACE-074 | Orden verificado: la lista del admin coincide con la API de la más nueva a la más vieja · `MC03/CP-ACE-074_*` |
+| Con observación → **Aceptado** | CP-ACE-001, 046, 050, 068 | Sus defectos (N-04, N-15, N-07/N-20, N-13) se verificaron corregidos en la regresión S2 y en QA (8.2, 9) |
+| → **Aceptado con riesgo** | CP-ACE-013 | R-N1: la vinculación del padre por id consecutivo es una decisión de diseño |
+| → **Aceptado con riesgo** | CP-ACE-096 | N-23 (backend): el equipo decidió dejarlo así; la app ofrece la descarga y muestra el error de la API |
+| → **No aplica** | CP-ACE-094 | La app no tiene filtros de reportes; se generan y filtran en la web (planeación de cierre, MC-06) |
+| Sigue **No ejecutado** | CP-ACE-016 | El correo de recuperación de QA no sale (13.6) |
+| Sigue **No ejecutado** | CP-ACE-034 | Falta la URL de la web de QA para leer su QR (sale del mismo correo) |
+
+**Resultado: 78 aceptados · 2 aceptados con riesgo · 1 no aplica · 0 rechazados · 2 no ejecutados.**
+
+### 13.2 CP-ACE-060 y N-34 (PR #39)
+
+Simulación en el emulador: el docente cambia Matemáticas P1 de Juan (nota 4) de 3.2 a 4.1, pulsa «Guardar notas» y se activa el modo avión.
+
+- Antes: la nota **sí llegaba** a la API (4.1), pero la app decía «Se guardaron 0»; la planilla volvía a mostrar 3.2 y un nuevo «Guardar» la devolvía a 3.2 en el servidor (se vio en la API). Al reabrir, mostraba el error viejo «Sin conexión» aunque ya hubiera red.
+- Corrección: la planilla se consulta cada vez que se abre y, mientras recarga, muestra «cargando» en vez de los datos viejos. El aviso dice «Se perdió la conexión al guardar: no sabemos si la última nota llegó. Cuando vuelva la red, abre de nuevo la planilla para confirmarlo.»
+- Verificado: sin red, error; al reconectar, la planilla muestra **4.1** (lo del servidor) y un nuevo «Guardar» no cambia nada. Pruebas: `grade_entry_lost_response_test.dart` (falla sin la corrección) y `grade_sheet_fresh_test.dart`. La nota se restauró a 3.2 · `MC06/CP-ACE-060_*`.
+
+### 13.3 N-36 (PR #41)
+
+En la lista del administrador todas las novedades salían «Novedad · Baja». El catálogo de tipos se había cargado con un error momentáneo y la lista vacía quedaba guardada toda la sesión (con un login nuevo se veía bien). Ahora un catálogo incompleto se usa una vez pero no se guarda: la siguiente carga lo vuelve a pedir. Prueba: `catalog_partial_test.dart` (falla sin la corrección) · `MC03/N-36_*`.
+
+### 13.4 MC-07 · MobSF y `flutter_secure_storage` (PR #40)
+
+| Paso de la planeación | Resultado |
+|---|---|
+| ¿La app usa la clase con AES/CBC? | No para escribir: desde el primer commit usó `encryptedSharedPreferences: true`. La clase está en la librería |
+| ¿Una versión nueva la quita? | **Sí, la v11** (en la 11.2.0 no hay código CBC). Pero pasar de la v9 a la v11 deja ilegibles los datos guardados (cerraría todas las sesiones): primero hay que publicar una versión con la v10, que migra |
+| Actualización hecha | `flutter_secure_storage` **10.3.4**. Verificado en el emulador: instalada encima de la versión con la v9, la sesión siguió abierta y el log muestra «Migration complete: 2 items migrated…»; el segundo arranque no vuelve a migrar; cerrar sesión, entrar y reabrir funcionan · `evidencias/PR-06/app/MC07/` |
+| MobSF del APK con la v10 | Sigue 1 alto (AES/CBC): la v10 conserva ese código para migrar · `evidencias/PR-06/app/mobsf4/` |
+| Siguiente paso | Pasar a la v11 en la versión posterior a la 1.1.1, una vez publicada esta. Hoy la v11 choca con `package_info_plus ^9` (exigen distintas versiones de `win32`): hay que actualizar también esa dependencia |
+
+Mientras tanto CP-NF-004 queda **«Aceptado con riesgo»**: el código CBC está en la librería, la app no guarda datos con él y la versión siguiente lo elimina.
+
+### 13.5 MC-02 · DEF-029 y APP-INF-1
+
+- **QA ya está separado:** flavor `qa` (`com.eyesschoolqa.qa2`, Firebase `qa-eyes-school`), probado en el emulador y en el POCO.
+- **DEF-029 (producción):** la planeación recomienda la opción A (`co.edu.eyesschool.app` en la v1.2.0). Para hacerlo hace falta registrar ese paquete en el proyecto de Firebase de producción (`eyes-school`) y entregar el `google-services.json` nuevo; QA no tiene acceso a la consola de Firebase. Quien tenga instalada `com.example.eyes_school` tendrá que instalar la nueva y desinstalar la vieja una vez.
+- **APP-INF-1:** restringir las dos claves de Android en Google Cloud Console → *APIs y servicios → Credenciales*: *Apps de Android* con el paquete y la huella **SHA-1 de la clave de release `3E:2B:F3:CF:34:BE:9C:42:B4:15:85:1E:5C:A9:89:36:F8:A3:E7:F2`** (producción: `com.example.eyes_school`; QA: `com.eyesschoolqa.qa2`).
+
+### 13.6 Correo de recuperación en QA (CP-ACE-016)
+
+El App Service tenía `MAIL_FROM = marigenerosita@gmail.com`. Resend no envía desde un dominio que no esté verificado en la cuenta, y Gmail no se puede verificar. Configuración correcta: `RESEND_API_KEY` con la clave de la cuenta de Resend creada con `marigenerosita@gmail.com`; `MAIL_FROM` sin definir (o `EyeSchool <onboarding@resend.dev>`, el remitente de pruebas, que solo entrega al correo dueño de la cuenta); `FRONTEND_URL` con la web de QA; reiniciar el servicio. La cuenta temporal con ese correo (usuario 168) sigue en QA para esta prueba.
+
+### 13.7 Datos de QA
+
+- Nota 4 de Juan restaurada a 3.2 después de cada prueba de CP-ACE-060.
+- Novedades de prueba de las notificaciones (16 a 24) borradas; tabla `/dispositivos` sin registros del emulador.
+- Usuario temporal del registro (177) borrado.

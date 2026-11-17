@@ -19,17 +19,28 @@ class CatalogRepositoryImpl implements CatalogRepository {
 
     // One failing catalog must not take the other two down with it: a missing
     // name degrades to "Materia 12", a thrown failure blanks the screen.
+    var complete = true;
+    Future<List<T>> orEmpty<T>(Future<List<T>> request) =>
+        request.catchError((Object _) {
+          complete = false;
+          return <T>[];
+        });
     final results = await Future.wait([
-      _academic.courses().catchError((_) => <Course>[]),
-      _academic.subjects().catchError((_) => <CourseSubject>[]),
-      _novedades.types().catchError((_) => <NovedadType>[]),
+      orEmpty(_academic.courses()),
+      orEmpty(_academic.subjects()),
+      orEmpty(_novedades.types()),
     ]);
 
-    return _cached = Catalogs(
+    final catalogs = Catalogs(
       courses: {for (final c in results[0] as List<Course>) c.id: c},
       subjects: {for (final s in results[1] as List<CourseSubject>) s.id: s},
       novedadTypes: {for (final t in results[2] as List<NovedadType>) t.id: t},
     );
+    // N-36: a partial result is used once but never kept. Cached, a single
+    // failed request left the whole session showing every novedad as
+    // «Novedad · Baja» and courses without names.
+    if (complete) _cached = catalogs;
+    return catalogs;
   }
 
   @override
