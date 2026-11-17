@@ -362,30 +362,38 @@ class _BottomPanel extends StatelessWidget {
             children: [
               for (final option in [AttendanceKind.entry, AttendanceKind.exit])
                 Expanded(
-                  child: GestureDetector(
-                    onTap: () => onKindChanged(option),
-                    child: Container(
-                      margin: EdgeInsets.only(
-                        right: option == AttendanceKind.entry ? 8 : 0,
-                      ),
-                      padding: const EdgeInsets.symmetric(vertical: 12),
-                      decoration: BoxDecoration(
-                        gradient: kind == option
-                            ? const LinearGradient(
-                                colors: AppColors.primaryGradient,
-                              )
-                            : null,
-                        color: kind == option
-                            ? null
-                            : Colors.white.withValues(alpha: 0.10),
-                        borderRadius: BorderRadius.circular(14),
-                      ),
-                      child: Text(
-                        option.label,
-                        textAlign: TextAlign.center,
-                        style: AppTextStyles.body.copyWith(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w700,
+                  // CP-NF-006: a real button (role and state for screen
+                  // readers) at least 48 dp tall (it measured ~44 dp).
+                  child: Semantics(
+                    button: true,
+                    selected: kind == option,
+                    child: GestureDetector(
+                      onTap: () => onKindChanged(option),
+                      child: Container(
+                        margin: EdgeInsets.only(
+                          right: option == AttendanceKind.entry ? 8 : 0,
+                        ),
+                        constraints: const BoxConstraints(minHeight: 48),
+                        alignment: Alignment.center,
+                        padding: const EdgeInsets.symmetric(vertical: 12),
+                        decoration: BoxDecoration(
+                          gradient: kind == option
+                              ? const LinearGradient(
+                                  colors: AppColors.primaryGradient,
+                                )
+                              : null,
+                          color: kind == option
+                              ? null
+                              : Colors.white.withValues(alpha: 0.10),
+                          borderRadius: BorderRadius.circular(14),
+                        ),
+                        child: Text(
+                          option.label,
+                          textAlign: TextAlign.center,
+                          style: AppTextStyles.body.copyWith(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w700,
+                          ),
                         ),
                       ),
                     ),

@@ -771,7 +771,7 @@ Teléfono: POCO X7 `24095PCADG`, **Android 16, HyperOS 3.0**. La instalación po
 | CP-ACE-039 · cámara real | El QR de EST003 (ya tenía entrada) → la hoja avisa «Ya tiene registro de entrada hoy…» · `CP-ACE-039_camara_real_aviso_EST003.png` | **Aprobado** |
 | CP-NF-004 · log del APK de release | Logcat del proceso (3753 líneas): 0 «FCM TOKEN», 0 «Token re-generado» · `CP-NF-004_logcat_POCO.txt` | **Cumple** |
 | Notificaciones en el teléfono | Roberto con sesión: el token del POCO se registró en `/dispositivos`; el docente creó una novedad de Juan (16, borrada); **no llegó en 116 s** con la app en segundo plano | Confirma que el bloqueo es del envío del backend de QA (12.2), no del emulador ni de la app |
-| CP-NF-006 · Accessibility Scanner | No ejecutado: hay que instalar la app de Google desde Play Store en el teléfono | Pendiente |
+| CP-NF-006 · Accessibility Scanner | Ver 12.12 | Corregido y verificado |
 
 Al terminar se borraron por la API los tokens del teléfono en `/dispositivos` (la tabla queda vacía).
 
@@ -794,3 +794,25 @@ Correcciones (PR #37): N-33 (al tocar o recibir una notificación con la app abi
 
 - **DS-03 restaurado:** EST001 (Sofía) vuelve a «Activo» y se recreó el vínculo de Rosa como «Madre» (`POST /padres`, id 33), que también se había borrado. `/padres/me/hijos` de Rosa vuelve a dar Santiago y Sofía.
 - **CP-ACE-016 · el correo no llegó:** la API responde «Enlace enviado» aunque no envíe nada. `send_email` solo envía si el App Service tiene `RESEND_API_KEY`, y el remitente por defecto es `onboarding@resend.dev`, la dirección de pruebas de Resend, que **solo entrega al correo del dueño de la cuenta de Resend**. Hay que revisar en `apieyeschool-q` `RESEND_API_KEY`, `MAIL_FROM` (con un dominio verificado, o que la cuenta de Resend sea `marigenerosita@gmail.com`) y `FRONTEND_URL`. El enlace vence a los `RESET_TOKEN_EXPIRE_MINUTES`, así que después de corregirlo hay que pedirlo de nuevo.
+
+### 12.12 CP-NF-006 · Accessibility Scanner en el POCO X7
+
+Accessibility Scanner (Google) sobre las 5 pantallas del docente con el APK del flavor qa. QA activó el servicio y navegó; la persona del equipo pulsó el botón del escáner (HyperOS no acepta toques simulados sobre esa capa).
+
+| Pantalla | Sugerencias | Detalle |
+|---|---|---|
+| Inicio | 1 | Botón central de escanear sin etiqueta |
+| Clases | 9 | 6 botones «Asistencia»/«Notas» de las tarjetas de ~42 dp (mínimo 48); 2 descripciones repetidas; botón central sin etiqueta |
+| Escanear | 3 | Botones «Entrada»/«Salida» de ~44 dp; botón central sin etiqueta |
+| Notas | 2 | Botón central sin etiqueta; la pestaña «Notas» con la misma descripción que el título |
+| Perfil | 3 | Botón central sin etiqueta; pestaña «Perfil» igual que el título; «texto no expuesto: PRFOO1» (el OCR del escáner leyó «O» en lugar de «0» en el código PRF001, que sí está expuesto: **falso positivo**) |
+
+Correcciones (PR #38), con `accessibility_scanner_test.dart` (guías `labeledTapTargetGuideline` y `androidTapTargetGuideline` de Flutter y la acción de toque para TalkBack):
+
+- El botón central se anuncia como «Escanear código QR» (botón); las pestañas como «Notas, pestaña», con su estado de seleccionada.
+- Los botones de las tarjetas de Clases y «Entrada»/«Salida» miden al menos 48 dp; «Entrada»/«Salida» se anuncian como botones con su estado.
+- Al etiquetar la barra se había perdido la acción de toque (TalkBack no podía activar las pestañas); se detectó en el árbol de accesibilidad del teléfono y se corrigió antes de publicar.
+
+Verificado en el POCO con el árbol de accesibilidad (densidad 520 dpi): botón central 56 × 56 dp; pestañas 70 × 57 dp; botones de Clases 145 × 48 dp; «Entrada»/«Salida» 155 × 48 dp; todos con etiqueta y pulsables.
+
+**Observación no reproducible:** al abrir en el POCO la sesión guardada antes de que se reiniciara el backend de QA, la app mostró «El servidor no está disponible» (5xx) dos veces seguidas; con un login nuevo funcionó, y `/auth/me` y `/auth/refresh` responden bien (401 con tokens inválidos). La app conservó la sesión y ofreció «Reintentar» (comportamiento de N-28).

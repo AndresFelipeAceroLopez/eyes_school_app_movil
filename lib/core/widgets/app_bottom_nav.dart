@@ -4,9 +4,13 @@ import 'package:eyes_school/core/theme/app_colors.dart';
 import 'package:eyes_school/core/theme/app_text_styles.dart';
 
 class NavItem {
-  const NavItem({required this.icon, required this.label});
+  const NavItem({required this.icon, required this.label, this.semanticLabel});
   final IconData icon;
   final String label;
+
+  /// What a screen reader says when [label] alone is not enough (the raised
+  /// QR button shows no text at all).
+  final String? semanticLabel;
 }
 
 /// Shared bottom navigation bar. When [elevatedIndex] is set, that item is
@@ -80,32 +84,43 @@ class _NavTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final color = selected ? AppColors.indigo : AppColors.textSecondary;
+    // CP-NF-006 (Accessibility Scanner): «Notas» or «Perfil» was read the same
+    // as the screen title; a tab says it is one.
     return Expanded(
-      child: InkWell(
+      child: Semantics(
+        button: true,
+        selected: selected,
+        label: '${item.semanticLabel ?? item.label}, pestaña',
+        // excludeSemantics drops the InkWell's own action: give it back, or
+        // TalkBack cannot activate the tab with a double tap.
         onTap: onTap,
-        borderRadius: BorderRadius.circular(18),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 6),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(item.icon, color: color, size: 24),
-              const SizedBox(height: 3),
-              // One line, always: five tabs on a narrow phone (or a user with
-              // large text) would otherwise wrap and overflow the bar.
-              Flexible(
-                child: Text(
-                  item.label,
-                  maxLines: 1,
-                  softWrap: false,
-                  overflow: TextOverflow.ellipsis,
-                  style: AppTextStyles.caption.copyWith(
-                    color: color,
-                    fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
+        excludeSemantics: true,
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: BorderRadius.circular(18),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 6),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(item.icon, color: color, size: 24),
+                const SizedBox(height: 3),
+                // One line, always: five tabs on a narrow phone (or a user with
+                // large text) would otherwise wrap and overflow the bar.
+                Flexible(
+                  child: Text(
+                    item.label,
+                    maxLines: 1,
+                    softWrap: false,
+                    overflow: TextOverflow.ellipsis,
+                    style: AppTextStyles.caption.copyWith(
+                      color: color,
+                      fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
@@ -125,26 +140,34 @@ class _ElevatedItem extends StatelessWidget {
       child: Center(
         child: Transform.translate(
           offset: const Offset(0, -14),
-          child: Material(
-            color: Colors.transparent,
-            child: InkWell(
-              onTap: onTap,
-              customBorder: const CircleBorder(),
-              child: Container(
-                width: 56,
-                height: 56,
-                decoration: const BoxDecoration(
-                  gradient: LinearGradient(colors: AppColors.primaryGradient),
-                  shape: BoxShape.circle,
-                  boxShadow: [
-                    BoxShadow(
-                      color: Color(0x555B34D6),
-                      blurRadius: 16,
-                      offset: Offset(0, 6),
-                    ),
-                  ],
+          // CP-NF-006: the raised button is only an icon; without this a
+          // screen reader announced an unlabelled button on every screen.
+          child: Semantics(
+            button: true,
+            label: item.semanticLabel ?? item.label,
+            onTap: onTap,
+            excludeSemantics: true,
+            child: Material(
+              color: Colors.transparent,
+              child: InkWell(
+                onTap: onTap,
+                customBorder: const CircleBorder(),
+                child: Container(
+                  width: 56,
+                  height: 56,
+                  decoration: const BoxDecoration(
+                    gradient: LinearGradient(colors: AppColors.primaryGradient),
+                    shape: BoxShape.circle,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Color(0x555B34D6),
+                        blurRadius: 16,
+                        offset: Offset(0, 6),
+                      ),
+                    ],
+                  ),
+                  child: Icon(item.icon, color: Colors.white, size: 26),
                 ),
-                child: Icon(item.icon, color: Colors.white, size: 26),
               ),
             ),
           ),
