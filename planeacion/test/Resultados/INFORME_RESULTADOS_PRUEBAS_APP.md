@@ -757,3 +757,19 @@ Escaneo de la **salida** de EST002 sin entrada del día → en «Pendientes» qu
 En API 30 no hay permiso de notificaciones en tiempo de ejecución (solo desde API 33), así que el login no muestra ese diálogo. Al terminar se borró el token que dejó el padre en `/dispositivos`.
 
 **Pruebas automáticas:** 208 de 208 en el CI del PR #34; `flutter analyze` sin problemas; cobertura del código nuevo en SonarCloud 97,7 %.
+
+### 12.9 MC-05 · POCO X7 (16/11/2026)
+
+Teléfono: POCO X7 `24095PCADG`, **Android 16, HyperOS 3.0**. La instalación por USB funcionó con «Instalar por USB» activo y el teléfono **desbloqueado**: con la pantalla apagada o bloqueada, HyperOS cancela sola la instalación (`INSTALL_FAILED_USER_RESTRICTED`). Se instaló el APK del flavor qa 1.1.1 (versionCode 5), firmado con la clave de release. Evidencias: `evidencias/PR-06/app/POCO/`.
+
+| Caso | Resultado | Estado |
+|---|---|---|
+| CP-NF-007 · arranque en frío | 5 × `am start -W`: 467 / 428 / 410 / 423 / 424 ms → **promedio 0,43 s** (meta ≤ 3 s) · `CP-NF-007_arranque_POCO.txt` | **Cumple** |
+| CP-NF-009 · permiso de notificaciones (API 36) | Tras el primer login, `POST_NOTIFICATIONS` queda concedido por el usuario (`USER_SET`): Android pidió el permiso y se aceptó en el teléfono. El diálogo no quedó en la captura | **Cumple** |
+| CP-SIS-073 · CP-ACE-037 · cámara real | El QR de EST002 en la pantalla del computador, leído con la cámara trasera → hoja con el estudiante → registro **3374** (`entrada`, Presente, docente) en la API · `CP-ACE-037_camara_real_EST002.png` | **Aprobado** |
+| CP-ACE-039 · cámara real | El QR de EST003 (ya tenía entrada) → la hoja avisa «Ya tiene registro de entrada hoy…» · `CP-ACE-039_camara_real_aviso_EST003.png` | **Aprobado** |
+| CP-NF-004 · log del APK de release | Logcat del proceso (3753 líneas): 0 «FCM TOKEN», 0 «Token re-generado» · `CP-NF-004_logcat_POCO.txt` | **Cumple** |
+| Notificaciones en el teléfono | Roberto con sesión: el token del POCO se registró en `/dispositivos`; el docente creó una novedad de Juan (16, borrada); **no llegó en 116 s** con la app en segundo plano | Confirma que el bloqueo es del envío del backend de QA (12.2), no del emulador ni de la app |
+| CP-NF-006 · Accessibility Scanner | No ejecutado: hay que instalar la app de Google desde Play Store en el teléfono | Pendiente |
+
+Al terminar se borraron por la API los tokens del teléfono en `/dispositivos` (la tabla queda vacía).

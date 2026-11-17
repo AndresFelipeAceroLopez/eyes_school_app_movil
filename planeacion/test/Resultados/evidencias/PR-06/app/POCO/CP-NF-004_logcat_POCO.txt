@@ -1,0 +1,2 @@
+CP-NF-004 · POCO X7 · logcat del proceso com.eyesschoolqa.qa2 (APK release flavor qa 1.1.1) · 2026-11-17T00:16:59Z
+lineas: 3753 · 'FCM TOKEN': 0 · 'Token re-generado': 0
