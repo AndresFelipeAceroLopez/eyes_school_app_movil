@@ -1,0 +1,97 @@
+{
+ "high": [
+  {
+   "title": "The App uses the encryption mode CBC with PKCS5/PKCS7 padding. This configuration is vulnerable to padding oracle attacks.",
+   "description": "The App uses the encryption mode CBC with PKCS5/PKCS7 padding. This configuration is vulnerable to padding oracle attacks.\nhttps://github.com/MobSF/owasp-mstg/blob/master/Document/0x04g-Testing-Cryptography.md#identifying-insecure-andor-deprecated-cryptographic-algorithms-mstg-crypto-4\n\nFiles:\ncom/it_nomads/fluttersecurestorage/ciphers/m.java, line(s) 64",
+   "section": "code"
+  }
+ ],
+ "warning": [
+  {
+   "title": "Broadcast Receiver (io.flutter.plugins.firebase.messaging.FlutterFirebaseMessagingReceiver) is Protected by a permission, but the protection level of the permission should be checked.",
+   "description": "Permission: com.google.android.c2dm.permission.SEND [android:exported=true]\nA Broadcast Receiver is found to be shared with other apps on the device therefore leaving it accessible to any other application on the device. It is protected by a permission which is not defined in the analysed application. As a result, the protection level of the permission should be checked where it is defined. If it is set to normal or dangerous, a malicious application can request and obtain the permission and interact with the component. If it is set to signature, only applications signed with the same certificate can obtain the permission.",
+   "section": "manifest"
+  },
+  {
+   "title": "Broadcast Receiver (com.google.firebase.iid.FirebaseInstanceIdReceiver) is Protected by a permission, but the protection level of the permission should be checked.",
+   "description": "Permission: com.google.android.c2dm.permission.SEND [android:exported=true]\nA Broadcast Receiver is found to be shared with other apps on the device therefore leaving it accessible to any other application on the device. It is protected by a permission which is not defined in the analysed application. As a result, the protection level of the permission should be checked where it is defined. If it is set to normal or dangerous, a malicious application can request and obtain the permission and interact with the component. If it is set to signature, only applications signed with the same certificate can obtain the permission.",
+   "section": "manifest"
+  },
+  {
+   "title": "Broadcast Receiver (androidx.profileinstaller.ProfileInstallReceiver) is Protected by a permission, but the protection level of the permission should be checked.",
+   "description": "Permission: android.permission.DUMP [android:exported=true]\nA Broadcast Receiver is found to be shared with other apps on the device therefore leaving it accessible to any other application on the device. It is protected by a permission which is not defined in the analysed application. As a result, the protection level of the permission should be checked where it is defined. If it is set to normal or dangerous, a malicious application can request and obtain the permission and interact with the component. If it is set to signature, only applications signed with the same certificate can obtain the permission.",
+   "section": "manifest"
+  },
+  {
+   "title": "SHA-1 is a weak hash known to have hash collisions.",
+   "description": "SHA-1 is a weak hash known to have hash collisions.\nhttps://github.com/MobSF/owasp-mstg/blob/master/Document/0x04g-Testing-Cryptography.md#identifying-insecure-andor-deprecated-cryptographic-algorithms-mstg-crypto-4\n\nFiles:\nd0/b.java, line(s) 56,65\no/c1.java, line(s) 490\nq5/d.java, line(s) 344\ns5/c.java, line(s) 281",
+   "section": "code"
+  },
+  {
+   "title": "App uses SQLite Database and execute raw SQL query. Untrusted user input in raw SQL queries can cause SQL Injection. Also sensitive information should be encrypted and written to the database.",
+   "description": "App uses SQLite Database and execute raw SQL query. Untrusted user input in raw SQL queries can cause SQL Injection. Also sensitive information should be encrypted and written to the database.\nhttps://github.com/MobSF/owasp-mstg/blob/master/Document/0x04h-Testing-Code-Quality.md#injection-flaws-mstg-arch-2-and-mstg-platform-2\n\nFiles:\na0/e.java, line(s) 7,89\na3/f.java, line(s) 4,39,50\na3/i.java, line(s) 4,58\na3/k.java, line(s) 5,29\na3/l.java, line(s) 6,109,155\nb0/z0.java, line(s) 11,262\nb3/h.java, line(s) 4,5,67",
+   "section": "code"
+  },
+  {
+   "title": "App creates temp file. Sensitive information should never be written into a temp file.",
+   "description": "App creates temp file. Sensitive information should never be written into a temp file.\n\n\nFiles:\nl3/m.java, line(s) 693\ny7/q.java, line(s) 233,277",
+   "section": "code"
+  },
+  {
+   "title": "Files may contain hardcoded sensitive information like usernames, passwords, keys etc.",
+   "description": "Files may contain hardcoded sensitive information like usernames, passwords, keys etc.\nhttps://github.com/MobSF/owasp-mstg/blob/master/Document/0x05d-Testing-Data-Storage.md#checking-memory-for-sensitive-data-mstg-storage-10\n\nFiles:\ncom/dexterous/flutterlocalnotifications/FlutterLocalNotificationsPlugin.java, line(s) 163\ncom/dexterous/flutterlocalnotifications/models/NotificationDetails.java, line(s) 57,71\nv7/a.java, line(s) 84",
+   "section": "code"
+  },
+  {
+   "title": "App can read/write to External Storage. Any App can read data written to External Storage.",
+   "description": "App can read/write to External Storage. Any App can read data written to External Storage.\nhttps://github.com/MobSF/owasp-mstg/blob/master/Document/0x05d-Testing-Data-Storage.md#external-storage\n\nFiles:\nl2/a.java, line(s) 784\nv0/b.java, line(s) 119",
+   "section": "code"
+  },
+  {
+   "title": "This app may contain hardcoded secrets",
+   "description": "The following secrets were identified from the app. Ensure that these are not secrets or private information.\n\"google_api_key\" : \"AIzaSyBqaXV1Cs-obZRyDIQilHWhYltVQpC1xw4\"\nAESVGhpcyBpcyB0aGUga2V5IGZvciBhIHNlY3VyZSBzdG9yYWdlIEFFUyBLZXkK\nVGhpcyBpcyB0aGUga2V5IGZvcihBIHNlY3XyZZBzdG9yYWdlIEFFUyBLZXkK\na0784d7a4716f3feb4f64e7f4b39bf04\n808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9f\nVGhpcyBpcyB0aGUga2V5IGZvciBhIHNlY3VyZSBzdG9yYWdlIEFFUyBLZXkK\nbae8e37fc83441b16034566b\nBVGhpcyBpcyB0aGUga2V5IGZvciBhIHNlY3VyZSBzdG9yYWdlIEFFUyBLZXkK\n36864200e0eaf5284d884a0e77d31646\nVGhpcyBpcyB0aGUgcHJlZml4IGZvciBhIHNlY3VyZSBzdG9yYWdlCg\nVGhpcyBpcyB0aGUgcHJlZml4IGZvciBCaWdJbnRlZ2Vy\naf60eb711bd85bc1e4d3e0a462e074eea428a8",
+   "section": "secrets"
+  }
+ ],
+ "info": [
+  {
+   "title": "The App logs information. Sensitive information should never be logged.",
+   "description": "The App logs information. Sensitive information should never be logged.\nhttps://github.com/MobSF/owasp-mstg/blob/master/Document/0x05d-Testing-Data-Storage.md#logs\n\nFiles:\na0/h.java, line(s) 907,1395,1401,1407,1424,1430,293,906,806,1469\na0/k.java, line(s) 49\na0/l.java, line(s) 363\na0/m.java, line(s) 55,57,77,79\na3/c.java, line(s) 463,468\na3/j.java, line(s) 342,252,253,289,290,354\na3/l.java, line(s) 264,265\na3/m.java, line(s) 323,338,344\na4/c1.java, line(s) 183,185,71,174,192,326,331,169,188\na4/db.java, line(s) 47\na4/eb.java, line(s) 34\na4/fb.java, line(s) 52\na4/hd.java, line(s) 14,20,26,32,38,43,51,57\na4/ib.java, line(s) 12,16,19\na4/nc.java, line(s) 13,14\na4/nd.java, line(s) 55,61,90,107,125,143,145,19,46,16\na4/pd.java, line(s) 126,140\na4/sa.java, line(s) 18\na4/td.java, line(s) 11,18,10,17\na4/wa.java, line(s) 63\nb0/a.java, line(s) 156\nb0/g0.java, line(s) 202,277\nb0/z0.java, line(s) 310,343,309,339\nb5/g.java, line(s) 316,288,305,182\nb6/u.java, line(s) 35\nc2/f.java, line(s) 20,26\nc2/h.java, line(s) 84\ncom/dexterous/flutterlocalnotifications/ActionBroadcastReceiver.java, line(s) 70,79\ncom/dexterous/flutterlocalnotifications/FlutterLocalNotificationsPlugin.java, line(s) 1263,1327,1721\ncom/dexterous/flutterlocalnotifications/ScheduledNotificationReceiver.java, line(s) 38\ncom/it_nomads/fluttersecurestorage/ciphers/e.java, line(s) 116,137,67,96,118,125\nd1/d.java, line(s) 41\ne0/g.java, line(s) 424,296,472,476\ne5/d.java, line(s) 36\ne5/h.java, line(s) 82\nf0/g.java, line(s) 350\nf7/a0.java, line(s) 57\nf7/c.java, line(s) 27,41,55,69\nf7/d.java, line(s) 186,237,482,739,826,883,1045,143,147,189,202,752,790,829,1048\nf7/h.java, line(s) 164,83\nf7/l.java, line(s) 53,60\nf7/n.java, line(s) 55,61,85\nf7/p.java, line(s) 52,58,80\nf7/s.java, line(s) 182,219,455\nf7/y.java, line(s) 60,56\ng4/a.java, line(s) 128,151,241,316,331,137,145,158,258\ng5/a.java, line(s) 32\ng7/e.java, line(s) 504,367,437,446,273,434,452\nh3/c.java, line(s) 115,130,114,129,67\nh3/d.java, line(s) 13,12\nh3/j.java, line(s) 59,58\nh3/l.java, line(s) 54,205,50,140,204,216,250,263,271,141,217,251,264,272,65\nh3/m.java, line(s) 49,63,41,55\nh3/n.java, line(s) 412,411\nh3/o.java, line(s) 39,49,60\nh3/p.java, line(s) 49,65,96,48,64,95,61,78,112\nh7/b.java, line(s) 40,63\ni/a.java, line(s) 81\ni/c.java, line(s) 81\ni/g0.java, line(s) 118,299,429,214,221,392,407,473,487\ni/n0.java, line(s) 22\ni2/j.java, line(s) 177\ni3/d.java, line(s) 76,114,121\ni3/e.java, line(s) 109,41,120,160,174,183,188,192,212,220,233\ni3/g.java, line(s) 529,321,528,399,445,479\ni3/i.java, line(s) 45\ni3/k.java, line(s) 59\nio/flutter/embedding/engine/FlutterJNI.java, line(s) 142,151,162,224,623,628,639,1018,1235,549,558,709,721,747,804,1201\nio/flutter/embedding/engine/renderer/FlutterRenderer$ImageTextureRegistryEntry.java, line(s) 97\nio/flutter/embedding/engine/renderer/g.java, line(s) 39\nio/flutter/plugin/editing/f.java, line(s) 48,61,76,128,164,51\nio/flutter/plugin/editing/k.java, line(s) 162\nio/flutter/plugin/platform/p.java, line(s) 32,67,77,88\nio/flutter/plugins/GeneratedPluginRegistrant.java, line(s) 34,39,44,49,54,59,64,69,74,79,87,92,97,105\nio/flutter/plugins/firebase/messaging/FlutterFirebaseMessagingBackgroundService.java, line(s) 58\nio/flutter/plugins/firebase/messaging/FlutterFirebaseMessagingInitProvider.java, line(s) 36\nio/flutter/plugins/firebase/messaging/FlutterFirebaseMessagingReceiver.java, line(s) 26,33,37\nio/flutter/view/AccessibilityViewEmbedder.java, line(s) 55,57,210,212\nio/flutter/view/v.java, line(s) 34,40,49,64,66\nj0/f.java, line(s) 110,348\nk3/d.java, line(s) 352,575\nk3/j.java, line(s) 256,281,291,494\nk3/o.java, line(s) 31,62,30,61\nk3/u.java, line(s) 125,129\nk6/a.java, line(s) 95\nk7/a.java, line(s) 38\nk7/d.java, line(s) 63,66,76,83,126,144,159,187,229,112,122,182\nl0/i.java, line(s) 166\nl3/a0.java, line(s) 71\nl3/c.java, line(s) 339,203,209,216,379\nl3/c0.java, line(s) 38,53\nl3/e.java, line(s) 91\nl3/g.java, line(s) 33,32\nl3/h0.java, line(s) 36\nl3/i.java, line(s) 129,79,88,128,80,89\nl3/m.java, line(s) 346,164,196,348,464,537,548,646,569,572,576,580,612,615,618,621,624\nl3/q.java, line(s) 37,40,43,46,49,52,63,66,69,72,165,172\nl3/r.java, line(s) 58\nl3/y.java, line(s) 33,51,57\nl3/z.java, line(s) 117,130\nl6/c.java, line(s) 108,119,123,204,240,244,270,557\nm2/a.java, line(s) 227,138\nm6/b.java, line(s) 84\nm6/c.java, line(s) 21,20\nn0/e.java, line(s) 127\nn0/k.java, line(s) 35,50\nn1/b.java, line(s) 134\nn1/d.java, line(s) 246,255,302,366,377,389,372\nn1/h.java, line(s) 262,360,368,377,630,974,991,995,1017,1050,1056,1062,1147,1271,1475,1584,1619,1638,1645,1876,2074,2143,2163,2177,2211,2277,2284,2325,2350,2389,2454,2588,2591,2639,2666,2675,2683,2702,2714,2745,2763,2772,2780,2828,2855,2873,2879,2918,2317,2356,2369,92,946,1007,1010,1084,1093,1424,1436,2067,2231,2486\nn5/e.java, line(s) 171\nn6/a.java, line(s) 129,172,174\no/c1.java, line(s) 508,505\no/h0.java, line(s) 20,27,34\no/m.java, line(s) 152\no1/e.java, line(s) 194,223\np0/d.java, line(s) 221,225,227,229,231,236,245,288,242,238\np7/n.java, line(s) 314,629,631\np7/o.java, line(s) 48\nq3/a.java, line(s) 75,85\nq5/b.java, line(s) 129,128\nq5/d.java, line(s) 203,434,339,348\nq5/g.java, line(s) 445\nq7/a.java, line(s) 34,52\nq7/h.java, line(s) 499,1288,1316,1329,1711,1770,1773,142,953,1659,1660,1669,1696,1762,1780,2010,2014,2154,2163,2175,117,498,533,573,619,682,739,838,943,1055,1156,1271,1287,1315,1328,1573,1654,1680,1684,1742,1758,1776,2095,270,292,352,387,401,409,417,488,492,494,629,745,754,846,948,1582,1645,1646,1647,1651,1652,1682,1717\nr0/b.java, line(s) 60,52,59\nr3/d.java, line(s) 53,58\ns/b.java, line(s) 175,193,203,247,552,565,618,621\ns4/b.java, line(s) 66,97\ns5/c.java, line(s) 274,296,94,100,264,266\ns6/h.java, line(s) 197,293\ns6/i.java, line(s) 128,217\nt4/f0.java, line(s) 265,269,275,278,1301\nu0/h.java, line(s) 90,89\nu0/z.java, line(s) 53,79,85,118,218,228,251,259,52,78,84,117,217,227,250,258,66,88,112,207\nu1/e.java, line(s) 888,897\nu6/a.java, line(s) 39,40\nv/s0.java, line(s) 88,127,202\nv/u.java, line(s) 164\nv3/e.java, line(s) 85,97,553,771,143,153,181,214,256,548,232,94,178,194,235,270,273,378,434,478,494,502,512,695,712\nv3/g.java, line(s) 89,116\nv5/a0.java, line(s) 125,155,167,192,182,187,124,154,166,173,191\nv5/b0.java, line(s) 27,43,26,42\nv5/c0.java, line(s) 66,166,65,135,148,163,177\nv5/d0.java, line(s) 136,144,544,213,554,94,135,143,543,138,233,311,330,345,355,479,522,532,549\nv5/e0.java, line(s) 25,24\nv5/g0.java, line(s) 48,52,57,74,100,143,164,111,125,147,47,51,56,73,97,142,163\nv5/h.java, line(s) 41,108,138,147,127,130,150,156,159,40,107,137\nv5/i.java, line(s) 40\nv5/p.java, line(s) 45,25,28,38,44,39\nv5/q.java, line(s) 94,82,103\nv5/v.java, line(s) 363,371,374,376,378,383,920,936,394,417,431,458,527,531,537,545,369,389,390,463,919,935,385,540\nv5/w.java, line(s) 50,46,115,49,58,63,66\nv5/x.java, line(s) 26\nv7/j.java, line(s) 72\nw6/b.java, line(s) 20\nw6/c.java, line(s) 51,56,58,60,62,64,69,86,104,79,97,120,131,135,75,93,102,112,71\nw6/d.java, line(s) 40,43,48,53,55,57,72,75,80,85,87,64,98,113,117,60,91,50,82\nw6/e.java, line(s) 82,112,115,122,243,268,287,301,303,307,677,718,743,784,820,850,852,854,880,883,888,894,896,910,913,934,937,939,941,946,953,955,960,978,986,996,1013,1015,1017,1018,1025,1030,1034,1050,1056,1064,77,107,263,283,311,319,320,321,357,367,368,389,417,482,613,620,668,692,714,734,758,780,800,866,876,922,967,1074,296,323,326,343,345,353,471,634,635,639,642,652,661,684,707,710,726,750,773,776,792,824,857,905,908,916,929,958,964,975,982,984,1021,1023,1028,1045,1048,1070,1071,144,181,298,308,362,364,409,596,890,948,1053,1066\nw6/f.java, line(s) 105\nw6/h.java, line(s) 62\nw7/f.java, line(s) 191,472,891\nw7/k.java, line(s) 31,33\nx0/d.java, line(s) 132,69,125,257,291\nx0/e.java, line(s) 40\nx5/c.java, line(s) 270,294,174,319,324\ny7/q.java, line(s) 179\nz0/b.java, line(s) 144\nz7/a.java, line(s) 156\nz7/a0.java, line(s) 260,264",
+   "section": "code"
+  },
+  {
+   "title": "This App copies data to clipboard. Sensitive data should not be copied to clipboard as other applications can access it.",
+   "description": "This App copies data to clipboard. Sensitive data should not be copied to clipboard as other applications can access it.\nhttps://github.com/MobSF/owasp-mstg/blob/master/Document/0x04b-Mobile-App-Security-Testing.md#clipboard\n\nFiles:\na0/j.java, line(s) 8,360\nio/flutter/plugin/editing/c.java, line(s) 4,571,579",
+   "section": "code"
+  }
+ ],
+ "secure": [
+  {
+   "title": "Firebase Remote Config disabled",
+   "description": "Firebase Remote Config is disabled for https://firebaseremoteconfig.googleapis.com/v1/projects/351821657337/namespaces/firebase:fetch?key=AIzaSyBqaXV1Cs-obZRyDIQilHWhYltVQpC1xw4. This is indicated by the response: {'state': 'NO_TEMPLATE'}",
+   "section": "firebase"
+  },
+  {
+   "title": "This application has no privacy trackers",
+   "description": "This application does not include any user or device trackers. Unable to find trackers during static analysis.",
+   "section": "trackers"
+  }
+ ],
+ "hotspot": [
+  {
+   "title": "Found 5 critical permission(s)",
+   "description": "Ensure that these permissions are required by the application.\n\nandroid.permission.CAMERA (dangerous): take pictures and videos - Allows application to take pictures and videos with the camera. This allows the application to collect images that the camera is seeing at any time.\n\nandroid.permission.POST_NOTIFICATIONS (dangerous): allows an app to post notifications. - Allows an app to post notifications\n\nandroid.permission.REQUEST_INSTALL_PACKAGES (dangerous): Allows an application to request installing packages. - Malicious applications can use this to try and trick users into installing additional malicious packages.\n\nandroid.permission.READ_EXTERNAL_STORAGE (dangerous): read external storage contents - Allows an application to read from external storage.\n\nandroid.permission.READ_MEDIA_IMAGES (dangerous): allows reading image files from external storage. - Allows an application to read image files from external storage.",
+   "section": "permissions"
+  }
+ ],
+ "total_trackers": 432,
+ "trackers": 0,
+ "security_score": 57,
+ "app_name": "Eyes School QA",
+ "file_name": "qa_flavor_1.1.1_b13_ss10.apk",
+ "hash": "cd0821954dc2010a665425e152a78b09",
+ "version_name": "1.1.1",
+ "version": "v4.4.1",
+ "title": "AppSec Scorecard",
+ "efr01": false
+}

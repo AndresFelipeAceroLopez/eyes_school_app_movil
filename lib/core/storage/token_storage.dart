@@ -6,9 +6,12 @@ class TokenStorage {
   TokenStorage([FlutterSecureStorage? storage])
     : _storage =
           storage ??
-          const FlutterSecureStorage(
-            aOptions: AndroidOptions(encryptedSharedPreferences: true),
-          );
+          // MC-07: v10 drops Jetpack EncryptedSharedPreferences. On first
+          // read it migrates the tokens saved by v9 to AES-GCM
+          // (migrateOnAlgorithmChange, on by default), so nobody is signed
+          // out. v11 removes the old AES-CBC code that MobSF flags, but it
+          // can only come after a release with v10 has run once on each phone.
+          const FlutterSecureStorage(aOptions: AndroidOptions());
 
   static const _accessKey = 'eyeschool.auth.access_token';
   static const _refreshKey = 'eyeschool.auth.refresh_token';

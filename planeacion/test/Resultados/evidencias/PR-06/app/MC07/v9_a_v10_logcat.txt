@@ -1,0 +1,8 @@
+ 4748  4819 W FlutterSecureStorage: Found data in EncryptedSharedPreferences (deprecated)
+ 4748  4819 W FlutterSecureStorage: EncryptedSharedPreferences is DEPRECATED and will be removed in a later version
+ 4748  4819 W FlutterSecureStorage: The Jetpack Security library has been deprecated by Google.
+ 4748  4819 I FlutterSecureStorage: Migrating data from EncryptedSharedPreferences to custom cipher storage...
+ 4748  4819 I FlutterSecureStorage: Migrating data from EncryptedSharedPreferences to selected custom cipher storage...
+ 4748  4819 D FlutterSecureStorage: Migrated key: eyeschool.auth.access_token
+ 4748  4819 D FlutterSecureStorage: Migrated key: eyeschool.auth.refresh_token
+ 4748  4819 I FlutterSecureStorage: Migration complete: 2 items migrated from EncryptedSharedPreferences to custom cipher storage
