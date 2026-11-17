@@ -85,8 +85,12 @@ final rosterProvider = FutureProvider.family<List<RosterStudent>, int>(
 );
 
 /// Grade sheet: one subject, one period.
-final gradeSheetProvider =
-    FutureProvider.family<List<Grade>, ({int subjectId, int period})>(
+///
+/// Auto-disposed: the sheet is fetched again every time it opens. Kept alive,
+/// it reopened with an error left over from a save without signal, or with
+/// grades older than the server's, which a new «Guardar» could write back.
+final gradeSheetProvider = FutureProvider.autoDispose
+    .family<List<Grade>, ({int subjectId, int period})>(
       (ref, args) => ref
           .watch(academicRepositoryProvider)
           .gradeSheet(subjectId: args.subjectId, period: args.period),

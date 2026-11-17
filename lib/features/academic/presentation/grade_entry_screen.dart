@@ -132,6 +132,9 @@ class _GradeEntryScreenState extends ConsumerState<GradeEntryScreen> {
     final repo = ref.read(academicRepositoryProvider);
     var saved = 0;
     String? failure;
+    // A network error mid-request says nothing about the server: the grade
+    // may have been written and only the answer lost (CP-ACE-060).
+    var outcomeUnknown = false;
 
     // Cada nota se guarda con una llamada Dio individual (POST si es nueva,
     // PUT si ya tenía id_nota); si una falla, se corta el ciclo para no dejar
@@ -150,6 +153,7 @@ class _GradeEntryScreenState extends ConsumerState<GradeEntryScreen> {
         saved++;
       } on AppFailure catch (e) {
         failure = e.message;
+        outcomeUnknown = e is NetworkFailure;
         break;
       }
     }
@@ -167,6 +171,10 @@ class _GradeEntryScreenState extends ConsumerState<GradeEntryScreen> {
         content: Text(
           failure == null
               ? 'Notas guardadas para $saved de ${roster.length} estudiantes.'
+              : outcomeUnknown
+              ? 'Se perdió la conexión al guardar: no sabemos si la última '
+                    'nota llegó. Cuando vuelva la red, abre de nuevo la planilla '
+                    'para confirmarlo.'
               : 'Se guardaron $saved. $failure',
         ),
         backgroundColor: failure == null ? AppColors.tealDark : AppColors.pink,
@@ -284,6 +292,12 @@ class _GradeEntryScreenState extends ConsumerState<GradeEntryScreen> {
                   );
                 }
                 return gradesAsync.when(
+                  // While the sheet reloads (after a save), show loading, not
+                  // the previous grades: seeding the inputs from them put back
+                  // a value the server had already replaced, and a new
+                  // «Guardar» wrote it over the newer grade (CP-ACE-060).
+                  skipLoadingOnRefresh: false,
+                  skipLoadingOnReload: false,
                   loading: () => const LoadingView(),
                   error: (error, _) => ErrorView(
                     error: error,
